@@ -1,0 +1,18 @@
+dataset_id: BTCUSD_1H_VALIDATION
+symbol: BTCUSD
+timeframe: 1h
+source_path: "D:/work/AI-Trade/Data/BTCUSD_1h/BTCUSD_OHLC_all.csv"
+period:
+  start: "2024-01-01"
+  end: "2024-12-31"
+timezone: UTC
+columns:
+  - DateTime
+  - Open
+  - High
+  - Low
+  - Close
+  - Volume
+description: |
+  BTCUSD 1時間足データ。準ホールドアウト検証用(Validation: 2024年)期間。
+  仮説検定の一発勝負評価用。

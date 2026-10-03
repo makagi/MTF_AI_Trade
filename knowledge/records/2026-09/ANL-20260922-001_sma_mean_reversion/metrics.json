@@ -1,0 +1,20 @@
+{
+  "analysis_id": "ANL-20260922-001",
+  "dataset_id": "BTCUSD_1H_DISCOVERY",
+  "sample_count": 11708,
+  "metrics": {
+    "sample_count": 11708,
+    "win_rate": 0.545,
+    "mean_return": 0.0011,
+    "median_return": 0.0017,
+    "std_return": 0.0384,
+    "sharpe_ratio_annualized": 0.55,
+    "baseline_win_rate": 0.5238,
+    "baseline_mean_return": 0.0018,
+    "alpha_expectancy_delta": -0.0007
+  },
+  "execution": {
+    "python": "3.10.20",
+    "executed_at": "2026-09-22T11:19:39.769323+09:00"
+  }
+}

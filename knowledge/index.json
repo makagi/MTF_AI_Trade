@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-02T03:59:02.605075+09:00",
+  "total_records": 9,
+  "records": [
+    {
+      "analysis_id": "ANL-20260922-001",
+      "title": "SMA -2 ATR Mean Reversion",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-001"
+      ],
+      "hypotheses": [
+        "HYP-001"
+      ],
+      "derived_from": [],
+      "related": [],
+      "path": "records/2026-09/ANL-20260922-001_sma_mean_reversion"
+    },
+    {
+      "analysis_id": "ANL-20260922-002",
+      "title": "SMA Slope Moderated Mean Reversion",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-002"
+      ],
+      "hypotheses": [
+        "HYP-002"
+      ],
+      "derived_from": [
+        "ANL-20260922-001"
+      ],
+      "related": [],
+      "path": "records/2026-09/ANL-20260922-002_sma_slope_moderation"
+    },
+    {
+      "analysis_id": "ANL-20260922-003",
+      "title": "Scale-Invariant Architecture and Directional Guidance (Strategy V4)",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-20260922-003-01",
+        "FIND-20260922-003-02"
+      ],
+      "hypotheses": [
+        "HYP-20260922-003-01"
+      ],
+      "derived_from": [],
+      "related": [],
+      "path": "records/2026-09/ANL-20260922-003_scale_invariant_v4"
+    },
+    {
+      "analysis_id": "ANL-20260922-004",
+      "title": "AFS (Average Fibonacci Stochastics) Construction and Baseline Edge",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-20260922-004-01"
+      ],
+      "hypotheses": [
+        "HYP-20260922-004-01"
+      ],
+      "derived_from": [],
+      "related": [],
+      "path": "records/2026-09/ANL-20260922-004_afs_baseline"
+    },
+    {
+      "analysis_id": "ANL-20260923-001",
+      "title": "Bollinger Bands and Volatility Squeeze Cycles",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-20260923-001-01"
+      ],
+      "hypotheses": [
+        "HYP-20260923-001-01"
+      ],
+      "derived_from": [],
+      "related": [],
+      "path": "records/2026-09/ANL-20260923-001_bb_squeeze"
+    },
+    {
+      "analysis_id": "ANL-20260923-002",
+      "title": "Stochastic Oscillator (stoch_d) and Noise Limitations",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-20260923-002-01"
+      ],
+      "hypotheses": [
+        "HYP-20260923-002-01"
+      ],
+      "derived_from": [],
+      "related": [
+        "ANL-20260922-004"
+      ],
+      "path": "records/2026-09/ANL-20260923-002_stoch_d_analysis"
+    },
+    {
+      "analysis_id": "ANL-20260923-003",
+      "title": "MTF Simple Moving Averages and Cluster Dynamics",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-20260923-003-01",
+        "FIND-20260923-003-02"
+      ],
+      "hypotheses": [
+        "HYP-20260923-003-01"
+      ],
+      "derived_from": [],
+      "related": [],
+      "path": "records/2026-09/ANL-20260923-003_sma_cluster"
+    },
+    {
+      "analysis_id": "ANL-20260924-001",
+      "title": "The Void (Zero-Gravity Space) Edge",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-20260924-001-01"
+      ],
+      "hypotheses": [
+        "HYP-20260924-001-01"
+      ],
+      "derived_from": [
+        "ANL-20260922-004",
+        "ANL-20260923-003"
+      ],
+      "related": [],
+      "path": "records/2026-09/ANL-20260924-001_the_void_edge"
+    },
+    {
+      "analysis_id": "ANL-20260924-002",
+      "title": "MTF Geometry: SMA Hugging and Time-to-Breach",
+      "symbol": "BTCUSD",
+      "timeframe": "1h",
+      "period": {
+        "start": "2020-01-01",
+        "end": "2023-12-31"
+      },
+      "dataset_id": "BTCUSD_1H_DISCOVERY",
+      "status": "completed",
+      "findings": [
+        "FIND-20260924-002-01"
+      ],
+      "hypotheses": [
+        "HYP-20260924-002-01"
+      ],
+      "derived_from": [
+        "ANL-20260923-003"
+      ],
+      "related": [],
+      "path": "records/2026-09/ANL-20260924-002_sma_hugging"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+Total Oracles: 1568
+Old_Captured: 241
+Old_Burden: 15.1
+New_Captured: 326
+New_Burden: 14.9

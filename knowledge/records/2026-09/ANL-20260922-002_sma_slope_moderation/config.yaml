@@ -1,0 +1,15 @@
+analysis_id: ANL-20260922-002
+symbol: BTCUSD
+timeframe: 1h
+dataset_id: BTCUSD_1H_DISCOVERY
+period:
+  start: "2020-01-01"
+  end: "2023-12-31"
+derived_from:
+  - ANL-20260922-001
+parameters:
+  sma_period: 233
+  atr_period: 14
+  deviation_threshold_atr: -2.0
+  require_positive_slope: true
+  horizon_bars: 24

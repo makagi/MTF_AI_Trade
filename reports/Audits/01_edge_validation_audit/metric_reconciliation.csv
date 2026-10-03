@@ -1,0 +1,4 @@
+Reconciliation_Check,Ledger_Value,Target_Value,Passed
+Ledger_Gross_Return_24h,0.006916153329159178,0.006916153329159178,True
+Ledger_N_raw,937,937,True
+Ledger_Matched_Excess_24h,0.002391218536677566,0.002391218536677566,True

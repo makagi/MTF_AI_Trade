@@ -1,0 +1,19 @@
+{
+  "all_signals": {
+    "count": 713,
+    "win_rate": 52.73,
+    "mean_ret": 0.12999999523162842
+  },
+  "void_signals": {
+    "count": 324,
+    "win_rate": 54.32,
+    "mean_ret": 0.20999999344348907
+  },
+  "blocked_signals": {
+    "count": 389,
+    "win_rate": 51.41,
+    "mean_ret": 0.05999999865889549
+  },
+  "win_rate_improvement": 1.59,
+  "status": "completed"
+}

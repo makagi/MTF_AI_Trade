@@ -1,0 +1,8 @@
+analysis_id: ANL-20260923-001
+symbol: BTCUSD
+timeframe: 1h
+dataset_id: BTCUSD_1H_DISCOVERY
+period:
+  start: '2020-01-01'
+  end: '2023-12-31'
+parameters: {}
