@@ -1,0 +1,31 @@
+name: "🛠 Development"
+description: コード・ツール・開発環境・CI の作業
+title: "[Dev] "
+labels: ["type:dev"]
+body:
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・目的
+      description: なぜ必要か。どの仕様・Issue・分析を支えるための作業か。
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: 作業内容
+      description: 作成・変更するもの。範囲外とするもの（Out of Scope）も明記。
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: 完了条件
+      description: 確認方法（実行コマンド、テスト等）を含める
+    validations:
+      required: true
+  - type: textarea
+    id: refs
+    attributes:
+      label: 関連 Issue・参考資料
+      description: "関連 Issue、関連仕様、90_LEGACY 内の参考コードなど"

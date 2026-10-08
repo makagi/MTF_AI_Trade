@@ -1,0 +1,42 @@
+name: "📄 Document"
+description: ドキュメントの新規作成・レビュー・改訂
+title: "[Docs] "
+labels: ["type:docs"]
+body:
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・課題
+      description: なぜこの文書作業が必要か。レビュー指摘の場合は指摘内容と該当箇所（ファイル・行）を記載。
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: 対象文書
+      description: 作成・変更する文書のパス（新規の場合は配置予定先）
+      placeholder: "例: 00_GOVERNANCE/documentation-architecture.md"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 変更方針・修正案
+      description: どう変えるか。選択肢がある場合は列挙し、推奨案を示す。
+  - type: textarea
+    id: done
+    attributes:
+      label: 完了条件
+      description: 何が満たされれば Close できるか（1文で書けない場合は Issue を分割）
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: 影響範囲
+      description: 参照している他文書、SSOT 上の正本、Decision Log 記録の要否
+  - type: textarea
+    id: refs
+    attributes:
+      label: 関連 Issue・参考資料
+      description: "関連 Issue（#番号）、90_LEGACY 内の参考資料など"
