@@ -5,50 +5,74 @@
 **Status:** Draft  
 **Owner:** @makagi  
 **Last Updated:** 2026-10-10  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6)  
-**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [README.md](README.md)  
 
 ---
 
 ## 1. 知識系譜グラフ (Knowledge Graph)
 
-```text
-[H001: SMA乖離による平均回帰] ──(E001: 4年オーバーレイ)──→ [K001: -2 ATR以上の下方乖離で明確な上値反発 (Supported)]
-                                                              │
-[H002: 単一1h足のハードサポレジ] ─(E002: パーフェクトオーダー)─→ [K002: 年ごとに符号反転、非定常で使えない (Refuted)]
-                                                              │
-[H003: 1m足厳選トリガーによるMTF] ─(E003: 60分後リターン計測)─→ [K003: コスト控除前リターンが0%付近、ノイズ (Refuted)]
-                                                              │
-[H004: 1h足価格テクニカルでのML/MoE] ─(E004: LightGBM)──────→ [K004: 標準摩擦コスト(0.4%)に負け壊滅、単一足価格指標は限界 (Refuted)]
-                                                              │
-[H005: 階層構造のSoft Logic化] ─(E005: v4.0特徴量検証)──────→ [K005: マクロ重力逆行・ファンアウト速度が先行指標として機能 (Supported)]
+```mermaid
+graph TD
+    classDef supported fill:#d4edda,stroke:#28a745,stroke-width:2px;
+    classDef refuted fill:#f8d7da,stroke:#dc3545,stroke-width:2px;
+
+    K001["K-001: 長期SMA下方乖離の平均回帰性<br/>(Supported)"]:::supported
+    K002["K-002: 単一足ハードサポレジの非定常性<br/>(Refuted)"]:::refuted
+    K003["K-003: 1m足単体トリガーの無価値性<br/>(Refuted)"]:::refuted
+    K004["K-004: 単一1h足価格テクニカルの限界<br/>(Refuted)"]:::refuted
+    K005["K-005: フラクタル階層のSoft Logicと先行指標性<br/>(Supported)"]:::supported
+
+    LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
+    LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
+    LEG_STATE --> K003
+    LEG_STATE --> K004
+    LEG_STATE --> K005
 ```
 
 ---
 
 ## 2. 系譜エントリー詳細
 
-### K001: 長期SMA下方乖離の平均回帰性
-- **起因仮説**: H001 (価格が長期SMAから大きく下振れた場合、回帰圧力が働く)
-- **実験**: Discovery期間（2020-2023年）の4年間年別オーバーレイ検証
-- **結論**: 支持 (Supported)。-2 ATR以上の下方乖離において、一貫した上値回帰期待値が観測された。
+### K-001: 長期SMA下方乖離の平均回帰性
+* **ステータス**: 支持 (Supported)
+* **概要**: 価格が長期SMAから -2 ATR 以上下方へ極端に乖離した局面において、一貫した上値反発（平均回帰）傾向が観測された。
+* **実験条件**: Discovery 期間（2020-2023年）の4年間年別オーバーレイ検証
+* **過去資産の出典**: [`90_LEGACY/knowledge/records/2026-09/ANL-20260922-001_sma_mean_reversion/`](../90_LEGACY/knowledge/records/2026-09/ANL-20260922-001_sma_mean_reversion/) (FIND-001 / HYP-001)
+* **仕様への影響**: 今後の戦略仕様（`02_SPECIFICATIONS/strategies/`）における平均回帰ロジックのコア仮説として採用。
 
-### K002: ハードなサポレジ線の非定常性
-- **起因仮説**: H002 (SMAのパーフェクトオーダーや特定線への接近は一貫したサポレジとなる)
-- **実験**: 4年間の条件別期待値計測
-- **結論**: 反証 (Refuted)。年によって期待値のプラス/マイナスが激しく反転し、単一の静的サポレジ線は過学習を招くことが判明。
+---
 
-### K003: 超短期（1m）トリガーの無価値性
-- **起因仮説**: H003 (1h環境認識に1mのGCやBB反発をトリガーとして掛け合わせることで精度向上)
-- **実験**: 1mトリガー発生後の60分後Grossリターン計測
-- **結論**: 反証 (Refuted)。リターン分布が0%付近でランダムにばらつき、タイミングとしての情報価値（エッジ）が存在しないことが数学的に証明された。
+### K-002: ハードなサポレジ線の非定常性
+* **ステータス**: 反証・棄却 (Refuted)
+* **概要**: SMAのパーフェクトオーダーや静的な特定の支持・抵抗線への接近は、年ごとに期待値の符号が激しく反転し、単一の静的サポレジ線単体では過学習を招き機能しない。
+* **実験条件**: 4年間の条件別期待値計測（EDA 05）
+* **過去資産の出典**: [`90_LEGACY/STATE.md`](../90_LEGACY/STATE.md) (フェーズ3 重要発見 5)
+* **仕様への影響**: 静的サポレジ線の単独売買ルール化を禁止。動的・フラクタルなサポレジ認識（`01_CONCEPTS/market-structure.md`）へ移行。
 
-### K004: 単一1時間足価格テクニカルの限界
-- **起因仮説**: H004 (2段階MoEモデルにより、1h足のSMA・Stochからエッジを抽出可能)
-- **実験**: LightGBMによる方向予測とバックテスト
-- **結論**: 反証 (Refuted)。過学習によるコスト負け（Total Return -24.9%）または取引回避（年2回）に陥り、入力データ自体のSignal-to-Noise Ratioが往復0.4%の摩擦コストに勝てないことが証明された。
+---
 
-### K005: フラクタル階層のSoft Logicと先行指標性
-- **起因仮説**: H005 (ハード閾値を廃止し、平滑化同調スコア、マクロ重力逆行スコア、ファンアウト速度を連続値化する)
-- **実験**: 1m足を含むv4.0特徴量の時系列安定性と先行性評価
-- **結論**: 支持 (Supported)。ノイズが吸収され、ファンアウト速度が価格反転に先行して減速する現象を確認。MLへの入力として十分な表現力を獲得。
+### K-003: 超短期（1m）トリガーの無価値性
+* **ステータス**: 反証・棄却 (Refuted)
+* **概要**: 1時間足の環境認識に1分足のテクニカルトリガー（Stoch_d GC / BB 反発）を掛け合わせても、摩擦コスト控除前の60分後リターン分布が0%付近でランダムにばらつき、タイミングとしての情報価値（エッジ）が認められなかった。
+* **実験条件**: 1mトリガー発生後60分フォワードリターン計測
+* **過去資産の出典**: [`90_LEGACY/STATE.md`](../90_LEGACY/STATE.md) (フェーズ3 重要発見 6)
+* **仕様への影響**: 超短期足の単独インジケータをエントリートリガーとして採用する方針を棄却。
+
+---
+
+### K-004: 単一1時間足価格テクニカルの限界
+* **ステータス**: 反証・棄却 (Refuted)
+* **概要**: 1時間足のSMA・Stoch等の価格指標単体から機械学習（LightGBM / 2段階MoE）を用いてエッジを抽出しようと試みたが、過学習によるコスト負け（Total Return -24.9%）または取引回避に陥り、標準摩擦コスト（0.40%）に勝てないことが判明した。
+* **実験条件**: 4年間のWalk-Forward/CV バックテスト
+* **過去資産の出典**: [`90_LEGACY/STATE.md`](../90_LEGACY/STATE.md) (フェーズ4 実験総括)
+* **仕様への影響**: 前提条件 A003（単一足価格テクニカルの制約）を確立。多時間軸構造（MTF）または代替データの導入へ完全移行。
+
+---
+
+### K-005: フラクタル階層のSoft Logicと先行指標性
+* **ステータス**: 支持 (Supported)
+* **概要**: ハード閾値を廃止し、平滑化同調スコア、マクロ重力逆行スコア、ファンアウト速度を連続値（Soft Logic）化した特徴量において、ノイズが吸収され、ファンアウト速度が価格反転に先行して減速する現象を確認した。
+* **実験条件**: 1m足を含むv4.0特徴量の時系列安定性と先行性評価
+* **過去資産の出典**: [`90_LEGACY/STATE.md`](../90_LEGACY/STATE.md) (フェーズ4.7 Soft Logic 検証)
+* **仕様への影響**: 特徴量仕様（`02_SPECIFICATIONS/features.md` 策定予定）の基礎設計として採用。

@@ -20,19 +20,19 @@
 [Human / AI]
      ↓ 1. Idea / Issue
 [Research Agent]
-     ↓ 2. Context & Concept Mapping
+     ↓ 2. Context & Concept Mapping (01_CONCEPTS/ & 90_LEGACY/)
 [Hypothesis Agent]
-     ↓ 3. Hypothesis Formulation (03_KNOWLEDGE/hypotheses/)
+     ↓ 3. Analysis Issue 起票 & 判定基準の事前登録 (#N)
 [Coding / Experiment Agent]
-     ↓ 4. Script & Experiment Execution (knowledge/records/ or src/)
+     ↓ 4. 自己完結実験の実装 & 実行 (03_KNOWLEDGE/experiments/<N>-<slug>/)
 [Validation Agent]
-     ↓ 5. Evidence & Cost-Adjusted Evaluation (MFE/MAE, Walk-Forward)
+     ↓ 5. 評価仕様準拠の定量検証 (02_SPECIFICATIONS/evaluation.md)
 [Knowledge Agent]
-     ↓ 6. Knowledge Lineage & Record Update (LINEAGE.md, index.json)
+     ↓ 6. 実験レポート記録 & 系譜図更新 (record.md & knowledge-lineage.md)
 [Human Operator]
-     ↓ 7. Review & Decision
+     ↓ 7. PR レビュー & 承認マージ
 [Implementation / Spec]
-     ↓ 8. Specification & Decision Log Update (02_SPEC, 99_HISTORY)
+     ↓ 8. 仕様・戦略への昇格 (02_SPECIFICATIONS/) & 意思決定記録 (99_HISTORY/)
 ```
 
 ---
@@ -63,13 +63,14 @@
   2. 過去に同一・類似の実験が行われていないか？（`tools/kb.py list` や `knowledge-lineage.md` の確認）
 - 過去の失敗や棄却された仮説と重複する場合、その旨を報告し無駄な再実験を防ぐ。
 
-### Step 3: 仮説の定式化 (Hypothesis Formulation)
+### Step 3: 仮説の定式化と事前登録 (Hypothesis & Pre-registration)
 - アイデアを「事実・解釈・仮説」に分離し、検証可能な形にする。
-- 対象時間軸、使用指標、前提レジーム、期待される効果を明確化する。
+- **Analysis Issue の起票**: `.github/ISSUE_TEMPLATE/analysis.yml` を用い、対象時間軸、使用指標、前提レジーム、および客観的な合否判定基準（[02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) 準拠）を事前に登録する。
+- 事前登録を経ない実験実行はチェリーピッキングとみなし禁止する。
 
 ### Step 4: 実験の実装と実行 (Experiment Execution)
-- 探索的分析の場合: `python tools/kb.py new` を使用し、独立した自己完結ディレクトリ（`knowledge/records/YYYY-MM/ANL-...`）を作成して実行する。
-- 共通機能の追加の場合: `src/` 配下のモジュールを更新し、テストを作成する。
+- 作業ブランチを作成し、`03_KNOWLEDGE/experiments/<N>-<slug>/` 配下に自己完結ディレクトリを新設する。
+- `config.yaml`（パラメータ）、`run.py`（再現コード）、`metrics.json`、`artifacts/` を実装・実行する。
 - **データ規律**: 探索・学習には [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §2 で規定する Discovery 期間（2020-2023年）のみを使用する。
 
 ### Step 5: 定量検証 & エビデンス判定 (Validation)
@@ -78,11 +79,10 @@
   2. **非定常性の検証**: 年別・レジーム別で結果が一貫しているか（§4）。
   3. **エントリーとイグジットの分離**: MFE/MAE 分布によりエントリー自体のエッジを確認したか（§4）。
 
-### Step 6: 知識の系譜（Knowledge Lineage）の更新
-- 実験結果に基づき、客観的事実（FIND）と検証結果を記録：
-  - 支持された場合（Supported）: エビデンスとともに知識へ昇格。
-  - 反証された場合（Refuted）: 棄却理由・数学的根拠を記録。
-- `python tools/kb.py index` および `python tools/kb.py validate` を実行してカタログを最新化する。
+### Step 6: 実験記録の総括と知識の系譜更新
+- 実験ディレクトリ内の `record.md` に事前登録基準、実行結果、考察、および結論（Supported / Refuted / Inconclusive）を記録する。
+- PR を作成し、合意を経て `03_KNOWLEDGE/knowledge-lineage.md`（必要に応じ `03_KNOWLEDGE/knowledge/K-xxx.md`）に知識エントリーを追加・更新する。
+- 過去資産（`90_LEGACY/`）の分析を参照・継承した場合は、その出典 ID を明記する。
 
 ### Step 7: 人間レビュー & 意思決定 (Decision)
 - 人間オペレーターがレポートを確認し、本番採用・再実験・棄却を判断する。
