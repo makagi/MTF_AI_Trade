@@ -247,42 +247,68 @@ Knowledge (03/knowledge/K-xxx)
 
 ---
 
-## 5. Document Lifecycle
+## 5. Document Lifecycle & Approval Rules
 
-ドキュメントは以下のライフサイクルを基本とする。
+ドキュメントは以下のライフサイクルを基本とし、GitHub の Issue / PR フローと連動して管理する。
 
 ```text
-Draft (起票・作成中)
+Draft (起票・作業ブランチで作成中)
   ↓
 Review (PR 作成・レビュー中)
   ↓
-Accepted (PR マージにより承認)
+Accepted (人間による PR マージ承認)
   ↓
 Used (参照・実装・運用中)
   ↓
-Updated / Deprecated (改訂または廃止)
+Deprecated (改訂・置換による廃止)
 ```
 
-* 原則として GitHub の Pull Request レビューとマージを承認行為とし、勝手な直接編集を禁止する（[issue-driven-workflow.md](issue-driven-workflow.md) 準拠）。
+### 5.1 各ステータスの定義と遷移基準
+
+| ステータス | 定義 | 遷移トリガー・担当 | 権限 |
+|---|---|---|---|
+| **Draft** | 作成中・編集中。仕様や前提が確定していない草案 | Issue 起票後に作業ブランチを作成し着手 | 人間 / AI Agent |
+| **Review** | 完了条件を満たし、レビュー可能な状態 | PR を作成（`Review` に自動遷移） | 人間 / AI Agent |
+| **Accepted** | 人間のレビューを経て正式に承認・合意された状態 | **人間オペレーターによる PR マージ** | **人間のみ** |
+| **Used** | 実装コード、派生分析、実運用でアクティブに利用中 | マージ後の実稼働・参照 | システム / 人間 |
+| **Deprecated** | 新しい仕様への置換や方針転換により廃止された状態 | 改訂 PR のマージ、または Decision Log 記録 | 人間 |
+
+### 5.2 承認（合意）の記録と厳格な権限分離
+
+* **PR マージ＝承認の記録**:
+  * 人間の「合意」「承認」は口頭やチャットではなく、**GitHub Pull Request のマージ操作**をもって客観的なエビデンスとする。
+  * マージコミット、PR スレッド、および関連 Issue に承認の文脈が恒久的に記録される。
+* **自己承認の禁止**:
+  * AI Agent は PR の作成、レビュー指摘への対応を行うが、**自ら PR をマージして自己承認してはならない**（`agent-rules.md` 準拠）。
+  * 特に `00_GOVERNANCE/`、`01_CONCEPTS/`、`02_SPECIFICATIONS/` の文書は、人間が内容を精読・承認した上でマージする。
 
 ---
 
-## 6. Versioning
+## 6. Versioning & Metadata Header
 
-重要な Concept、Specification、Strategy などはバージョンを管理する。
+### 6.1 メタデータヘッダー（必須項目）
 
-関連する Experiment や Knowledge では、可能な限り使用したバージョンやデータセットを記録する。
+主要ドキュメント（`00`〜`05`）の先頭には、必ず以下の共通メタデータヘッダーを含める（テンプレート: [document-template.md](templates/document-template.md)）。
 
-```text
-Concept Version
-Specification Version
-Strategy Version
-Data / Dataset Hash
-Code / Git Commit
-Experiment Record
+```markdown
+**Doc ID:** [任意: 管理番号 (例: SPEC-EVAL-001)]
+**Version:** 0.1.0
+**Status:** Draft  <!-- Draft | Review | Accepted | Deprecated -->
+**Owner:** @username
+**Last Updated:** YYYY-MM-DD
+**Related Issues:** [#N](https://github.com/makagi/MTF_AI_Trade/issues/N)
+**Related Docs:** [関連文書名](相対パス.md)
 ```
 
-これにより、過去の分析や実験を確実に再現できるようにする。
+### 6.2 バージョニング規律
+
+重要な Concept、Specification、Strategy、およびデータセット・コードはセマンティックバージョニング（`Major.Minor.Patch`）に準拠して管理する。
+
+* **Major (X.0.0)**: 上位概念の根本的刷新、破壊的仕様変更、ドキュメント体系の再構築
+* **Minor (x.Y.0)**: 新しい仕様・戦略・相場概念の追加、既存仕様の後方互換な機能拡張
+* **Patch (x.y.Z)**: 誤字脱字の修正、表現の明確化、リンク切れの解消
+
+実験記録（Experiment Record）や分析コードでは、使用した各仕様のバージョン（`Specification Version`, `Data Hash` 等）を必ず記録し、将来にわたり同一条件での再現性を担保する。
 
 ---
 
@@ -331,6 +357,7 @@ Operation (05)
 ```text
 MTF_AI_Trade/
 ├── 00_GOVERNANCE/              # ガバナンス・原則・規約
+│   ├── templates/              # 文書テンプレート (document-template.md)
 │   ├── vision.md
 │   ├── principles.md
 │   ├── documentation-architecture.md
