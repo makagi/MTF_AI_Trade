@@ -91,17 +91,23 @@ Conceptを変更せずにSpecificationを変更できる構造を目指す。
 
 戦略上の意図と、その実装方法を混同しない。
 
+* **Strategy（戦略）**:
+  * 特定の市場仮説に基づき、各仕様（Entry/Exit/Risk等: 部品）を有機的に組み合わせた売買ルール一式（`02_SPECIFICATIONS/strategies/`）。
+  * 状態（Candidate / Adopted / Retired）を持ち、都度の売買判断（Trade Decision）や研究方針（Research Policy）とは区別する。
+* **Implementation（実装）**:
+  * 戦略や仕様を具現化するソフトウェアコード、データパイプライン、AI Agent 等。
+
 ```text
-Concept
+Concept (相場認識・モデル)
     ↓
-Specification
+Specification (判定・評価の個別仕様: 部品)
     ↓
-Strategy
+Strategy (売買ルール一式: 部品の組み合わせ)
     ↓
-Implementation
+Implementation (実行コード・アーキテクチャ)
 ```
 
-という関係を基本とする。
+という階層関係を基本とする。上位の戦略意図を変更せずに実装コードをリファクタリング可能とし、実装の都合で戦略仕様を歪めない。
 
 ### 3.3 ResearchとProductionを分離する
 
