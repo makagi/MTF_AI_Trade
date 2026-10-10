@@ -29,14 +29,19 @@
 03_KNOWLEDGE
 04_IMPLEMENTATION
 05_OPERATIONS
+90_LEGACY
 99_HISTORY
 ```
 
 ### 00_GOVERNANCE
 
-プロジェクト全体の目的、原則、文書体系、意思決定ルールなどを定義する。
+プロジェクト全体の目的、原則、文書体系、前提条件、意思決定ルール、および Issue 駆動の運用規約を定義する。
 
-「このプロジェクトは何を目指し、どのような考え方で進めるか」を扱う。
+* `vision.md`: プロジェクトの目的・中長期ゴール
+* `principles.md`: 設計・研究・運用の基本原則
+* `documentation-architecture.md`: 本ドキュメント（文書構造・責務）
+* `issue-driven-workflow.md`: GitHub Issue を起点とする開発・分析・文書管理規約
+* `assumptions.md`: システムが暗黙的・明示的に置いている前提条件一覧
 
 ---
 
@@ -46,31 +51,28 @@
 
 例：
 
-* Market Model
 * MTF Framework
 * Market Structure
-* Support / Resistance
-* Volatility
 * Market Regime
+* Volatility
 * Expected Value
 
-Conceptは、特定の実装やパラメータに強く依存しないことを基本とする。
+Concept は、「何をどう理解するか（見方・モデル）」を扱い、特定の実装やパラメータに依存しないことを基本とする。個別パラメータや具体的な売買ルールはここに書かず、02_SPECIFICATIONS で定義する。
 
 ---
 
 ### 02_SPECIFICATIONS
 
-Conceptを具体的なシステム仕様へ変換する。
+Concept を具体的なシステム仕様や売買戦略へ変換する。
 
-例：
-
-* Timeframe Specification
-* Analysis Specification
-* Feature Specification
-* Entry Specification
-* Exit Specification
-* Risk Specification
-* Position Sizing Specification
+* **仕様（Specification: 部品）**:
+  * `evaluation.md`: 摩擦コストモデル、データ期間分割、必須メトリクス、合否基準
+  * Timeframe Specification
+  * Feature Specification
+  * Entry / Exit / Risk Specification
+  * Position Sizing Specification
+* **戦略（Strategy: 部品の組み合わせ）**:
+  * `strategies/`: 特定の市場仮説に基づき、各仕様（Entry/Exit/Risk等）を有機的に組み合わせた、名前とバージョンを持つ売買ルール一式
 
 「このシステムでは具体的にどうするか」を定義する。
 
@@ -81,48 +83,49 @@ Conceptを具体的なシステム仕様へ変換する。
 仮説、分析、実験、証拠、結論など、プロジェクト活動によって得られた知識を蓄積する。
 
 ```text
-Hypothesis
-    ↓
-Experiment
-    ↓
-Evidence
-    ↓
-Conclusion
-    ↓
-Knowledge
+03_KNOWLEDGE/
+├── experiments/      # Issue番号に基づく自己完結した実験記録 (<N>-<slug>/)
+└── knowledge/        # 検証・合意を経て体系化された知識 (K-xxx)
 ```
 
-検証前の仮説と、検証済みの知識を明確に区別する。
+検証前の仮説（Analysis Issue にて事前登録）と、検証済みの知識（Knowledge）を明確に区別する。
 
 ---
 
 ### 04_IMPLEMENTATION
 
-仕様を実際のシステム、コード、Agent、開発プロセスへ変換するための情報を扱う。
+仕様を実際のシステム、コード、Agent、開発環境へ変換するための情報を扱う。
 
 例：
 
 * System Architecture
-* Data Architecture
-* Software Components
-* AI Agents
+* Development Environment
 * Development Workflow
-* Testing
-* GitHub Workflow
+* Agent Rules
 
-ImplementationはSpecificationの具体化であり、独自の仕様を勝手に上位概念へ昇格させない。
+Implementation は Specification の具体化であり、独自の仕様を勝手に上位概念へ昇格させない。
 
 ---
 
 ### 05_OPERATIONS
 
-バックテスト、実運用、監視、デプロイ、障害対応など、システムを実際に動かすための情報を扱う。
+バックテストの定例実行、実運用、監視、デプロイ、障害対応など、システムを実際に動かすための情報を扱う。
+
+---
+
+### 90_LEGACY
+
+現行ドキュメント体系（`00`〜`05`, `99`）導入前の過去資産（スクリプト、旧ナレッジ、レポート、モデル等）を保管する。
+
+* **位置付け**: 過去検討のノウハウ・解析の実例として参照する資料（Read-only）。
+* 現行の仕様・知識とは見なさず、直接の編集は行わない。
+* 内容を現行体系へ取り込む場合は Issue を起票して移植・参照する。
 
 ---
 
 ### 99_HISTORY
 
-過去の意思決定、変更、廃止された仕様などを記録する。
+過去の意思決定（ADR: Architecture Decision Records）、設計変更、廃止された仕様などを記録する。
 
 現在の仕様だけでは説明できない、
 
@@ -132,69 +135,115 @@ ImplementationはSpecificationの具体化であり、独自の仕様を勝手�
 
 ---
 
-## 3. Document Responsibility
+## 3. Document Relationships
 
-各情報は原則として一つのPrimary Documentを持つ。
+文書間の関係は、**「静的な参照（依存）関係」** と **「動的な知識獲得と昇格のサイクル」** の2つの視点から整理する。
+
+### 3.1 静的な参照（依存）関係
+
+上位の文書が「方針・意図」を定義し、下位の文書がそれを「具体化」する。原則として下位文書が上位文書を参照する。
 
 ```text
-Vision
-  ↓
-Principles
-  ↓
-Concept
-  ↓
-Specification
-  ↓
-Knowledge / Evidence
-  ↓
-Implementation
-  ↓
-Operation
+Vision (00)
+  ↓ 理念・目的の具体化
+Principles (00)
+  ↓ 設計原則の具体化
+Concepts (01)
+  ↓ 相場モデルの仕様化
+Specifications (02) [部品: 評価仕様, 特徴量, サポレジ...]
+  ↓ 部品の有機的組み合わせ
+Strategies (02/strategies) [売買ルール一式]
+  ↓ システム化
+Implementation (04)
+  ↓ 運用化
+Operations (05)
 ```
 
-同じ情報を複数の文書にコピーして保持するのではなく、必要に応じて参照する。
+同じ情報を複数の文書にコピーして保持するのではなく、単一の情報源（SSOT）を参照する。
+
+### 3.2 動的な知識獲得と昇格のサイクル（Knowledge & Validation Loop）
+
+仮説検証によって得られた知識は、上位の仕様や戦略へと昇格・フィードバックされる。
+
+```text
+Concepts (01)
+  │ (相場モデルからの着想)
+  ↓
+Hypothesis (Analysis Issue / 03)
+  │ (検証可能な形に定式化・事前登録)
+  ↓
+Experiment (03/experiments/<N>-<slug>/)
+  │ (スクリプト実行・定量評価)
+  ↓
+Evidence (metrics.json, artifacts)
+  │ (評価仕様に照らし合わせ)
+  ↓
+Knowledge (03/knowledge/K-xxx)
+  │
+  ├─ [Supported] ──→ Specification (02) または Strategy (02/strategies) に反映・昇格
+  │                       │
+  │                       ↓
+  │                  Implementation (04) → Operations (05)
+  │                       │ (実運用・監視からの結果)
+  │                       ↓
+  └─ [Refuted / Update] ─→ Knowledge 蓄積・仮説再設計 (フィードバック)
+```
 
 ---
 
-## 4. Concept / Specification / Knowledge の区別
+## 4. Concept / Specification / Strategy / Knowledge の区別
 
-### Concept
+### Concept（相場概念・モデル）
 
 「何をどう理解するか」
 
-例：
+* 特定の実装コードや固定パラメータに依存しない普遍的な相場認識の枠組み。
+* 例: 「市場は複数の時間軸から観測する必要がある」「ボラティリティは収縮と拡散を繰り返す」
 
-> 市場は複数の時間軸から観測する必要がある。
+### Specification（システム仕様: 部品）
 
-### Specification
+「このシステムでは具体的にどう判定・処理するか」
 
-「このシステムでは具体的にどうするか」
+* 個別のパラメータ、計算式、データ期間、評価基準などの具体的な定義。
+* 例: 「Discovery 期間は 2020-2023 年とする」「標準摩擦コストは往復 0.4% を控除する」
 
-例：
+### Strategy（戦略: 部品の組み合わせ）
 
-> 上位時間軸としてWeekly、中位時間軸としてDaily、下位時間軸として1Hを使用する。
+「特定の市場仮説に基づき、各仕様を有機的に組み合わせた、名前とバージョンを持つ売買ルール一式」
 
-### Hypothesis
+* 複数の Specification（環境認識、エントリー、イグジット、リスク管理）を組み合わせた完結したトレードシステム。
+* ライフサイクル（状態）:
+  * `Candidate`: 仮説検証中・バックテスト評価中の候補戦略
+  * `Adopted`: 評価基準を満たし、実運用・監視対象として承認された戦略
+  * `Retired`: 市場環境変化等により役目を終え、廃止された旧戦略
+* ※ 都度の「売買判断（Trade Decision）」や研究プロジェクトの「研究方針（Research Policy）」とは区別する。
 
-「検証したい仮説は何か」
+### Hypothesis（仮説）
 
-例：
+「検証したい問いと予想は何か」
 
-> 上位時間軸と下位時間軸の方向が一致した場合、特定条件下で期待値が変化する。
+* 事前登録された検証可能な命題（対象時間軸、発動条件、期待される効果）。
+* Analysis Issue（`#N`）にて起票・事前登録される。
 
-### Experiment
+### Experiment（実験）
 
 「仮説をどのように検証したか」
 
-### Evidence
+* 再現可能なスクリプト、設定、データ期間、パラメータ（`03_KNOWLEDGE/experiments/<N>-<slug>/`）。
+
+### Evidence（証拠）
 
 「実験によって何が観測されたか」
 
-### Knowledge / Conclusion
+* 客観的なメトリクス（`metrics.json`）、グラフ（`artifacts/`）。
 
-「現在どこまで確認できているか」
+### Knowledge（知識）
 
-これらを混在させない。
+「現在どこまで確認・合意できているか」
+
+* 検証結果を客観的に総括し、証拠の強さ（Supported / Refuted / Inconclusive）と出典を明確にした知見（`03_KNOWLEDGE/knowledge/K-xxx`）。
+
+これらを混同せず、各層の文書に適切に配置する。
 
 ---
 
@@ -203,108 +252,111 @@ Operation
 ドキュメントは以下のライフサイクルを基本とする。
 
 ```text
-Idea
- ↓
-Draft
- ↓
-Review
- ↓
-Accepted
- ↓
-Used
- ↓
-Updated
- ↓
-Deprecated
+Draft (起票・作成中)
+  ↓
+Review (PR 作成・レビュー中)
+  ↓
+Accepted (PR マージにより承認)
+  ↓
+Used (参照・実装・運用中)
+  ↓
+Updated / Deprecated (改訂または廃止)
 ```
 
-ただし、全ての文書が同じライフサイクルを必要とするわけではない。
+* 原則として GitHub の Pull Request レビューとマージを承認行為とし、勝手な直接編集を禁止する（[issue-driven-workflow.md](issue-driven-workflow.md) 準拠）。
 
 ---
 
 ## 6. Versioning
 
-重要なConcept、Specification、Strategyなどはバージョンを管理する。
+重要な Concept、Specification、Strategy などはバージョンを管理する。
 
-関連するAnalysis RecordやExperiment Recordでは、可能な限り使用したバージョンを記録する。
+関連する Experiment や Knowledge では、可能な限り使用したバージョンやデータセットを記録する。
 
 ```text
 Concept Version
 Specification Version
-Data Version
-Code Version
-Experiment Version
+Strategy Version
+Data / Dataset Hash
+Code / Git Commit
+Experiment Record
 ```
 
-これにより、過去の分析や実験を再現できるようにする。
+これにより、過去の分析や実験を確実に再現できるようにする。
 
 ---
 
 ## 7. AIによるDocument Management
 
-AI Agentは新しい情報を得た場合、以下を判断する。
+AI Agent は新しい情報・知見を扱う際、以下を判断する。
 
-1. 既存文書に追記すべきか
-2. 新しい文書が必要か
-3. Concept / Specification / Knowledgeのどれに該当するか
-4. 既存仕様への変更が必要か
-5. Decision Logへの記録が必要か
-6. 関連する文書・コード・Experimentへの影響があるか
+1. 既存文書への追記か、新規文書の作成か
+2. Concept / Specification / Strategy / Knowledge / Implementation のどれに該当するか
+3. 既存の仕様や戦略への変更が必要か
+4. Decision Log への記録が必要か
+5. 関連する文書・コード・Experiment への影響があるか
+6. 未検証の推論を確定事実として扱っていないか
 
-AIは既存のPrimary Documentを確認してから新しい情報を追加する。
-
-同じ内容の文書を重複して作成しない。
+AI は既存の Primary Document を確認してから新しい情報を追加し、同じ内容の重複記述を行わない。
 
 ---
 
 ## 8. Change Impact
 
-仕様変更時には、可能な限り以下の依存関係を確認する。
+仕様や設計の変更時には、以下の依存関係に沿って影響範囲を確認する。
 
 ```text
-Concept
+Vision / Principles (00)
   ↓
-Specification
+Concept (01)
   ↓
-Strategy
+Specification (02)
   ↓
-Experiment
+Strategy (02/strategies)
   ↓
-Implementation
+Implementation (04)
   ↓
-Operation
+Operation (05)
 ```
 
-上位文書が変更された場合、下位文書への影響を確認する。
-
-特に、過去のExperimentやKnowledgeが現在の仕様変更によって影響を受ける場合は、その関係を記録する。
+上位文書が変更された場合、下位文書への影響を確認し、必要に応じて更新または再検証を行う。  
+また、下位の実験・運用から得られた Knowledge (03) が上位の Specification や Strategy を更新する契機となる。
 
 ---
 
-## 9. Initial Repository Structure
+## 9. Repository Structure
 
-初期段階では以下から開始する。
+本アーキテクチャに基づくリポジトリ構成は以下の通りである。
 
 ```text
-00_GOVERNANCE/
-├── vision.md
-├── principles.md
-└── documentation-architecture.md
-
-01_CONCEPTS/
-
-02_SPECIFICATIONS/
-
-03_KNOWLEDGE/
-
-04_IMPLEMENTATION/
-
-05_OPERATIONS/
-
-99_HISTORY/
+MTF_AI_Trade/
+├── 00_GOVERNANCE/              # ガバナンス・原則・規約
+│   ├── vision.md
+│   ├── principles.md
+│   ├── documentation-architecture.md
+│   ├── issue-driven-workflow.md
+│   └── assumptions.md
+├── 01_CONCEPTS/                # 相場認識・概念モデル（MTF, Regime, Volatility...）
+├── 02_SPECIFICATIONS/          # システム仕様・戦略
+│   ├── evaluation.md           # 評価仕様（コストモデル、期間分割、判定基準）
+│   └── strategies/             # 個別戦略定義（Candidate / Adopted / Retired）
+├── 03_KNOWLEDGE/               # 実験記録・蓄積知識
+│   ├── experiments/            # Issue連動実験記録 (<N>-<slug>/)
+│   └── knowledge/              # 体系化された知識 (K-xxx)
+├── 04_IMPLEMENTATION/          # 開発環境・ワークフロー・Agent規約
+│   ├── agent-rules.md
+│   ├── development-environment.md
+│   └── development-workflow.md
+├── 05_OPERATIONS/              # バックテスト運用・実運用規約
+├── 90_LEGACY/                  # 過去資産アーカイブ（Read-only）
+│   └── README.md
+├── 99_HISTORY/                 # 意思決定ログ（ADR）
+│   └── decision-log.md
+├── README.md                   # リポジトリ入口・ドキュメントマップ
+└── .github/                    # Issue / PR テンプレート
 ```
 
-空のディレクトリについては、必要になるまで詳細なファイルを作成しない。
+空のディレクトリについては、必要になるまで詳細なファイルを作成しない（Simplicity の原則）。
 
 ---
 

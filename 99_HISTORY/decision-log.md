@@ -14,6 +14,7 @@
 | **D003** | 2026-09-21 | 1時間足単一テクニカル指標の限界証明とSoft Logic/MTFへの移行 | 採択 (Accepted) | 戦略・特徴量 |
 | **D004** | 2026-10-09 | Issue駆動による開発・分析・ドキュメント運用の採用 | 採択 (Accepted) | リポジトリ全般 |
 | **D005** | 2026-10-09 | 旧資産の `90_LEGACY/` への隔離（参照専用化） | 採択 (Accepted) | リポジトリ全般 |
+| **D006** | 2026-10-10 | 文書層の上下関係統一とStrategyの定義・配置 | 採択 (Accepted) | ガバナンス・仕様 |
 
 ---
 
@@ -91,3 +92,25 @@
   - 正本リポジトリは `MTF_AI_Trade` とする（`SakanaAISystemTrade` 側の同名文書は正本ではない）。
 - **結果・影響**:
   - `04_IMPLEMENTATION/` の文書内にある `src/`、`tools/kb.py`、`knowledge/records/` 等への参照は旧パスとなるため、別 Issue で更新する。
+
+---
+
+### D006: 文書層の上下関係統一とStrategyの定義・配置
+- **日付**: 2026-10-10
+- **ステータス**: 採択 (Accepted)
+- **関連Issue**: [#2](https://github.com/makagi/MTF_AI_Trade/issues/2)
+- **文脈・課題**:
+  - 文書ごとに階層図の順序（例: Knowledge が Specification の下にある等）が食い違い、動的な知識フィードバックと静的な依存関係が混同されていた。
+  - 「Strategy」という語が4つの文脈で多義的に使われており、管理すべき成果物としての Strategy の定義・配置場所・ライフサイクルが未定義だった。
+- **検討した選択肢**:
+  1. Strategy を独立ディレクトリ（`0X_STRATEGIES/`）として新設する
+  2. Strategy を `02_SPECIFICATIONS/strategies/` に配置し、Specification（部品）を有機的に組み合わせたルール一式として定義する
+  3. 当面 Strategy を文書体系から除外する
+- **決定内容**:
+  - 選択肢 2 を採用。
+  - 文書間の関係を「静的な参照（依存）関係（Vision → Principles → Concepts → Specifications → Strategies → Implementation → Operations）」と「動的な知識獲得と昇格のサイクル（Knowledge & Validation Loop）」の2軸で明確に分離・図解した。
+  - Strategy は「特定の市場仮説に基づき、各仕様（Entry/Exit/Risk等: 部品）を有機的に組み合わせた、名前とバージョンを持つ売買ルール一式」と定義し、`02_SPECIFICATIONS/strategies/` 配下に配置する。
+  - Strategy にライフサイクル状態（`Candidate` / `Adopted` / `Retired`）を導入し、都度の「売買判断」や「研究方針」とは明確に区別する。
+- **結果・影響**:
+  - `00_GOVERNANCE/documentation-architecture.md` および `00_GOVERNANCE/principles.md` を改訂。
+  - 知識が仕様・戦略へ昇格する経路が明確化された。
