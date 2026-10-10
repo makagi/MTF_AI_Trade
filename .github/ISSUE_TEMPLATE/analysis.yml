@@ -1,0 +1,47 @@
+name: "🔬 Analysis"
+description: 仮説の検証・データ分析・バックテスト
+title: "[Analysis] "
+labels: ["type:analysis"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        評価基準は **分析を実行する前に** 記入する（事後的な基準変更はチェリーピッキングとみなす）。
+        事実・解釈・仮説を混同しないこと（principles.md 1.1）。
+  - type: textarea
+    id: question
+    attributes:
+      label: 問い・動機
+      description: 何を知りたいか。きっかけとなった観察（Observation）があれば時間軸とともに記載。
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: 仮説
+      description: 検証可能な形で記述（対象時間軸、条件、期待される効果）
+    validations:
+      required: true
+  - type: textarea
+    id: concepts
+    attributes:
+      label: 関連する Concept・既存知識
+      description: "01_CONCEPTS の該当文書、03_KNOWLEDGE / 90_LEGACY 内の類似分析（重複実験の確認結果）"
+  - type: textarea
+    id: method
+    attributes:
+      label: 検証方法
+      description: データ・期間・銘柄・時間軸・手法。Holdout 期間は使用しない。
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: 判定基準（事前登録）
+      description: 何が観測されたら支持 / 棄却とするか。コスト控除・年別/レジーム別の一貫性などを含める。
+    validations:
+      required: true
+  - type: textarea
+    id: refs
+    attributes:
+      label: 関連 Issue
