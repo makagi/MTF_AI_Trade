@@ -1,7 +1,12 @@
 # MTFシステムトレード Development Environment
 
-**Version:** 0.1
-**Status:** Draft
+**Doc ID:** DEV-ENV-001  
+**Version:** 0.1.0  
+**Status:** Draft  
+**Owner:** @makagi  
+**Last Updated:** 2026-10-10  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [development-workflow.md](development-workflow.md)  
 
 ## 1. Purpose
 
@@ -77,6 +82,5 @@ MTF_AI_Trade/
   - プロジェクト外の共有データディレクトリ（例: `../Data`）または指定パスを参照する。
   - データパスのハードコードを避け、設定ファイル（`src/config.py` 等）で一元管理する。
 - **データパーティショニング（期間分離規程）**:
-  - **Discovery / Train**: 2020-01-01 〜 2023-12-31（仮説立案・探索・学習）
-  - **Validation**: 2024-01-01 〜 2024-12-31（一発勝負の仮説検定・パラメータ固定検証）
-  - **Holdout**: 2025-01-01 〜 （**完全封印**。探索・チューニングへの使用厳禁）
+  - 実験およびモデル学習で使用可能なデータ期間は、[02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §2（Discovery / Validation / Holdout 期間の定義）に従う。
+  - スクリプト実行時は、指定されたデータセット設定（YAML / 設定モジュール）を介して期間を厳密に制限し、Holdout 期間へのアクセスを遮断する。

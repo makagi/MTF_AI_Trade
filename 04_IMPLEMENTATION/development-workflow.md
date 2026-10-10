@@ -1,7 +1,12 @@
 # MTFシステムトレード Development Workflow
 
-**Version:** 0.1
-**Status:** Draft
+**Doc ID:** DEV-WFL-001  
+**Version:** 0.1.0  
+**Status:** Draft  
+**Owner:** @makagi  
+**Last Updated:** 2026-10-10  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4)  
+**Related Docs:** [00_GOVERNANCE/issue-driven-workflow.md](../00_GOVERNANCE/issue-driven-workflow.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md)  
 
 ## 1. Purpose
 
@@ -65,13 +70,13 @@
 ### Step 4: 実験の実装と実行 (Experiment Execution)
 - 探索的分析の場合: `python tools/kb.py new` を使用し、独立した自己完結ディレクトリ（`knowledge/records/YYYY-MM/ANL-...`）を作成して実行する。
 - 共通機能の追加の場合: `src/` 配下のモジュールを更新し、テストを作成する。
-- **データ規律**: 探索・学習には 2020-2023年 のみを使用する。
+- **データ規律**: 探索・学習には [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §2 で規定する Discovery 期間（2020-2023年）のみを使用する。
 
 ### Step 5: 定量検証 & エビデンス判定 (Validation)
-- 以下の規律に則り結果を評価する：
-  1. **摩擦コスト控除**: 往復0.4%相当の現実的コストを差し引いても期待値プラスか。
-  2. **非定常性の検証**: 年別・レジーム別で結果が一貫しているか（特定年のみの勝ちではないか）。
-  3. **エントリーとイグジットの分離**: MFE/MAE分布によりエントリー自体のエッジを確認したか。
+- [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) の評価仕様に則り結果を評価する：
+  1. **摩擦コスト控除**: 標準摩擦コスト（往復0.40%）を差し引いても期待値が明確にプラスか（§3）。
+  2. **非定常性の検証**: 年別・レジーム別で結果が一貫しているか（§4）。
+  3. **エントリーとイグジットの分離**: MFE/MAE 分布によりエントリー自体のエッジを確認したか（§4）。
 
 ### Step 6: 知識の系譜（Knowledge Lineage）の更新
 - 実験結果に基づき、客観的事実（FIND）と検証結果を記録：

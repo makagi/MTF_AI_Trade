@@ -1,6 +1,12 @@
 # 知識の系譜 (Knowledge Lineage)
 
-本ドキュメントは、プロジェクトで立案・検証された仮説（Hypothesis）、実験（Experiment）、得られたエビデンス（Evidence）、およびシステム仕様への反映履歴（Knowledge）の因果関係を記録します。
+**Doc ID:** KNOW-LIN-001  
+**Version:** 0.1.0  
+**Status:** Draft  
+**Owner:** @makagi  
+**Last Updated:** 2026-10-10  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md)  
 
 ---
 
@@ -13,7 +19,7 @@
                                                               │
 [H003: 1m足厳選トリガーによるMTF] ─(E003: 60分後リターン計測)─→ [K003: コスト控除前リターンが0%付近、ノイズ (Refuted)]
                                                               │
-[H004: 1h足価格テクニカルでのML/MoE] ─(E004: LightGBM)──────→ [K004: 摩擦コスト0.4%に負け壊滅、単一足価格指標は限界 (Refuted)]
+[H004: 1h足価格テクニカルでのML/MoE] ─(E004: LightGBM)──────→ [K004: 標準摩擦コスト(0.4%)に負け壊滅、単一足価格指標は限界 (Refuted)]
                                                               │
 [H005: 階層構造のSoft Logic化] ─(E005: v4.0特徴量検証)──────→ [K005: マクロ重力逆行・ファンアウト速度が先行指標として機能 (Supported)]
 ```
