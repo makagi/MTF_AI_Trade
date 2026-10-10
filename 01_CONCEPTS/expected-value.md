@@ -1,7 +1,14 @@
 # MTFシステムトレード Expected Value
 
-**Version:** 0.1
-**Status:** Draft
+**Doc ID:** CONCEPT-EXP-001  
+**Version:** 0.1.0  
+**Status:** Draft  
+**Owner:** @makagi  
+**Last Updated:** 2026-10-10  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [00_GOVERNANCE/assumptions.md](../00_GOVERNANCE/assumptions.md)  
+
+---
 
 ## 1. Purpose
 
@@ -26,7 +33,7 @@ $$E = (P_{\text{win}} \times W_{\text{avg}}) - (P_{\text{loss}} \times L_{\text{
 
 ---
 
-## 3. The Reality of Friction Costs (The 0.4% Wall)
+## 3. The Reality of Friction Costs (The Friction Wall)
 
 バックテストで机上の利益が出ても、実運用で壊滅する最大の原因は「摩擦コスト」の軽視である。
 
@@ -36,9 +43,10 @@ $$E = (P_{\text{win}} \times W_{\text{avg}}) - (P_{\text{loss}} \times L_{\text{
    * **スリッページ (Slippage)**: 発注から約定までの価格滑り。
    * **レイテンシ (Latency Delay)**: ネットワーク遅延による機会損失。
 2. **コストの蓄積と過剰取引の罠**:
-   * 暗号資産や高ボラティリティ商品において、現実的な往復コスト（Taker手数料＋スプレッド＋スリッページ）は **約0.4%** に達する。
-   * 1回あたりの期待リターンが0.4%未満のシグナルは、どれだけ高頻度に打っても手数料負け（Churn）となり、資産曲線を急速に破壊する。
-   * 「微小なエッジを多頻度に回転させる」アプローチは、摩擦コストに耐えうる十分なSignal-to-Noise Ratioがない限り成立しない。
+   * 暗号資産や高ボラティリティ商品において、現実的な往復コスト（Taker手数料＋スプレッド＋スリッページ）は無視できない障壁となる。
+   * 1回あたりの期待リターンが摩擦コスト未満のシグナルは、どれだけ高頻度に打っても手数料負け（Churn）となり、資産曲線を急速に破壊する。
+   * 「微小なエッジを多頻度に回転させる」アプローチは、摩擦コストに耐えうる十分な Signal-to-Noise Ratio がない限り成立しない。
+   * ※ 当システムが評価で控除する具体的な摩擦コスト値（往復 0.40%）および内訳モデルは [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §3 を参照。
 
 ---
 
