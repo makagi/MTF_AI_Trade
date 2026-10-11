@@ -18,6 +18,7 @@
 | **D007** | 2026-10-10 | 文書メタデータヘッダー規約と承認ライフサイクル（PRマージ＝合意）の定義 | 採択 (Accepted) | ドキュメント全般 |
 | **D008** | 2026-10-10 | 評価仕様（SPEC-EVAL-001）の策定と摩擦コスト・期間分割のSSOT化 | 採択 (Accepted) | 仕様・評価 |
 | **D009** | 2026-10-10 | 知識管理アーキテクチャの一本化とID体系の統一（Issue連動実験とK-xxx） | 採択 (Accepted) | 知識管理 |
+| **D010** | 2026-10-10 | 現行開発環境の再構築（uv・pyproject.toml・動的データパス・最小src） | 採択 (Accepted) | 開発環境 |
 
 ---
 
@@ -180,3 +181,26 @@
 - **結果・影響**:
   - `03_KNOWLEDGE/README.md`、`knowledge-lineage.md`、`04_IMPLEMENTATION/development-workflow.md` を改訂。
   - 仮説検証のワークフローと成果物配置が完全に統一された。
+
+---
+
+### D010: 現行開発環境の再構築（uv・pyproject.toml・動的データパス・最小src）
+- **日付**: 2026-10-10
+- **ステータス**: 採択 (Accepted)
+- **関連Issue**: [#14](https://github.com/makagi/MTF_AI_Trade/issues/14)
+- **文脈・課題**:
+  - D005 で旧コードを `90_LEGACY/` へ退避したため、現行の `src/` および `tools/` が空となり、Analysis Issue を即時実行するための環境が存在しなかった。
+  - データ保存パス（`D:\work\AI-Trade\Data`）が旧コード内でハードコードされていた。
+- **検討した選択肢**:
+  1. 旧 `requirements.txt` とハードコードパスを維持する
+  2. `pyproject.toml` + `uv` で一元管理し、環境変数による動的データパス解決と Holdout 遮断ガード付きデータローダーを新設する
+- **決定内容**:
+  - 選択肢 2 を採用。
+  - `pyproject.toml` を作成し、`uv` による仮想環境同期・パッケージ管理を標準化。
+  - `src/config.py`: 環境変数 `MTF_DATA_DIR` 優先の自動探索と `SPEC-EVAL-001` 準拠定数を定義。
+  - `src/data_loader.py`: Holdout 期間アクセス遮断ガードと Discovery/Validation 分割ローダーを実装。
+  - `src/evaluation.py`: `SPEC-EVAL-001` 準拠の必須メトリクス・年別分解計算モジュールを新設。
+  - `tools/kb.py`: 新アーキテクチャ（`03_KNOWLEDGE/experiments/<N>-<slug>/`）対応の実験作成 CLI を新設。
+- **結果・影響**:
+  - `04_IMPLEMENTATION/development-environment.md` を改訂。
+  - 新規 Analysis Issue の即時実行およびバックテストが可能な環境が整備された。

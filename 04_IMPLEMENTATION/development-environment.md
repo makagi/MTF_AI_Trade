@@ -5,14 +5,16 @@
 **Status:** Draft  
 **Owner:** @makagi  
 **Last Updated:** 2026-10-10  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4)  
-**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [development-workflow.md](development-workflow.md)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#14](https://github.com/makagi/MTF_AI_Trade/issues/14)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [development-workflow.md](development-workflow.md), [03_KNOWLEDGE/README.md](../03_KNOWLEDGE/README.md)  
+
+---
 
 ## 1. Purpose
 
 本ドキュメントは、プロジェクトにおける開発・実行環境、ディレクトリ責務、ツールチェーン、およびデータアクセス規程を定義する。
 
-AIエージェントおよび開発者が一貫した環境で作業し、分析・実験・実装の**再現性（Reproducibility）**を担保することを目的とする。
+AI エージェントおよび人間の開発者が一貫した環境で作業し、分析・実験・実装の**再現性（Reproducibility）**を担保することを目的とする。
 
 ---
 
@@ -22,34 +24,37 @@ AIエージェントおよび開発者が一貫した環境で作業し、分析
 
 ```text
 MTF_AI_Trade/
-├── 00_GOVERNANCE/          # プロジェクトの目的、原則、文書体系
-├── 01_CONCEPTS/            # 市場認識、MTFフレームワーク、概念モデル
-├── 02_SPECIFICATIONS/      # 具体的なシステム仕様（時間軸、特徴量、売買ルール）
-├── 03_KNOWLEDGE/           # 仮説、実験記録、知識の系譜（knowledge/ と連携）
-├── 04_IMPLEMENTATION/      # アーキテクチャ、開発環境、ワークフロー、Agent規約
-├── 05_OPERATIONS/          # バックテスト運用、実運用、監視規程
-├── 99_HISTORY/             # 意思決定ログ（Decision Log / ADR）、履歴
-├── src/                    # 共通・本番用Pythonソースコード
-├── knowledge/              # 自己完結型 Analysis Record およびデータセット定義
-├── reports/                # 検証レポート、監査ログ、可視化成果物
-└── tools/                  # 運用支援ツール、ナレッジCLI（kb.py 等）
+├── 00_GOVERNANCE/              # プロジェクト目的、原則、文書体系、運用規約
+├── 01_CONCEPTS/                # 市場認識、MTFフレームワーク、概念モデル
+├── 02_SPECIFICATIONS/          # 具体的なシステム仕様（評価仕様、特徴量、戦略）
+├── 03_KNOWLEDGE/               # 仮説検証サイクル、実験記録、知識の系譜
+│   ├── experiments/            # 自己完結した実験記録 (<N>-<slug>/)
+│   └── knowledge/              # 体系化された知識 (K-xxx)
+├── 04_IMPLEMENTATION/          # 開発環境、ワークフロー、Agent規約
+├── 05_OPERATIONS/              # バックテスト定例運用、実運用規約
+├── 90_LEGACY/                  # 過去資産アーカイブ（Read-only）
+├── 99_HISTORY/                 # 意思決定ログ（ADR）、履歴
+├── src/                        # 共通Pythonソースコード（config, data_loader, evaluation等）
+├── tools/                      # 運用支援CLIツール（kb.py等）
+├── pyproject.toml              # プロジェクトメタデータおよび依存関係定義
+└── README.md                   # リポジトリ入口
 ```
 
 ### ディレクトリ運用の鉄則
-1. **ルート直下にファイルを散乱させない**:
-   - スクリプトは `src/` または `tools/`、分析・実験記録は `knowledge/records/`、レポートは `reports/` に配置する。
+1. **ルート直下にスクリプトや画像ファイルを散乱させない**:
+   - 共通モジュールは `src/`、CLI は `tools/`、実験コード・出力は `03_KNOWLEDGE/experiments/<N>-<slug>/` に配置する。
 2. **空ディレクトリの原則**:
-   - 必要になるまで無意味なファイルを作成しない（Simplicityの原則）。
+   - 必要になるまで無意味なファイルを作成しない（Simplicity の原則）。
 
 ---
 
 ## 3. Core Runtime & Toolchain
 
 - **OS**: Windows (x86_64) / PowerShell
-- **Python**: Python 3.10+ / 3.11+
-- **パッケージ & 仮想環境管理**: `uv` または 標準 `venv`
+- **Python**: Python 3.10+（推奨: Python 3.11）
+- **パッケージ & 仮想環境管理**: `uv`
+  - 設定ファイル: `pyproject.toml`
   - 仮想環境パス: `.venv/`
-  - パッケージ依存関係: `requirements.txt`
 - **主要ライブラリ群**:
   - データ処理: `pandas`, `numpy`, `scipy`
   - 機械学習 / 統計: `lightgbm`, `scikit-learn`
@@ -61,26 +66,41 @@ MTF_AI_Trade/
 ## 4. Execution Conventions
 
 ### 基本実行コマンド
-- スクリプト実行:
+* **依存関係の同期**:
   ```powershell
-  uv run python <path_to_script>.py
-  # または
-  .venv\Scripts\python <path_to_script>.py
+  uv sync
   ```
-- ナレッジベースCLI操作:
+* **新規実験の作成**:
   ```powershell
-  python tools/kb.py list       # レコード一覧表示
-  python tools/kb.py validate   # 整合性検証
-  python tools/kb.py index      # インデックス・系譜図の更新
+  uv run python tools/kb.py new <issue_no> <slug> --title "My Experiment Title"
+  ```
+* **実験スクリプトの実行**:
+  ```powershell
+  uv run python 03_KNOWLEDGE/experiments/<issue_no>-<slug>/run.py
+  ```
+* **実験ディレクトリの整合性検証**:
+  ```powershell
+  uv run python tools/kb.py validate
   ```
 
 ---
 
 ## 5. Data Access & Management
 
-- **市場データ保存先**:
-  - プロジェクト外の共有データディレクトリ（例: `../Data`）または指定パスを参照する。
-  - データパスのハードコードを避け、設定ファイル（`src/config.py` 等）で一元管理する。
-- **データパーティショニング（期間分離規程）**:
-  - 実験およびモデル学習で使用可能なデータ期間は、[02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §2（Discovery / Validation / Holdout 期間の定義）に従う。
-  - スクリプト実行時は、指定されたデータセット設定（YAML / 設定モジュール）を介して期間を厳密に制限し、Holdout 期間へのアクセスを遮断する。
+### 5.1 市場データの配置と動的解決
+市場データの保存パスはハードコードせず、`src/config.py` の `get_data_dir()` を介して動的に解決する。
+
+* **優先順位**:
+  1. 環境変数 `MTF_DATA_DIR` が設定されている場合はそのパスを使用。
+  2. 未設定の場合は `D:/work/AI-Trade/Data` を探索。
+  3. 相対パス `../Data` または `./data` をフォールバック探索。
+
+### 5.2 データパーティショニング規律
+実験およびモデル学習で使用可能なデータ期間は、[02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §2（Discovery / Validation / Holdout 期間の定義）に従う。
+
+* **Discovery / Train (2020-01-01 〜 2023-12-31)**:
+  - 通常のリサーチ・探索・モデル学習には `src.data_loader.load_discovery_data()` を使用する。
+* **Validation (2024-01-01 〜 2024-12-31)**:
+  - 一発勝負の仮説検証には `src.data_loader.load_validation_data()` を使用する。
+* **Holdout (2025-01-01 〜 現在)**:
+  - `src.data_loader.load_ohlcv()` はデフォルトで Holdout 期間のデータを物理的に遮断する（探索段階でのアクセス厳禁）。
