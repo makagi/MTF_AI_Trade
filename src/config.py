@@ -57,12 +57,13 @@ def get_symbol_dir(symbol: str, timeframe: str) -> Path:
 # ==============================================================================
 
 DISCOVERY_START = "2020-01-01"
-DISCOVERY_END = "2023-12-31"
+DISCOVERY_END = "2025-04-30"
 
-VALIDATION_START = "2024-01-01"
-VALIDATION_END = "2024-12-31"
+VALIDATION_START = "2025-05-01"
+VALIDATION_END = "2026-03-31"
 
-HOLDOUT_START = "2025-01-01"  # STRICTLY SEALED
+HOLDOUT_START = "2026-04-01"  # STRICTLY SEALED
+
 
 
 # ==============================================================================
