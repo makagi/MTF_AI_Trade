@@ -21,6 +21,7 @@
 | **D010** | 2026-10-10 | 現行開発環境の再構築（uv・pyproject.toml・動的データパス・最小src） | 採択 (Accepted) | 開発環境 |
 | **D011** | 2026-10-12 | AIエージェント3層協調体制・権限境界の確立と実装ドキュメントの更新 | 採択 (Accepted) | 開発体制・Agent規約 |
 | **D012** | 2026-10-12 | リスク管理原則（Risk First）の導入と8段階証拠連鎖・反復改善フライホイールの確立 | 採択 (Accepted) | ガバナンス・原則 |
+| **D013** | 2026-10-12 | 01_CONCEPTS からの仕様記述分離と作業仮説表現の純化 | 採択 (Accepted) | 概念モデル |
 
 ---
 
@@ -249,5 +250,23 @@
 - **結果・影響**:
   - `00_GOVERNANCE/principles.md` を v0.2.0 へ全面改訂。
   - `04_IMPLEMENTATION/development-workflow.md` にも反復改善フライホイールを追記。
+
+---
+
+### D013: 01_CONCEPTS からの仕様記述分離と作業仮説表現の純化
+- **日付**: 2026-10-12
+- **ステータス**: 採択 (Accepted)
+- **関連Issue**: [#5](https://github.com/makagi/MTF_AI_Trade/issues/5)
+- **文脈・課題**:
+  - `01_CONCEPTS/` の各文書内に、特定の実装・時間軸・パラメータ（具体値: Weekly/Daily/4H/1H/15m/1m, ATR(14), -2 ATR, Armed状態等）が混入していた。
+  - 「圧倒的に強い影響力」「ダマシとなる確率が極めて高い」「最も優位性が高い」「唯一の構造」といった未検証の主張や断定表現が散見され、`principles.md` §2（事実と仮説の分離）に抵触していた。
+- **決定内容**:
+  - `01_CONCEPTS/` の全5文書（`mtf-framework.md`, `market-structure.md`, `volatility.md`, `expected-value.md`, `market-regime.md`）から具体的パラメータ記述を分離し、「普遍的な相場概念・モデル」に純化。
+  - 具体値（足の長さ、ATR期間等）はあくまで「代表例」として注記し、正式な定数・計算式は `02_SPECIFICATIONS/` に委ねる構造を徹底。
+  - 断定的な未検証主張を「当システムにおける作業仮説（Working Hypothesis）」として表現を是正。
+  - 全5文書に標準メタデータヘッダー（Doc ID, Version, Status, Related Issues/Docs）を配備。
+- **結果・影響**:
+  - Concept（普遍モデル）と Specification（具体パラメータ）の境界が厳格化され、AIエージェントによる仕様の無断混入が防止された。
+
 
 
