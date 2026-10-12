@@ -90,3 +90,13 @@ graph TD
 * **実験条件**: 1m足を含むv4.0特徴量の時系列安定性と先行性評価
 * **過去資産の出典**: [`90_LEGACY/STATE.md`](../90_LEGACY/STATE.md) (フェーズ4.7 Soft Logic 検証)
 * **仕様への影響**: 特徴量設計モデル（`01_CONCEPTS/mtf-framework.md`）として採用。売買戦略への昇格には新環境下での定量実験（M3）を要する。
+
+---
+
+## 4. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-10 | 0.1.0 | 初版作成（旧知識体系の3層化・K-001〜K-005 登録） | @makagi / [#20](https://github.com/makagi/MTF_AI_Trade/pull/20) |
+| 2026-10-13 | 0.2.0 | 科学的証拠表現の是正、エビデンスレベル確立、K-005 を Inconclusive へ見直し | @makagi / [#29](https://github.com/makagi/MTF_AI_Trade/pull/29) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |

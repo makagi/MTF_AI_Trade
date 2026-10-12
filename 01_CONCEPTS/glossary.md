@@ -84,3 +84,12 @@
 | **カナリアベンチマーク** | Canary Benchmark | 既知の標準課題セット（Gold Standard）を用いて、エージェントのコード生成や計算能力を pytest 等の機械的テストで客観評価する仕組み。 |
 | **決定論的ゲート** | Deterministic Gates | 自然言語の主観レビューではなく、構文（ruff/ast）、整合性（`kb.py validate`）、定量契約（`SPEC-EVAL-001`）を機械的に判定する実行時フィルター。 |
 | **継続的改善フライホイール** | Continuous Flywheel | M1（ガバナンス/環境） $\rightarrow$ M2（Agent QA） $\rightarrow$ M3（特徴量検証） $\rightarrow$ M4（戦略実運用）を進めつつ、実践から得られた知見や失敗を恒久的に上位基盤へ還元する自己進化ループ。 |
+
+---
+
+## 6. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-12 | 0.1.0 | 初版作成（相場認識・文書階層・開発Agent体系の用語定義） | @makagi / [#25](https://github.com/makagi/MTF_AI_Trade/pull/25) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |

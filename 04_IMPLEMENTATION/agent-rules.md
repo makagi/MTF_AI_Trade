@@ -67,7 +67,7 @@ AIエージェントの自律性を最大限活用しつつ、プロジェクト
 2. **仕様・原則の無断変更禁止 (No Unilateral Spec Changes)**:
    - `00_GOVERNANCE/`、`01_CONCEPTS/`、`02_SPECIFICATIONS/` の内容を、対応する Issue および人間の PR マージなしに変更してはならない。
 3. **最終ホールドアウト期間へのアクセス禁止 (No Holdout Leakage)**:
-   - [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §2 で定義する Final Holdout 期間（2025年1月1日以降）のデータは、いかなる探索・学習・中間評価でもアクセスしてはならない（`src/data_loader.py` のアクセス制御をバイパスする行為も禁止）。
+   - [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §2 で定義する Final Holdout 期間（2026年4月1日以降）のデータは、いかなる探索・学習・中間評価でもアクセスしてはならない（`src/data_loader.py` のアクセス制御をバイパスする行為も禁止）。
 4. **未検証アイデアの「確定事実化」禁止**:
    - バックテストや統計検定を経ていないアイデアを「エッジがある」「有効である」と断定してドキュメントやコードに組み込んではならない。必ず「仮説（Hypothesis）」として扱うこと。
 5. **チェリーピッキング・都合の良い結果のみの報告禁止**:
@@ -89,4 +89,13 @@ AIエージェントの自律性を最大限活用しつつ、プロジェクト
    - 実行したスクリプト名、引数、シード値、データ期間、出力ログを記録し、他のエージェントや人間が `uv run ...` で同一結果を再現できるようにする。
 5. **判断保留時のエスカレーション**:
    - 設計方針のトレードオフや不確実な判断が生じた場合は、独断で進めず `status:needs-decision` を付与して人間に選択肢と推奨案を提示する。
+
+---
+
+## 5. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-12 | 0.1.0 | 初版作成（AIエージェント行動規範・権限境界策定） | @makagi / [#22](https://github.com/makagi/MTF_AI_Trade/pull/22) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一、Holdout 期間参照更新（SPEC-EVAL-001 準拠） | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 

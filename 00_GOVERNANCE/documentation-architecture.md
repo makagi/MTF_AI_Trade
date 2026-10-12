@@ -1,7 +1,14 @@
 # MTFシステムトレード Documentation Architecture
 
-**Version:** 0.1
-**Status:** Draft
+**Doc ID:** GOV-ARCH-001  
+**Version:** 0.2.0  
+**Status:** Accepted  
+**Owner:** @makagi  
+**Last Updated:** 2026-10-13  
+**Related Issues:** [#2](https://github.com/makagi/MTF_AI_Trade/issues/2), [#3](https://github.com/makagi/MTF_AI_Trade/issues/3), [#11](https://github.com/makagi/MTF_AI_Trade/issues/11)  
+**Related Docs:** [vision.md](vision.md), [principles.md](principles.md), [issue-driven-workflow.md](issue-driven-workflow.md), [templates/document-template.md](templates/document-template.md)  
+
+---
 
 ## 1. Purpose
 
@@ -206,7 +213,7 @@ Knowledge (03/knowledge/K-xxx)
 「このシステムでは具体的にどう判定・処理するか」
 
 * 個別のパラメータ、計算式、データ期間、評価基準などの具体的な定義。
-* 例: 「Discovery 期間は 2020-2023 年とする」「標準摩擦コストは往復 0.4% を控除する」
+* 例: 「Discovery 期間は 2020-2025/04 とする（[02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) 準拠）」「標準摩擦コストは往復 0.40% を控除する」
 
 ### Strategy（戦略: 部品の組み合わせ）
 
@@ -403,3 +410,13 @@ MTF_AI_Trade/
 などの問題が発生した場合、Documentation Architecture自体を改善する。
 
 **ドキュメント体系もまた、継続的に改善されるシステムの一部である。**
+
+---
+
+## 11. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-02 | 0.1.0 | 初版作成（成熟度別ドキュメント体系の採用） | @makagi / [D001](../99_HISTORY/decision-log.md#d001-6層2層の成熟度別ドキュメント体系の採用) |
+| 2026-10-10 | 0.2.0 | 文書層上下関係統一、Strategy定義配置、承認フロー・メタデータヘッダー規約策定 | @makagi / [#17](https://github.com/makagi/MTF_AI_Trade/pull/17), [#18](https://github.com/makagi/MTF_AI_Trade/pull/18) |
+| 2026-10-13 | 0.2.0 | 書式・ヘッダー規約統一、SPEC-EVAL-001 リンク最新化 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |

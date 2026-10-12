@@ -1,9 +1,19 @@
 # 意思決定ログ (Decision Log / ADR)
 
-本ドキュメントは、プロジェクトの設計方針、アーキテクチャ、戦略、および運用の重要決定（Architecture Decision Records: ADR）を記録します。  
-過去の意思決定の背景、検討された選択肢、および採択理由を永続化することで、方針のブレやAIエージェントによる無断変更を防止します。
+**Doc ID:** HIST-ADR-001  
+**Version:** 0.2.0  
+**Status:** Accepted  
+**Owner:** @makagi  
+**Last Updated:** 2026-10-13  
+**Related Issues:** [#2](https://github.com/makagi/MTF_AI_Trade/issues/2), [#3](https://github.com/makagi/MTF_AI_Trade/issues/3), [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#7](https://github.com/makagi/MTF_AI_Trade/issues/7), [#8](https://github.com/makagi/MTF_AI_Trade/issues/8), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#10](https://github.com/makagi/MTF_AI_Trade/issues/10), [#11](https://github.com/makagi/MTF_AI_Trade/issues/11), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13), [#14](https://github.com/makagi/MTF_AI_Trade/issues/14), [#27](https://github.com/makagi/MTF_AI_Trade/issues/27)  
+**Related Docs:** [../00_GOVERNANCE/documentation-architecture.md](../00_GOVERNANCE/documentation-architecture.md), [../00_GOVERNANCE/issue-driven-workflow.md](../00_GOVERNANCE/issue-driven-workflow.md)  
 
 ---
+
+## 1. Purpose
+
+本ドキュメントは、プロジェクトの設計方針、アーキテクチャ、戦略、および運用の重要決定（Architecture Decision Records: ADR）を記録する。  
+過去の意思決定の背景、検討された選択肢、および採択理由を永続化することで、方針のブレや AI エージェントによる無断変更を防止する。
 
 ## 決定一覧 (Summary)
 

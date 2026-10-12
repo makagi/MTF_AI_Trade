@@ -10,10 +10,10 @@ Multi-Time-Frame（MTF）による市場認識を中心に、相場分析・仮�
 | ディレクトリ | 役割 | 入口 |
 |---|---|---|
 | `00_GOVERNANCE/` | 目的・原則・文書体系・運用ルール | [vision.md](00_GOVERNANCE/vision.md), [principles.md](00_GOVERNANCE/principles.md), [documentation-architecture.md](00_GOVERNANCE/documentation-architecture.md) |
-| `01_CONCEPTS/` | 市場理解のための概念モデル | [mtf-framework.md](01_CONCEPTS/mtf-framework.md) |
-| `02_SPECIFICATIONS/` | システム仕様（未着手） | — |
-| `03_KNOWLEDGE/` | 仮説・実験・知識の系譜 | [README.md](03_KNOWLEDGE/README.md) |
-| `04_IMPLEMENTATION/` | 開発環境・ワークフロー・Agent 規約 | [development-workflow.md](04_IMPLEMENTATION/development-workflow.md) |
+| `01_CONCEPTS/` | 市場理解のための概念モデル | [mtf-framework.md](01_CONCEPTS/mtf-framework.md), [glossary.md](01_CONCEPTS/glossary.md) |
+| `02_SPECIFICATIONS/` | システム仕様・戦略 | [evaluation.md](02_SPECIFICATIONS/evaluation.md) |
+| `03_KNOWLEDGE/` | 仮説・実験・知識の系譜 | [README.md](03_KNOWLEDGE/README.md), [knowledge-lineage.md](03_KNOWLEDGE/knowledge-lineage.md) |
+| `04_IMPLEMENTATION/` | 開発環境・ワークフロー・Agent 規約 | [development-workflow.md](04_IMPLEMENTATION/development-workflow.md), [agent-rules.md](04_IMPLEMENTATION/agent-rules.md) |
 | `05_OPERATIONS/` | 運用（未着手） | — |
 | `90_LEGACY/` | 旧資産（参照専用） | [README.md](90_LEGACY/README.md) |
 | `99_HISTORY/` | 意思決定ログ | [decision-log.md](99_HISTORY/decision-log.md) |
