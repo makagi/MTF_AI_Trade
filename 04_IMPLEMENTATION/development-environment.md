@@ -103,9 +103,10 @@ MTF_AI_Trade/
 ### 5.2 データパーティショニング規律
 実験およびモデル学習で使用可能なデータ期間は、[02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §2（Discovery / Validation / Holdout 期間の定義）に従う。
 
-* **Discovery / Train (2020-01-01 〜 2023-12-31)**:
+* **Discovery / Train (2020-01-01 〜 2025-04-30)**:
   - 通常のリサーチ・探索・モデル学習には `src.data_loader.load_discovery_data()` を使用する。
-* **Validation (2024-01-01 〜 2024-12-31)**:
-  - 一発勝負の仮説検証には `src.data_loader.load_validation_data()` を使用する。
-* **Holdout (2025-01-01 〜 現在)**:
+* **Validation (2025-05-01 〜 2026-03-31)**:
+  - 一発勝負の仮説検証には `src.data_loader.load_validation_data()` を使用する（2025年5〜10月の上昇局面と10月〜2026年3月の下落局面の両面検証）。
+* **Holdout (2026-04-01 〜 現在)**:
   - `src.data_loader.load_ohlcv()` はデフォルトで Holdout 期間のデータを物理的に遮断する（探索段階でのアクセス厳禁）。
+
