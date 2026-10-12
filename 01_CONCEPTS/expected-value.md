@@ -1,25 +1,25 @@
-# MTFシステムトレード Expected Value
+# MTFシステムトレード Expected Value (期待値概念モデル)
 
-**Doc ID:** CONCEPT-EXP-001  
-**Version:** 0.1.0  
-**Status:** Draft  
+**Doc ID:** CONC-EXP-001  
+**Version:** 0.2.0  
+**Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-10  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4)  
-**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [00_GOVERNANCE/assumptions.md](../00_GOVERNANCE/assumptions.md)  
+**Last Updated:** 2026-10-12  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#5](https://github.com/makagi/MTF_AI_Trade/issues/5)  
+**Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md)  
 
 ---
 
 ## 1. Purpose
 
-本ドキュメントは、トレード戦略の優位性（エッジ）を測るための数学的尺度である「期待値（Expected Value）」、非対称なリスク・リターン関係、および市場の摩擦コスト（Friction Costs）の概念を定義する。
+本ドキュメントは、トレード戦略の優位性（エッジ）を測るための尺度である「期待値（Expected Value）」、非対称なリスク・リターン関係、および市場の摩擦コスト（Friction Costs）の概念を定義する。
 
 ---
 
-## 2. Expected Value vs Prediction Accuracy
+## 2. Expected Value vs Prediction Accuracy (予測精度と期待値)
 
-システムトレードの成否は「未来の価格が上がるか下がるかを当てる確率（勝率・予測精度）」では決まらない。  
-**「1回の取引あたりに期待できる数学的純利益（期待値）」** によってのみ決定される。
+システムトレードの成否は「未来の価格が上がるか下がるかを当てる確率（勝率・予測精度）」のみでは決まらない。  
+[00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md) §1（Risk First）の通り破産リスクを排除した上で、**「1回の取引あたりに期待できる数学的純利益（期待値）」** によって評価される。
 
 $$E = (P_{\text{win}} \times W_{\text{avg}}) - (P_{\text{loss}} \times L_{\text{avg}})$$
 
@@ -29,11 +29,11 @@ $$E = (P_{\text{win}} \times W_{\text{avg}}) - (P_{\text{loss}} \times L_{\text{
 * $L_{\text{avg}}$: 平均損失
 
 勝率が90%であっても、1回の損失が巨大であれば破滅する。  
-逆に勝率が30%であっても、平均利益が平均損失の数倍（非対称性）であれば、システムは長期的に莫大な利益を生み出す。
+逆に勝率が30%であっても、平均利益が平均損失の数倍（非対称性）であれば、システムは長期的に安定した利益を生み出す。
 
 ---
 
-## 3. The Reality of Friction Costs (The Friction Wall)
+## 3. The Reality of Friction Costs (摩擦コストの壁)
 
 バックテストで机上の利益が出ても、実運用で壊滅する最大の原因は「摩擦コスト」の軽視である。
 
@@ -46,11 +46,11 @@ $$E = (P_{\text{win}} \times W_{\text{avg}}) - (P_{\text{loss}} \times L_{\text{
    * 暗号資産や高ボラティリティ商品において、現実的な往復コスト（Taker手数料＋スプレッド＋スリッページ）は無視できない障壁となる。
    * 1回あたりの期待リターンが摩擦コスト未満のシグナルは、どれだけ高頻度に打っても手数料負け（Churn）となり、資産曲線を急速に破壊する。
    * 「微小なエッジを多頻度に回転させる」アプローチは、摩擦コストに耐えうる十分な Signal-to-Noise Ratio がない限り成立しない。
-   * ※ 当システムが評価で控除する具体的な摩擦コスト値（往復 0.40%）および内訳モデルは [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §3 を参照。
+   * ※ 当システムが評価で控除する具体的な標準摩擦コスト値（往復 0.40%）および内訳モデルの単一情報源（SSOT）は [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md) §3 を参照。
 
 ---
 
-## 4. Separation of Entry Edge and Exit Logic (MFE / MAE)
+## 4. Separation of Entry Edge and Exit Logic (MFE / MAE による優位性の分離)
 
 エントリー条件自体の真の優位性と、イグジット（利食い・損切りルール）の成否を混同してはならない。
 
@@ -73,9 +73,9 @@ $$E = (P_{\text{win}} \times W_{\text{avg}}) - (P_{\text{loss}} \times L_{\text{
 
 ---
 
-## 5. Asymmetry: Downside Truncation and Upside Convexity
+## 5. Asymmetry: Downside Truncation and Upside Convexity (非対称性の追求)
 
-長期的に生き残り利益を最大化するための唯一の構造は、**リスクリターンの非対称性（コンベキシティ: 凸性）** である。
+長期的に生き残り収益性を高めるための中核的な構造は、**リスクリターンの非対称性（コンベキシティ: 凸性）** である。
 
 * **下方リスクの厳格な切断 (Downside Truncation)**:
   * 致命的なテールリスク（想定外の急変、フラッシュクラッシュ）をストップロスや資金管理により確実に遮断する。
