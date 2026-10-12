@@ -3,7 +3,7 @@ name = "mtf-ai-trade"
 version = "0.1.0"
 description = "Multi-Time-Frame System Trading Research and Operation Platform"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "pandas>=2.0.0",
     "numpy>=1.24.0",
@@ -17,9 +17,15 @@ dependencies = [
     "pyyaml>=6.0",
 ]
 
+[tool.pytest.ini_options]
+testpaths = ["tests", "src"]
+norecursedirs = ["90_LEGACY", ".*", "build", "dist"]
+pythonpath = ["."]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
+

@@ -1,12 +1,12 @@
 # MTFシステムトレード Development Environment
 
 **Doc ID:** DEV-ENV-001  
-**Version:** 0.1.0  
-**Status:** Draft  
+**Version:** 0.2.0  
+**Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-10  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#14](https://github.com/makagi/MTF_AI_Trade/issues/14)  
-**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [development-workflow.md](development-workflow.md), [03_KNOWLEDGE/README.md](../03_KNOWLEDGE/README.md)  
+**Last Updated:** 2026-10-12  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13), [#14](https://github.com/makagi/MTF_AI_Trade/issues/14)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [development-workflow.md](development-workflow.md), [agent-rules.md](agent-rules.md), [03_KNOWLEDGE/README.md](../03_KNOWLEDGE/README.md)  
 
 ---
 
@@ -51,7 +51,7 @@ MTF_AI_Trade/
 ## 3. Core Runtime & Toolchain
 
 - **OS**: Windows (x86_64) / PowerShell
-- **Python**: Python 3.10+（推奨: Python 3.11）
+- **Python**: Python 3.11 (`pyproject.toml` 準拠)
 - **パッケージ & 仮想環境管理**: `uv`
   - 設定ファイル: `pyproject.toml`
   - 仮想環境パス: `.venv/`
@@ -60,6 +60,7 @@ MTF_AI_Trade/
   - 機械学習 / 統計: `lightgbm`, `scikit-learn`
   - 描画 / レポート: `matplotlib`, `seaborn`
   - ユーティリティ: `tqdm`, `pyyaml`, `joblib`
+  - 開発 / テスト: `pytest`
 
 ---
 
@@ -69,6 +70,10 @@ MTF_AI_Trade/
 * **依存関係の同期**:
   ```powershell
   uv sync
+  ```
+* **単体テストの実行**:
+  ```powershell
+  uv run pytest
   ```
 * **新規実験の作成**:
   ```powershell

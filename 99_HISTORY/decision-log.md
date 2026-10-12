@@ -19,6 +19,7 @@
 | **D008** | 2026-10-10 | 評価仕様（SPEC-EVAL-001）の策定と摩擦コスト・期間分割のSSOT化 | 採択 (Accepted) | 仕様・評価 |
 | **D009** | 2026-10-10 | 知識管理アーキテクチャの一本化とID体系の統一（Issue連動実験とK-xxx） | 採択 (Accepted) | 知識管理 |
 | **D010** | 2026-10-10 | 現行開発環境の再構築（uv・pyproject.toml・動的データパス・最小src） | 採択 (Accepted) | 開発環境 |
+| **D011** | 2026-10-12 | AIエージェント3層協調体制・権限境界の確立と実装ドキュメントの更新 | 採択 (Accepted) | 開発体制・Agent規約 |
 
 ---
 
@@ -204,3 +205,27 @@
 - **結果・影響**:
   - `04_IMPLEMENTATION/development-environment.md` を改訂。
   - 新規 Analysis Issue の即時実行およびバックテストが可能な環境が整備された。
+
+---
+
+### D011: AIエージェント3層協調体制・権限境界の確立と実装ドキュメントの更新
+- **日付**: 2026-10-12
+- **ステータス**: 採択 (Accepted)
+- **関連Issue**: [#13](https://github.com/makagi/MTF_AI_Trade/issues/13)
+- **文脈・課題**:
+  - D005 および D010 に伴い、`04_IMPLEMENTATION/` 配下の各ドキュメント（`development-workflow.md`, `agent-rules.md`, `development-environment.md`）に残存する旧パス参照（`knowledge/records/`, `reports/`）と新環境（Python 3.11, uv, `src/`, `tools/kb.py`, `03_KNOWLEDGE/experiments/`）との不整合を解消する必要があった。
+  - 人間オペレーターが日常的にスマホから開発・分析を進めるにあたり、要件定義・開発管制・コーディングエージェントの分担および権限境界（勝手なPRマージやHoldoutアクセスの防止）を単一情報源（SSOT）として明文化する必要があった。
+- **検討した選択肢**:
+  1. 単一のAIアシスタントに全権限を委ね、都度チャットで指示する
+  2. 3層協調アーキテクチャ（第1層: Requirements Agent = Antigravity、第2層: SSOT = GitHub、第3層: Orchestrator = Orca ＋ マルチエージェント群: Antigravity/Codex/Open Claw/ローカルLLM）と Human Gate（人間のみがPRマージ権限を持つ）を導入し、権限境界を `04_IMPLEMENTATION/agent-rules.md` に集約する
+- **決定内容**:
+  - 選択肢 2 を採用。
+  - **第1層 Requirements Agent (Antigravity)**: 要求理解、コードベース・仕様・知見調査、Issue起票/更新を担当。権限は Read + Create/Update Issue に限定（直接コード変更やPRマージ権限は持たない）。
+  - **第2層 SSOT (GitHub)**: GitHub Issues をバックログ・作業指示書、PR / Actions を変更差分・CIテスト・定量評価の記録基盤とする。
+  - **第3層 Orchestrator (Orca) ＆ マルチエージェント群**: Orca が Issue を起点として開発ブランチ作成・タスク分解を行い、Antigravity, Codex, Open Claw, ローカルLLM (LM Studio / Lemonade) 等のマルチエージェント群をプラグイン可能として実装・実験（`tools/kb.py`）・検証（`SPEC-EVAL-001`）を実行、PRを作成する。
+  - **Human Gate 原則**: AIによる PR の自己承認・自己マージは厳禁とし、合意および main 反映の権限は人間オペレーターのみが保持する。
+  - `04_IMPLEMENTATION/` 配下の全ドキュメントおよび `03_KNOWLEDGE/README.md` を新開発環境と新アーキテクチャに完全同期。
+- **結果・影響**:
+  - `04_IMPLEMENTATION/agent-rules.md` がエージェント行動規範・権限境界の SSOT として確定。
+  - `04_IMPLEMENTATION/` 内のリンク切れ・旧パス参照が完全に解消された。
+
