@@ -4,16 +4,16 @@
 **Version:** 0.1.0  
 **Status:** Draft  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-10  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4)  
-**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [00_GOVERNANCE/principles.md](principles.md)  
+**Last Updated:** 2026-10-12  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#8](https://github.com/makagi/MTF_AI_Trade/issues/8)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [00_GOVERNANCE/principles.md](principles.md), [00_GOVERNANCE/vision.md](vision.md)  
 
 ---
 
 ## 1. 市場・データに関する前提
 
 - **A001: 対象市場の流動性**
-  - 対象銘柄（BTC/USDT等の主要暗号資産または主要為替ペア）は十分な流動性を持ち、当システムの注文サイズでは板に重大なマーケットインパクトを与えないと仮定する。
+  - 対象銘柄（Core: BTC/USDT等の主要暗号資産、Extended: 主要為替ペア）は十分な流動性を持ち、当システムの注文サイズでは板に重大なマーケットインパクトを与えないと仮定する。
 - **A002: データの時間的一貫性**
   - 過去のOHLCVデータおよび将来のデータ取得において、タイムスタンプおよびバーの区切り（UTC基準）が厳密に一致しており、欠損バーは適切に穴埋めまたは除外処理されていると仮定する。
 - **A003: 価格系テクニカル指標の情報量（Signal-to-Noise Ratio）の制約**
