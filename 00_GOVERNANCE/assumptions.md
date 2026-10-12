@@ -4,9 +4,9 @@
 **Version:** 0.1.0  
 **Status:** Draft  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-12  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#8](https://github.com/makagi/MTF_AI_Trade/issues/8)  
-**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [00_GOVERNANCE/principles.md](principles.md), [00_GOVERNANCE/vision.md](vision.md)  
+**Last Updated:** 2026-10-13  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#8](https://github.com/makagi/MTF_AI_Trade/issues/8), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [00_GOVERNANCE/principles.md](principles.md), [00_GOVERNANCE/vision.md](vision.md), [03_KNOWLEDGE/knowledge-lineage.md](../03_KNOWLEDGE/knowledge-lineage.md)  
 
 ---
 
@@ -17,7 +17,8 @@
 - **A002: データの時間的一貫性**
   - 過去のOHLCVデータおよび将来のデータ取得において、タイムスタンプおよびバーの区切り（UTC基準）が厳密に一致しており、欠損バーは適切に穴埋めまたは除外処理されていると仮定する。
 - **A003: 価格系テクニカル指標の情報量（Signal-to-Noise Ratio）の制約**
-  - 単一足の価格指標（SMA, BB, Stoch等）単体はノイズ比率が極めて高く、摩擦コストを上回るエッジを単独では提供できないと仮定する。したがって、多時間軸構造（MTF）または代替データの複合が不可欠であると前提する。
+  - 単一足の価格指標（SMA, BB, Stoch等）単体はノイズ比率が極めて高く、摩擦コスト（0.40%）を上回るエッジを単独では提供できないことが過去実験で確認されている（根拠: [03_KNOWLEDGE/knowledge-lineage.md](../03_KNOWLEDGE/knowledge-lineage.md) K-004、[decision-log.md](../99_HISTORY/decision-log.md) D003）。したがって、多時間軸構造（MTF）または代替データの複合が不可欠であると前提する。
+
 
 ---
 
