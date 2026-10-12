@@ -20,6 +20,7 @@
 | **D009** | 2026-10-10 | 知識管理アーキテクチャの一本化とID体系の統一（Issue連動実験とK-xxx） | 採択 (Accepted) | 知識管理 |
 | **D010** | 2026-10-10 | 現行開発環境の再構築（uv・pyproject.toml・動的データパス・最小src） | 採択 (Accepted) | 開発環境 |
 | **D011** | 2026-10-12 | AIエージェント3層協調体制・権限境界の確立と実装ドキュメントの更新 | 採択 (Accepted) | 開発体制・Agent規約 |
+| **D012** | 2026-10-12 | リスク管理原則（Risk First）の導入と8段階証拠連鎖・反復改善フライホイールの確立 | 採択 (Accepted) | ガバナンス・原則 |
 
 ---
 
@@ -228,4 +229,25 @@
 - **結果・影響**:
   - `04_IMPLEMENTATION/agent-rules.md` がエージェント行動規範・権限境界の SSOT として確定。
   - `04_IMPLEMENTATION/` 内のリンク切れ・旧パス参照が完全に解消された。
+
+---
+
+### D012: リスク管理原則（Risk First）の導入と8段階証拠連鎖・反復改善フライホイールの確立
+- **日付**: 2026-10-12
+- **ステータス**: 採択 (Accepted)
+- **関連Issue**: [#7](https://github.com/makagi/MTF_AI_Trade/issues/7)
+- **文脈・課題**:
+  - トレードシステムとして最重要である「リスク管理・資金保全（存続性優先、破産確率排除、ドローダウン制約）」が `principles.md` に明文化されていなかった。
+  - `principles.md` §1.1 の認識連鎖が `Observation` から始まっており、`mtf-framework.md` §5 の `Fact → Observation → Interpretation` と不整合だった。
+  - AIエージェントの役割記述が `principles.md` と `04_IMPLEMENTATION/agent-rules.md` で重複していた（SSOT原則違反）。
+  - M1（ガバナンス/環境） $\rightarrow$ M2（Agent QA・管制） $\rightarrow$ M3（特徴量・仮説検証） $\rightarrow$ M4（戦略・実運用）の反復改善ループおよび「特徴量理解の深化による戦略昇格」が原則として明文化されていなかった。
+- **決定内容**:
+  - **Risk First 原則の新設**: 収益性最大化よりも資金存続性・破産確率の排除を最優先とし、下方リスクの厳格な切断とドローダウン制約を最高位原則として明記。
+  - **8段階証拠連鎖への統一**: `Fact → Observation → Interpretation → Hypothesis → Experiment → Evidence → Conclusion → Decision` を定義し、未検証仮説の確定事実化を厳禁化。
+  - **エージェント規約の SSOT 化**: 具体的な役割・権限境界は `04_IMPLEMENTATION/agent-rules.md` を正本とし、`principles.md` は原則のみを規定。
+  - **継続的改善フライホイール（§10）の確立**: 特徴量に対する知識（`K-xxx`）を高めてから戦略（M4）へ昇格させる方針、および M3 の実験ミスを M2（Canary Benchmark）へ還元する自己進化ループを明文化。
+- **結果・影響**:
+  - `00_GOVERNANCE/principles.md` を v0.2.0 へ全面改訂。
+  - `04_IMPLEMENTATION/development-workflow.md` にも反復改善フライホイールを追記。
+
 
