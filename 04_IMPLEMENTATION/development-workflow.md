@@ -135,3 +135,13 @@ AIエージェントが作業を行う際は、常に以下の判断基準に従
 3. **ルールの自己進化 (M3/M4 $\rightarrow$ M1)**:
    - 実験や実運用の過程で生じたドキュメントの解釈揺れ・例外は、Issue 駆動でガバナンス・評価仕様へと恒久的にフィードバックされる。
 
+---
+
+## 7. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-10 | 0.1.0 | 初版作成（開発ワークフロー、ライフサイクル定義） | @makagi / [#21](https://github.com/makagi/MTF_AI_Trade/pull/21) |
+| 2026-10-12 | 0.2.0 | 3層協調ライフサイクル、役割分担、反復改善フライホイール確立 | @makagi / [#22](https://github.com/makagi/MTF_AI_Trade/pull/22) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+

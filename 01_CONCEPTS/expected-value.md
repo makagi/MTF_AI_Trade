@@ -81,3 +81,13 @@ $$E = (P_{\text{win}} \times W_{\text{avg}}) - (P_{\text{loss}} \times L_{\text{
   * 致命的なテールリスク（想定外の急変、フラッシュクラッシュ）をストップロスや資金管理により確実に遮断する。
 * **上方利益の追求 (Upside Convexity)**:
   * トレンドの伸張やボラティリティ拡散局面において、利益を固定幅で早期に手仕舞いせず、波の終焉まで追随する。
+
+---
+
+## 6. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-09 | 0.1.0 | 初版作成（期待値モデル、MFE/MAE、摩擦コスト概念定義） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
+| 2026-10-12 | 0.2.0 | 仕様記述分離、作業仮説表現への純化 | @makagi / [#24](https://github.com/makagi/MTF_AI_Trade/pull/24) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |

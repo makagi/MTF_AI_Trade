@@ -110,3 +110,13 @@ MTF_AI_Trade/
 * **Holdout (2026-04-01 〜 現在)**:
   - `src.data_loader.load_ohlcv()` はデフォルトで Holdout 期間のデータを物理的に遮断する（探索段階でのアクセス厳禁）。
 
+---
+
+## 6. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-10 | 0.1.0 | 初版作成（開発環境再構築・uv/pyproject.toml/データアクセス規約） | @makagi / [#21](https://github.com/makagi/MTF_AI_Trade/pull/21) |
+| 2026-10-12 | 0.2.0 | エージェント規約・3層協調体制とのパス整合 | @makagi / [#22](https://github.com/makagi/MTF_AI_Trade/pull/22) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一、データ期間記述（SPEC-EVAL-001 準拠）最新化 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+

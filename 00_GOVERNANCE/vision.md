@@ -114,3 +114,13 @@
 ```
 
 この循環を通じて、個別の売買コードだけでなく、**「市場を科学的に解明する知識（K-xxx）」および「それを継続的に生み出すエージェント開発環境そのもの」**を恒久的に進化させる。
+
+---
+
+## 7. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-09 | 0.1.0 | 初版作成（プロジェクト目的・中長期ゴール策定） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
+| 2026-10-12 | 0.2.0 | 対象市場・非ゴール・成功基準の明文化、進化サイクルの統合 | @makagi / [#26](https://github.com/makagi/MTF_AI_Trade/pull/26) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |

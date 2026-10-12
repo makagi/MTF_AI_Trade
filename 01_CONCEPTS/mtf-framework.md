@@ -95,3 +95,13 @@
 7. 戦略評価・意思決定 (Decision):
    （例）飛び乗り買いは見送り、押し目またはブレイク確定後のセットアップ待機ルールを戦略仕様として採択。
 ```
+
+---
+
+## 6. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-09 | 0.1.0 | 初版作成（MTF階層モデル、波の同調、Soft Logic） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
+| 2026-10-12 | 0.2.0 | 仕様記述分離、作業仮説表現への純化 | @makagi / [#24](https://github.com/makagi/MTF_AI_Trade/pull/24) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |

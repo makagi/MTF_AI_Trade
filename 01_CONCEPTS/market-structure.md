@@ -75,3 +75,13 @@
 * **ボラティリティ乖離の限界（磁石効果モデル）**:
   * 価格が移動平均からボラティリティ換算で統計的な極値まで乖離した場合、過度な売られすぎ・買われすぎとして平均へ回帰する圧力（Mean Reversion Power）が高まるという仮説。  
   ※ 具体的な乖離閾値や回帰判定ロジックは、個別仕様（[02_SPECIFICATIONS/](../02_SPECIFICATIONS/)）および検証実験（[03_KNOWLEDGE/](../03_KNOWLEDGE/)）の対象とする。
+
+---
+
+## 6. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-09 | 0.1.0 | 初版作成（市場構造概念モデル、サポレジ、Liquidity） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
+| 2026-10-12 | 0.2.0 | 仕様記述分離、作業仮説表現への純化 | @makagi / [#24](https://github.com/makagi/MTF_AI_Trade/pull/24) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |

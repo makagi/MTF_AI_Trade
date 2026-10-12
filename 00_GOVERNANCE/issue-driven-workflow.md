@@ -1,8 +1,14 @@
 # MTFシステムトレード Issue-Driven Workflow
 
-**Version:** 0.1
-**Status:** Draft
-**Related:** [principles.md](principles.md), [documentation-architecture.md](documentation-architecture.md), [decision-log.md](../99_HISTORY/decision-log.md)
+**Doc ID:** GOV-WFL-001  
+**Version:** 0.2.0  
+**Status:** Accepted  
+**Owner:** @makagi  
+**Last Updated:** 2026-10-13  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#11](https://github.com/makagi/MTF_AI_Trade/issues/11)  
+**Related Docs:** [principles.md](principles.md), [documentation-architecture.md](documentation-architecture.md), [../99_HISTORY/decision-log.md](../99_HISTORY/decision-log.md), [../04_IMPLEMENTATION/agent-rules.md](../04_IMPLEMENTATION/agent-rules.md)  
+
+---
 
 ## 1. Purpose
 
@@ -130,3 +136,12 @@ Done (PR マージで自動 Close)
 
 * 旧資産のノウハウ・分析例を現行体系に取り込む場合は、Issue を起票し、取り込み先の文書から旧資産のパスを出典として参照する。
 * 旧資産そのものは編集しない。
+
+---
+
+## 10. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-09 | 0.1.0 | 初版作成（Issue駆動ワークフロー、ラベル体系、PRルール策定） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータヘッダー規約統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |

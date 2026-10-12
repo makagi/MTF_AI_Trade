@@ -97,3 +97,13 @@ Layer 3: 体系化された知識 (03_KNOWLEDGE/knowledge/ & knowledge-lineage.m
 * 新規実験作成: `uv run python tools/kb.py new <issue_no> <slug> --title "Title"`
 * 実験整合性検証: `uv run python tools/kb.py validate`
 
+---
+
+## 7. Change History
+
+| 日付 | Version | 変更概要 | 担当者 / PR |
+|---|---|---|---|
+| 2026-10-10 | 0.1.0 | 初版作成（知識管理3層アーキテクチャ・Issue連動実験・ID体系策定） | @makagi / [#20](https://github.com/makagi/MTF_AI_Trade/pull/20) |
+| 2026-10-10 | 0.2.0 | 開発環境再構築・新 `tools/kb.py` 仕様反映 | @makagi / [#21](https://github.com/makagi/MTF_AI_Trade/pull/21) |
+| 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+
