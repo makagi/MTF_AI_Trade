@@ -1,11 +1,11 @@
 # 知識・実験管理 (03_KNOWLEDGE)
 
 **Doc ID:** KNOW-ARCH-001  
-**Version:** 0.1.0  
-**Status:** Draft  
+**Version:** 0.2.0  
+**Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-10  
-**Related Issues:** [#6](https://github.com/makagi/MTF_AI_Trade/issues/6)  
+**Last Updated:** 2026-10-12  
+**Related Issues:** [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13), [#14](https://github.com/makagi/MTF_AI_Trade/issues/14)  
 **Related Docs:** [00_GOVERNANCE/issue-driven-workflow.md](../00_GOVERNANCE/issue-driven-workflow.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [knowledge-lineage.md](knowledge-lineage.md)  
 
 ---
@@ -92,4 +92,8 @@ Layer 3: 体系化された知識 (03_KNOWLEDGE/knowledge/ & knowledge-lineage.m
 
 ## 6. ツールチェーン方針
 
-実験記録のインデックス自動生成、整合性バリデーション（Frontmatter や必須ファイルの確認）を行う最小限の CLI ツール（`tools/kb.py` の再設計）は、開発環境再構築 Issue（[#14](https://github.com/makagi/MTF_AI_Trade/issues/14)）において新アーキテクチャに準拠して整備する。
+実験記録の新規生成（テンプレート展開）、インデックス自動生成、整合性バリデーション（Frontmatter や必須ファイルの確認）を行う CLI ツール（`tools/kb.py`）は、Issue [#14](https://github.com/makagi/MTF_AI_Trade/issues/14)（PR [#21](https://github.com/makagi/MTF_AI_Trade/pull/21)）において新アーキテクチャに準拠して整備済みである。
+
+* 新規実験作成: `uv run python tools/kb.py new <issue_no> <slug> --title "Title"`
+* 実験整合性検証: `uv run python tools/kb.py validate`
+
