@@ -56,6 +56,7 @@
 * Market Regime
 * Volatility
 * Expected Value
+* Glossary (用語集)
 
 Concept は、「何をどう理解するか（見方・モデル）」を扱い、特定の実装やパラメータに依存しないことを基本とする。個別パラメータや具体的な売買ルールはここに書かず、02_SPECIFICATIONS で定義する。
 

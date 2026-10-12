@@ -22,6 +22,7 @@
 | **D011** | 2026-10-12 | AIエージェント3層協調体制・権限境界の確立と実装ドキュメントの更新 | 採択 (Accepted) | 開発体制・Agent規約 |
 | **D012** | 2026-10-12 | リスク管理原則（Risk First）の導入と8段階証拠連鎖・反復改善フライホイールの確立 | 採択 (Accepted) | ガバナンス・原則 |
 | **D013** | 2026-10-12 | 01_CONCEPTS からの仕様記述分離と作業仮説表現の純化 | 採択 (Accepted) | 概念モデル |
+| **D014** | 2026-10-12 | プロジェクト用語集（Glossary）の策定と概念定義の標準化 | 採択 (Accepted) | 概念・語彙 |
 
 ---
 
@@ -267,6 +268,25 @@
   - 全5文書に標準メタデータヘッダー（Doc ID, Version, Status, Related Issues/Docs）を配備。
 - **結果・影響**:
   - Concept（普遍モデル）と Specification（具体パラメータ）の境界が厳格化され、AIエージェントによる仕様の無断混入が防止された。
+
+---
+
+### D014: プロジェクト用語集（Glossary）の策定と概念定義の標準化
+- **日付**: 2026-10-12
+- **ステータス**: 採択 (Accepted)
+- **関連Issue**: [#12](https://github.com/makagi/MTF_AI_Trade/issues/12)
+- **文脈・課題**:
+  - プロジェクト内で用いられる独自用語（マクロ重力、Soft Logic、平滑化同調スコア、ファンアウト速度、波の伝播、Armed状態等）や一般用語（Fact/Observation/Interpretation、Regime、Squeeze/Expansion、摩擦コスト、Human Gate等）の定義が一元化されておらず、人間とAIエージェント間の認識の齟齬が生じるリスクがあった。
+- **決定内容**:
+  - `01_CONCEPTS/glossary.md` を新設し、主要用語を以下の4カテゴリに分類して定義を網羅：
+    1. 科学的認識・証拠連鎖（Fact, Observation, Interpretation, Hypothesis, Experiment, Evidence, Conclusion, Decision, Knowledge）
+    2. 多時間軸相場認識（マクロ重力, Soft Logic, 平滑化同調スコア, ファンアウト速度, 波の伝播, Armed状態, ロールリバーサル, 流動性プール）
+    3. ボラティリティ・統計・レジーム（Squeeze/Expansion, スケール不変性, Market Regime, 非定常性, 期待値, 摩擦コスト, MFE/MAE, Downside Truncation / Upside Convexity）
+    4. 開発・AI協調・ガバナンス（Requirements Agent, Orchestrator, Human Gate, SSOT, Canary Benchmark, Deterministic Gate, 継続的改善フライホイール）
+  - `00_GOVERNANCE/documentation-architecture.md` の Concept 層一覧に Glossary を追加。
+- **結果・影響**:
+  - プロジェクト全体の語彙定義が標準化され、エージェントへのプロンプト指示およびドキュメント記述のブレが防止された。
+
 
 
 
