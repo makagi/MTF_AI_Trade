@@ -87,6 +87,10 @@ MTF_AI_Trade/
   ```powershell
   uv run python tools/kb.py validate
   ```
+* **決定論的ゲートによるエージェント成果物検証 (Agent QA Gate)**:
+  ```powershell
+  uv run python tools/agent_eval.py check 03_KNOWLEDGE/experiments/<issue_no>-<slug>
+  ```
 
 ---
 
