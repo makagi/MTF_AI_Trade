@@ -1,0 +1,33 @@
+{
+  "spot_check_index": 100,
+  "close_100": 1012.24,
+  "sma_20_100": 1002.5435,
+  "sma_50_100": 1004.0724,
+  "atr_14_100": 4.523571,
+  "bb_upper_100": 1014.924738,
+  "bb_lower_100": 990.162262,
+  "long_trade_idx_100_h10": {
+    "entry_price": 1012.24,
+    "max_high": 1017.13,
+    "min_low": 996.44,
+    "mfe_pct": 0.483087,
+    "mae_pct": 1.560895
+  },
+  "spec_eval_sample": {
+    "sample_count": 3,
+    "raw_returns": [
+      0.01,
+      -0.002,
+      0.008
+    ],
+    "friction_cost_applied": 0.004,
+    "net_returns": [
+      0.006,
+      -0.006,
+      0.004
+    ],
+    "gross_mean_return": 0.005333,
+    "net_mean_return": 0.001333,
+    "win_rate": 0.666667
+  }
+}
