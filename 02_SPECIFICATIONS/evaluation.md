@@ -6,7 +6,7 @@
 **Owner:** @makagi  
 **Last Updated:** 2026-10-13  
 **Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#27](https://github.com/makagi/MTF_AI_Trade/issues/27)  
-**Related Docs:** [00_GOVERNANCE/assumptions.md](../00_GOVERNANCE/assumptions.md), [01_CONCEPTS/expected-value.md](../01_CONCEPTS/expected-value.md), [00_GOVERNANCE/documentation-architecture.md](../00_GOVERNANCE/documentation-architecture.md)  
+**Related Docs:** [00_GOVERNANCE/assumptions.md](../00_GOVERNANCE/assumptions.md), [01_CONCEPTS/expected-value.md](../01_CONCEPTS/expected-value.md), [00_GOVERNANCE/documentation-architecture.md](../00_GOVERNANCE/documentation-architecture.md), [02_SPECIFICATIONS/features.md](features.md)  
 
 ---
 
@@ -124,3 +124,4 @@ Analysis Issue およびバックテストにおける仮説の合否は、以�
 | 2026-10-10 | 0.1.0 | 初版作成（期間分割・コストモデル・必須メトリクス・判定基準のSSOT化） | @makagi / [#19](https://github.com/makagi/MTF_AI_Trade/pull/19) |
 | 2026-10-13 | 0.2.0 | 2026年9月データ追加に伴う期間再定義（レジーム両面検証案の採用） | @makagi / [#28](https://github.com/makagi/MTF_AI_Trade/pull/28) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一、Discovery期間表記（5.1）の完全整合 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-10-14 | 0.2.1 | SPEC-FEAT-001 (features.md) との相互参照リンク追加 | @makagi / [#39](https://github.com/makagi/MTF_AI_Trade/pull/39) |

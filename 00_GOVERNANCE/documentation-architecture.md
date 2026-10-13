@@ -74,9 +74,9 @@ Concept は、「何をどう理解するか（見方・モデル）」を扱い
 Concept を具体的なシステム仕様や売買戦略へ変換する。
 
 * **仕様（Specification: 部品）**:
-  * `evaluation.md`: 摩擦コストモデル、データ期間分割、必須メトリクス、合否基準
+  * `evaluation.md`: 摩擦コストモデル、データ期間分割、必須メトリクス、合否基準 (SPEC-EVAL-001)
+  * `features.md`: 特徴量仕様（因果律・スケール不変性・Soft Logic・コアMTF指標数式） (SPEC-FEAT-001)
   * Timeframe Specification
-  * Feature Specification
   * Entry / Exit / Risk Specification
   * Position Sizing Specification
 * **戦略（Strategy: 部品の組み合わせ）**:
@@ -420,3 +420,4 @@ MTF_AI_Trade/
 | 2026-10-02 | 0.1.0 | 初版作成（成熟度別ドキュメント体系の採用） | @makagi / [D001](../99_HISTORY/decision-log.md#d001-6層2層の成熟度別ドキュメント体系の採用) |
 | 2026-10-10 | 0.2.0 | 文書層上下関係統一、Strategy定義配置、承認フロー・メタデータヘッダー規約策定 | @makagi / [#17](https://github.com/makagi/MTF_AI_Trade/pull/17), [#18](https://github.com/makagi/MTF_AI_Trade/pull/18) |
 | 2026-10-13 | 0.2.0 | 書式・ヘッダー規約統一、SPEC-EVAL-001 リンク最新化 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-10-14 | 0.3.0 | SPEC-FEAT-001 (features.md) の追加・反映 | @makagi / [#39](https://github.com/makagi/MTF_AI_Trade/pull/39) |
