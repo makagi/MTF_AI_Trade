@@ -90,18 +90,19 @@
 
 ### Step 5: 定量検証 & エビデンス判定 (Validation)
 - [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md)（SPEC-EVAL-001）に基づき実行・検証する：
-  1. **Holdout遮断**: `src.data_loader` を用い、Discovery 期間（2020-2023年）のみで評価。
+  1. **Holdout遮断**: `src.data_loader` を用い、Discovery 期間（2020年〜2025年4月）のみで評価。
   2. **摩擦コスト控除**: `src.evaluation` により標準摩擦コスト（往復0.40%）控除後期待値を算出。
   3. **非定常性の検証**: 年別・レジーム別で結果が一貫しているか。
   4. **エントリーとイグジットの分離**: MFE/MAE 分布による初動エッジの確認。
 
-### Step 6: 実験記録の総括と PR 作成 (Record & PR)
+### Step 6: 決定論的ゲート検証 & 実験記録総括 (Gates & PR)
 - 実験ディレクトリ内の `record.md` に事前登録基準、実行結果、考察、および結論（Supported / Refuted / Inconclusive）を記録する。
+- ワーカーエージェントは PR 作成前に必ず決定論的ゲート（`uv run python tools/agent_eval.py check 03_KNOWLEDGE/experiments/<N>-<slug>`）を実行し、全ゲート（構文・整合性・定量契約）の通過を確認する（指示テンプレート: [`prompts/task-templates.md`](prompts/task-templates.md)）。
 - ワーカーエージェントが GitHub Pull Request（`Closes #<N>`）を作成する。
 
 ### Step 7: 人間レビュー & 意思決定 (Human Gate & Merge)
-- 人間オペレーターが PR 本文、CI テスト結果、評価メトリクスを確認する。
-- 人間が「マージ（承認）」を実行することで、成果物が正式に確定する（AIによる自己マージは不可）。
+- 人間オペレーターが PR 本文、CI テスト結果（Canary Benchmark）、評価メトリクスを確認する。
+- 人間が「マージ（承認）」を実行することで、成果物が正式に確定する（AIによる自己マージは厳禁）。
 - 必要に応じて `02_SPECIFICATIONS/` や `99_HISTORY/decision-log.md` に反映する。
 
 
