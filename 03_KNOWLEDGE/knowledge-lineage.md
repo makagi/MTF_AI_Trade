@@ -4,8 +4,8 @@
 **Version:** 0.2.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-13  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9)  
+**Last Updated:** 2026-10-14  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -35,13 +35,13 @@ graph TD
     K002["K-002: 単一足ハードサポレジの非定常性<br/>(Refuted)"]:::refuted
     K003["K-003: 1m足単独トリガーの優位性欠如<br/>(Refuted)"]:::refuted
     K004["K-004: 単一1h足価格テクニカルの限界<br/>(Refuted)"]:::refuted
-    K005["K-005: フラクタル階層のSoft Logicと先行性<br/>(Inconclusive: 定量売買未検証)"]:::inconclusive
+    K005["K-005: Soft Logic単独逆張りの優位性欠如<br/>(Refuted: 摩擦負け・逆張りトラップ)"]:::refuted
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
     LEG_STATE --> K003
     LEG_STATE --> K004
-    LEG_STATE --> K005
+    EXP041["EXP-41-001: 41-k005-soft-logic"] --> K005
 ```
 
 ---
@@ -84,12 +84,12 @@ graph TD
 
 ---
 
-### K-005: フラクタル階層のSoft Logicと先行指標性
-* **ステータス**: 保留・途上 (Inconclusive)
-* **概要**: ハード閾値を廃止し、平滑化同調スコア、マクロ重力逆行スコア、ファンアウト速度を連続値（Soft Logic）化した特徴量において、ノイズが低減し、ファンアウト速度が価格反転に先行して減速する傾向が定性的に観測された。ただし、売買シグナルとしての定量バックテスト（SPEC-EVAL-001 準拠の摩擦コスト控除後評価）は未実施のため、知識ステータスとしては「保留（Inconclusive）」とする。
-* **実験条件**: 1m足を含むv4.0特徴量の時系列安定性と先行性評価
-* **過去資産の出典**: [`90_LEGACY/STATE.md`](../90_LEGACY/STATE.md) (フェーズ4.7 Soft Logic 検証)
-* **仕様への影響**: 特徴量設計モデル（`01_CONCEPTS/mtf-framework.md`）として採用。売買戦略への昇格には新環境下での定量実験（M3）を要する。
+### K-005: Soft Logic・平滑化同調スコアとファンアウト速度単独逆張りの優位性欠如
+* **ステータス**: 反証・棄却 (Refuted)
+* **概要**: Discovery 全期間（2020-01-01 〜 2025-04-30、計216トレード）における定量検証（EXP-41-001）の結果、ファンアウト速度の減速と平滑化同調スコア（AFS）の逆張りシグナルは、Gross で平均 +0.13%〜+0.15% の微小反発を示すものの標準摩擦コスト（0.40%）を大きく下回り、全期間で Net EV = -0.588%、PF = 0.557 とコスト負けした。さらに下落レジーム（2022年）では逆張りトラップとなって壊滅的損失（MAE -3.18%）を記録したため、単独シグナルとしては棄却（Refuted）と判定。
+* **実験条件**: BTCUSD 1h、5年4ヶ月 Discovery 期間、216トレード、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/41-k005-soft-logic/record.md`](experiments/41-k005-soft-logic/record.md) (EXP-41-001 / [#41](https://github.com/makagi/MTF_AI_Trade/issues/41))
+* **仕様への影響**: Soft Logic 単独での逆張り売買化を禁止。上位足の空間構造（The Void / サポレジ岩盤密度）やマクロレジーム判定と組み合わせた押し目・順張りフィルター指標としての利用に限定する。
 
 ---
 
@@ -100,3 +100,4 @@ graph TD
 | 2026-10-10 | 0.1.0 | 初版作成（旧知識体系の3層化・K-001〜K-005 登録） | @makagi / [#20](https://github.com/makagi/MTF_AI_Trade/pull/20) |
 | 2026-10-13 | 0.2.0 | 科学的証拠表現の是正、エビデンスレベル確立、K-005 を Inconclusive へ見直し | @makagi / [#29](https://github.com/makagi/MTF_AI_Trade/pull/29) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-10-14 | 0.3.0 | EXP-41-001 定量検証結果を反映、K-005 を Refuted へ更新 | @makagi / [#41](https://github.com/makagi/MTF_AI_Trade/pull/41) |
