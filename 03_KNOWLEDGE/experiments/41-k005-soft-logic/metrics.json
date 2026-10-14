@@ -60,5 +60,128 @@
       "net_total": -0.054880854310632346,
       "profit_factor": 0.7531072729079478
     }
-  ]
+  ],
+  "counter_trend_feature_separation": [
+    {
+      "feature": "dist_sma_89_atr",
+      "win_mean": -3.1879343977437506,
+      "win_med": -2.9738910700852546,
+      "loss_mean": -3.529028149769241,
+      "loss_med": -3.3035163625296513
+    },
+    {
+      "feature": "dist_sma_377_atr",
+      "win_mean": -3.289231196622141,
+      "win_med": -3.863894959631006,
+      "loss_mean": -3.9499056892453375,
+      "loss_med": -3.692929701811942
+    },
+    {
+      "feature": "sma_377_slope",
+      "win_mean": -0.001149469328026959,
+      "win_med": -0.0008950093731077335,
+      "loss_mean": -0.002402129468917003,
+      "loss_med": -0.0010601679823240586
+    },
+    {
+      "feature": "void_overhead_atr",
+      "win_mean": 3.183946685505737,
+      "win_med": 2.7202715657480248,
+      "loss_mean": 3.6670589193940604,
+      "loss_med": 3.4219350636778825
+    },
+    {
+      "feature": "atr_ratio",
+      "win_mean": 0.01214366767889009,
+      "win_med": 0.009448009906293327,
+      "loss_mean": 0.01075334369355949,
+      "loss_med": 0.009303378973507815
+    }
+  ],
+  "trend_pullback_synergy": {
+    "total_trades": 214,
+    "friction_cost_applied": 0.004,
+    "gross_mean_return": 0.004196991266424554,
+    "net_mean_return": 0.0001969912664245537,
+    "win_rate": 0.5,
+    "profit_factor": 1.0236300489028907,
+    "net_cumulative_return": 0.04215613101485449,
+    "max_drawdown": 0.4275599397093055,
+    "mfe_mean": 0.025017949704976793,
+    "mfe_median": 0.01769951171140398,
+    "mae_mean": -0.019226709671935755,
+    "mae_median": -0.012141527042992326,
+    "yearly_breakdown": [
+      {
+        "trades": 39,
+        "gross_mean": 0.0031445643139705187,
+        "net_mean": -0.0008554356860294816,
+        "win_rate": 0.48717948717948717,
+        "net_total": -0.033361991755149784,
+        "profit_factor": 0.90449521786033
+      },
+      {
+        "trades": 47,
+        "gross_mean": 0.003000442683028827,
+        "net_mean": -0.0009995573169711731,
+        "win_rate": 0.44680851063829785,
+        "net_total": -0.04697919389764514,
+        "profit_factor": 0.9210860907872475
+      },
+      {
+        "trades": 32,
+        "gross_mean": -0.0006309647731207438,
+        "net_mean": -0.004630964773120744,
+        "win_rate": 0.40625,
+        "net_total": -0.1481908727398638,
+        "profit_factor": 0.5564231354657954
+      },
+      {
+        "trades": 36,
+        "gross_mean": 0.0029861974209434423,
+        "net_mean": -0.001013802579056558,
+        "win_rate": 0.4444444444444444,
+        "net_total": -0.036496892846036084,
+        "profit_factor": 0.8274069252103516
+      },
+      {
+        "trades": 48,
+        "gross_mean": 0.008474877824764178,
+        "net_mean": 0.004474877824764177,
+        "win_rate": 0.6041666666666666,
+        "net_total": 0.21479413558868046,
+        "profit_factor": 1.8506260476677119
+      },
+      {
+        "trades": 12,
+        "gross_mean": 0.01169924555540574,
+        "net_mean": 0.00769924555540574,
+        "win_rate": 0.75,
+        "net_total": 0.09239094666486888,
+        "profit_factor": 3.2368683805949545
+      }
+    ]
+  },
+  "counter_trend_slices": {
+    "shallow_pullback": {
+      "total_trades": 40,
+      "friction_cost_applied": 0.004,
+      "gross_mean_return": 0.003483976613005381,
+      "net_mean_return": -0.0005160233869946197,
+      "win_rate": 0.475,
+      "profit_factor": 0.9513676416053429,
+      "net_cumulative_return": -0.020640935479784787,
+      "max_drawdown": 0.12097579954962254
+    },
+    "deep_reversion": {
+      "total_trades": 176,
+      "friction_cost_applied": 0.004,
+      "gross_mean_return": -0.003095098419726168,
+      "net_mean_return": -0.007095098419726167,
+      "win_rate": 0.3522727272727273,
+      "profit_factor": 0.4890030180441156,
+      "net_cumulative_return": -1.2487373218718054,
+      "max_drawdown": 1.2747818992400006
+    }
+  }
 }
