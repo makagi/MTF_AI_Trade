@@ -1,0 +1,19 @@
+experiment_id: "43-fib-mtf-context"
+issue_number: 43
+title: "フィボナッチ階層によるMTF状況把握と時間足間等価性の観察"
+author: "@makagi"
+date: "2026-10-16"
+symbol: "BTCUSD"
+timeframe: "1m_1h_mtf"
+
+data:
+  symbol: "BTCUSD"
+  timeframes: ["1m", "1h"]
+  partition: "discovery"
+  start_date: "2021-01-01"
+  end_date: "2024-12-31"
+
+parameters:
+  fib_series_1m: [377, 610, 987, 1597, 2584, 4181, 6765, 10946]
+  fib_series_1h: [8, 13, 21, 34, 55, 89, 144, 233, 377]
+  friction_cost: 0.0040
