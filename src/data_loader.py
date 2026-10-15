@@ -44,24 +44,30 @@ def load_ohlcv(
             file_path = candidate
             break
 
-    if file_path is None:
-        # Fallback: pick the first matching .csv
-        found = list(symbol_dir.glob("*.csv"))
-        if not found:
+    dfs = []
+    if file_path is not None:
+        csv_files = [file_path]
+    else:
+        csv_files = sorted(list(symbol_dir.glob("*.csv")))
+        if not csv_files:
             raise FileNotFoundError(f"No CSV files found in {symbol_dir}")
-        file_path = found[0]
 
-    df = pd.read_csv(file_path)
+    for f_path in csv_files:
+        temp_df = pd.read_csv(f_path)
+        date_cols = [c for c in temp_df.columns if c.lower() in ("datetime", "date", "timestamp", "time")]
+        if not date_cols:
+            continue
+        date_col = date_cols[0]
+        temp_df[date_col] = pd.to_datetime(temp_df[date_col], utc=True)
+        temp_df.set_index(date_col, inplace=True)
+        dfs.append(temp_df)
 
-    # Resolve DateTime column
-    date_cols = [c for c in df.columns if c.lower() in ("datetime", "date", "timestamp", "time")]
-    if not date_cols:
-        raise ValueError(f"No datetime column found in {file_path}. Columns: {df.columns.tolist()}")
-    date_col = date_cols[0]
+    if not dfs:
+        raise ValueError(f"No valid OHLCV CSV files with datetime columns found in {symbol_dir}")
 
-    df[date_col] = pd.to_datetime(df[date_col], utc=True)
-    df.set_index(date_col, inplace=True)
+    df = pd.concat(dfs)
     df.index.name = "datetime"
+
     df.sort_index(inplace=True)
 
     # Drop duplicate timestamps
