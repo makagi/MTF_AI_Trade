@@ -9,6 +9,11 @@ import yaml
 import numpy as np
 import pandas as pd
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 from src.data_loader import load_ohlcv
 from src.features import (
     calculate_sma,
@@ -239,7 +244,192 @@ def run_experiment(exp_dir: Path):
         json.dump(eval_metrics, f, indent=2, ensure_ascii=False)
     print(f"\nSaved MTF state classification metrics to {out_metrics_path}")
 
+    # =========================================================================
+    # 7. Generate Visualizations (Plots)
+    # =========================================================================
+    plots_dir = exp_dir / "plots"
+    plots_dir.mkdir(parents=True, exist_ok=True)
+    generate_visualizations(valid_df, regime_stats, trans_prob, regime_forward_profiles, plots_dir)
+
     return eval_metrics
+
+
+def generate_visualizations(df: pd.DataFrame, regime_stats: list, trans_prob: pd.DataFrame, forward_profiles: list, plots_dir: Path):
+    """Generate high-clarity visual evidence and profile plots for the MTF state classification."""
+    print("\nGenerating visual artifacts and plots in:", plots_dir)
+    sns.set_theme(style="whitegrid", palette="muted")
+    plt.rcParams["font.sans-serif"] = ["DejaVu Sans", "Arial"]
+
+    # Color palette for regimes
+    regime_colors = {
+        "Bull_Trend_Continuation": "#2ca02c",  # Green
+        "Bull_Healthy_Pullback": "#1f77b4",    # Blue
+        "Squeeze_Pre_Breakout": "#ff7f0e",     # Orange
+        "Range_PingPong": "#7f7f7f",           # Gray
+        "Bear_Trend_Continuation": "#d62728",  # Red
+        "Bear_Panic_Exhaustion": "#9467bd",    # Purple
+    }
+
+    # -------------------------------------------------------------------------
+    # Plot 1: Regime Distribution (Overall & Yearly Breakdown)
+    # -------------------------------------------------------------------------
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6), gridspec_kw={"width_ratios": [1, 1.3]})
+
+    # 1A: Overall Percentage (Horizontal Bar)
+    stat_df = pd.DataFrame(regime_stats)
+    stat_df = stat_df.sort_values("percentage", ascending=True)
+    colors = [regime_colors.get(r, "#333333") for r in stat_df["regime"]]
+    bars = ax1.barh(stat_df["regime"], stat_df["percentage"], color=colors, height=0.6, edgecolor="black", linewidth=0.8)
+    ax1.set_xlabel("Percentage of Time (%)", fontsize=11, fontweight="bold")
+    ax1.set_title("Overall Market Time Distribution (4 Years, 35k Hours)", fontsize=12, fontweight="bold")
+    for bar, pct, bars_cnt in zip(bars, stat_df["percentage"], stat_df["total_bars"]):
+        ax1.text(pct + 0.8, bar.get_y() + bar.get_height()/2, f"{pct:.1f}% ({bars_cnt:,}h)", va="center", fontsize=10, fontweight="bold")
+    ax1.set_xlim(0, max(stat_df["percentage"]) * 1.25)
+
+    # 1B: Yearly Distribution Breakdown
+    df_copy = df.copy()
+    df_copy["year"] = df_copy.index.year
+    yearly_dist = pd.crosstab(df_copy["year"], df_copy["regime"], normalize="index") * 100
+    regime_order = [r for r in regime_colors.keys() if r in yearly_dist.columns]
+    yearly_dist = yearly_dist[regime_order]
+
+    yearly_dist.plot(
+        kind="bar",
+        stacked=True,
+        ax=ax2,
+        color=[regime_colors[r] for r in regime_order],
+        edgecolor="black",
+        linewidth=0.8,
+        width=0.6,
+    )
+    ax2.set_title("Yearly Regime Composition (2021 - 2024)", fontsize=12, fontweight="bold")
+    ax2.set_xlabel("Year", fontsize=11, fontweight="bold")
+    ax2.set_ylabel("Share (%)", fontsize=11, fontweight="bold")
+    ax2.set_xticklabels(yearly_dist.index, rotation=0, fontsize=10, fontweight="bold")
+    ax2.legend(title="Regime", bbox_to_anchor=(1.02, 1), loc="upper left", frameon=True)
+
+    plt.tight_layout()
+    plot1_path = plots_dir / "01_regime_distribution.png"
+    plt.savefig(plot1_path, dpi=200)
+    plt.close()
+    print(f" -> Saved: {plot1_path.name}")
+
+    # -------------------------------------------------------------------------
+    # Plot 2: Regime Transition Probability Heatmap
+    # -------------------------------------------------------------------------
+    plt.figure(figsize=(10, 8))
+    ax = sns.heatmap(
+        trans_prob,
+        annot=True,
+        fmt=".1f",
+        cmap="YlGnBu",
+        cbar_kws={"label": "Transition Probability (%)"},
+        linewidths=1.2,
+        linecolor="white",
+        annot_kws={"fontsize": 11, "fontweight": "bold"},
+    )
+    plt.title("Markov Regime Transition Probability Matrix (%)\n(From Current State -> To Next State)", fontsize=13, fontweight="bold", pad=15)
+    plt.xlabel("Next Regime (To State)", fontsize=11, fontweight="bold", labelpad=10)
+    plt.ylabel("Current Regime (From State)", fontsize=11, fontweight="bold", labelpad=10)
+    plt.xticks(rotation=30, ha="right", fontsize=9, fontweight="bold")
+    plt.yticks(rotation=0, fontsize=9, fontweight="bold")
+    plt.tight_layout()
+    plot2_path = plots_dir / "02_regime_transition_heatmap.png"
+    plt.savefig(plot2_path, dpi=200)
+    plt.close()
+    print(f" -> Saved: {plot2_path.name}")
+
+    # -------------------------------------------------------------------------
+    # Plot 3: Forward Risk-Return Profile (MFE vs MAE and Net EV)
+    # -------------------------------------------------------------------------
+    prof_df = pd.DataFrame(forward_profiles)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+
+    # 3A: MFE vs MAE Horizontal Bar Chart
+    y_pos = np.arange(len(prof_df))
+    mfe_pct = prof_df["mfe_mean"] * 100
+    mae_pct = prof_df["mae_mean"] * 100
+
+    ax1.barh(y_pos, mfe_pct, color="#2ca02c", height=0.4, align="center", label="Mean 24h MFE (Upside Potential)")
+    ax1.barh(y_pos, mae_pct, color="#d62728", height=0.4, align="center", label="Mean 24h MAE (Downside Drawdown)")
+    ax1.set_yticks(y_pos)
+    ax1.set_yticklabels(prof_df["regime"], fontsize=10, fontweight="bold")
+    ax1.axvline(0, color="black", linestyle="--", linewidth=1)
+    ax1.set_xlabel("Mean Return / Risk (%)", fontsize=11, fontweight="bold")
+    ax1.set_title("24h Forward MFE (Favorable) vs MAE (Adverse)", fontsize=12, fontweight="bold")
+    ax1.legend(loc="lower right", frameon=True)
+
+    # 3B: Gross EV vs Net EV (Friction Deducted)
+    gross_pct = prof_df["gross_mean_return"] * 100
+    net_pct = prof_df["net_mean_return"] * 100
+    width = 0.35
+
+    ax2.bar(y_pos - width/2, gross_pct, width=width, color="#4a90e2", label="Gross Expected Value (%)")
+    ax2.bar(y_pos + width/2, net_pct, width=width, color="#f5a623", label="Net Expected Value (-0.40% Cost)")
+    ax2.set_xticks(y_pos)
+    ax2.set_xticklabels(prof_df["regime"], rotation=35, ha="right", fontsize=9, fontweight="bold")
+    ax2.axhline(0, color="black", linestyle="-", linewidth=0.8)
+    ax2.set_ylabel("24h Forward Return (%)", fontsize=11, fontweight="bold")
+    ax2.set_title("Gross EV vs Net EV by Regime (Unfiltered Baseline)", fontsize=12, fontweight="bold")
+    ax2.legend(loc="upper right", frameon=True)
+
+    plt.tight_layout()
+    plot3_path = plots_dir / "03_regime_risk_return_profile.png"
+    plt.savefig(plot3_path, dpi=200)
+    plt.close()
+    print(f" -> Saved: {plot3_path.name}")
+
+    # -------------------------------------------------------------------------
+    # Plot 4: Historical Timeline Case Study (2023 Q4 ETF Breakout Window)
+    # -------------------------------------------------------------------------
+    # Select high-interest window: 2023-10-15 to 2023-12-15 (approx 1,500 hours)
+    sample_df = df.loc["2023-10-15":"2023-12-15"].copy()
+    if len(sample_df) > 100:
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(16, 9), sharex=True, gridspec_kw={"height_ratios": [2.5, 1, 1]})
+
+        # Panel 1: Price and SMAs with Regime Background Highlights
+        ax1.plot(sample_df.index, sample_df["close"], label="BTC Close", color="black", linewidth=1.2, zorder=5)
+        ax1.plot(sample_df.index, sample_df["sma_21"], label="SMA 21 (Meso Short)", color="#3498db", linewidth=1.0, alpha=0.9, zorder=4)
+        ax1.plot(sample_df.index, sample_df["sma_89"], label="SMA 89 (Meso Mid)", color="#e67e22", linewidth=1.1, alpha=0.9, zorder=4)
+        ax1.plot(sample_df.index, sample_df["sma_377"], label="SMA 377 (Macro Gravity)", color="#9b59b6", linewidth=1.3, linestyle="--", zorder=4)
+
+        # Background color shading by regime
+        curr_reg = None
+        start_idx = None
+        for idx, reg in sample_df["regime"].items():
+            if reg != curr_reg:
+                if curr_reg is not None and start_idx is not None:
+                    ax1.axvspan(start_idx, idx, color=regime_colors.get(curr_reg, "#cccccc"), alpha=0.22, lw=0)
+                curr_reg = reg
+                start_idx = idx
+        if curr_reg is not None and start_idx is not None:
+            ax1.axvspan(start_idx, sample_df.index[-1], color=regime_colors.get(curr_reg, "#cccccc"), alpha=0.22, lw=0)
+
+        ax1.set_title("BTC Price, Fibonacci SMAs & MTF Regimes (2023 Q4 ETF Breakout Case Study)", fontsize=13, fontweight="bold")
+        ax1.set_ylabel("Price (USD)", fontsize=10, fontweight="bold")
+        ax1.legend(loc="upper left", frameon=True, fontsize=9)
+
+        # Panel 2: Squeeze Index
+        ax2.plot(sample_df.index, sample_df["squeeze_index"], label="Squeeze Index", color="#e67e22", linewidth=1.1)
+        ax2.axhline(0.15, color="red", linestyle="--", linewidth=1.0, label="Squeeze Threshold (0.15)")
+        ax2.set_ylabel("Squeeze Idx", fontsize=10, fontweight="bold")
+        ax2.set_ylim(-0.05, 1.05)
+        ax2.legend(loc="upper right", frameon=True, fontsize=9)
+
+        # Panel 3: AFS Micro Momentum & Order Score
+        ax3.plot(sample_df.index, sample_df["afs_7"], label="AFS 7 (Micro Momentum)", color="#2ecc71", linewidth=1.0)
+        ax3.axhline(50, color="gray", linestyle=":", linewidth=0.8)
+        ax3.axhline(30, color="blue", linestyle=":", linewidth=0.8)
+        ax3.axhline(70, color="red", linestyle=":", linewidth=0.8)
+        ax3.set_ylabel("AFS %", fontsize=10, fontweight="bold")
+        ax3.set_xlabel("Time (Hourly)", fontsize=10, fontweight="bold")
+        ax3.legend(loc="upper right", frameon=True, fontsize=9)
+
+        plt.tight_layout()
+        plot4_path = plots_dir / "04_regime_timeline_sample.png"
+        plt.savefig(plot4_path, dpi=200)
+        plt.close()
+        print(f" -> Saved: {plot4_path.name}")
 
 
 if __name__ == "__main__":
