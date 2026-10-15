@@ -108,9 +108,10 @@ def check_consistency(exp_dir: Path) -> list[GateViolation]:
             if not isinstance(config, dict):
                 violations.append(GateViolation("Consistency", "config.yaml must be a valid YAML mapping", config_file))
             else:
+                data_section = config.get("data", {}) if isinstance(config.get("data"), dict) else {}
                 for key in ["symbol", "timeframe"]:
-                    if key not in config:
-                        violations.append(GateViolation("Consistency", f"config.yaml missing '{key}'", config_file))
+                    if key not in config and key not in data_section:
+                        violations.append(GateViolation("Consistency", f"config.yaml missing '{key}' (checked top-level and 'data' section)", config_file))
         except Exception as e:
             violations.append(GateViolation("Consistency", f"Error parsing config.yaml: {e}", config_file))
 

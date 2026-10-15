@@ -1,0 +1,24 @@
+experiment_id: "41-k005-soft-logic"
+issue_number: 41
+title: "K-005 Soft Logic・平滑化同調スコアとファンアウト速度の定量再検証"
+author: "@makagi"
+date: "2026-10-14"
+symbol: "BTCUSD"
+timeframe: "1h"
+
+data:
+  symbol: "BTCUSD"
+  timeframe: "1h"
+  partition: "discovery"
+  start_date: "2020-01-01"
+  end_date: "2025-04-30"
+
+parameters:
+  fast_sma: 21
+  slow_sma: 89
+  atr_period: 14
+  afs_periods: [7, 9, 11, 13]
+  friction_cost: 0.0040  # 0.40% round-trip
+  holding_horizon_bars: 24  # 24 hours
+  stop_loss_atr: 2.0
+  take_profit_atr: 3.0
