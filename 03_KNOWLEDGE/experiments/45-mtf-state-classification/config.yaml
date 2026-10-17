@@ -1,0 +1,22 @@
+experiment_id: "45-mtf-state-classification"
+issue_number: 45
+title: "MTF3階層による市場状況把握モデルの定式化とレジーム推移の観察"
+author: "@makagi"
+date: "2026-10-16"
+symbol: "BTCUSD"
+timeframe: "1h"
+
+data:
+  symbol: "BTCUSD"
+  timeframe: "1h"
+  partition: "discovery"
+  start_date: "2020-01-01"
+  end_date: "2025-04-30"
+
+parameters:
+  friction_cost: 0.0040
+  forward_horizon_bars: 24
+  fib_macro: 377
+  fib_meso_slow: 89
+  fib_meso_fast: 21
+  squeeze_lookback_bars: 720  # 30 days

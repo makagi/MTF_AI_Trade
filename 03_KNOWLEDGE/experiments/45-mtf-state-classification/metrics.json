@@ -1,0 +1,172 @@
+{
+  "total_trades": 1033,
+  "friction_cost_applied": 0.004,
+  "gross_mean_return": 0.003229684854421203,
+  "net_mean_return": -0.0007703151455787979,
+  "win_rate": 0.5179090029041626,
+  "profit_factor": 0.9313455355361135,
+  "net_cumulative_return": -0.7957355453828981,
+  "max_drawdown": 3.2173416778540846,
+  "regime_distribution": [
+    {
+      "regime": "Bull_Trend_Continuation",
+      "total_bars": 6654,
+      "percentage": 14.350104595742847,
+      "occurrences": 1153,
+      "mean_duration_hours": 5.77103209019948,
+      "median_duration_hours": 5.0,
+      "max_duration_hours": 29
+    },
+    {
+      "regime": "Bull_Healthy_Pullback",
+      "total_bars": 1035,
+      "percentage": 2.2320947184541398,
+      "occurrences": 320,
+      "mean_duration_hours": 3.234375,
+      "median_duration_hours": 2.5,
+      "max_duration_hours": 14
+    },
+    {
+      "regime": "Squeeze_Pre_Breakout",
+      "total_bars": 12987,
+      "percentage": 28.007936336776723,
+      "occurrences": 229,
+      "mean_duration_hours": 56.7117903930131,
+      "median_duration_hours": 31.0,
+      "max_duration_hours": 623
+    },
+    {
+      "regime": "Bear_Trend_Continuation",
+      "total_bars": 2491,
+      "percentage": 5.372123617071751,
+      "occurrences": 661,
+      "mean_duration_hours": 3.768532526475038,
+      "median_duration_hours": 3.0,
+      "max_duration_hours": 20
+    },
+    {
+      "regime": "Bear_Panic_Exhaustion",
+      "total_bars": 1179,
+      "percentage": 2.5426470271086283,
+      "occurrences": 296,
+      "mean_duration_hours": 3.983108108108108,
+      "median_duration_hours": 3.0,
+      "max_duration_hours": 22
+    },
+    {
+      "regime": "Range_PingPong",
+      "total_bars": 22023,
+      "percentage": 47.49509370484591,
+      "occurrences": 2131,
+      "mean_duration_hours": 10.334584702017832,
+      "median_duration_hours": 8.0,
+      "max_duration_hours": 140
+    }
+  ],
+  "transition_probabilities_percent": {
+    "Bull_Trend_Continuation": {
+      "Bull_Trend_Continuation": 0.0,
+      "Bull_Healthy_Pullback": 42.1875,
+      "Squeeze_Pre_Breakout": 26.200873362445414,
+      "Bear_Trend_Continuation": 0.0,
+      "Bear_Panic_Exhaustion": 0.0,
+      "Range_PingPong": 44.97652582159624
+    },
+    "Bull_Healthy_Pullback": {
+      "Bull_Trend_Continuation": 7.8924544666088465,
+      "Bull_Healthy_Pullback": 0.0,
+      "Squeeze_Pre_Breakout": 0.8733624454148471,
+      "Bear_Trend_Continuation": 0.0,
+      "Bear_Panic_Exhaustion": 0.0,
+      "Range_PingPong": 10.657276995305164
+    },
+    "Squeeze_Pre_Breakout": {
+      "Bull_Trend_Continuation": 3.1222896790980053,
+      "Bull_Healthy_Pullback": 2.8125,
+      "Squeeze_Pre_Breakout": 0.0,
+      "Bear_Trend_Continuation": 3.0257186081694405,
+      "Bear_Panic_Exhaustion": 1.0135135135135136,
+      "Range_PingPong": 7.55868544600939
+    },
+    "Bear_Trend_Continuation": {
+      "Bull_Trend_Continuation": 0.0,
+      "Bull_Healthy_Pullback": 0.0,
+      "Squeeze_Pre_Breakout": 6.11353711790393,
+      "Bear_Trend_Continuation": 0.0,
+      "Bear_Panic_Exhaustion": 16.89189189189189,
+      "Range_PingPong": 28.028169014084508
+    },
+    "Bear_Panic_Exhaustion": {
+      "Bull_Trend_Continuation": 0.0,
+      "Bull_Healthy_Pullback": 0.0,
+      "Squeeze_Pre_Breakout": 6.986899563318777,
+      "Bear_Trend_Continuation": 14.069591527987896,
+      "Bear_Panic_Exhaustion": 0.0,
+      "Range_PingPong": 8.779342723004694
+    },
+    "Range_PingPong": {
+      "Bull_Trend_Continuation": 88.98525585429314,
+      "Bull_Healthy_Pullback": 55.00000000000001,
+      "Squeeze_Pre_Breakout": 59.82532751091703,
+      "Bear_Trend_Continuation": 82.90468986384266,
+      "Bear_Panic_Exhaustion": 82.0945945945946,
+      "Range_PingPong": 0.0
+    }
+  },
+  "regime_forward_profiles": [
+    {
+      "regime": "Bull_Trend_Continuation",
+      "samples": 6647,
+      "gross_mean_return": 0.0028814379266900994,
+      "net_mean_return": -0.0011185620733099007,
+      "win_rate": 0.4502783210470889,
+      "mfe_mean": 0.023743662467667546,
+      "mae_mean": -0.022598774253515586
+    },
+    {
+      "regime": "Bull_Healthy_Pullback",
+      "samples": 1033,
+      "gross_mean_return": 0.003229684854421203,
+      "net_mean_return": -0.000770315145578797,
+      "win_rate": 0.5179090029041626,
+      "mfe_mean": 0.023325457966688844,
+      "mae_mean": -0.022103798305863755
+    },
+    {
+      "regime": "Squeeze_Pre_Breakout",
+      "samples": 12987,
+      "gross_mean_return": 0.0017321842581311407,
+      "net_mean_return": -0.002267815741868859,
+      "win_rate": 0.41356741356741356,
+      "mfe_mean": 0.020502814975931545,
+      "mae_mean": -0.019659180226479514
+    },
+    {
+      "regime": "Bear_Trend_Continuation",
+      "samples": 2491,
+      "gross_mean_return": 0.001564268153975447,
+      "net_mean_return": -0.0024357318460245534,
+      "win_rate": 0.4315535929345644,
+      "mfe_mean": 0.02490493045925848,
+      "mae_mean": -0.025906278194114278
+    },
+    {
+      "regime": "Bear_Panic_Exhaustion",
+      "samples": 1179,
+      "gross_mean_return": 0.0005716069532601992,
+      "net_mean_return": -0.003428393046739801,
+      "win_rate": 0.48854961832061067,
+      "mfe_mean": 0.03151136038729835,
+      "mae_mean": -0.042506919842010465
+    },
+    {
+      "regime": "Range_PingPong",
+      "samples": 22008,
+      "gross_mean_return": 0.001517465602782406,
+      "net_mean_return": -0.002482534397217594,
+      "win_rate": 0.43484187568157034,
+      "mfe_mean": 0.024384361092546995,
+      "mae_mean": -0.02555209235720854
+    }
+  ]
+}
