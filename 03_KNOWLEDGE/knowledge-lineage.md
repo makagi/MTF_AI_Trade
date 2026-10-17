@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 0.5.0  
+**Version:** 0.6.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-16  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45)  
+**Last Updated:** 2026-10-17  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -35,9 +35,10 @@ graph TD
     K002["K-002: 単一足ハードサポレジの非定常性<br/>(Refuted)"]:::refuted
     K003["K-003: 1m足単独トリガーの優位性欠如<br/>(Refuted)"]:::refuted
     K004["K-004: 単一1h足価格テクニカルの限界<br/>(Refuted)"]:::refuted
-    K005["K-005: Soft LogicとMTF状況依存性の観察<br/>(Inconclusive: 状況把握分析待ち)"]:::inconclusive
+    K005["K-005: Soft Logicの押し目再点火フィルター特性<br/>(Supported as Filter / Refuted as Standalone)"]:::supported
     K006["K-006: フィボナッチ時間足間等価性とMTF間引き構造<br/>(Observed / Supported: 相関>0.999 / 96%間引き)"]:::supported
     K007["K-007: MTF 3階層レジーム分類と状態遷移モデル<br/>(Observed / Supported: Squeeze 28% / 押し目再点火率 42.2%)"]:::supported
+    K008["K-008: MTF状況依存エッジと極限パニック平均回帰<br/>(Supported: Panic乖離 Net+0.38% / レンジ完全遮断)"]:::supported
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -47,7 +48,10 @@ graph TD
     EXP043["EXP-43-001: 43-fib-mtf-context"] --> K006
     EXP045["EXP-45-001: 45-mtf-state-classification"] --> K007
     K006 -.->|計算量間引きと等価性基盤を提供| K007
-    K007 -.->|状況把握コンテキストを提供| K005
+    K007 -->|状況把握コンテキストを提供| K008
+    K001 -->|下方乖離の前提条件を提供| K008
+    EXP047["EXP-47-001: 47-mtf-context-integrated-eval"] --> K008
+    EXP047 -->|フィルター有効性の実証| K005
 ```
 
 ---
@@ -90,12 +94,12 @@ graph TD
 
 ---
 
-### K-005: Soft LogicとMTF状況依存性の観察
-* **ステータス**: 保留・観察中 (Inconclusive / Observed)
-* **概要**: Discovery 期間（2020-01-01 〜 2025-04-30）における定量実験（EXP-41-001）において、ファンアウト速度減速・AFS同調は、単独逆張りでは深い下落（-3.5 ATR超）に巻き込まれて摩擦負け（Net EV -0.588%）する一方、上位足マクロ強気（Close > SMA 377）を前提とした押し目局面では摩擦コストを突破する（Gross +0.42%, Net +0.02%, 直近PF > 1.8）という、市場状況・コンテキストに強く依存した振る舞いが観測された。
-* **実験条件**: BTCUSD 1h、5年4ヶ月 Discovery 期間、往復摩擦コスト0.40%控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/41-k005-soft-logic/record.md`](experiments/41-k005-soft-logic/record.md) (EXP-41-001 / [#41](https://github.com/makagi/MTF_AI_Trade/issues/41))
-* **仕様への影響**: 状況把握の仕方も把握すべき知識の一部であり、特定の期間ではなくMTF（多時間軸）での状況把握が必要であるため、現時点では確定的な結論（Supported/Refuted）を下さず保留（Inconclusive）とする。MTFによる状況把握モデルの分析を先行させ、その後に合わせて総合評価する。
+### K-005: Soft Logicの文脈依存性と押し目再点火フィルター特性
+* **ステータス**: 役割限定支持 (Supported as Filter / Refuted as Standalone Trigger)
+* **概要**: 統合実験（EXP-41-001, EXP-47-001）において、ファンアウト速度減速・AFS反転同調（Soft Logic）は、単独トリガーとして無条件に発火させた場合、1,252件中54%がレンジ往復ノイズ（`Range_PingPong`）に巻き込まれ、Net EV -0.17%（累積損失 -217%）と摩擦コストに耐えられない（単独トリガーとしては反証・棄却）。一方、K-007 で定義した `Bull_Healthy_Pullback`（強気押し目）局面においてのみ、強気相場（2020年: PF 2.27, Net +0.66% / 2024年: PF 1.22, Net +0.24% / 2025年: PF 5.49, Net +0.31%）で安定した再点火フィルターとして機能することが実証された。
+* **実験条件**: BTCUSD 1h、5年4ヶ月 Discovery 期間、往復摩擦コスト0.40%控除、MTF 3階層状況結合
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/47-mtf-context-integrated-eval/record.md`](experiments/47-mtf-context-integrated-eval/record.md) (EXP-47-001 / [#47](https://github.com/makagi/MTF_AI_Trade/issues/47))
+* **仕様への影響**: Soft Logic を単独エントリーシグナルとして採用することを禁止。戦略仕様（SPEC-STRAT）において「Macro Bull ＋ Meso 押し目」が成立した後の「再点火確認フィルター（Secondary Confirmation Filter）」としてのみ採用を認可。
 
 ---
 
@@ -126,6 +130,17 @@ graph TD
 
 ---
 
+### K-008: MTF状況依存エッジと極限パニック平均回帰
+* **ステータス**: 支持 (Supported)
+* **概要**: MTF状況把握モデルと各特徴量の統合検証（EXP-47-001）において、以下の決定的な事実が実証された：
+  1. **市場75%の保ち合い完全遮断**: 全時間の 75.5% を占める `Range_PingPong` および `Squeeze_Pre_Breakout` において指標シグナルを発火させると、すべて Net EV マイナス（-0.13% 〜 -0.64%）となり摩擦損失の主因となる。これらを状況モデルで遮断することで、1,252件中682件の無駄な売買を排除できる。
+  2. **パニック極値における平均回帰（K-001真の境界）**: K-001（下方乖離）は、中途半端な押し目（Macro Bull）では Net -0.93% と大敗するが、`Bear_Panic_Exhaustion`（Macro Bear ＋ SMA 89から -2.5 ATR超の暴落 ＋ AFS 7 < 30）の極限局面においてのみ、**Net EV +0.38%、勝率 55.6%、PF 1.45、MFE +3.15%** という強烈なプラス期待値を記録する。
+* **実験条件**: BTCUSD 1h、5年4ヶ月 Discovery 期間、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/47-mtf-context-integrated-eval/record.md`](experiments/47-mtf-context-integrated-eval/record.md) (EXP-47-001 / [#47](https://github.com/makagi/MTF_AI_Trade/issues/47))
+* **仕様への影響**: Milestone 4 の戦略設計において、「レンジ・保ち合い時の完全取引停止ゲート」および「極限パニック暴落時の平均回帰逆張り戦略（Panic Reversion）」の仕様根拠として採用。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -136,3 +151,4 @@ graph TD
 | 2026-10-15 | 0.3.0 | EXP-41-001 観察記録反映、MTF状況把握分析の先行方針に伴い K-005 を保留・観察中 (Inconclusive) として整理 | @makagi / [#41](https://github.com/makagi/MTF_AI_Trade/pull/41) |
 | 2026-10-16 | 0.4.0 | EXP-43-001 反映、K-006（フィボナッチ時間足間等価性とMTF間引き構造）を新設・登録 | @makagi / [#43](https://github.com/makagi/MTF_AI_Trade/pull/43) |
 | 2026-10-16 | 0.5.0 | EXP-45-001 反映、K-007（MTF 3階層レジーム分類と状態遷移モデル）を新設・登録 | @makagi / [#45](https://github.com/makagi/MTF_AI_Trade/issues/45) |
+| 2026-10-17 | 0.6.0 | EXP-47-001 反映、K-005 を再評価（押し目フィルターとして支持）、K-008（MTF状況依存エッジと極限パニック平均回帰）を新設・登録 | @makagi / [#47](https://github.com/makagi/MTF_AI_Trade/issues/47) |
