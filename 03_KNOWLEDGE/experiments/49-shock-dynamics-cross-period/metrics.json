@@ -1,0 +1,519 @@
+{
+  "total_trades": 4036,
+  "friction_cost_applied": 0.004,
+  "gross_mean_return": -0.000703677241180784,
+  "net_mean_return": -0.004703677241180784,
+  "win_rate": 0.4251734390485629,
+  "profit_factor": 0.6739057452857118,
+  "net_cumulative_return": -18.984041345405647,
+  "max_drawdown": 20.46916980077067,
+  "pattern_name": "K-014A: Panic Divergence V-Reversion",
+  "mean_mfe": 0.023308095191602107,
+  "mean_mae": -0.02992881933234572,
+  "yearly_breakdown": [
+    {
+      "trades": 560,
+      "gross_mean": -0.005874361229667253,
+      "net_mean": -0.009874361229667256,
+      "win_rate": 0.41964285714285715,
+      "net_total": -5.529642288613663,
+      "profit_factor": 0.45115895438848
+    },
+    {
+      "trades": 769,
+      "gross_mean": 0.007589817429415834,
+      "net_mean": 0.003589817429415834,
+      "win_rate": 0.5331599479843954,
+      "net_total": 2.7605696032207763,
+      "profit_factor": 1.2816834452374084
+    },
+    {
+      "trades": 1038,
+      "gross_mean": -0.006176238747383679,
+      "net_mean": -0.010176238747383678,
+      "win_rate": 0.371868978805395,
+      "net_total": -10.562935819784258,
+      "profit_factor": 0.45642158745983097
+    },
+    {
+      "trades": 696,
+      "gross_mean": 0.0015223399714778122,
+      "net_mean": -0.002477660028522188,
+      "win_rate": 0.3735632183908046,
+      "net_total": -1.724451379851443,
+      "profit_factor": 0.7142397977052478
+    },
+    {
+      "trades": 754,
+      "gross_mean": 0.0003230955601611543,
+      "net_mean": -0.003676904439838846,
+      "win_rate": 0.4442970822281167,
+      "net_total": -2.77238594763849,
+      "profit_factor": 0.6860478996839638
+    },
+    {
+      "trades": 219,
+      "gross_mean": -0.0012748653549706328,
+      "net_mean": -0.005274865354970635,
+      "win_rate": 0.410958904109589,
+      "net_total": -1.155195512738569,
+      "profit_factor": 0.7143158552388867
+    }
+  ],
+  "all_pattern_evaluations": [
+    {
+      "total_trades": 33,
+      "friction_cost_applied": 0.004,
+      "gross_mean_return": 0.008176689772304992,
+      "net_mean_return": 0.0041766897723049924,
+      "win_rate": 0.3939393939393939,
+      "profit_factor": 1.3792955339158224,
+      "net_cumulative_return": 0.13783076248606474,
+      "max_drawdown": 0.16894008792363785,
+      "pattern_name": "K-009: Extreme Squeeze Activity Breakout",
+      "mean_mfe": 0.029386344444592025,
+      "mean_mae": -0.017674392658870622,
+      "yearly_breakdown": [
+        {
+          "trades": 4,
+          "gross_mean": 0.032538388320522145,
+          "net_mean": 0.02853838832052214,
+          "win_rate": 0.5,
+          "net_total": 0.11415355328208857,
+          "profit_factor": 12.676549477746073
+        },
+        {
+          "trades": 3,
+          "gross_mean": 0.02583263788420019,
+          "net_mean": 0.02183263788420019,
+          "win_rate": 0.6666666666666666,
+          "net_total": 0.06549791365260058,
+          "profit_factor": 3.711759003023268
+        },
+        {
+          "trades": 10,
+          "gross_mean": 0.0018416191387065639,
+          "net_mean": -0.0021583808612934356,
+          "win_rate": 0.3,
+          "net_total": -0.021583808612934356,
+          "profit_factor": 0.8104772597227015
+        },
+        {
+          "trades": 8,
+          "gross_mean": -0.00725350428890976,
+          "net_mean": -0.01125350428890976,
+          "win_rate": 0.125,
+          "net_total": -0.09002803431127808,
+          "profit_factor": 0.2118940805612044
+        },
+        {
+          "trades": 6,
+          "gross_mean": 0.018328918338829586,
+          "net_mean": 0.014328918338829587,
+          "win_rate": 0.6666666666666666,
+          "net_total": 0.08597351003297753,
+          "profit_factor": 2.519465480528249
+        },
+        {
+          "trades": 2,
+          "gross_mean": -0.004091185778694748,
+          "net_mean": -0.008091185778694747,
+          "win_rate": 0.5,
+          "net_total": -0.016182371557389493,
+          "profit_factor": 0.638436887649757
+        }
+      ]
+    },
+    {
+      "total_trades": 481,
+      "friction_cost_applied": 0.004,
+      "gross_mean_return": -0.00013386844987706956,
+      "net_mean_return": -0.00413386844987707,
+      "win_rate": 0.4573804573804574,
+      "profit_factor": 0.711107037759724,
+      "net_cumulative_return": -1.9883907243908707,
+      "max_drawdown": 2.559816232937424,
+      "pattern_name": "K-010A: Flash Crash 1st Bottom",
+      "mean_mfe": 0.02231530771266647,
+      "mean_mae": -0.032322703466868906,
+      "yearly_breakdown": [
+        {
+          "trades": 81,
+          "gross_mean": -0.0035094404100767264,
+          "net_mean": -0.007509440410076724,
+          "win_rate": 0.5061728395061729,
+          "net_total": -0.6082646732162147,
+          "profit_factor": 0.5536378737167922
+        },
+        {
+          "trades": 58,
+          "gross_mean": -0.004365017322604436,
+          "net_mean": -0.008365017322604435,
+          "win_rate": 0.41379310344827586,
+          "net_total": -0.4851710047110573,
+          "profit_factor": 0.6126217395448534
+        },
+        {
+          "trades": 133,
+          "gross_mean": -0.0027258372902520187,
+          "net_mean": -0.006725837290252017,
+          "win_rate": 0.41353383458646614,
+          "net_total": -0.8945363596035183,
+          "profit_factor": 0.6022879870891782
+        },
+        {
+          "trades": 100,
+          "gross_mean": 0.0009264260988377519,
+          "net_mean": -0.00307357390116225,
+          "win_rate": 0.41,
+          "net_total": -0.307357390116225,
+          "profit_factor": 0.6832236170436334
+        },
+        {
+          "trades": 85,
+          "gross_mean": 0.0049830725491205345,
+          "net_mean": 0.000983072549120534,
+          "win_rate": 0.5176470588235295,
+          "net_total": 0.0835611666752454,
+          "profit_factor": 1.102923552947569
+        },
+        {
+          "trades": 24,
+          "gross_mean": 0.013307397357537479,
+          "net_mean": 0.009307397357537476,
+          "win_rate": 0.625,
+          "net_total": 0.22337753658089943,
+          "profit_factor": 1.945384904531491
+        }
+      ]
+    },
+    {
+      "total_trades": 381,
+      "friction_cost_applied": 0.004,
+      "gross_mean_return": 0.0023229684327486155,
+      "net_mean_return": -0.0016770315672513852,
+      "win_rate": 0.45144356955380577,
+      "profit_factor": 0.8445269953872367,
+      "net_cumulative_return": -0.6389490271227778,
+      "max_drawdown": 1.2576492277841527,
+      "pattern_name": "K-010B: Flash Crash 2nd Bottom (Div)",
+      "mean_mfe": 0.022224676167650455,
+      "mean_mae": -0.021453178565765355,
+      "yearly_breakdown": [
+        {
+          "trades": 59,
+          "gross_mean": 0.0047808242631072525,
+          "net_mean": 0.0007808242631072524,
+          "win_rate": 0.5932203389830508,
+          "net_total": 0.046068631523327894,
+          "profit_factor": 1.1020240926174487
+        },
+        {
+          "trades": 38,
+          "gross_mean": 0.008513594227387485,
+          "net_mean": 0.004513594227387484,
+          "win_rate": 0.42105263157894735,
+          "net_total": 0.1715165806407244,
+          "profit_factor": 1.3970308102071276
+        },
+        {
+          "trades": 110,
+          "gross_mean": -0.000781518961730835,
+          "net_mean": -0.004781518961730835,
+          "win_rate": 0.4636363636363636,
+          "net_total": -0.5259670857903919,
+          "profit_factor": 0.6784955021026996
+        },
+        {
+          "trades": 87,
+          "gross_mean": 0.003910761274730729,
+          "net_mean": -8.923872526927206e-05,
+          "win_rate": 0.39080459770114945,
+          "net_total": -0.00776376909842667,
+          "profit_factor": 0.9858951499210044
+        },
+        {
+          "trades": 68,
+          "gross_mean": 0.0010468549281742643,
+          "net_mean": -0.002953145071825736,
+          "win_rate": 0.39705882352941174,
+          "net_total": -0.20081386488415004,
+          "profit_factor": 0.7125028067431071
+        },
+        {
+          "trades": 19,
+          "gross_mean": -0.002420501027045332,
+          "net_mean": -0.006420501027045336,
+          "win_rate": 0.47368421052631576,
+          "net_total": -0.12198951951386139,
+          "profit_factor": 0.6425609844517778
+        }
+      ]
+    },
+    {
+      "total_trades": 76,
+      "friction_cost_applied": 0.004,
+      "gross_mean_return": -0.0011242207558727951,
+      "net_mean_return": -0.005124220755872796,
+      "win_rate": 0.47368421052631576,
+      "profit_factor": 0.6725726816115251,
+      "net_cumulative_return": -0.38944077744633254,
+      "max_drawdown": 0.5670929495987074,
+      "pattern_name": "K-011: Activity Climax Pinbar (>2.8x)",
+      "mean_mfe": 0.023983068829152236,
+      "mean_mae": -0.037397588766381586,
+      "yearly_breakdown": [
+        {
+          "trades": 12,
+          "gross_mean": -0.014217337852201478,
+          "net_mean": -0.018217337852201476,
+          "win_rate": 0.4166666666666667,
+          "net_total": -0.21860805422641771,
+          "profit_factor": 0.22407878717233898
+        },
+        {
+          "trades": 13,
+          "gross_mean": 0.0021320810644502516,
+          "net_mean": -0.0018679189355497484,
+          "win_rate": 0.46153846153846156,
+          "net_total": -0.02428294616214673,
+          "profit_factor": 0.9202929220508709
+        },
+        {
+          "trades": 8,
+          "gross_mean": -0.012580780498002167,
+          "net_mean": -0.016580780498002167,
+          "win_rate": 0.5,
+          "net_total": -0.13264624398401734,
+          "profit_factor": 0.27721603164062264
+        },
+        {
+          "trades": 22,
+          "gross_mean": -0.003717047341473774,
+          "net_mean": -0.007717047341473773,
+          "win_rate": 0.4090909090909091,
+          "net_total": -0.169775041512423,
+          "profit_factor": 0.406393342392305
+        },
+        {
+          "trades": 18,
+          "gross_mean": 0.01148515279597198,
+          "net_mean": 0.007485152795971979,
+          "win_rate": 0.6111111111111112,
+          "net_total": 0.13473275032749563,
+          "profit_factor": 2.2211044326870812
+        },
+        {
+          "trades": 3,
+          "gross_mean": 0.011046252703725572,
+          "net_mean": 0.007046252703725569,
+          "win_rate": 0.3333333333333333,
+          "net_total": 0.021138758111176707,
+          "profit_factor": 1.9135265799471164
+        }
+      ]
+    },
+    {
+      "total_trades": 242,
+      "friction_cost_applied": 0.004,
+      "gross_mean_return": -7.696006638000812e-05,
+      "net_mean_return": -0.004076960066380009,
+      "win_rate": 0.4297520661157025,
+      "profit_factor": 0.7269573078775483,
+      "net_cumulative_return": -0.9866243360639623,
+      "max_drawdown": 1.6544635065988584,
+      "pattern_name": "K-012: Resistance Exhaustion Dump",
+      "mean_mfe": 0.024990903394895025,
+      "mean_mae": -0.026206536784833624,
+      "yearly_breakdown": [
+        {
+          "trades": 31,
+          "gross_mean": -0.0023880419986667713,
+          "net_mean": -0.0063880419986667705,
+          "win_rate": 0.3548387096774194,
+          "net_total": -0.19802930195866988,
+          "profit_factor": 0.40956662040063146
+        },
+        {
+          "trades": 62,
+          "gross_mean": 0.009898564902842674,
+          "net_mean": 0.005898564902842678,
+          "win_rate": 0.532258064516129,
+          "net_total": 0.365711023976246,
+          "profit_factor": 1.4676992200843442
+        },
+        {
+          "trades": 41,
+          "gross_mean": 0.0037133825197282378,
+          "net_mean": -0.0002866174802717649,
+          "win_rate": 0.5853658536585366,
+          "net_total": -0.01175131669114236,
+          "profit_factor": 0.9783062003209697
+        },
+        {
+          "trades": 27,
+          "gross_mean": -0.010103687179612044,
+          "net_mean": -0.014103687179612044,
+          "win_rate": 0.25925925925925924,
+          "net_total": -0.3807995538495252,
+          "profit_factor": 0.18133552815090745
+        },
+        {
+          "trades": 49,
+          "gross_mean": -0.004148421261644712,
+          "net_mean": -0.008148421261644712,
+          "win_rate": 0.4897959183673469,
+          "net_total": -0.3992726418205909,
+          "profit_factor": 0.6116788715006435
+        },
+        {
+          "trades": 32,
+          "gross_mean": -0.0073275795537587445,
+          "net_mean": -0.011327579553758745,
+          "win_rate": 0.15625,
+          "net_total": -0.3624825457202798,
+          "profit_factor": 0.21382489571376545
+        }
+      ]
+    },
+    {
+      "total_trades": 4036,
+      "friction_cost_applied": 0.004,
+      "gross_mean_return": -0.000703677241180784,
+      "net_mean_return": -0.004703677241180784,
+      "win_rate": 0.4251734390485629,
+      "profit_factor": 0.6739057452857118,
+      "net_cumulative_return": -18.984041345405647,
+      "max_drawdown": 20.46916980077067,
+      "pattern_name": "K-014A: Panic Divergence V-Reversion",
+      "mean_mfe": 0.023308095191602107,
+      "mean_mae": -0.02992881933234572,
+      "yearly_breakdown": [
+        {
+          "trades": 560,
+          "gross_mean": -0.005874361229667253,
+          "net_mean": -0.009874361229667256,
+          "win_rate": 0.41964285714285715,
+          "net_total": -5.529642288613663,
+          "profit_factor": 0.45115895438848
+        },
+        {
+          "trades": 769,
+          "gross_mean": 0.007589817429415834,
+          "net_mean": 0.003589817429415834,
+          "win_rate": 0.5331599479843954,
+          "net_total": 2.7605696032207763,
+          "profit_factor": 1.2816834452374084
+        },
+        {
+          "trades": 1038,
+          "gross_mean": -0.006176238747383679,
+          "net_mean": -0.010176238747383678,
+          "win_rate": 0.371868978805395,
+          "net_total": -10.562935819784258,
+          "profit_factor": 0.45642158745983097
+        },
+        {
+          "trades": 696,
+          "gross_mean": 0.0015223399714778122,
+          "net_mean": -0.002477660028522188,
+          "win_rate": 0.3735632183908046,
+          "net_total": -1.724451379851443,
+          "profit_factor": 0.7142397977052478
+        },
+        {
+          "trades": 754,
+          "gross_mean": 0.0003230955601611543,
+          "net_mean": -0.003676904439838846,
+          "win_rate": 0.4442970822281167,
+          "net_total": -2.77238594763849,
+          "profit_factor": 0.6860478996839638
+        },
+        {
+          "trades": 219,
+          "gross_mean": -0.0012748653549706328,
+          "net_mean": -0.005274865354970635,
+          "win_rate": 0.410958904109589,
+          "net_total": -1.155195512738569,
+          "profit_factor": 0.7143158552388867
+        }
+      ]
+    }
+  ],
+  "cross_period_net_ev": {
+    "Overall (2020-2025)": {
+      "K-009: Extreme Squeeze Activity Breakout": 0.4176689772304992,
+      "K-010A: Flash Crash 1st Bottom": -0.413386844987707,
+      "K-010B: Flash Crash 2nd Bottom (Div)": -0.16770315672513852,
+      "K-011: Activity Climax Pinbar (>2.8x)": -0.5124220755872796,
+      "K-012: Resistance Exhaustion Dump": -0.40769600663800093,
+      "K-014A: Panic Divergence V-Reversion": -0.4703677241180784,
+      "K-014B: Panic Knife Acceleration": NaN
+    },
+    "P1: Bull Bubble (2020-21)": {
+      "K-009: Extreme Squeeze Activity Breakout": 2.5664495276384165,
+      "K-010A: Flash Crash 1st Bottom": -0.7866443726095483,
+      "K-010B: Flash Crash 2nd Bottom (Div)": 0.2243146517155178,
+      "K-011: Activity Climax Pinbar (>2.8x)": -0.9715640015542577,
+      "K-012: Resistance Exhaustion Dump": 0.18030292690061944,
+      "K-014A: Panic Divergence V-Reversion": -0.20835761364882516,
+      "K-014B: Panic Knife Acceleration": NaN
+    },
+    "P2: Bear Crash (2022)": {
+      "K-009: Extreme Squeeze Activity Breakout": -0.21583808612934355,
+      "K-010A: Flash Crash 1st Bottom": -0.6725837290252017,
+      "K-010B: Flash Crash 2nd Bottom (Div)": -0.4781518961730835,
+      "K-011: Activity Climax Pinbar (>2.8x)": -1.6580780498002168,
+      "K-012: Resistance Exhaustion Dump": -0.028661748027176488,
+      "K-014A: Panic Divergence V-Reversion": -1.017623874738368,
+      "K-014B: Panic Knife Acceleration": NaN
+    },
+    "P3: Recovery & ATH (2023-25)": {
+      "K-009: Extreme Squeeze Activity Breakout": -0.1264805989730629,
+      "K-010A: Flash Crash 1st Bottom": -0.0002003286411866336,
+      "K-010B: Flash Crash 2nd Bottom (Div)": -0.1899811226991023,
+      "K-011: Activity Climax Pinbar (>2.8x)": -0.032333797845931864,
+      "K-012: Resistance Exhaustion Dump": -1.0579210568429593,
+      "K-014A: Panic Divergence V-Reversion": -0.33864786340494313,
+      "K-014B: Panic Knife Acceleration": NaN
+    }
+  },
+  "cross_period_counts": {
+    "Overall (2020-2025)": {
+      "K-009: Extreme Squeeze Activity Breakout": 33,
+      "K-010A: Flash Crash 1st Bottom": 481,
+      "K-010B: Flash Crash 2nd Bottom (Div)": 381,
+      "K-011: Activity Climax Pinbar (>2.8x)": 76,
+      "K-012: Resistance Exhaustion Dump": 242,
+      "K-014A: Panic Divergence V-Reversion": 4036,
+      "K-014B: Panic Knife Acceleration": 0
+    },
+    "P1: Bull Bubble (2020-21)": {
+      "K-009: Extreme Squeeze Activity Breakout": 7,
+      "K-010A: Flash Crash 1st Bottom": 139,
+      "K-010B: Flash Crash 2nd Bottom (Div)": 97,
+      "K-011: Activity Climax Pinbar (>2.8x)": 25,
+      "K-012: Resistance Exhaustion Dump": 93,
+      "K-014A: Panic Divergence V-Reversion": 1329,
+      "K-014B: Panic Knife Acceleration": 0
+    },
+    "P2: Bear Crash (2022)": {
+      "K-009: Extreme Squeeze Activity Breakout": 10,
+      "K-010A: Flash Crash 1st Bottom": 133,
+      "K-010B: Flash Crash 2nd Bottom (Div)": 110,
+      "K-011: Activity Climax Pinbar (>2.8x)": 8,
+      "K-012: Resistance Exhaustion Dump": 41,
+      "K-014A: Panic Divergence V-Reversion": 1038,
+      "K-014B: Panic Knife Acceleration": 0
+    },
+    "P3: Recovery & ATH (2023-25)": {
+      "K-009: Extreme Squeeze Activity Breakout": 16,
+      "K-010A: Flash Crash 1st Bottom": 209,
+      "K-010B: Flash Crash 2nd Bottom (Div)": 174,
+      "K-011: Activity Climax Pinbar (>2.8x)": 43,
+      "K-012: Resistance Exhaustion Dump": 108,
+      "K-014A: Panic Divergence V-Reversion": 1669,
+      "K-014B: Panic Knife Acceleration": 0
+    }
+  }
+}
