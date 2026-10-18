@@ -1,0 +1,297 @@
+{
+  "experiment_id": "EXP-58",
+  "signal_a_breakout": {
+    "total_events": 478,
+    "success_cases": 122,
+    "failure_cases": 133,
+    "differential_feature_stats": {
+      "squeeze_index": {
+        "name": "Squeeze Index (0=Tight, 1=Extended)",
+        "success_mean": 0.3344155583428793,
+        "success_std": 0.2923088060934155,
+        "failure_mean": 0.36194051479839545,
+        "failure_std": 0.2656804441353317,
+        "cohens_d": -0.09836052779319247,
+        "p_value": 0.4353371687643886,
+        "statistically_significant": false
+      },
+      "dist_super_macro": {
+        "name": "Super-Macro 168h Dist (ATR)",
+        "success_mean": 4.926330023164799,
+        "success_std": 3.4336478123204817,
+        "failure_mean": 4.480232079805135,
+        "failure_std": 2.721765630079378,
+        "cohens_d": 0.14413075306469017,
+        "p_value": 0.2561377454400312,
+        "statistically_significant": false
+      },
+      "dist_sma_610": {
+        "name": "Macro 610 Dist (ATR)",
+        "success_mean": 8.203003404182391,
+        "success_std": 9.320955002706512,
+        "failure_mean": 6.201633063097398,
+        "failure_std": 9.041179611727975,
+        "cohens_d": 0.21723405469198126,
+        "p_value": 0.08529534587957284,
+        "statistically_significant": false
+      },
+      "macro_slope": {
+        "name": "Macro Slope (233h)",
+        "success_mean": 0.03379335943049962,
+        "success_std": 0.04202514984090112,
+        "failure_mean": 0.026835528177666445,
+        "failure_std": 0.04239949176685641,
+        "cohens_d": 0.1641487242860873,
+        "p_value": 0.19142975557162506,
+        "statistically_significant": false
+      },
+      "super_macro_slope": {
+        "name": "Super-Macro Slope (168h)",
+        "success_mean": 0.043878718233433825,
+        "success_std": 0.04503844954306,
+        "failure_mean": 0.03996938345351664,
+        "failure_std": 0.044974763508564775,
+        "cohens_d": 0.0865226697501519,
+        "p_value": 0.4907483551097213,
+        "statistically_significant": false
+      },
+      "meso_curvature": {
+        "name": "Meso Curvature Ratio",
+        "success_mean": 1.4339545592793712,
+        "success_std": 4.124230675286512,
+        "failure_mean": 1.8431885275859103,
+        "failure_std": 5.313292309181869,
+        "cohens_d": -0.08525162909147652,
+        "p_value": 0.49248898248077067,
+        "statistically_significant": false
+      }
+    },
+    "trap_negative_robustness": {
+      "P1_Bull": {
+        "count": 151,
+        "net_ev": -0.0009059788922903204,
+        "win_rate": 0.47019867549668876,
+        "mean_mae": 0.028680113705077642,
+        "mean_mfe": 0.02405135488370833
+      },
+      "P2_Bear": {
+        "count": 29,
+        "net_ev": -0.002098668404318118,
+        "win_rate": 0.3793103448275862,
+        "mean_mae": 0.022875374840454727,
+        "mean_mfe": 0.020618992258456117
+      },
+      "P3_Mixed": {
+        "count": 137,
+        "net_ev": 0.003862697377572903,
+        "win_rate": 0.5036496350364964,
+        "mean_mae": 0.014157301950016951,
+        "mean_mfe": 0.018806756505580575
+      }
+    },
+    "valid_positive_robustness": {
+      "P1_Bull": {
+        "count": 69,
+        "net_ev": 0.0026849546808356047,
+        "win_rate": 0.6086956521739131,
+        "mean_mae": 0.020180690955136416,
+        "mean_mfe": 0.0219919717332103
+      },
+      "P2_Bear": {
+        "count": 39,
+        "net_ev": -0.006480122252680383,
+        "win_rate": 0.3076923076923077,
+        "mean_mae": 0.02422621796660214,
+        "mean_mfe": 0.02017397570832425
+      },
+      "P3_Mixed": {
+        "count": 53,
+        "net_ev": 0.00456873880103859,
+        "win_rate": 0.5849056603773585,
+        "mean_mae": 0.013677505662662903,
+        "mean_mfe": 0.019657273654456044
+      }
+    },
+    "invalidation_criteria": "squeeze_index > 0.50 OR dist_sma_610 > 5.0"
+  },
+  "signal_b_bottleneck": {
+    "total_events": 622,
+    "success_cases": 171,
+    "failure_cases": 187,
+    "differential_feature_stats": {
+      "macro_alignment_bull": {
+        "name": "Macro Bull Alignment",
+        "success_mean": 0.5146198830409356,
+        "failure_mean": 0.45454545454545453,
+        "cohens_d": 0.12009685776974638,
+        "p_value": 0.2572158306289085,
+        "statistically_significant": false
+      },
+      "squeeze_index": {
+        "name": "Squeeze Index",
+        "success_mean": 0.35864356368808553,
+        "failure_mean": 0.290112602355073,
+        "cohens_d": 0.2633998417163991,
+        "p_value": 0.014829668770060608,
+        "statistically_significant": true
+      },
+      "macro_slope": {
+        "name": "Macro Slope (233h)",
+        "success_mean": 0.01533062532433638,
+        "failure_mean": 0.012262301309533928,
+        "cohens_d": 0.06909665941301428,
+        "p_value": 0.5191256600500284,
+        "statistically_significant": false
+      },
+      "super_macro_slope": {
+        "name": "Super-Macro Slope (168h)",
+        "success_mean": 0.008531984124284353,
+        "failure_mean": 0.0008818340277594911,
+        "cohens_d": 0.1377386197601915,
+        "p_value": 0.19611996381958666,
+        "statistically_significant": false
+      }
+    },
+    "trap_negative_robustness": {
+      "P1_Bull": {
+        "count": 109,
+        "net_ev": 0.008964669893749746,
+        "win_rate": 0.5963302752293578,
+        "mean_mae": 0.019877753011949034,
+        "mean_mfe": 0.028685571038752328
+      },
+      "P2_Bear": {
+        "count": 73,
+        "net_ev": 0.005708439963877081,
+        "win_rate": 0.5616438356164384,
+        "mean_mae": 0.015062959005557146,
+        "mean_mfe": 0.019983662097330265
+      },
+      "P3_Mixed": {
+        "count": 169,
+        "net_ev": 0.00526871271982397,
+        "win_rate": 0.46745562130177515,
+        "mean_mae": 0.017311321781216176,
+        "mean_mfe": 0.021238389173955926
+      }
+    },
+    "valid_positive_robustness": {
+      "P1_Bull": {
+        "count": 50,
+        "net_ev": -0.004835054044108104,
+        "win_rate": 0.34,
+        "mean_mae": 0.021659202251283535,
+        "mean_mfe": 0.017136948874656558
+      },
+      "P2_Bear": {
+        "count": 86,
+        "net_ev": -0.01501801087029817,
+        "win_rate": 0.26744186046511625,
+        "mean_mae": 0.031521220240033294,
+        "mean_mfe": 0.01614180623198888
+      },
+      "P3_Mixed": {
+        "count": 135,
+        "net_ev": 0.008141755875360479,
+        "win_rate": 0.6444444444444445,
+        "mean_mae": 0.011324406088179004,
+        "mean_mfe": 0.02199321164529661
+      }
+    },
+    "invalidation_criteria": "squeeze_index > 0.40 OR slope_233 < -0.01"
+  },
+  "signal_c_gravity_short": {
+    "total_events": 515,
+    "success_cases": 118,
+    "failure_cases": 161,
+    "differential_feature_stats": {
+      "meso_slope": {
+        "name": "Meso Slope at Collision",
+        "success_mean": 0.020610145184661626,
+        "failure_mean": 0.04541337915796607,
+        "cohens_d": -0.3225971371395372,
+        "p_value": 0.007545816453060562,
+        "statistically_significant": true
+      },
+      "meso_deceleration": {
+        "name": "Meso Deceleration before Wall",
+        "success_mean": 0.009378285899054099,
+        "failure_mean": 0.0067967624961210345,
+        "cohens_d": 0.061595577416056715,
+        "p_value": 0.6035287315865971,
+        "statistically_significant": false
+      },
+      "dist_super_macro": {
+        "name": "Super-Macro Distance (ATR)",
+        "success_mean": 1.037247969520872,
+        "failure_mean": 0.9638695299955269,
+        "cohens_d": 0.06798245118938846,
+        "p_value": 0.5637610461681136,
+        "statistically_significant": false
+      },
+      "macro_slope": {
+        "name": "Macro Slope (233h)",
+        "success_mean": -0.02386967983711846,
+        "failure_mean": -0.023411555370082555,
+        "cohens_d": -0.02300945518341784,
+        "p_value": 0.855029201609136,
+        "statistically_significant": false
+      },
+      "squeeze_index": {
+        "name": "Squeeze Index",
+        "success_mean": 0.22537285989518485,
+        "failure_mean": 0.3272472144593242,
+        "cohens_d": -0.494663376547762,
+        "p_value": 3.1509278229344755e-05,
+        "statistically_significant": true
+      }
+    },
+    "trap_negative_robustness": {
+      "P1_Bull": {
+        "count": 115,
+        "net_ev": -0.004719149695734123,
+        "win_rate": 0.41739130434782606,
+        "mean_mae": 0.03174069911638775,
+        "mean_mfe": 0.023388586249081713
+      },
+      "P2_Bear": {
+        "count": 81,
+        "net_ev": 0.0009279840583566577,
+        "win_rate": 0.49382716049382713,
+        "mean_mae": 0.019014170838041675,
+        "mean_mfe": 0.024340740235509854
+      },
+      "P3_Mixed": {
+        "count": 62,
+        "net_ev": -0.004830654126071787,
+        "win_rate": 0.46774193548387094,
+        "mean_mae": 0.017759640812137188,
+        "mean_mfe": 0.011786554832648607
+      }
+    },
+    "valid_positive_robustness": {
+      "P1_Bull": {
+        "count": 84,
+        "net_ev": 0.0013280192358350786,
+        "win_rate": 0.4880952380952381,
+        "mean_mae": 0.03440063189380901,
+        "mean_mfe": 0.03694002500459791
+      },
+      "P2_Bear": {
+        "count": 87,
+        "net_ev": -0.0069402650570162166,
+        "win_rate": 0.41379310344827586,
+        "mean_mae": 0.030621061519438407,
+        "mean_mfe": 0.023580170667427947
+      },
+      "P3_Mixed": {
+        "count": 86,
+        "net_ev": -0.004318222189277837,
+        "win_rate": 0.3953488372093023,
+        "mean_mae": 0.019888000285543963,
+        "mean_mfe": 0.01573299408601572
+      }
+    },
+    "invalidation_criteria": "slope_34 > 0.035"
+  }
+}

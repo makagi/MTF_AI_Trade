@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-10-19  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -62,6 +62,19 @@ graph TD
     K028["K-028: マクロRange下の下位足順行の摩擦損失<br/>(Supported: Range完全遮断)"]:::supported
     K029["K-029: 階層的ボラティリティ圧縮連鎖ブレイク<br/>(Refuted: Net -0.14%)"]:::refuted
     K030["K-030: 多時間軸統合客観スコア総合モデル<br/>(Supported: M4戦略アーキテクチャ)"]:::supported
+    K031["K-031: メソ・マクロ同期ブレイク過熱無効化境界<br/>(Supported as Invalidation Filter)"]:::supported
+    K032["K-032: マクロ重力壁への突入速度と突破・反落分岐点<br/>(Supported as Hard Negative Trap)"]:::supported
+    K033["K-033: ボトルネック拡散初動と未成熟レンジ内トラップ<br/>(Supported as Confirmation Filter)"]:::supported
+    K034["K-034: 類似状況における非成立の負の再現性原則<br/>(Supported as Governance/Methodology)"]:::supported
+
+    K017 --> K021
+    K021 --> K030
+    K021 --> K031
+    K022 --> K033
+    K025 --> K032
+    K031 --> K034
+    K032 --> K034
+    K033 --> K034
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -389,6 +402,42 @@ graph TD
 
 ---
 
+### K-031: メソ・マクロ同期ブレイクの過熱無効化境界
+* **ステータス**: 支持 (Supported as Invalidation Filter)
+* **概要**: メソ（34-55-89）が強気同調してブレイクする局面（K-021）において、直前のSqueeze Indexが過熱（>0.50）またはマクロ610乖離が極端（>+5.0 ATR）な領域で発生した遅行ブレイクは、P1でNet EV -0.09%、P2で-0.21%、逆行ドローダウン（MAE）が2.87%に急拡大する。一方、Valid領域（Squeeze Index <= 0.50 かつ Macro 610 Dist <= 5.0 ATR）に限定することで、P1勝率60.87%（Net EV +0.27%）、P3勝率58.49%（Net EV +0.46%）、MAE 1.37%〜2.02%の極めて安定したエッジへ純化される。
+* **実験条件**: BTCUSD 1h、全478件、往復摩擦コスト0.06%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58))
+* **仕様への影響**: ブレイクアウトエントリーの過熱遮断フィルター（Invalidation Criteria）として採用。
+
+---
+
+### K-032: マクロ重力壁への突入速度と突破・反落分岐点
+* **ステータス**: 支持 (Supported as Hard Negative Trap)
+* **概要**: マクロ下降トレンド（233-377-610下降）下での戻り（ベアマーケットラリー）がマクロ重力線（SMA233）に衝突した際、反落ショートが成功するか壁を突き破って踏み上げられるかの分岐点は、メソ波の突入傾き（`meso_slope`）およびSqueeze Indexに明確に依存する（傾き: Cohen's d = -0.32, p = 0.0075 / Squeeze: Cohen's d = -0.49, p < 0.0001）。メソ波が急傾斜（`meso_slope > 0.035`）で加速したまま突入した局面でのショートは、P1（Net EV -0.47%）およびP3（Net EV -0.48%）において一貫して激しい踏み上げ損失（負のエッジ）を完全に再現した。
+* **実験条件**: BTCUSD 1h、全515件、往復摩擦コスト0.06%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58))
+* **仕様への影響**: 上位足抵抗帯逆張りショートにおいて、下位足モメンタム加速中（`meso_slope > 0.035`）のエントリーを完全禁止するハードネガティブゲートとして仕様化。
+
+---
+
+### K-033: ボトルネック拡散初動と未成熟レンジ内トラップ
+* **ステータス**: 支持 (Supported as Confirmation Filter)
+* **概要**: メソ隣接線間ボトルネック（SMA34-55-89密集）からのブレイクにおいて、成功群と失敗群（レンジ内引き戻し）の間でSqueeze Indexに有意差（成功 0.359 vs 失敗 0.290, Cohen's d = 0.26, p = 0.0148）が確認された。極小収縮（Index < 0.30）の内部で放たれたヒゲ飛び乗りは偽ブレイク（False Breakout）となりやすく、ボラティリティが実体として拡散を始動（Index 0.30〜0.45）した初動を確認することが必要境界条件である。
+* **実験条件**: BTCUSD 1h、全622件、往復摩擦コスト0.06%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58))
+* **仕様への影響**: ボトルネックブレイクにおける実体拡散確認（Squeeze Index >= 0.30）をエントリー要件として追加。
+
+---
+
+### K-034: 類似状況における非成立の負の再現性原則
+* **ステータス**: 支持 (Supported as Governance/Methodology)
+* **概要**: ある市場環境で失敗（損失・騙し）となったパターンを無効化フィルターとして採用する際、その失敗要因仮説が真に市場構造的トラップ（負のエッジ）であるためには、「異なる市場局面（P1, P2, P3）においても一貫して非成立（マイナス期待値・高MAE）を再現すること」を必要条件とする。単一期間（例: P2弱気市場のみ）での失敗に基づく安易なフィルター設定は、他の類似局面（P3回復期）における有効トレードを過剰に排除する過学習をもたらすことが実証された。
+* **実験条件**: BTCUSD 1h、全実験データセット横断比較（EXP-58）
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58))
+* **仕様への影響**: ガバナンス（principles.md §2.4）および評価仕様（SPEC-EVAL-001 §5.3）の定量的裏付けとして確立。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -404,4 +453,6 @@ graph TD
 | 2026-10-18 | 0.8.0 | EXP-51-001 反映、MTF複合空間・フィボナッチ流動性と階層同期（K-015〜K-020）を客観検証・登録（計20知見へ拡充） | @makagi / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51) |
 | 2026-10-18 | 0.9.0 | EXP-53-001 反映、フィボナッチ隣接項トリプレット幾何関係性と状態分類（K-021〜K-024）を客観検証・登録（計24知見へ拡充） | @makagi / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53) |
 | 2026-10-19 | 1.0.0 | EXP-55-001 反映、時間階層視点別MTF客観状態空間と階層間動態（K-025〜K-030）を客観検証・登録（計30知見の確立を達成） | @makagi / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55) |
+| 2026-10-19 | 1.1.0 | EXP-58 反映、成否双方向分岐点分析と負のエッジ頑健性検証（K-031〜K-034）を客観検証・登録（計34知見へ拡充） | @makagi / [#59](https://github.com/makagi/MTF_AI_Trade/pull/59) |
+
 

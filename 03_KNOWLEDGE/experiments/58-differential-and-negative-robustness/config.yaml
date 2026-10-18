@@ -1,0 +1,29 @@
+experiment_id: EXP-58
+title: "Contrastive Differential Analysis and Negative Edge Robustness Verification"
+date: "2026-10-19"
+author: "@makagi"
+issue: 58
+
+data:
+  symbol: "BTCUSD"
+  timeframe: "1h"
+  start_date: "2020-01-01"
+  end_date: "2024-12-31"  # Discovery Period (Holdout strictly sealed)
+
+parameters:
+  friction_cost: 0.0006  # 6 bps round-trip
+  forward_horizon_bars: 24  # 24 hours forward evaluation
+  periods:
+    P1_Bull:
+      start: "2020-01-01"
+      end: "2021-12-31"
+    P2_Bear:
+      start: "2022-01-01"
+      end: "2022-12-31"
+    P3_Mixed:
+      start: "2023-01-01"
+      end: "2024-12-31"
+
+thresholds:
+  min_sample_size: 30
+  significance_alpha: 0.05
