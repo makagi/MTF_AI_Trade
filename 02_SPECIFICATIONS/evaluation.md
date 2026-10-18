@@ -1,10 +1,10 @@
 # 評価仕様 (Evaluation Specification)
 
 **Doc ID:** SPEC-EVAL-001  
-**Version:** 0.2.0  
+**Version:** 0.3.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-13  
+**Last Updated:** 2026-10-19  
 **Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#27](https://github.com/makagi/MTF_AI_Trade/issues/27)  
 **Related Docs:** [00_GOVERNANCE/assumptions.md](../00_GOVERNANCE/assumptions.md), [01_CONCEPTS/expected-value.md](../01_CONCEPTS/expected-value.md), [00_GOVERNANCE/documentation-architecture.md](../00_GOVERNANCE/documentation-architecture.md), [02_SPECIFICATIONS/features.md](features.md)  
 
@@ -115,6 +115,34 @@ Analysis Issue およびバックテストにおける仮説の合否は、以�
 2. 年によって符号が激しく反転し、市場の非定常性に耐えられない場合。
 3. 取引回数が極端に少なく、統計的有意性が認められない場合。
 
+### 5.3 類似状況における成否の分岐点分析 (Contrastive / Differential Analysis)
+単一の期間（例: 特定の強気相場のみ）で成立する現象を過大評価することを防ぎ、市場構造の普遍性を捉えるため、以下の分析手順を義務付ける。
+
+1. **類似状況での再現性検証**:
+   - ある相場環境で有効性が示唆されたパターンについて、異なる時期に発生した「類似する状況（Similar Situations）」におけるパフォーマンスを必ず検証する。
+2. **成否の差分比較（What made the difference?）**:
+   - 類似する状況において成立した局面（Success Cases）と成立しなかった局面（Failure Cases）が存在する場合、単に平均値を集計するにとどまらず、**「その時、市場の状況は何がどのように異なっていたのか」**を定量的に比較・特定しなければならない。
+   - 比較対象とする状態量例：
+     - 超マクロ（週足SMA等）の長期トレンド方向と乖離
+     - 直前のボラティリティ履歴（Squeeze持続期間、ATR変化率）
+     - 隣接フィボナッチ項間の幾何学的曲率比（Curvature Ratio）や内部減速の有無
+     - 出来高・値幅アクティビティ比率
+
+### 5.4 時間階層の視点 (Timeframe Scales) の明示義務
+MTF分析において、「どの時間軸の視点で見ているか」によって同一の価格変動であっても状態の意味合い（トレンドか押し目かノイズか）が完全に反転する。  
+したがって、以下の規律を厳格に適用する：
+
+1. **外的テストセットと内的客観状態の分離**:
+   - カレンダー日付固定の期間分割（P1, P2, P3）は、市場の成熟度やストレス耐性を測る「外的テストセット（Calendar Eras）」としてのみ扱い、これをリアルタイムの「市場状態（Regime）」と混同してはならない。
+2. **時間階層視点の明記**:
+   - 市場状態（Regime）を定義・記述する際は、必ず対象とする時間階層（超マクロ: 週足相当、マクロ: 日足相当、メソ: 1h〜4h相当、ミクロ: 1m〜15m相当）の視点を明記しなければならない。
+
+### 5.5 境界条件と無効化基準 (Boundary Conditions & Invalidation Criteria) の知識化
+分析記録（`record.md`）およびナレッジ系譜（`knowledge-lineage.md`）のエントリー作成時、単に「勝率やNet EVの数値」を記録するだけでなく、以下の**境界条件**を必ず明文化しなければならない：
+
+1. **有効境界（Valid Scope）**: どのようなMTF階層関係において優位性が発現するか。
+2. **無効化基準（Invalidation Criteria）**: 類似状況であっても、どのような状態（上位足逆風、レンジ内ノイズ、減速未完了等）が検知されたらシグナルを無効・取引遮断とすべきか。
+
 ---
 
 ## 6. Change History
@@ -125,3 +153,5 @@ Analysis Issue およびバックテストにおける仮説の合否は、以�
 | 2026-10-13 | 0.2.0 | 2026年9月データ追加に伴う期間再定義（レジーム両面検証案の採用） | @makagi / [#28](https://github.com/makagi/MTF_AI_Trade/pull/28) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一、Discovery期間表記（5.1）の完全整合 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 | 2026-10-14 | 0.2.1 | SPEC-FEAT-001 (features.md) との相互参照リンク追加 | @makagi / [#39](https://github.com/makagi/MTF_AI_Trade/pull/39) |
+| 2026-10-19 | 0.3.0 | 類似状況における成否の分岐点分析（5.3）、時間階層視点の明示義務（5.4）、境界条件・無効化基準の知識化（5.5）を追加 | @makagi / [#57](https://github.com/makagi/MTF_AI_Trade/issues/57) |
+
