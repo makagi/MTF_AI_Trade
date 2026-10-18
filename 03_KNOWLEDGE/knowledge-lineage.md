@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 0.9.0  
+**Version:** 1.0.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-18  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53)  
+**Last Updated:** 2026-10-19  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -56,6 +56,12 @@ graph TD
     K022["K-022: メソ隣接線間ボトルネック反発の時代依存性<br/>(Observed: P1強気偏重)"]:::observed
     K023["K-023: メソ傾き反転初動の摩擦負け<br/>(Refuted: Net -0.12%)"]:::refuted
     K024["K-024: 外側過熱逆張りショートの破綻<br/>(Refuted: Net -0.54% 全期赤)"]:::refuted
+    K025["K-025: マクロ下降下メソ強気反落ショート<br/>(Inconclusive: N=59不足 / P2観察)"]:::inconclusive
+    K026["K-026: マクロ強気下メソ急落Gravity反発<br/>(Refuted: Net -0.16%)"]:::refuted
+    K027["K-027: レジーム持続時間フラクタルスケーリング則<br/>(Supported: 比率3.7〜4.2倍)"]:::supported
+    K028["K-028: マクロRange下の下位足順行の摩擦損失<br/>(Supported: Range完全遮断)"]:::supported
+    K029["K-029: 階層的ボラティリティ圧縮連鎖ブレイク<br/>(Refuted: Net -0.14%)"]:::refuted
+    K030["K-030: 多時間軸統合客観スコア総合モデル<br/>(Supported: M4戦略アーキテクチャ)"]:::supported
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -85,6 +91,12 @@ graph TD
     EXP053 --> K022
     EXP053 --> K023
     EXP053 --> K024
+    EXP055["EXP-55-001: 55-multi-scale-mtf-states"] --> K025
+    EXP055 --> K026
+    EXP055 --> K027
+    EXP055 --> K028
+    EXP055 --> K029
+    EXP055 --> K030
 ```
 
 ---
@@ -323,6 +335,60 @@ graph TD
 
 ---
 
+### K-025: マクロ下降視点におけるメソ強気反落ショートの評価保留
+* **ステータス**: 保留・特定環境観察 (Inconclusive / Observed in P2)
+* **概要**: マクロ下降（233-377-610 Bear）の中で一時的に発生するメソ上昇スイング（ベアマーケットラリー）がマクロ抵抗帯に接触して反落するショートは、P2（2022年弱気相場, N=17）において **Net EV +0.812%、勝率 82.35%、PF 2.422** と極めて高い反落精度を示した。しかし、5年4ヶ月間の総サンプル数は **59件（年12回）** と少なくクオンツ基準（N >= 100）を満たさず、P3（Net -0.457%）では踏み上げ損失となったため評価保留とする。
+* **実験条件**: BTCUSD 1h、全59件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/55-multi-scale-mtf-states/record.md`](experiments/55-multi-scale-mtf-states/record.md) (EXP-55-001 / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55))
+* **仕様への影響**: 単独ルール化を保留。大弱気相場（マクロBear）における反落文脈として蓄積。
+
+---
+
+### K-026: マクロ強気視点におけるメソ急落Gravity反発の優位性欠如
+* **ステータス**: 反証・棄却 (Refuted as Standalone Signal)
+* **概要**: マクロ上昇トレンド下においてメソが急落し、価格がマクロSMA（233〜377）帯に突入した局面での逆張り買いは、全期間で **Net EV -0.159%（N=203）**、PF 0.873、勝率 45.81% と往復摩擦コストに負けてマイナスとなった。マクロが強気であっても、メソ下降の勢い（落ちるナイフ）が止まる前に拾う逆張りは優位性を欠く。
+* **実験条件**: BTCUSD 1h、全203件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/55-multi-scale-mtf-states/record.md`](experiments/55-multi-scale-mtf-states/record.md) (EXP-55-001 / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55))
+* **仕様への影響**: マクロ重力帯への突入のみに基づく即時逆張りエントリーを禁止。
+
+---
+
+### K-027: 各時間階層レジーム持続時間のフラクタルスケーリング則
+* **ステータス**: 支持 (Supported as Fractal Architecture)
+* **概要**: マクロ（233-377-610）、メソ（34-55-89）、ミクロ（8-13-21）の各レジーム（Bull/Bear/Range）の1回あたり持続時間を計測（EXP-55-001）した結果、中央値は **マクロ 78.5時間（約3.3日）、メソ 21.0時間（約0.9日）、ミクロ 5.0時間** となり、階層間スケーリング比率は **Meso/Micro = 4.20倍、Macro/Meso = 3.74倍** を記録。フィボナッチ項比（$55/13 \approx 4.23$、$377/89 \approx 4.24$）に極めて近い幾何学的自己相似性が実証された。
+* **実験条件**: BTCUSD 1h、全46,728時間、3階層状態遷移解析
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/55-multi-scale-mtf-states/record.md`](experiments/55-multi-scale-mtf-states/record.md) (EXP-55-001 / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55))
+* **仕様への影響**: 時間階層間のシグナル寿命・クールダウン期間および状態遷移判定の時間窓の数学的根拠として採用。
+
+---
+
+### K-028: 上位足レンジ視点における下位足順行シグナルのフラクタル摩擦損失
+* **ステータス**: 支持 (Supported: Range Drag Elimination)
+* **概要**: マクロが保ち合い（Macro Range: 233-377-610が交差・平坦）の環境において、メソおよびミクロで発生するトレンド追随買いシグナルは、全期間で **Net EV -0.371%（N=1,374）**、PF 0.696、勝率 38.50% と大敗し、全3期間（P1: -0.30%, P2: -0.73%, P3: -0.30%）すべてで一貫して摩擦コスト負けすることが実証された。
+* **実験条件**: BTCUSD 1h、全1,374件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/55-multi-scale-mtf-states/record.md`](experiments/55-multi-scale-mtf-states/record.md) (EXP-55-001 / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55))
+* **仕様への影響**: 上位足レンジ時における下位足トレンド追随シグナルの取引を完全遮断するハードゲートとして仕様化（1,374件の無駄な売買を排除）。
+
+---
+
+### K-029: 階層的ボラティリティ圧縮連鎖ブレイクの方向優位性欠如
+* **ステータス**: 反証・棄却 (Refuted as Signal)
+* **概要**: 日足Squeeze（<25%）と1h足Squeeze（<15%）が同時に発生した後のボラティリティ急拡大ブレイクは、全期間で **Net EV -0.144%（N=5,608）**、PF 0.865 と摩擦負けした。ボラティリティ圧縮という「値幅の狭さ」単体では方向エッジは生じず、上位足トレンド推進方向への階層同期（K-017）やトリプレット同期（K-021）を伴わない純粋なボラティリティブレイクは優位性を持たない。
+* **実験条件**: BTCUSD 1h、全5,608件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/55-multi-scale-mtf-states/record.md`](experiments/55-multi-scale-mtf-states/record.md) (EXP-55-001 / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55))
+* **仕様への影響**: 単なるSqueezeからの出来高急増ブレイク単体をエントリーシグナルとすることを禁止。
+
+---
+
+### K-030: 多時間軸統合客観スコア総合モデルと戦略昇格基準
+* **ステータス**: 支持 (Supported as Milestone 4 Architecture)
+* **概要**: マクロ(+2.0)、メソ(+1.5)、ミクロ(+1.0)の幾何学的レジームを統合した多時間軸客観スコア（Composite Alignment Score $\in [-4.5, +4.5]$）を検証（EXP-55-001）した結果、方向性が衝突・交差する **中立領域（|Score| <= 1.0, N=793）は全期間 Net EV -0.382%** と一貫してマイナスであり、完全取引停止領域（No-Trade Filter）として機能することが実証された。また強気同期（Score >= 3.5）をベースに K-021（全9本の完全順行＋全傾き正）を組み合わせることで、Net EV +0.344%、PF 1.308（P3 PF 1.645）の高摩擦耐性エッジが確立される。
+* **実験条件**: BTCUSD 1h、全46,728時間、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/55-multi-scale-mtf-states/record.md`](experiments/55-multi-scale-mtf-states/record.md) (EXP-55-001 / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55))
+* **仕様への影響**: Milestone 4 における多時間軸戦略（MTF Strategy Engine）の統制アーキテクチャ（共通ゲートウェイ）として正式採用。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -337,4 +403,5 @@ graph TD
 | 2026-10-17 | 0.7.0 | EXP-49-001 反映、急変前後の動態・ショック現象と期間別頑健性検証（K-009〜K-014）を新設・登録（計14知見へ拡充） | @makagi / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49) |
 | 2026-10-18 | 0.8.0 | EXP-51-001 反映、MTF複合空間・フィボナッチ流動性と階層同期（K-015〜K-020）を客観検証・登録（計20知見へ拡充） | @makagi / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51) |
 | 2026-10-18 | 0.9.0 | EXP-53-001 反映、フィボナッチ隣接項トリプレット幾何関係性と状態分類（K-021〜K-024）を客観検証・登録（計24知見へ拡充） | @makagi / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53) |
+| 2026-10-19 | 1.0.0 | EXP-55-001 反映、時間階層視点別MTF客観状態空間と階層間動態（K-025〜K-030）を客観検証・登録（計30知見の確立を達成） | @makagi / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55) |
 
