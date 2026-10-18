@@ -1,0 +1,39 @@
+experiment_id: EXP-53-001
+hypothesis_id: HYP-FIB-TRIPLET-001
+created_at: "2026-10-18"
+author: makagi
+title: "Geometric Relationships and State Classification of Adjacent Fibonacci Triplets"
+description: "Empirical analysis of adjacent Fibonacci triplets (233-377-610, 34-55-89, 8-13-21) across three geometric dimensions: topological ordering/twist, relative slope alignment/deceleration, and inter-term spacing ratio (curvature)."
+
+data:
+  symbol: BTCUSD
+  timeframe: 1h
+  start_date: "2020-01-01"
+  end_date: "2025-04-30"
+
+parameters:
+  friction_cost: 0.0040  # 0.40% round-trip
+  forward_horizon_bars: 24
+  periods:
+    P1_Bull:
+      start: "2020-01-01"
+      end: "2021-12-31"
+      label: "2020-2021 Bull Run"
+    P2_Bear:
+      start: "2022-01-01"
+      end: "2022-12-31"
+      label: "2022 Bear Market"
+    P3_Recovery:
+      start: "2023-01-01"
+      end: "2025-04-30"
+      label: "2023-2025 Recovery & ATH"
+
+triplets:
+  macro: [233, 377, 610]
+  meso: [34, 55, 89]
+  micro: [8, 13, 21]
+
+thresholds:
+  min_sample_size: 100
+  inner_bottleneck_ratio: 0.25
+  outer_climax_ratio: 2.5
