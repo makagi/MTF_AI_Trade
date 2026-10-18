@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 0.7.0  
+**Version:** 0.8.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-17  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49)  
+**Last Updated:** 2026-10-18  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -46,6 +46,12 @@ graph TD
     K012["K-012: 上位足抵抗帯モメンタム過熱の時代依存性<br/>(Inconclusive)"]:::inconclusive
     K013["K-013: 清算カスケード後のボラティリティ枯渇<br/>(Observed)"]:::observed
     K014["K-014: 乖離逆張りにおける厳格MTF防壁の必須性<br/>(Supported)"]:::supported
+    K015["K-015: フィボナッチVoid通過速度仮説の反証<br/>(Refuted: 速度比1.01)"]:::refuted
+    K016["K-016: マクロ重力場傾斜時の押し目深度特性<br/>(Observed: Net +0.08%)"]:::observed
+    K017["K-017: 日足Expansion×1hブレイク階層同期<br/>(Supported: Net +0.50% / Squeeze棄却)"]:::supported
+    K018["K-018: 4本フィボナッチConfluence反発<br/>(Inconclusive: N=83不足)"]:::inconclusive
+    K019["K-019: フラクタルブレイクの方向非対称性とショート欠陥<br/>(Supported: LLショート全期赤)"]:::supported
+    K020["K-020: 上位足PO崩壊初動ショートの優位性欠如<br/>(Refuted: Net -0.17%)"]:::refuted
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -65,6 +71,12 @@ graph TD
     EXP049 --> K012
     EXP049 --> K013
     EXP049 --> K014
+    EXP051["EXP-51-001: 51-fibonacci-mtf-space"] --> K015
+    EXP051 --> K016
+    EXP051 --> K017
+    EXP051 --> K018
+    EXP051 --> K019
+    EXP051 --> K020
 ```
 
 ---
@@ -208,6 +220,65 @@ graph TD
 
 ---
 
+### K-015: フィボナッチ線間「真空地帯（The Void）」通過速度仮説の反証
+* **ステータス**: 反証・棄却 (Refuted)
+* **概要**: フィボナッチSMA（89と233）の間隔が広いゾーン（Void: $\ge 1.5$ ATR）において価格通過速度が加速しトレンド順行性が高まるという仮説を定量検証（EXP-51-001）した結果、通過速度は Void 空間で 0.479 ATR/h、Dense 空間で 0.476 ATR/h と**速度比 1.01 倍（差はわずか 0.6%）** に留まり、速度加速は確認されなかった。またトレンド順行ロングの期待値も全期間で **Net EV -0.427%（N=1,806）** と摩擦コスト負けした。
+* **実験条件**: BTCUSD 1h、全1,806件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/51-fibonacci-mtf-space/record.md`](experiments/51-fibonacci-mtf-space/record.md) (EXP-51-001 / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51))
+* **仕様への影響**: 「線間の広狭（Void）」単独に基づく加速追随ロジックの採用を棄却。
+
+---
+
+### K-016: マクロ重力場（SMA 377）の傾斜と押し目深度特性
+* **ステータス**: 観測 (Observed as Weak Edge)
+* **概要**: マクロSMA 377 の傾きが上向き（$> 0.02$ ATR/bar）の強トレンド時において短期SMA 55 を割り込む押し目買いは、全期間で **Net EV +0.083%（N=545）**、PF 1.082、勝率 51.74% を記録した。P1（強気相場）では Net +0.319% とプラス化するが、P2（弱気相場）の一時的な偽の上昇マクロ局面では Net -0.740% とマイナス。エッジとしては薄く単独売買ルールには不適である。
+* **実験条件**: BTCUSD 1h、全545件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/51-fibonacci-mtf-space/record.md`](experiments/51-fibonacci-mtf-space/record.md) (EXP-51-001 / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51))
+* **仕様への影響**: 単独エントリーとしては不採用。上位足トレンドフィルターとしての補助的文脈に留める。
+
+---
+
+### K-017: 上位足（日足）圧縮 vs 拡散における1hブレイクアウトの階層同期
+* **ステータス**: 支持 (Supported)
+* **概要**: 日足のボラティリティ環境が下位足（1h）高値ブレイクアウトに与える影響を検証（EXP-51-001）した結果、以下の客観的事実が実証された：
+  1. **日足Squeeze下の1hブレイク棄却**: 日足保ち合い（Squeeze Index < 25%）下での1h高値ブレイクは、全期間で **Net EV -0.343%（N=839）**、全3期間（P1: -0.25%, P2: -0.45%, P3: -0.39%）すべてで摩擦負け。レンジ上限の逆風を受けて騙し（False Breakout）が多発する。
+  2. **日足Expansion下の1hブレイク支持**: 日足が既にトレンド推進中（Expansion Index > 75%）における1h高値ブレイクは、全期間で **Net EV +0.498%（N=515）**、PF 1.427、MFE +3.28% vs MAE -2.66% を記録。P1（Net +1.032%）および P3（Net +0.332%）で一貫して正の優位性を示す。ただしP2（弱気相場）では Net -1.546% と大敗するため、マクロ方向性との一致が前提となる。
+* **実験条件**: BTCUSD 1h & 日足換算（480h BB）、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/51-fibonacci-mtf-space/record.md`](experiments/51-fibonacci-mtf-space/record.md) (EXP-51-001 / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51))
+* **仕様への影響**: ブレイクアウト戦略において「日足Squeeze中のブレイクを完全排除」し、「日足トレンド推進中のブレイクのみを採用」する階層同期フィルターを必須化。
+
+---
+
+### K-018: 4本フィボナッチSMA収束点（Confluence Zone）の反発力保留
+* **ステータス**: 保留 (Inconclusive / Sample Size Deficit)
+* **概要**: 4本（21, 55, 89, 144）のSMAが 0.8 ATR 以内に密集した Confluence Zone からの反発買いは、全期間で Net EV +0.382%、PF 1.603、MAE -1.201% と良好な逆行リスク抑制特性を示した。しかし、**5年4ヶ月間の総サンプル数はわずか 83件（年16回）** であり、クオンツ基準（N >= 100）を満たさない。P2 はわずか 4件に留まるため、統計的信頼性の確立には追試が必要であり評価保留とする。
+* **実験条件**: BTCUSD 1h、全83件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/51-fibonacci-mtf-space/record.md`](experiments/51-fibonacci-mtf-space/record.md) (EXP-51-001 / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51))
+* **仕様への影響**: 単独ルール化を保留。ゾーン形成判定の補助特徴量としてプール。
+
+---
+
+### K-019: フラクタル高安値（Rolling 72h HH/LL）更新の方向非対称性とショート構造欠陥
+* **ステータス**: 支持 (Supported)
+* **概要**: 暗号資産（BTC）市場において直近3日（72h）の高安値ブレイクの方向非対称性を検証（EXP-51-001）した結果、以下の構造的欠陥が実証された：
+  1. **高値更新ロング（N=1,125）**: 全期間 Net EV **+0.110%**（P1: +0.328%, P3: +0.216%）。
+  2. **安値更新ショート（N=672）**: 全期間 Net EV **-0.640%**。特筆すべきは、**大弱気相場（2022年 P2）においてすら安値割れの順張りショートは Net -0.134% とマイナス**であり、全3期間すべてで摩擦負けした。
+  3. 安値割れは急激なショートカバーとピンバー反発を誘発しやすく、ブレイクアウトショートは構造的に極めて不利である。
+* **実験条件**: BTCUSD 1h、全1,797件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/51-fibonacci-mtf-space/record.md`](experiments/51-fibonacci-mtf-space/record.md) (EXP-51-001 / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51))
+* **仕様への影響**: 戦略仕様において「安値割れ追随ショート」の採用を全面禁止。ショート戦略は過熱圏からの平均回帰・反落（Mean Reversion）に限定する。
+
+---
+
+### K-020: 上位足パーフェクトオーダー崩壊初動ショートの優位性欠如
+* **ステータス**: 反証・棄却 (Refuted as Standalone Signal)
+* **概要**: 上昇パーフェクトオーダー（SMA 55 > 89 > 233）が48時間以上継続した後、SMA 55 が 89 を割り込んだデッドクロス初動でのショートは、全期間で **Net EV -0.175%（N=130）**、PF 0.845 と摩擦負けした。特に強気相場（P1）では Net -0.667%（N=54）と踏み上げ損失となり、崩壊初動は単なる「深い押し目」となって急反発する性質が強い。
+* **実験条件**: BTCUSD 1h、全130件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/51-fibonacci-mtf-space/record.md`](experiments/51-fibonacci-mtf-space/record.md) (EXP-51-001 / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51))
+* **仕様への影響**: 上昇トレンド中の移動平均線デッドクロス初動での単独ショートシグナルを禁止。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -220,3 +291,5 @@ graph TD
 | 2026-10-16 | 0.5.0 | EXP-45-001 反映、K-007（MTF 3階層レジーム分類と状態遷移モデル）を新設・登録 | @makagi / [#45](https://github.com/makagi/MTF_AI_Trade/issues/45) |
 | 2026-10-17 | 0.6.0 | EXP-47-001 反映、K-005 を再評価（押し目フィルターとして支持）、K-008（MTF状況依存エッジと極限パニック平均回帰）を新設・登録 | @makagi / [#47](https://github.com/makagi/MTF_AI_Trade/issues/47) |
 | 2026-10-17 | 0.7.0 | EXP-49-001 反映、急変前後の動態・ショック現象と期間別頑健性検証（K-009〜K-014）を新設・登録（計14知見へ拡充） | @makagi / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49) |
+| 2026-10-18 | 0.8.0 | EXP-51-001 反映、MTF複合空間・フィボナッチ流動性と階層同期（K-015〜K-020）を客観検証・登録（計20知見へ拡充） | @makagi / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51) |
+
