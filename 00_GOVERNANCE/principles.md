@@ -1,10 +1,10 @@
 # MTFシステムトレード Principles (行動原則)
 
 **Doc ID:** GOV-PRN-001  
-**Version:** 0.2.0  
+**Version:** 0.3.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-12  
+**Last Updated:** 2026-10-19  
 **Related Issues:** [#7](https://github.com/makagi/MTF_AI_Trade/issues/7), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13)  
 **Related Docs:** [00_GOVERNANCE/vision.md](vision.md), [00_GOVERNANCE/issue-driven-workflow.md](issue-driven-workflow.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [04_IMPLEMENTATION/agent-rules.md](../04_IMPLEMENTATION/agent-rules.md)  
 
@@ -57,6 +57,12 @@ Decision (意思決定: 仕様への昇格、戦略採択、または棄却)
 ### 2.3 失敗と反証の知識化 (Value of Negative Results)
 期待した結果が得られなかった実験や、優位性が否定（Refuted）された仮説も同等の価値を持つ知識として記録する。  
 否定された結果を隠蔽せず永続化することで、将来の無駄な重複実験を防ぐ。
+
+### 2.4 境界条件の特定と双方向差分分析 (Boundary Conditions & Differential Analysis)
+特定の単一期間（例: バブル相場のみ）で成立した現象を過大評価してはならない。  
+成立した場合の再現性検証にとどまらず、**非成立（失敗・騙し・期待値マイナス）となった現象についても、類似の状況において一貫して同様の結果（非成立・負のエッジ）となるかを必ず検証しなければならない**。  
+偶発的な1回の失敗に過剰反応して無効化条件をでっち上げる過学習を排除し、類似状況において「成立した局面」と「非成立だった局面」の客観的差分（*What made the difference?*）を定量的に特定する。  
+どのような環境でエッジが消失・無効化するかの**境界条件（Boundary Conditions / Invalidation Criteria）**および構造的トラップを特定して初めて、再現可能な知識として承認される。
 
 ---
 
@@ -188,3 +194,4 @@ AIエージェントが出力した「もっともらしい考察」を、定量
 | 2026-10-09 | 0.1.0 | 初版作成（基本設計原則） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
 | 2026-10-12 | 0.2.0 | Risk First 原則、8段階証拠連鎖、継続的改善フライホイール確立 | @makagi / [#23](https://github.com/makagi/MTF_AI_Trade/pull/23) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-10-19 | 0.3.0 | 境界条件の特定と双方向差分分析（成立・非成立の類似状況再現性）の原則（2.4）を追加 | @makagi / [#57](https://github.com/makagi/MTF_AI_Trade/pull/57) |

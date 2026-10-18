@@ -1,11 +1,11 @@
 # MTFシステムトレード MTF Framework (多時間軸概念モデル)
 
 **Doc ID:** CONC-MTF-001  
-**Version:** 0.2.0  
+**Version:** 0.3.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-12  
-**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5)  
+**Last Updated:** 2026-10-19  
+**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [market-structure.md](market-structure.md), [volatility.md](volatility.md)  
 
 ---
@@ -62,8 +62,15 @@
   * 各時間足のモメンタムや傾きを平滑化し、階層間で波が同調している度合いを連続値で評価する見方。
 * **マクロ重力逆行モデル**:
   * 短期足が一時的に逆行しても、長期足の重力が支えているか、あるいは長期足の壁に衝突しているかを評価する見方。
-* **ファンアウト（拡散）速度モデル**:
-  * 複数期間の移動平均線やバンドの乖離速度から、トレンドの初動・加速・減速（先行性）を捉える見方。
+### 4.2 時間階層の視点と相場認識の相対性 (Timeframe Scale Relativity)
+同一の瞬間における価格変動であっても、**「どの時間階層の視点で観測しているか」**によって状態の意味合いが本質的に異なる：
+
+* **超マクロ視点 (Super-Macro: 週足相当)**: 数年スパンの長期チャネル下限への押し目
+* **マクロ視点 (Macro: 日足相当)**: 数ヶ月単位の一貫した下降トレンド
+* **メソ視点 (Meso: 1h〜4h相当)**: 数週間続く +30% 超の強気スイング（ベアマーケットラリー）
+* **ミクロ視点 (Micro: 1m〜15m相当)**: 日中単位で頻繁に入れ替わる短期波動
+
+したがって、単一の静的な「相場状態（Regime）」というラベルは存在せず、**各時間階層の相対的関係性（例: マクロ下降下のメソ強気スイング）として複眼的に状態を把握すること**が不可欠である。
 
 ※ これらのスコア算出式や正規化パラメータは仕様（[02_SPECIFICATIONS/](../02_SPECIFICATIONS/)）で規定し、本Conceptでは「階層間の連続的同調を評価する」という認識モデルを定義する。
 
@@ -105,3 +112,4 @@
 | 2026-10-09 | 0.1.0 | 初版作成（MTF階層モデル、波の同調、Soft Logic） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
 | 2026-10-12 | 0.2.0 | 仕様記述分離、作業仮説表現への純化 | @makagi / [#24](https://github.com/makagi/MTF_AI_Trade/pull/24) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-10-19 | 0.3.0 | 時間階層の視点（Timeframe Scales）と相場認識の相対性（§4.2）を追加 | @makagi / [#58](https://github.com/makagi/MTF_AI_Trade/pull/58) |
