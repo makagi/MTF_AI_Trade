@@ -1,0 +1,423 @@
+{
+  "total_trades": 515,
+  "friction_cost_applied": 0.004,
+  "gross_mean_return": 0.008978502169763024,
+  "net_mean_return": 0.004978502169763023,
+  "win_rate": 0.4893203883495146,
+  "profit_factor": 1.4268280058439986,
+  "net_cumulative_return": 2.563928617427957,
+  "max_drawdown": 1.2659565233838372,
+  "pattern_name": "K-017: Daily Expansion x 1h Breakout",
+  "all_patterns": {
+    "K-015_Void_Trend_Long": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 1806,
+        "gross_ev_pct": -0.027,
+        "net_ev_pct": -0.427,
+        "win_rate_pct": 41.69,
+        "profit_factor": 0.673,
+        "mean_mfe_pct": 2.075,
+        "mean_mae_pct": 2.281,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 674,
+          "gross_ev_pct": 0.412,
+          "net_ev_pct": 0.012,
+          "win_rate_pct": 51.63,
+          "profit_factor": 1.009,
+          "mean_mfe_pct": 2.706,
+          "mean_mae_pct": 2.724,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 325,
+          "gross_ev_pct": -1.056,
+          "net_ev_pct": -1.456,
+          "win_rate_pct": 20.62,
+          "profit_factor": 0.192,
+          "mean_mfe_pct": 1.479,
+          "mean_mae_pct": 2.535,
+          "sample_sufficient": true
+        },
+        "P3_Recovery": {
+          "n_samples": 807,
+          "gross_ev_pct": 0.021,
+          "net_ev_pct": -0.379,
+          "win_rate_pct": 41.88,
+          "profit_factor": 0.633,
+          "mean_mfe_pct": 1.788,
+          "mean_mae_pct": 1.808,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "K-015_Dense_Trend_Long": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 96,
+        "gross_ev_pct": -0.061,
+        "net_ev_pct": -0.461,
+        "win_rate_pct": 41.67,
+        "profit_factor": 0.658,
+        "mean_mfe_pct": 2.079,
+        "mean_mae_pct": 2.413,
+        "sample_sufficient": false
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 28,
+          "gross_ev_pct": -2.111,
+          "net_ev_pct": -2.511,
+          "win_rate_pct": 28.57,
+          "profit_factor": 0.19,
+          "mean_mfe_pct": 1.996,
+          "mean_mae_pct": 4.916,
+          "sample_sufficient": false
+        },
+        "P2_Bear": {
+          "n_samples": 15,
+          "gross_ev_pct": 1.289,
+          "net_ev_pct": 0.889,
+          "win_rate_pct": 40.0,
+          "profit_factor": 2.981,
+          "mean_mfe_pct": 2.796,
+          "mean_mae_pct": 1.065,
+          "sample_sufficient": false
+        },
+        "P3_Recovery": {
+          "n_samples": 53,
+          "gross_ev_pct": 0.639,
+          "net_ev_pct": 0.239,
+          "win_rate_pct": 49.06,
+          "profit_factor": 1.35,
+          "mean_mfe_pct": 1.92,
+          "mean_mae_pct": 1.472,
+          "sample_sufficient": false
+        }
+      }
+    },
+    "K-016_Macro_Pullback_Long": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 545,
+        "gross_ev_pct": 0.483,
+        "net_ev_pct": 0.083,
+        "win_rate_pct": 51.74,
+        "profit_factor": 1.082,
+        "mean_mfe_pct": 2.347,
+        "mean_mae_pct": 2.11,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 234,
+          "gross_ev_pct": 0.719,
+          "net_ev_pct": 0.319,
+          "win_rate_pct": 59.83,
+          "profit_factor": 1.283,
+          "mean_mfe_pct": 2.876,
+          "mean_mae_pct": 2.628,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 52,
+          "gross_ev_pct": -0.34,
+          "net_ev_pct": -0.74,
+          "win_rate_pct": 30.77,
+          "profit_factor": 0.423,
+          "mean_mfe_pct": 1.962,
+          "mean_mae_pct": 1.983,
+          "sample_sufficient": false
+        },
+        "P3_Recovery": {
+          "n_samples": 259,
+          "gross_ev_pct": 0.436,
+          "net_ev_pct": 0.036,
+          "win_rate_pct": 48.65,
+          "profit_factor": 1.042,
+          "mean_mfe_pct": 1.947,
+          "mean_mae_pct": 1.668,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "K-017_Breakout_Daily_Squeeze": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 839,
+        "gross_ev_pct": 0.057,
+        "net_ev_pct": -0.343,
+        "win_rate_pct": 38.97,
+        "profit_factor": 0.742,
+        "mean_mfe_pct": 2.486,
+        "mean_mae_pct": 2.225,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 347,
+          "gross_ev_pct": 0.152,
+          "net_ev_pct": -0.248,
+          "win_rate_pct": 38.62,
+          "profit_factor": 0.832,
+          "mean_mfe_pct": 3.086,
+          "mean_mae_pct": 2.638,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 150,
+          "gross_ev_pct": -0.05,
+          "net_ev_pct": -0.45,
+          "win_rate_pct": 42.67,
+          "profit_factor": 0.693,
+          "mean_mfe_pct": 2.475,
+          "mean_mae_pct": 2.272,
+          "sample_sufficient": true
+        },
+        "P3_Recovery": {
+          "n_samples": 342,
+          "gross_ev_pct": 0.008,
+          "net_ev_pct": -0.392,
+          "win_rate_pct": 37.72,
+          "profit_factor": 0.648,
+          "mean_mfe_pct": 1.882,
+          "mean_mae_pct": 1.784,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "K-017_Breakout_Daily_Expansion": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 515,
+        "gross_ev_pct": 0.898,
+        "net_ev_pct": 0.498,
+        "win_rate_pct": 48.93,
+        "profit_factor": 1.427,
+        "mean_mfe_pct": 3.278,
+        "mean_mae_pct": 2.657,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 248,
+          "gross_ev_pct": 1.432,
+          "net_ev_pct": 1.032,
+          "win_rate_pct": 57.66,
+          "profit_factor": 1.952,
+          "mean_mfe_pct": 4.041,
+          "mean_mae_pct": 2.937,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 47,
+          "gross_ev_pct": -1.146,
+          "net_ev_pct": -1.546,
+          "win_rate_pct": 29.79,
+          "profit_factor": 0.285,
+          "mean_mfe_pct": 1.895,
+          "mean_mae_pct": 3.515,
+          "sample_sufficient": false
+        },
+        "P3_Recovery": {
+          "n_samples": 220,
+          "gross_ev_pct": 0.732,
+          "net_ev_pct": 0.332,
+          "win_rate_pct": 43.18,
+          "profit_factor": 1.317,
+          "mean_mfe_pct": 2.714,
+          "mean_mae_pct": 2.157,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "K-018_Confluence_Bounce_Long": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 83,
+        "gross_ev_pct": 0.782,
+        "net_ev_pct": 0.382,
+        "win_rate_pct": 45.78,
+        "profit_factor": 1.603,
+        "mean_mfe_pct": 2.265,
+        "mean_mae_pct": 1.201,
+        "sample_sufficient": false
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 20,
+          "gross_ev_pct": 0.321,
+          "net_ev_pct": -0.079,
+          "win_rate_pct": 50.0,
+          "profit_factor": 0.919,
+          "mean_mfe_pct": 2.127,
+          "mean_mae_pct": 1.676,
+          "sample_sufficient": false
+        },
+        "P2_Bear": {
+          "n_samples": 4,
+          "gross_ev_pct": 0.654,
+          "net_ev_pct": 0.254,
+          "win_rate_pct": 50.0,
+          "profit_factor": 1.617,
+          "mean_mfe_pct": 3.124,
+          "mean_mae_pct": 2.411,
+          "sample_sufficient": false
+        },
+        "P3_Recovery": {
+          "n_samples": 59,
+          "gross_ev_pct": 0.946,
+          "net_ev_pct": 0.546,
+          "win_rate_pct": 44.07,
+          "profit_factor": 2.027,
+          "mean_mfe_pct": 2.253,
+          "mean_mae_pct": 0.957,
+          "sample_sufficient": false
+        }
+      }
+    },
+    "K-019_HH_Breakout_Long": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 1125,
+        "gross_ev_pct": 0.51,
+        "net_ev_pct": 0.11,
+        "win_rate_pct": 46.22,
+        "profit_factor": 1.086,
+        "mean_mfe_pct": 3.043,
+        "mean_mae_pct": 2.409,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 500,
+          "gross_ev_pct": 0.728,
+          "net_ev_pct": 0.328,
+          "win_rate_pct": 49.2,
+          "profit_factor": 1.238,
+          "mean_mfe_pct": 3.616,
+          "mean_mae_pct": 2.808,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 139,
+          "gross_ev_pct": -0.649,
+          "net_ev_pct": -1.049,
+          "win_rate_pct": 35.97,
+          "profit_factor": 0.457,
+          "mean_mfe_pct": 2.439,
+          "mean_mae_pct": 2.839,
+          "sample_sufficient": true
+        },
+        "P3_Recovery": {
+          "n_samples": 486,
+          "gross_ev_pct": 0.616,
+          "net_ev_pct": 0.216,
+          "win_rate_pct": 46.09,
+          "profit_factor": 1.22,
+          "mean_mfe_pct": 2.626,
+          "mean_mae_pct": 1.874,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "K-019_LL_Breakdown_Short": {
+      "direction": "short",
+      "full_discovery": {
+        "n_samples": 672,
+        "gross_ev_pct": -0.24,
+        "net_ev_pct": -0.64,
+        "win_rate_pct": 40.18,
+        "profit_factor": 0.678,
+        "mean_mfe_pct": 3.776,
+        "mean_mae_pct": 3.021,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 205,
+          "gross_ev_pct": -0.783,
+          "net_ev_pct": -1.183,
+          "win_rate_pct": 35.12,
+          "profit_factor": 0.543,
+          "mean_mfe_pct": 4.905,
+          "mean_mae_pct": 3.788,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 185,
+          "gross_ev_pct": 0.266,
+          "net_ev_pct": -0.134,
+          "win_rate_pct": 46.49,
+          "profit_factor": 0.929,
+          "mean_mfe_pct": 3.813,
+          "mean_mae_pct": 3.252,
+          "sample_sufficient": true
+        },
+        "P3_Recovery": {
+          "n_samples": 282,
+          "gross_ev_pct": -0.177,
+          "net_ev_pct": -0.577,
+          "win_rate_pct": 39.72,
+          "profit_factor": 0.641,
+          "mean_mfe_pct": 2.932,
+          "mean_mae_pct": 2.313,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "K-020_PO_Collapse_Short": {
+      "direction": "short",
+      "full_discovery": {
+        "n_samples": 130,
+        "gross_ev_pct": 0.225,
+        "net_ev_pct": -0.175,
+        "win_rate_pct": 48.46,
+        "profit_factor": 0.845,
+        "mean_mfe_pct": 2.511,
+        "mean_mae_pct": 2.016,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 54,
+          "gross_ev_pct": -0.267,
+          "net_ev_pct": -0.667,
+          "win_rate_pct": 48.15,
+          "profit_factor": 0.592,
+          "mean_mfe_pct": 2.785,
+          "mean_mae_pct": 2.717,
+          "sample_sufficient": false
+        },
+        "P2_Bear": {
+          "n_samples": 21,
+          "gross_ev_pct": 0.682,
+          "net_ev_pct": 0.282,
+          "win_rate_pct": 57.14,
+          "profit_factor": 1.286,
+          "mean_mfe_pct": 2.961,
+          "mean_mae_pct": 1.803,
+          "sample_sufficient": false
+        },
+        "P3_Recovery": {
+          "n_samples": 55,
+          "gross_ev_pct": 0.534,
+          "net_ev_pct": 0.134,
+          "win_rate_pct": 45.45,
+          "profit_factor": 1.198,
+          "mean_mfe_pct": 2.07,
+          "mean_mae_pct": 1.408,
+          "sample_sufficient": false
+        }
+      }
+    },
+    "K-015_Velocity_Stats": {
+      "void_velocity_mean_atr": 0.479,
+      "dense_velocity_mean_atr": 0.476,
+      "velocity_ratio": 1.01
+    }
+  }
+}
