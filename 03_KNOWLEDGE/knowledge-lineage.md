@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 0.6.0  
+**Version:** 0.7.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-10-17  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -30,15 +30,22 @@ graph TD
     classDef supported fill:#d4edda,stroke:#28a745,stroke-width:2px;
     classDef refuted fill:#f8d7da,stroke:#dc3545,stroke-width:2px;
     classDef inconclusive fill:#fff3cd,stroke:#ffc107,stroke-width:2px;
+    classDef observed fill:#e2e3e5,stroke:#6c757d,stroke-width:2px;
 
     K001["K-001: 長期SMA下方乖離の平均回帰性<br/>(Supported)"]:::supported
     K002["K-002: 単一足ハードサポレジの非定常性<br/>(Refuted)"]:::refuted
     K003["K-003: 1m足単独トリガーの優位性欠如<br/>(Refuted)"]:::refuted
     K004["K-004: 単一1h足価格テクニカルの限界<br/>(Refuted)"]:::refuted
-    K005["K-005: Soft Logicの押し目再点火フィルター特性<br/>(Supported as Filter / Refuted as Standalone)"]:::supported
-    K006["K-006: フィボナッチ時間足間等価性とMTF間引き構造<br/>(Observed / Supported: 相関>0.999 / 96%間引き)"]:::supported
-    K007["K-007: MTF 3階層レジーム分類と状態遷移モデル<br/>(Observed / Supported: Squeeze 28% / 押し目再点火率 42.2%)"]:::supported
-    K008["K-008: MTF状況依存エッジと極限パニック平均回帰<br/>(Supported: Panic乖離 Net+0.38% / レンジ完全遮断)"]:::supported
+    K005["K-005: Soft Logicの押し目再点火フィルター特性<br/>(Supported as Filter)"]:::supported
+    K006["K-006: フィボナッチ時間足間等価性とMTF間引き構造<br/>(Supported)"]:::supported
+    K007["K-007: MTF 3階層レジーム分類と状態遷移モデル<br/>(Supported)"]:::supported
+    K008["K-008: MTF状況依存エッジとパニック平均回帰<br/>(Supported as Context: N=18要追試)"]:::supported
+    K009["K-009: 極限Squeezeブレイクの評価保留<br/>(Inconclusive: N=33不足・P1偏重)"]:::inconclusive
+    K010["K-010: クラッシュ1番底棄却と2番底リスク抑制<br/>(Refuted as Signal / Observed)"]:::inconclusive
+    K011["K-011: クライマックスピンバー単独の優位性欠如<br/>(Refuted: MAE -3.74%)"]:::refuted
+    K012["K-012: 上位足抵抗帯モメンタム過熱の時代依存性<br/>(Inconclusive)"]:::inconclusive
+    K013["K-013: 清算カスケード後のボラティリティ枯渇<br/>(Observed)"]:::observed
+    K014["K-014: 乖離逆張りにおける厳格MTF防壁の必須性<br/>(Supported)"]:::supported
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -47,11 +54,17 @@ graph TD
     EXP041["EXP-41-001: 41-k005-soft-logic"] --> K005
     EXP043["EXP-43-001: 43-fib-mtf-context"] --> K006
     EXP045["EXP-45-001: 45-mtf-state-classification"] --> K007
-    K006 -.->|計算量間引きと等価性基盤を提供| K007
-    K007 -->|状況把握コンテキストを提供| K008
-    K001 -->|下方乖離の前提条件を提供| K008
+    K006 -.->|計算量間引きと等価性基盤| K007
+    K007 -->|状況把握コンテキスト| K008
+    K001 -->|下方乖離の前提条件| K008
     EXP047["EXP-47-001: 47-mtf-context-integrated-eval"] --> K008
     EXP047 -->|フィルター有効性の実証| K005
+    EXP049["EXP-49-001: 49-shock-dynamics-cross-period"] --> K009
+    EXP049 --> K010
+    EXP049 --> K011
+    EXP049 --> K012
+    EXP049 --> K013
+    EXP049 --> K014
 ```
 
 ---
@@ -130,14 +143,68 @@ graph TD
 
 ---
 
-### K-008: MTF状況依存エッジと極限パニック平均回帰
-* **ステータス**: 支持 (Supported)
-* **概要**: MTF状況把握モデルと各特徴量の統合検証（EXP-47-001）において、以下の決定的な事実が実証された：
-  1. **市場75%の保ち合い完全遮断**: 全時間の 75.5% を占める `Range_PingPong` および `Squeeze_Pre_Breakout` において指標シグナルを発火させると、すべて Net EV マイナス（-0.13% 〜 -0.64%）となり摩擦損失の主因となる。これらを状況モデルで遮断することで、1,252件中682件の無駄な売買を排除できる。
-  2. **パニック極値における平均回帰（K-001真の境界）**: K-001（下方乖離）は、中途半端な押し目（Macro Bull）では Net -0.93% と大敗するが、`Bear_Panic_Exhaustion`（Macro Bear ＋ SMA 89から -2.5 ATR超の暴落 ＋ AFS 7 < 30）の極限局面においてのみ、**Net EV +0.38%、勝率 55.6%、PF 1.45、MFE +3.15%** という強烈なプラス期待値を記録する。
+### K-008: MTF状況依存エッジとパニック平均回帰
+* **ステータス**: 支持 (Supported as Context / N=18要追試)
+* **概要**: MTF状況把握モデルと各特徴量の統合検証（EXP-47-001）において、以下の客観的事実が観測された：
+  1. **市場75%の保ち合い遮断**: 全時間の 75.5% を占める `Range_PingPong` および `Squeeze_Pre_Breakout` において指標シグナルを発火させると、すべて Net EV マイナス（-0.13% 〜 -0.64%）となり摩擦損失の主因となる。これらを状況モデルで遮断することで、1,252件中682件の無駄な売買を排除できる。
+  2. **パニック極値における平均回帰（K-001の境界条件）**: K-001（下方乖離）は、通常時（Macro Bull）では Net -0.93% とコスト負けするが、`Bear_Panic_Exhaustion`（Macro Bear ＋ SMA 89から -2.5 ATR超の暴落 ＋ AFS 7 < 30）の極限局面においてのみ、**Net EV +0.38%、勝率 55.6%、PF 1.45、MFE +3.15%** を記録した。ただし**サンプル数は18件と極小**であり、統計的有意性の確立には今後の継続的なサンプル蓄積・追試が不可欠である。
 * **実験条件**: BTCUSD 1h、5年4ヶ月 Discovery 期間、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/47-mtf-context-integrated-eval/record.md`](experiments/47-mtf-context-integrated-eval/record.md) (EXP-47-001 / [#47](https://github.com/makagi/MTF_AI_Trade/issues/47))
-* **仕様への影響**: Milestone 4 の戦略設計において、「レンジ・保ち合い時の完全取引停止ゲート」および「極限パニック暴落時の平均回帰逆張り戦略（Panic Reversion）」の仕様根拠として採用。
+* **仕様への影響**: Milestone 4 の戦略設計において、「レンジ・保ち合い時の取引停止ゲート」の仕様根拠として採用。パニック逆張りについては厳格なリスク管理枠内で限定採用。
+
+---
+
+### K-009: 極限Squeezeブレイクアウトの評価保留
+* **ステータス**: 保留 (Inconclusive / Sample Size Deficit)
+* **概要**: バンド幅が過去下位8%まで収縮した極限エネルギー蓄積（Extreme Squeeze）から、アクティビティ急増（>1.6倍）を伴ってSMA 21をブレイクした初動は、Discovery 期間全体で Net EV +0.42%、PF 1.38 を記録した。しかし、**5年間の総サンプル数はわずか 33 件（年平均6回）** であり、SPEC-EVAL-001 のサンプル基準（N>=100）を満たさない。また期間別内訳では P1（2020-21バブル期）のわずか11件（Net +2.57%）が全体を引き上げているのみで、P2（2022年: Net -0.22%）および P3（2023-25年: Net -0.13%）では摩擦コスト負けしている。バブル相場依存の非定常な現象である疑いが強く、現段階での「支持」判定は時期尚早として保留（Inconclusive）とする。
+* **実験条件**: BTCUSD 1h、5年4ヶ月 Discovery 期間、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/49-shock-dynamics-cross-period/record.md`](experiments/49-shock-dynamics-cross-period/record.md) (EXP-49-001 / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49))
+* **仕様への影響**: ブレイクアウト戦略の単独売買ルール化を保留。サンプル蓄積および環境適応ロジックの追加検証を要件とする。
+
+---
+
+### K-010: フラッシュクラッシュ「1番底単独の棄却」と「2番底のリスク低減効果」
+* **ステータス**: 単独反証・観察 (Refuted as Signal / Observed as Risk Reduction)
+* **概要**: 6時間で 3 ATR超の暴落直後において、最初の反発（1番底）に即時逆張りした場合は **Net EV -0.41%、MAE -3.23%** と深いドローダウンに巻き込まれて摩擦負けする（単独売買シグナルとしては反証・棄却）。一方、12〜48時間後に再度安値を試し、オシレーター（AFS 7）の強気ダイバージェンスを確認した「2番底」でエントリーした場合、**MAEは -2.15% へと約 33% 抑制** される。ただし 2番底単体でも全期間 Net EV は **-0.17%** と依然としてマイナスであり、単独で利益を生むシグナルではない。
+* **実験条件**: BTCUSD 1h、急落後12〜48時間追跡、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/49-shock-dynamics-cross-period/record.md`](experiments/49-shock-dynamics-cross-period/record.md) (EXP-49-001 / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49))
+* **仕様への影響**: パニック逆張り戦略において「急落直後の1番足での即時買いを禁止」し、「2番底ダイバージェンス形成待ち」を必須リスク管理規律として義務化。単独エントリートリガーとしては採用しない。
+
+---
+
+### K-011: クライマックスピンバー単独の優位性欠如
+* **ステータス**: 反証・棄却 (Refuted)
+* **概要**: 2.8倍超のアクティビティ急変を伴う長い下ヒゲピンバー（下ヒゲ45%超）の発生は、一見反発のサインに見えるが、無条件フォワードでは **Net EV -0.51%、PF 0.67、MAE -3.74%** と惨敗した。単足のヒゲ単体では相場の勢いを止められず、単独シグナルとしての優位性は否定された。
+* **実験条件**: BTCUSD 1h、全76件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/49-shock-dynamics-cross-period/record.md`](experiments/49-shock-dynamics-cross-period/record.md) (EXP-49-001 / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49))
+* **仕様への影響**: 単一足のローソク足ヒゲ・ピンバー単体に基づくエントリーシグナルの採用を禁止。
+
+---
+
+### K-012: 上位足抵抗帯モメンタム過熱の時代依存性
+* **ステータス**: 保留・時代依存 (Inconclusive / Regime-Dependent)
+* **概要**: 日足SMA 377付近到達 ＋ 1h AFS過熱（>80）からの反転売りは、強気相場初期（P1: Net +0.18%）や弱気相場（P2: Net -0.03%）では機能する一方、近年の本格回復・最高値更新相場（P3）では強力な踏み上げにより **Net EV -1.06%** と大敗した。相場のトレンド強度によって結果が激しく非定常である。
+* **実験条件**: BTCUSD 1h、全242件、3時代別Cross-Period比較
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/49-shock-dynamics-cross-period/record.md`](experiments/49-shock-dynamics-cross-period/record.md) (EXP-49-001 / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49))
+* **仕様への影響**: 上位足抵抗線での過熱逆張りを単独ルール化することを保留。マクロトレンド推進度合いの定量判定を必須とする。
+
+---
+
+### K-013: 清算カスケード後のボラティリティ枯渇特性
+* **ステータス**: 観測 (Observed)
+* **概要**: 単足で 2.8 ATR超の巨大レンジ足（清算カスケード）が発生した直後の 24〜48時間は、市場参加者のエネルギー消費とポジション解消により、極端なボラティリティから一転して保ち合い・レンジ相場へ移行する傾向が観測された。
+* **実験条件**: BTCUSD 1h、大急変足発生後のフォワードボラティリティ計測
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/49-shock-dynamics-cross-period/record.md`](experiments/49-shock-dynamics-cross-period/record.md) (EXP-49-001 / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49))
+* **仕様への影響**: 急変発生直後の追随順張りを禁止し、ボラティリティ沈静化を待つクールダウン期間（Cool-off Period）設計の基礎として活用。
+
+---
+
+### K-014: 乖離逆張りにおける厳格MTF防壁の必須性
+* **ステータス**: 支持 (Supported)
+* **概要**: SMA 89乖離 < -2.5 ATR 単体で緩い条件の逆張りを行うと、4,036件と取引が過多になり **Net EV -0.47%、PF 0.67、MAE -2.99%** と大敗する。K-008 で実証されたように、「Macro Bear ＋ 極限パニック（Bear_Panic_Exhaustion）」という厳格な二重防壁を通過した少数精鋭のセットアップ（Net +0.38%）に限定しない限り、平均回帰エッジは発現しないことが再確認された。
+* **実験条件**: BTCUSD 1h、全4,036件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/49-shock-dynamics-cross-period/record.md`](experiments/49-shock-dynamics-cross-period/record.md) (EXP-49-001 / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49))
+* **仕様への影響**: 逆張り戦略において緩い閾値による過剰売買を禁止。厳格なMTFレジーム条件を必須防壁とする。
 
 ---
 
@@ -152,3 +219,4 @@ graph TD
 | 2026-10-16 | 0.4.0 | EXP-43-001 反映、K-006（フィボナッチ時間足間等価性とMTF間引き構造）を新設・登録 | @makagi / [#43](https://github.com/makagi/MTF_AI_Trade/pull/43) |
 | 2026-10-16 | 0.5.0 | EXP-45-001 反映、K-007（MTF 3階層レジーム分類と状態遷移モデル）を新設・登録 | @makagi / [#45](https://github.com/makagi/MTF_AI_Trade/issues/45) |
 | 2026-10-17 | 0.6.0 | EXP-47-001 反映、K-005 を再評価（押し目フィルターとして支持）、K-008（MTF状況依存エッジと極限パニック平均回帰）を新設・登録 | @makagi / [#47](https://github.com/makagi/MTF_AI_Trade/issues/47) |
+| 2026-10-17 | 0.7.0 | EXP-49-001 反映、急変前後の動態・ショック現象と期間別頑健性検証（K-009〜K-014）を新設・登録（計14知見へ拡充） | @makagi / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49) |

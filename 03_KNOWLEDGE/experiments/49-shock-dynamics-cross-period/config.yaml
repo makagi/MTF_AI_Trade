@@ -1,0 +1,31 @@
+experiment_id: "49-shock-dynamics-cross-period"
+issue_number: 49
+title: "急変前後の市場動態・ショック現象と期間別頑健性検証"
+author: "@makagi"
+date: "2026-10-17"
+symbol: "BTCUSD"
+timeframe: "1h"
+
+data:
+  symbol: "BTCUSD"
+  timeframe: "1h"
+  partition: "discovery"
+  start_date: "2020-01-01"
+  end_date: "2025-04-30"
+
+parameters:
+  friction_cost: 0.0040
+  forward_horizon_bars: 24
+  periods:
+    period_1:
+      name: "Bull_Bubble_2020_2021"
+      start: "2020-01-01"
+      end: "2021-12-31"
+    period_2:
+      name: "Bear_Crash_2022"
+      start: "2022-01-01"
+      end: "2022-12-31"
+    period_3:
+      name: "Recovery_ATH_2023_2025"
+      start: "2023-01-01"
+      end: "2025-04-30"
