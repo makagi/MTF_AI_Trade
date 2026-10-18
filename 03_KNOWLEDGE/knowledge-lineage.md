@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 0.8.0  
+**Version:** 0.9.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-10-18  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -52,6 +52,10 @@ graph TD
     K018["K-018: 4本フィボナッチConfluence反発<br/>(Inconclusive: N=83不足)"]:::inconclusive
     K019["K-019: フラクタルブレイクの方向非対称性とショート欠陥<br/>(Supported: LLショート全期赤)"]:::supported
     K020["K-020: 上位足PO崩壊初動ショートの優位性欠如<br/>(Refuted: Net -0.17%)"]:::refuted
+    K021["K-021: 3階層フィボナッチトリプレット全同期の順行エッジ<br/>(Supported: Net +0.34% / P3 PF 1.65)"]:::supported
+    K022["K-022: メソ隣接線間ボトルネック反発の時代依存性<br/>(Observed: P1強気偏重)"]:::observed
+    K023["K-023: メソ傾き反転初動の摩擦負け<br/>(Refuted: Net -0.12%)"]:::refuted
+    K024["K-024: 外側過熱逆張りショートの破綻<br/>(Refuted: Net -0.54% 全期赤)"]:::refuted
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -77,6 +81,10 @@ graph TD
     EXP051 --> K018
     EXP051 --> K019
     EXP051 --> K020
+    EXP053["EXP-53-001: 53-fibonacci-adjacent-triplets"] --> K021
+    EXP053 --> K022
+    EXP053 --> K023
+    EXP053 --> K024
 ```
 
 ---
@@ -279,6 +287,42 @@ graph TD
 
 ---
 
+### K-021: 3階層フィボナッチトリプレット全同期の強力な順行エッジ
+* **ステータス**: 支持 (Supported)
+* **概要**: ミクロ(8-13-21)・メソ(34-55-89)・マクロ(233-377-610)の3階層全9本が、同時に完全順行配列（$A>B>C$）かつ全傾き正（$\text{Slope}>0$）となった初動状態を検証（EXP-53-001）した結果、全期間で **Net EV +0.344%（N=2,870）、PF 1.308、MFE +3.03% vs MAE -2.46%** と強固な摩擦耐性を実証。特に P3（直近回復相場, N=1,292）では **Net EV +0.551%、PF 1.645** と極めて高い再現性を示した。
+* **実験条件**: BTCUSD 1h、全2,870件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/53-fibonacci-adjacent-triplets/record.md`](experiments/53-fibonacci-adjacent-triplets/record.md) (EXP-53-001 / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53))
+* **仕様への影響**: トレンド順張り戦略における最上位のエントリー認可条件（Triple Triplet Full Alignment）として仕様化。
+
+---
+
+### K-022: メソ隣接線間ボトルネック反発の時代依存性
+* **ステータス**: 観測・時代依存 (Observed / Regime Dependent)
+* **概要**: メソトリプレット (34-55-89) において、34と55の間隔が外側（55と89）の 25% 以下に圧縮されたボトルネック（$\text{Curvature Ratio} < 0.25$）からの反発買いは、全期間で Net EV +0.156%（N=245）、MAE -1.84% と逆行リスクが小さい。P1（バブル期, N=104）では **Net EV +0.843%、勝率 63.5%、PF 2.057** と極大化したが、P3 では Net -0.439% とマイナスに転落した。
+* **実験条件**: BTCUSD 1h、全245件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/53-fibonacci-adjacent-triplets/record.md`](experiments/53-fibonacci-adjacent-triplets/record.md) (EXP-53-001 / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53))
+* **仕様への影響**: 単独売買ルールではなく、強気レジーム限定の押し目リスク抑制フィルターとして位置づける。
+
+---
+
+### K-023: メソ傾き反転初動（Meso Re-acceleration）の摩擦負け
+* **ステータス**: 反証・棄却 (Refuted as Standalone Signal)
+* **概要**: マクロ上昇トレンド下において、メソトリプレットの押し目減速（Slope 34 < 0）から 34 の傾きがプラスに転じた初動単体での買いは、全期間で **Net EV -0.119%（N=207）**、PF 0.900 と往復摩擦コストに負けてマイナスとなった。単一の傾き反転だけではノイズが多く、全階層の同調（K-021）を伴わない単独シグナルとしては優位性を欠く。
+* **実験条件**: BTCUSD 1h、全207件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/53-fibonacci-adjacent-triplets/record.md`](experiments/53-fibonacci-adjacent-triplets/record.md) (EXP-53-001 / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53))
+* **仕様への影響**: 単一フィボナッチ項の傾き反転のみに基づく即時エントリーを禁止。
+
+---
+
+### K-024: 外側ボトルネック過熱逆張りショートの破綻
+* **ステータス**: 反証・棄却 (Refuted: Trend Flaw)
+* **概要**: メソ (55-89) が凝縮しているのに 34 だけが急拡大して突出した過熱状態（$\text{Curvature Ratio} > 2.5$）からの反落ショートは、全期間で **Net EV -0.538%（N=1,417）**、PF 0.586、勝率 38.88% と惨敗。全3期間（P1: -0.76%, P2: -0.26%, P3: -0.49%）すべてで大幅なマイナスを記録し、幾何学的過熱を理由とする逆張り売りは踏み上げリスクが極めて高い。
+* **実験条件**: BTCUSD 1h、全1,417件、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/53-fibonacci-adjacent-triplets/record.md`](experiments/53-fibonacci-adjacent-triplets/record.md) (EXP-53-001 / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53))
+* **仕様への影響**: 線間乖離過熱を理由とする逆張りショートシグナルを全面禁止。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -292,4 +336,5 @@ graph TD
 | 2026-10-17 | 0.6.0 | EXP-47-001 反映、K-005 を再評価（押し目フィルターとして支持）、K-008（MTF状況依存エッジと極限パニック平均回帰）を新設・登録 | @makagi / [#47](https://github.com/makagi/MTF_AI_Trade/issues/47) |
 | 2026-10-17 | 0.7.0 | EXP-49-001 反映、急変前後の動態・ショック現象と期間別頑健性検証（K-009〜K-014）を新設・登録（計14知見へ拡充） | @makagi / [#49](https://github.com/makagi/MTF_AI_Trade/issues/49) |
 | 2026-10-18 | 0.8.0 | EXP-51-001 反映、MTF複合空間・フィボナッチ流動性と階層同期（K-015〜K-020）を客観検証・登録（計20知見へ拡充） | @makagi / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51) |
+| 2026-10-18 | 0.9.0 | EXP-53-001 反映、フィボナッチ隣接項トリプレット幾何関係性と状態分類（K-021〜K-024）を客観検証・登録（計24知見へ拡充） | @makagi / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53) |
 

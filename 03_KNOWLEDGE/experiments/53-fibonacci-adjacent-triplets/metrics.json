@@ -1,0 +1,283 @@
+{
+  "total_trades": 207,
+  "friction_cost_applied": 0.004,
+  "gross_mean_return": 0.0028108271453498863,
+  "net_mean_return": -0.0011891728546501142,
+  "win_rate": 0.43478260869565216,
+  "profit_factor": 0.8998873277037781,
+  "net_cumulative_return": -0.24615878091257365,
+  "max_drawdown": 0.7063728593355171,
+  "pattern_name": "EXP-53: Meso Re-acceleration under Macro Bull",
+  "all_states": {
+    "State_1_Meso_Reacceleration_Long": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 207,
+        "gross_ev_pct": 0.281,
+        "net_ev_pct": -0.119,
+        "win_rate_pct": 43.48,
+        "profit_factor": 0.9,
+        "mean_mfe_pct": 2.306,
+        "mean_mae_pct": 2.133,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 86,
+          "gross_ev_pct": 0.741,
+          "net_ev_pct": 0.341,
+          "win_rate_pct": 55.81,
+          "profit_factor": 1.289,
+          "mean_mfe_pct": 2.98,
+          "mean_mae_pct": 2.505,
+          "sample_sufficient": false
+        },
+        "P2_Bear": {
+          "n_samples": 22,
+          "gross_ev_pct": -0.001,
+          "net_ev_pct": -0.401,
+          "win_rate_pct": 36.36,
+          "profit_factor": 0.726,
+          "mean_mfe_pct": 2.225,
+          "mean_mae_pct": 2.415,
+          "sample_sufficient": false
+        },
+        "P3_Recovery": {
+          "n_samples": 99,
+          "gross_ev_pct": -0.055,
+          "net_ev_pct": -0.455,
+          "win_rate_pct": 34.34,
+          "profit_factor": 0.599,
+          "mean_mfe_pct": 1.738,
+          "mean_mae_pct": 1.746,
+          "sample_sufficient": false
+        }
+      }
+    },
+    "State_2_Inner_Bottleneck_Spring_Long": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 245,
+        "gross_ev_pct": 0.556,
+        "net_ev_pct": 0.156,
+        "win_rate_pct": 49.8,
+        "profit_factor": 1.166,
+        "mean_mfe_pct": 2.423,
+        "mean_mae_pct": 1.842,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 104,
+          "gross_ev_pct": 1.243,
+          "net_ev_pct": 0.843,
+          "win_rate_pct": 63.46,
+          "profit_factor": 2.057,
+          "mean_mfe_pct": 3.091,
+          "mean_mae_pct": 1.875,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 35,
+          "gross_ev_pct": 0.317,
+          "net_ev_pct": -0.083,
+          "win_rate_pct": 37.14,
+          "profit_factor": 0.933,
+          "mean_mfe_pct": 2.247,
+          "mean_mae_pct": 2.159,
+          "sample_sufficient": false
+        },
+        "P3_Recovery": {
+          "n_samples": 106,
+          "gross_ev_pct": -0.039,
+          "net_ev_pct": -0.439,
+          "win_rate_pct": 40.57,
+          "profit_factor": 0.551,
+          "mean_mfe_pct": 1.824,
+          "mean_mae_pct": 1.705,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "State_3_Outer_Climax_Short": {
+      "direction": "short",
+      "full_discovery": {
+        "n_samples": 1417,
+        "gross_ev_pct": -0.138,
+        "net_ev_pct": -0.538,
+        "win_rate_pct": 38.88,
+        "profit_factor": 0.586,
+        "mean_mfe_pct": 2.304,
+        "mean_mae_pct": 2.179,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 491,
+          "gross_ev_pct": -0.361,
+          "net_ev_pct": -0.761,
+          "win_rate_pct": 37.07,
+          "profit_factor": 0.559,
+          "mean_mfe_pct": 2.933,
+          "mean_mae_pct": 2.803,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 295,
+          "gross_ev_pct": 0.135,
+          "net_ev_pct": -0.265,
+          "win_rate_pct": 44.41,
+          "profit_factor": 0.723,
+          "mean_mfe_pct": 2.076,
+          "mean_mae_pct": 1.758,
+          "sample_sufficient": true
+        },
+        "P3_Recovery": {
+          "n_samples": 631,
+          "gross_ev_pct": -0.092,
+          "net_ev_pct": -0.492,
+          "win_rate_pct": 37.72,
+          "profit_factor": 0.563,
+          "mean_mfe_pct": 1.922,
+          "mean_mae_pct": 1.89,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "State_4_Macro_Twist_Short": {
+      "direction": "short",
+      "full_discovery": {
+        "n_samples": 44,
+        "gross_ev_pct": 0.12,
+        "net_ev_pct": -0.28,
+        "win_rate_pct": 38.64,
+        "profit_factor": 0.739,
+        "mean_mfe_pct": 2.427,
+        "mean_mae_pct": 2.019,
+        "sample_sufficient": false
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 18,
+          "gross_ev_pct": 0.686,
+          "net_ev_pct": 0.286,
+          "win_rate_pct": 44.44,
+          "profit_factor": 1.304,
+          "mean_mfe_pct": 3.056,
+          "mean_mae_pct": 2.033,
+          "sample_sufficient": false
+        },
+        "P2_Bear": {
+          "n_samples": 8,
+          "gross_ev_pct": 0.507,
+          "net_ev_pct": 0.107,
+          "win_rate_pct": 50.0,
+          "profit_factor": 1.202,
+          "mean_mfe_pct": 3.355,
+          "mean_mae_pct": 1.007,
+          "sample_sufficient": false
+        },
+        "P3_Recovery": {
+          "n_samples": 18,
+          "gross_ev_pct": -0.617,
+          "net_ev_pct": -1.017,
+          "win_rate_pct": 27.78,
+          "profit_factor": 0.294,
+          "mean_mfe_pct": 1.386,
+          "mean_mae_pct": 2.454,
+          "sample_sufficient": false
+        }
+      }
+    },
+    "State_5_Triple_Alignment_Long": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 2870,
+        "gross_ev_pct": 0.744,
+        "net_ev_pct": 0.344,
+        "win_rate_pct": 46.93,
+        "profit_factor": 1.308,
+        "mean_mfe_pct": 3.026,
+        "mean_mae_pct": 2.457,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 1371,
+          "gross_ev_pct": 0.743,
+          "net_ev_pct": 0.343,
+          "win_rate_pct": 49.96,
+          "profit_factor": 1.263,
+          "mean_mfe_pct": 3.388,
+          "mean_mae_pct": 3.067,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 207,
+          "gross_ev_pct": -0.542,
+          "net_ev_pct": -0.942,
+          "win_rate_pct": 30.92,
+          "profit_factor": 0.379,
+          "mean_mfe_pct": 2.224,
+          "mean_mae_pct": 2.357,
+          "sample_sufficient": true
+        },
+        "P3_Recovery": {
+          "n_samples": 1292,
+          "gross_ev_pct": 0.951,
+          "net_ev_pct": 0.551,
+          "win_rate_pct": 46.28,
+          "profit_factor": 1.645,
+          "mean_mfe_pct": 2.77,
+          "mean_mae_pct": 1.827,
+          "sample_sufficient": true
+        }
+      }
+    },
+    "State_6_Meso_Pullback_Brake_Context": {
+      "direction": "long",
+      "full_discovery": {
+        "n_samples": 1775,
+        "gross_ev_pct": 0.224,
+        "net_ev_pct": -0.176,
+        "win_rate_pct": 46.7,
+        "profit_factor": 0.838,
+        "mean_mfe_pct": 2.221,
+        "mean_mae_pct": 2.167,
+        "sample_sufficient": true
+      },
+      "periods": {
+        "P1_Bull": {
+          "n_samples": 744,
+          "gross_ev_pct": 0.69,
+          "net_ev_pct": 0.29,
+          "win_rate_pct": 59.95,
+          "profit_factor": 1.259,
+          "mean_mfe_pct": 2.955,
+          "mean_mae_pct": 2.696,
+          "sample_sufficient": true
+        },
+        "P2_Bear": {
+          "n_samples": 183,
+          "gross_ev_pct": -1.471,
+          "net_ev_pct": -1.871,
+          "win_rate_pct": 15.3,
+          "profit_factor": 0.123,
+          "mean_mfe_pct": 1.345,
+          "mean_mae_pct": 2.741,
+          "sample_sufficient": true
+        },
+        "P3_Recovery": {
+          "n_samples": 848,
+          "gross_ev_pct": 0.181,
+          "net_ev_pct": -0.219,
+          "win_rate_pct": 41.86,
+          "profit_factor": 0.738,
+          "mean_mfe_pct": 1.766,
+          "mean_mae_pct": 1.579,
+          "sample_sufficient": true
+        }
+      }
+    }
+  }
+}
