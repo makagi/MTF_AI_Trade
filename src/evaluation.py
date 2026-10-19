@@ -118,3 +118,103 @@ def evaluate_yearly_breakdown(
         })
 
     return pd.DataFrame(records).set_index("year")
+
+
+def decluster_events(
+    signal_mask: pd.Series,
+    cooldown_bars: int = 24,
+) -> pd.Series:
+    """Decluster overlapping/consecutive signal triggers to obtain independent samples.
+
+    Enforces a mandatory cooldown period so that subsequent triggers within
+    `cooldown_bars` of a preceding trigger are filtered out.
+    """
+    clean_mask = signal_mask.fillna(False).astype(bool)
+    indices = np.where(clean_mask.values)[0]
+    if len(indices) == 0:
+        return pd.Series(False, index=signal_mask.index)
+
+    declustered_indices = []
+    last_idx = -cooldown_bars - 1
+    for idx in indices:
+        if idx - last_idx >= cooldown_bars:
+            declustered_indices.append(idx)
+            last_idx = idx
+
+    out = pd.Series(False, index=signal_mask.index)
+    out.iloc[declustered_indices] = True
+    return out
+
+
+def calculate_cohens_d(
+    group1: np.ndarray | pd.Series,
+    group2: np.ndarray | pd.Series,
+) -> float:
+    """Calculate Cohen's d effect size between two groups."""
+    g1 = np.asarray(group1, dtype=float)
+    g2 = np.asarray(group2, dtype=float)
+    g1 = g1[~np.isnan(g1)]
+    g2 = g2[~np.isnan(g2)]
+
+    n1, n2 = len(g1), len(g2)
+    if n1 < 2 or n2 < 2:
+        return 0.0
+    var1, var2 = np.var(g1, ddof=1), np.var(g2, ddof=1)
+    pooled_se = np.sqrt(((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2))
+    if pooled_se == 0 or np.isnan(pooled_se):
+        return 0.0
+    return float((np.mean(g1) - np.mean(g2)) / pooled_se)
+
+
+def evaluate_multi_horizon(
+    df: pd.DataFrame,
+    entry_mask: pd.Series,
+    horizons: list[int] | None = None,
+    cost: float = STANDARD_FRICTION_COST,
+    is_short: bool = False,
+) -> dict[int, dict[str, Any]]:
+    """Evaluate performance across multiple forward horizons to observe feature decay profile.
+
+    Computes Net Return, MFE, MAE, Win Rate, and E-Ratio (MFE/MAE) for each horizon.
+    """
+    if horizons is None:
+        horizons = [4, 12, 24, 72]
+
+    entries = df[entry_mask.fillna(False).astype(bool)].copy()
+    if len(entries) == 0:
+        return {h: {"total_trades": 0} for h in horizons}
+
+    close = df["close"]
+    high = df["high"]
+    low = df["low"]
+
+    results = {}
+    for h in horizons:
+        if is_short:
+            fwd_ret = -(close.shift(-h) - close) / close
+            fwd_high = high.shift(-1).rolling(h).max().shift(-(h - 1))
+            fwd_low = low.shift(-1).rolling(h).min().shift(-(h - 1))
+            mfe = (close - fwd_low) / close
+            mae = (fwd_high - close) / close
+        else:
+            fwd_ret = (close.shift(-h) - close) / close
+            fwd_high = high.shift(-1).rolling(h).max().shift(-(h - 1))
+            fwd_low = low.shift(-1).rolling(h).min().shift(-(h - 1))
+            mfe = (fwd_high - close) / close
+            mae = (close - fwd_low) / close
+
+        entries_h = entries.index.intersection(fwd_ret.dropna().index)
+        sub_ret = fwd_ret.loc[entries_h]
+        sub_mfe = mfe.loc[entries_h]
+        sub_mae = mae.loc[entries_h]
+
+        metrics = evaluate_returns(sub_ret, cost=cost, mfe=sub_mfe, mae=sub_mae)
+        mean_mfe = metrics.get("mfe_mean", 0.0)
+        mean_mae = metrics.get("mae_mean", 0.0)
+        e_ratio = float(mean_mfe / mean_mae) if mean_mae > 0 else 0.0
+        metrics["e_ratio"] = e_ratio
+        metrics["horizon_bars"] = h
+        results[h] = metrics
+
+    return results
+

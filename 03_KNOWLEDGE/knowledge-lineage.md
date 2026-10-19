@@ -402,28 +402,28 @@ graph TD
 
 ---
 
-### K-031: メソ・マクロ同期ブレイクの過熱無効化境界
+### K-031: メソ・マクロ同期ブレイクの過熱無効化境界とマルチホライズン特性
 * **ステータス**: 支持 (Supported as Invalidation Filter)
-* **概要**: メソ（34-55-89）が強気同調してブレイクする局面（K-021）において、直前のSqueeze Indexが過熱（>0.50）またはマクロ610乖離が極端（>+5.0 ATR）な領域で発生した遅行ブレイクは、P1でNet EV -0.09%、P2で-0.21%、逆行ドローダウン（MAE）が2.87%に急拡大する。一方、Valid領域（Squeeze Index <= 0.50 かつ Macro 610 Dist <= 5.0 ATR）に限定することで、P1勝率60.87%（Net EV +0.27%）、P3勝率58.49%（Net EV +0.46%）、MAE 1.37%〜2.02%の極めて安定したエッジへ純化される。
-* **実験条件**: BTCUSD 1h、全478件、往復摩擦コスト0.06%控除
+* **概要**: メソ（34-55-89）が強気同調してブレイクする局面（K-021）において、デクラスタリング後の独立279イベントを検証。直前のSqueeze Indexが過熱（>0.50）またはマクロ610乖離が極端（>+5.0 ATR）な領域での遅行飛び乗りは、P1でNet EV -0.53%（40bps控除後）、E-Ratio 0.81に悪化する。一方、Valid領域（Squeeze Index <= 0.50 かつ Macro 610 Dist <= 5.0 ATR）では逆行（MAE）が抑制され、マルチホライズン評価において72hホールドでNet EV +0.181%（40bps控除後）、E-Ratio 1.295（MFE 4.21% vs MAE 3.25%）へと高摩擦耐性エッジが開花する。
+* **実験条件**: BTCUSD 1h、独立279件（24hクールダウン適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除（0.06%参考併記）
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58))
-* **仕様への影響**: ブレイクアウトエントリーの過熱遮断フィルター（Invalidation Criteria）として採用。
+* **仕様への影響**: ブレイクアウトエントリーの過熱遮断フィルター（Invalidation Criteria）および72hスイング追随設計の根拠として採用。
 
 ---
 
 ### K-032: マクロ重力壁への突入速度と突破・反落分岐点
 * **ステータス**: 支持 (Supported as Hard Negative Trap)
-* **概要**: マクロ下降トレンド（233-377-610下降）下での戻り（ベアマーケットラリー）がマクロ重力線（SMA233）に衝突した際、反落ショートが成功するか壁を突き破って踏み上げられるかの分岐点は、メソ波の突入傾き（`meso_slope`）およびSqueeze Indexに明確に依存する（傾き: Cohen's d = -0.32, p = 0.0075 / Squeeze: Cohen's d = -0.49, p < 0.0001）。メソ波が急傾斜（`meso_slope > 0.035`）で加速したまま突入した局面でのショートは、P1（Net EV -0.47%）およびP3（Net EV -0.48%）において一貫して激しい踏み上げ損失（負のエッジ）を完全に再現した。
-* **実験条件**: BTCUSD 1h、全515件、往復摩擦コスト0.06%控除
+* **概要**: マクロ下降トレンド（233-377-610下降）下での戻りがマクロ重力線（SMA233）に衝突した際、デクラスタリング後の独立123イベントを検証。メソ波が急傾斜（`slope_34 > 0.035`）またはボラ拡大（Squeeze Index > 0.35）で突入した局面でのショートは、壁を突き破る踏み上げとなり、P1（Net EV -0.395%）、P2（Net EV -1.077%）、P3（Net EV -0.855%）と全期間一貫してE-Ratio < 1.0（0.73〜0.90）の激しい損失（負のエッジ）を完全に再現した。
+* **実験条件**: BTCUSD 1h、独立123件（24hクールダウン適用）、Discovery全期間、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58))
-* **仕様への影響**: 上位足抵抗帯逆張りショートにおいて、下位足モメンタム加速中（`meso_slope > 0.035`）のエントリーを完全禁止するハードネガティブゲートとして仕様化。
+* **仕様への影響**: 上位足抵抗帯逆張りショートにおいて、下位足モメンタム加速中（`slope_34 > 0.035` または Squeeze > 0.35）のエントリーを完全禁止するハードネガティブゲートとして仕様化。
 
 ---
 
 ### K-033: ボトルネック拡散初動と未成熟レンジ内トラップ
 * **ステータス**: 支持 (Supported as Confirmation Filter)
-* **概要**: メソ隣接線間ボトルネック（SMA34-55-89密集）からのブレイクにおいて、成功群と失敗群（レンジ内引き戻し）の間でSqueeze Indexに有意差（成功 0.359 vs 失敗 0.290, Cohen's d = 0.26, p = 0.0148）が確認された。極小収縮（Index < 0.30）の内部で放たれたヒゲ飛び乗りは偽ブレイク（False Breakout）となりやすく、ボラティリティが実体として拡散を始動（Index 0.30〜0.45）した初動を確認することが必要境界条件である。
-* **実験条件**: BTCUSD 1h、全622件、往復摩擦コスト0.06%控除
+* **概要**: メソ隣接線間ボトルネック（SMA34-55-89密集）からのブレイクにおいて、デクラスタリング後の独立165イベントを検証。実体拡散初動（`Squeeze Index >= 0.30` かつ `Macro Slope >= 0`）を確認したエントリーは、P1において40bps控除後でもNet EV +1.00%、E-Ratio 1.31を記録。極小収縮内部（Index < 0.30）の飛び乗りは偽ブレイク（False Breakout）となりやすく、P1（-0.77%）・P2（-0.87%）と大敗する。
+* **実験条件**: BTCUSD 1h、独立165件（24hクールダウン適用）、Discovery全期間、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58))
 * **仕様への影響**: ボトルネックブレイクにおける実体拡散確認（Squeeze Index >= 0.30）をエントリー要件として追加。
 
@@ -431,10 +431,11 @@ graph TD
 
 ### K-034: 類似状況における非成立の負の再現性原則
 * **ステータス**: 支持 (Supported as Governance/Methodology)
-* **概要**: ある市場環境で失敗（損失・騙し）となったパターンを無効化フィルターとして採用する際、その失敗要因仮説が真に市場構造的トラップ（負のエッジ）であるためには、「異なる市場局面（P1, P2, P3）においても一貫して非成立（マイナス期待値・高MAE）を再現すること」を必要条件とする。単一期間（例: P2弱気市場のみ）での失敗に基づく安易なフィルター設定は、他の類似局面（P3回復期）における有効トレードを過剰に排除する過学習をもたらすことが実証された。
+* **概要**: ある市場環境で失敗（損失・騙し）となったパターンを無効化フィルターとして採用する際、その失敗要因仮説が真に市場構造的トラップ（負のエッジ）であるためには、「デクラスタリング後の独立サンプルにおいて、異なる市場局面（P1, P2, P3）を横断して一貫して非成立（マイナス期待値・低E-Ratio）を再現すること」を必須要件とする。単一期間の失敗に基づく安易なフィルター設定は過学習を生み、他局面の有効トレードを排除するリスクがあることが実証された。
 * **実験条件**: BTCUSD 1h、全実験データセット横断比較（EXP-58）
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58))
 * **仕様への影響**: ガバナンス（principles.md §2.4）および評価仕様（SPEC-EVAL-001 §5.3）の定量的裏付けとして確立。
+
 
 ---
 
