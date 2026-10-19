@@ -1,12 +1,12 @@
 # 特徴量仕様 (Feature Specification)
 
 **Doc ID:** SPEC-FEAT-001  
-**Version:** 0.1.0  
+**Version:** 0.2.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-14  
-**Related Issues:** [#39](https://github.com/makagi/MTF_AI_Trade/issues/39)  
-**Related Docs:** [02_SPECIFICATIONS/evaluation.md](evaluation.md), [01_CONCEPTS/mtf-framework.md](../01_CONCEPTS/mtf-framework.md), [01_CONCEPTS/volatility.md](../01_CONCEPTS/volatility.md), [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [90_LEGACY/knowledge/DICTIONARY.md](../90_LEGACY/knowledge/DICTIONARY.md)  
+**Last Updated:** 2026-10-19  
+**Related Issues:** [#39](https://github.com/makagi/MTF_AI_Trade/issues/39), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61)  
+**Related Docs:** [02_SPECIFICATIONS/evaluation.md](evaluation.md), [01_CONCEPTS/mtf-framework.md](../01_CONCEPTS/mtf-framework.md), [01_CONCEPTS/volatility.md](../01_CONCEPTS/volatility.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [90_LEGACY/knowledge/DICTIONARY.md](../90_LEGACY/knowledge/DICTIONARY.md)  
 
 ---
 
@@ -133,6 +133,28 @@
 
 ---
 
+### 4.7 時間成熟度軸 (Regime Age & Wave Maturity)
+* **概念**: 同一のブレイクや乖離特徴量であっても、トレンド発生直後（初動）か、持続時間の中央値を超えた老朽期（反転リスク領域）かによって期待値が正反対になる。各階層の持続時間中央値に対する経過時間比率を状況軸として定義する。
+* **数式定義**:
+  - 直近のレジーム転換（Bull / Bear / Range）からの経過バー数を $T_{\text{age}}$ とする。
+  - 各時間階層の実証中央値持続時間（K-027 準拠: Macro = 78.5h, Meso = 21.0h, Micro = 6.0h）を用いて比率化：
+    $$\text{Macro\_Age\_Ratio}_t = \frac{T_{\text{macro\_age}, t}}{78.5}$$
+    $$\text{Meso\_Age\_Ratio}_t = \frac{T_{\text{meso\_age}, t}}{21.0}$$
+* **解釈**: $\text{Age\_Ratio} < 1.0$ は初動〜巡航期（順張り高優位性領域）、$\text{Age\_Ratio} > 2.0$ は老朽期（過熱・天井圏警戒領域）。
+
+---
+
+### 4.8 サポレジ・アタック回数 (Level Test Count)
+* **概念**: 動的サポレジ水準への接触回数と流動性消費モデル（CONC-STR-001 §2）。同一水準へのテストが繰り返されるほど防戦指値が消費され、反発力は低下しブレイク（貫通）確率が高まる。
+* **数式定義**:
+  - 水準 $L_t$ に対して、許容バンド幅 $\delta = 0.5 \times \text{ATR}_t$ とする。
+  - バーが高値・安値でバンド $[\max(L_t - \delta, 0), L_t + \delta]$ に接触した別個のエピソード開始点を $\mathbf{1}_{\text{touch\_start}, t}$ とする（連続接触バーは1回とカウント）。
+  - 過去 $W=72$ バーにおける累積接触回数：
+    $$\text{Level\_Test\_Count}_t(L, W) = \sum_{i=0}^{W-1} \mathbf{1}_{\text{touch\_start}, t-i}$$
+* **解釈**: $\text{Test\_Count} \in \{1, 2\}$ は初動〜2回目の防戦反発領域、$\text{Test\_Count} \ge 3$ は流動性枯渇によるブレイク・貫通警戒領域。
+
+---
+
 ## 5. 検証・品質保証契約 (Verification & QA Contract)
 
 1. **再現性とモジュール化**:
@@ -149,3 +171,5 @@
 | 日付 | Version | 変更概要 | 担当者 / PR |
 |---|---|---|---|
 | 2026-10-14 | 0.1.0 | 初版作成（旧資産 DICTIONARY.md からの昇格・仕様標準化） | @makagi / [#39](https://github.com/makagi/MTF_AI_Trade/issues/39) |
+| 2026-10-19 | 0.2.0 | 時間成熟度軸 (Regime Age Ratio)、アタック回数 (Level Test Count)、The Void Filter の仕様追加・数式標準化 | @makagi / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61) |
+
