@@ -1,0 +1,33 @@
+experiment_id: EXP-58
+title: "Contrastive Differential Analysis and Negative Edge Robustness Verification (Declustered & SPEC Compliant)"
+date: "2026-10-19"
+author: "@makagi"
+issue: 58
+
+data:
+  symbol: "BTCUSD"
+  timeframe: "1h"
+  start_date: "2020-01-01"
+  end_date: "2025-04-30"  # Discovery Period according to SPEC-EVAL-001 (Holdout sealed)
+
+parameters:
+  standard_friction_cost: 0.0040  # 40 bps round-trip (SPEC-EVAL-001 mandatory standard)
+  reference_friction_cost: 0.0006  # 6 bps round-trip (maker/taker reference)
+  forward_horizon_bars: 24  # Primary horizon
+  multi_horizons: [4, 12, 24, 72]
+  cooldown_bars: 24  # Declustering window to eliminate overlapping trigger bias
+  super_macro_period: 987  # Weekly Fibonacci scale (~41 days) strictly superior to Macro (610)
+  periods:
+    P1_Bull:
+      start: "2020-01-01"
+      end: "2021-12-31"
+    P2_Bear:
+      start: "2022-01-01"
+      end: "2022-12-31"
+    P3_Mixed:
+      start: "2023-01-01"
+      end: "2025-04-30"
+
+thresholds:
+  min_sample_size: 30
+  significance_alpha: 0.05
