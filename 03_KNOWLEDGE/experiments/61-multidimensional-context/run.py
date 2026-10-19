@@ -127,9 +127,13 @@ def run_experiment(exp_dir: Path):
     df["meso_age_ratio"] = regime_df["meso_age_ratio"]
     df["macro_regime"] = regime_df["macro_regime"]
 
-    # Retest counts for SMA 233 and SMA 610
-    df["retest_count_233"] = calculate_level_test_count(df, level=df["sma_233"], window_bars=72, tolerance_atr=0.5, atr_series=atr_24)
-    df["retest_count_610"] = calculate_level_test_count(df, level=df["sma_610"], window_bars=72, tolerance_atr=0.5, atr_series=atr_24)
+    # Retest counts for SMA 233 and SMA 610 with min_departure_bars=3 to filter noise
+    df["retest_count_233"] = calculate_level_test_count(
+        df, level=df["sma_233"], window_bars=72, tolerance_atr=0.5, atr_series=atr_24, min_departure_bars=3
+    )
+    df["retest_count_610"] = calculate_level_test_count(
+        df, level=df["sma_610"], window_bars=72, tolerance_atr=0.5, atr_series=atr_24, min_departure_bars=3
+    )
 
     # Calendar Era tagging
     df["period"] = "Other"
@@ -145,13 +149,6 @@ def run_experiment(exp_dir: Path):
     
     # High-extension condition (EXP-58 K-031 Trap definition: dist > 5.0 ATR or squeeze > 0.50)
     sig_a_extended_raw = sig_a_raw & ((df["dist_sma_610"] > 5.0) | (df["squeeze_index"] > 0.50))
-    
-    # HYP-CTX-1 Separation of High-extension Breakouts:
-    # 1. Early/Cruising Stage: Macro_Age_Ratio <= 1.2
-    # 2. Late/Exhaustion Stage: Macro_Age_Ratio > 2.0
-    sig_a_early_raw = sig_a_extended_raw & (df["macro_age_ratio"] <= 1.2)
-    sig_a_exhaust_raw = sig_a_extended_raw & (df["macro_age_ratio"] > 2.0)
-    sig_a_mid_raw = sig_a_extended_raw & (df["macro_age_ratio"] > 1.2) & (df["macro_age_ratio"] <= 2.0)
 
     # Signal C: Macro Gravity Reversal Short (K-032 / EXP-58 canonical basis)
     # Macro Bear, price collides with SMA 233 gravity wall, Macro slope negative
@@ -161,38 +158,34 @@ def run_experiment(exp_dir: Path):
         (df["slope_233"] < 0)
     )
 
-    # HYP-CTX-2 Separation of Signal C:
-    # 1. Retest Count 1-2 (Fresh wall defence): retest_count_233 <= 2
-    # 2. Retest Count 3+ (Exhausted wall / penetration risk): retest_count_233 >= 3
-    # Sub-condition: Fanout Velocity decelerating (< 0) vs accelerating (>= 0)
-    sig_c_defend_raw = sig_c_raw & (df["retest_count_233"] <= 2)
-    sig_c_penetrate_raw = sig_c_raw & (df["retest_count_233"] >= 3)
-    sig_c_defend_decel_raw = sig_c_defend_raw & (df["fanout_velocity"] < 0)
-
     # General Long Trend Benchmark for Feature Role Mapping
     # Any Meso breakout in direction of Meso Bull
     meso_breakout_raw = (close > df["sma_34"]) & (close.shift(1) <= df["sma_34"].shift(1)) & (df["slope_55"] > 0)
 
     # =========================================================================
-    # 5. Event Declustering (24h cooldown)
+    # 5. Pre-Segmentation Event Declustering (24h cooldown)
     # =========================================================================
-    print(f"Applying decluster_events(cooldown_bars={cooldown})...")
+    print(f"Applying pre-segmentation decluster_events(cooldown_bars={cooldown})...")
+    # Decluster parent signal populations first
     sig_a_decl = decluster_events(sig_a_raw, cooldown)
     sig_a_extended_decl = decluster_events(sig_a_extended_raw, cooldown)
-    sig_a_early_decl = decluster_events(sig_a_early_raw, cooldown)
-    sig_a_exhaust_decl = decluster_events(sig_a_exhaust_raw, cooldown)
-    sig_a_mid_decl = decluster_events(sig_a_mid_raw, cooldown)
+    
+    # Strictly partition the declustered parent population into mutually exclusive subgroups
+    sig_a_early_decl = sig_a_extended_decl & (df["macro_age_ratio"] <= 1.2)
+    sig_a_mid_decl = sig_a_extended_decl & (df["macro_age_ratio"] > 1.2) & (df["macro_age_ratio"] <= 2.0)
+    sig_a_exhaust_decl = sig_a_extended_decl & (df["macro_age_ratio"] > 2.0)
 
     sig_c_decl = decluster_events(sig_c_raw, cooldown)
-    sig_c_defend_decl = decluster_events(sig_c_defend_raw, cooldown)
-    sig_c_penetrate_decl = decluster_events(sig_c_penetrate_raw, cooldown)
-    sig_c_defend_decel_decl = decluster_events(sig_c_defend_decel_raw, cooldown)
+    # Strictly partition the declustered parent population into mutually exclusive subgroups
+    sig_c_defend_decl = sig_c_decl & (df["retest_count_233"] <= 2)
+    sig_c_penetrate_decl = sig_c_decl & (df["retest_count_233"] >= 3)
+    sig_c_defend_decel_decl = sig_c_defend_decl & (df["fanout_velocity"] < 0)
 
     meso_breakout_decl = decluster_events(meso_breakout_raw, cooldown)
 
-    print(f"Sample counts (Declustered):")
-    print(f"  Signal A Extended: {sig_a_extended_decl.sum()} (Early: {sig_a_early_decl.sum()}, Mid: {sig_a_mid_decl.sum()}, Exhaust: {sig_a_exhaust_decl.sum()})")
-    print(f"  Signal C Wall Short: {sig_c_decl.sum()} (Defend <=2: {sig_c_defend_decl.sum()}, Penetrate >=3: {sig_c_penetrate_decl.sum()}, Defend+Decel: {sig_c_defend_decel_decl.sum()})")
+    print(f"Sample counts (Pre-segmentation Declustered):")
+    print(f"  Signal A Extended Total: {sig_a_extended_decl.sum()} (Early: {sig_a_early_decl.sum()} + Mid: {sig_a_mid_decl.sum()} + Exhaust: {sig_a_exhaust_decl.sum()} = {sig_a_early_decl.sum() + sig_a_mid_decl.sum() + sig_a_exhaust_decl.sum()})")
+    print(f"  Signal C Wall Short Total: {sig_c_decl.sum()} (Defend <=2: {sig_c_defend_decl.sum()} + Penetrate >=3: {sig_c_penetrate_decl.sum()} = {sig_c_defend_decl.sum() + sig_c_penetrate_decl.sum()})")
     print(f"  Meso Breakout Baseline: {meso_breakout_decl.sum()}")
 
     # =========================================================================
@@ -391,29 +384,27 @@ def run_experiment(exp_dir: Path):
             p_eval = evaluate_returns((close.shift(-24) - close).loc[df[p_mask].index] / close.loc[df[p_mask].index], cost=std_cost)
             period_consistency[pname] = round(float(p_eval.get("net_mean_return", 0.0)), 5)
 
-        # Role Assignment Logic
-        # 1. Timing Trigger: Strong positive Delta Net Return at 4h or 12h
-        # 2. MFE Booster: Increases MFE significantly at 24h/72h without proportional MAE expansion
-        # 3. MAE Damper: Reduces MAE significantly at 24h
-        # 4. Trap Gate: Negative return across periods when inverted or triggers loss
+        # Role Assignment Logic based on relative deltas vs baseline
         delta_net_24 = deltas["24"]["delta_net_return"]
         delta_er_24 = deltas["24"]["delta_e_ratio"]
         delta_mae_24 = deltas["24"]["delta_mae"]
         delta_mfe_24 = deltas["24"]["delta_mfe"]
         delta_net_4 = deltas["4"]["delta_net_return"]
+        delta_wr_4 = deltas["4"]["win_rate"] - base_mh[4].get("win_rate", 0.0)
+        delta_net_12 = deltas["12"]["delta_net_return"]
 
         assigned_role = "Neutral / Context-Dependent"
         primary_horizon = 24
-        if delta_net_4 > 0.0020 and deltas["4"]["win_rate"] > 0.52:
+        if (delta_net_4 > 0.0015 or delta_net_12 > 0.0015) and delta_wr_4 > 0.03:
             assigned_role = "Timing Trigger"
-            primary_horizon = 4
-        elif delta_mfe_24 > 0.0030 and delta_er_24 > 0.15:
+            primary_horizon = 4 if delta_net_4 > delta_net_12 else 12
+        elif delta_mfe_24 > 0.0015 and delta_er_24 > 0.08 and delta_net_24 > 0:
             assigned_role = "MFE Booster"
             primary_horizon = 72 if deltas["72"]["delta_net_return"] > delta_net_24 else 24
-        elif delta_mae_24 < -0.0025 and delta_net_24 > 0:
+        elif delta_mae_24 < -0.0010 and delta_net_24 >= -0.0005 and delta_er_24 > 0.03:
             assigned_role = "MAE Damper (Risk Filter)"
             primary_horizon = 24
-        elif all(v < 0 for v in period_consistency.values()) or (delta_net_24 < -0.0040):
+        elif (delta_net_24 < -0.0015 and delta_er_24 < -0.05) or (delta_net_24 < -0.0030):
             assigned_role = "Trap Gate (Invalidation Filter)"
             primary_horizon = 24
 

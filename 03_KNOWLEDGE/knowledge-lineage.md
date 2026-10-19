@@ -66,8 +66,8 @@ graph TD
     K032["K-032: マクロ重力壁への突入速度と突破・反落分岐点<br/>(Supported as Hard Negative Trap)"]:::supported
     K033["K-033: ボトルネック拡散初動と未成熟レンジ内トラップ<br/>(Supported as Confirmation Filter)"]:::supported
     K034["K-034: 類似状況における非成立の負の再現性原則<br/>(Supported as Governance/Methodology)"]:::supported
-    K035["K-035: 動的サポレジ・アタック回数境界モデル<br/>(Supported: 1-2回接触 Net+0.27% vs 3回目以降貫通)"]:::supported
-    K036["K-036: レジーム成熟度による高乖離ブレイクの二面性<br/>(Supported: Age<=2.0 巡航 vs Age>2.0 老朽Trap)"]:::supported
+    K035["K-035: 動的サポレジ・アタック回数境界モデル<br/>(Inconclusive / Trap Gate支持)"]:::inconclusive
+    K036["K-036: レジーム成熟度による高乖離ブレイクの二面性<br/>(Inconclusive / 24h Trap Gate支持)"]:::inconclusive
     K037["K-037: MTFコア特徴量の機能役割分離体系<br/>(Supported: Trap Gate/MAE Damper/MFE Booster)"]:::supported
 
     K017 --> K021
@@ -446,32 +446,33 @@ graph TD
 ---
 
 ### K-035: 動的サポレジ・アタック回数境界モデル
-* **ステータス**: 支持 (Supported: CONC-STR-001 §2 実証)
-* **概要**: 上位足動的サポレジ水準（SMA 233/610等）への到達において、過去72時間の接触エピソード回数（`Level_Test_Count`）が成否（反発 vs 貫通）を決定的に分岐する。独立120件のデクラスタリング検証において、**1〜2回目の接触（Fresh Wall: n=25）は防戦注文の厚みにより反発勝率 60.0%、24h Net EV +0.27% (40 bps控除後)、PF 1.20、E-Ratio 1.04** を記録し、P1（+0.56%）およびP2（+0.38%）の双方でプラス期待値を維持。一方、**3回目以降の接触（Exhausted Wall: n=114）では流動性枯渇により貫通（ブレイク）が発生し、24h Net EV -0.45%、勝率 40.4%、PF 0.67、E-Ratio 0.94** と全ホライズンで一貫した負のエッジ（普遍的トラップ）となる。
-* **実験条件**: BTCUSD 1h、独立120件、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61))
-* **仕様への影響**: SPEC-FEAT-001 §4.8（Level Test Count）および CONC-STR-001 §2 の定量的境界として確立。サポレジ逆張りは「接触2回目以内かつファンアウト減速」に限定し、3回目以降は取引禁止ゲートとする。
+* **ステータス**: 保留・途上 (Inconclusive as Independent Trigger / Supported as Invalidation Gate)
+* **概要**: 上位足動的サポレジ水準（SMA 233/610等）への到達において、最小離脱期間（`min_departure_bars=3`）を適用した累積接触回数（`Level_Test_Count`）が成否（反発 vs 貫通）を決定的に分岐する。独立120件の検証において、**1〜2回目の接触（Fresh Wall: n=60）は3回目以降（Exhausted Wall: n=60）比で 24h Net EV が +0.70%（-0.23% vs -0.93%）、勝率が +15.0%（48.3% vs 33.3%）、PF が 0.84 vs 0.39、E-Ratio が 1.02 vs 0.73 優位** である。3回目以降の接触は流動性消費による貫通（ブレイク）が支配的であり、取引禁止ゲートとして支持。ただし単独でのプラス期待値達成には至らず、$N=60 < 100$ であるため独立トリガーとしては保留（Inconclusive）。
+* **実験条件**: BTCUSD 1h、独立120件（分割前デクラスタリング適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#63](https://github.com/makagi/MTF_AI_Trade/issues/63))
+* **仕様への影響**: SPEC-FEAT-001 §4.8（Level Test Count）および CONC-STR-001 §2 の定量的境界として確立。サポレジ到達時の3回目以降（Exhausted Wall）を取引禁止ゲート（Trap Gate）として採用。
 
 ---
 
 ### K-036: レジーム成熟度による高乖離ブレイクの二面性
-* **ステータス**: 支持 (Supported: K-031 課題解決)
-* **概要**: 上位足からの高乖離ブレイク（`dist_sma_610 > 5.0 ATR` または `squeeze_index > 0.50`）は、レジーム持続時間中央値（78.5時間: K-027）に対する経過比率（`Macro_Age_Ratio`）によって本質的に異なる振る舞いを示す。独立335件の検証において、**巡航期（`Macro_Age_Ratio <= 2.0`, n=50）では 12h Net EV +0.17%、24h E-Ratio 1.37、72h Net EV +0.60% (E-Ratio 1.31)** と順行が逆行を大きく凌駕する。一方、**中央値の2倍を超えた老朽期（`Macro_Age_Ratio > 2.0`, n=197）では 24h E-Ratio が 0.86 へ急落し、特に弱気相場（P2）では 24h Net EV -2.40%、72h Net EV -4.70%（E-Ratio 0.18）と致命的なドローダウン**を招く。
-* **実験条件**: BTCUSD 1h、独立335件、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61))
+* **ステータス**: 保留・途上 (Inconclusive as Directional Signal / Supported as 24h Trap Gate)
+* **概要**: Signal A 高乖離ブレイク（独立335件）において、レジーム持続時間中央値（78.5時間: K-027）に対する経過比率 `Macro_Age_Ratio` を検証。**Mid-Stage（`1.2 < Age <= 2.0`, n=45）では 12h Net EV +0.23%、PF 1.36、24h E-Ratio 1.37、72h Net EV +0.48% (E-Ratio 1.29)** と順行が逆行を凌駕する一方、**中央値の2倍を超えた老朽期（`Age > 2.0`, n=194）では 24h E-Ratio が 0.86 へ急落し、特に弱気相場（P2）では 24h Net EV -2.40%、72h Net EV -4.70%（E-Ratio 0.18）と壊滅的ドローダウン**を招く。72h ホライズン全体では成功群・失敗群間の成熟度比率に有意差はない（$d = 0.038, p = 0.7322$）ため、72h 方向予測としては保留とするが、24h 老朽過熱トラップ遮断ゲート（Trap Gate）として支持。
+* **実験条件**: BTCUSD 1h、独立335件（分割前デクラスタリング適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#63](https://github.com/makagi/MTF_AI_Trade/issues/63))
 * **仕様への影響**: SPEC-FEAT-001 §4.7（Regime Age Ratio）の境界値として確立。順張りブレイクにおいて `Macro_Age_Ratio > 2.0` は過熱トラップ遮断ゲート（Trap Gate）として採用。
 
 ---
 
 ### K-037: MTFコア特徴量の機能役割分離体系
 * **ステータス**: 支持 (Supported: 戦略設計アーキテクチャ)
-* **概要**: MTF特徴量を単一の「売買トリガー」として一律評価するのではなく、4h/12h/24h/72hのマルチホライズン評価と時代別一貫性により、以下の3つの直交する機能役割として分離・配置するアーキテクチャを実証確立した：
-  1. **Trap Gate（環境遮断フィルター）**: 条件反転時に全期間で一貫した負のエッジ（Net EV < 0, E-Ratio < 1.0）を示す特徴量（`Macro_Age_Ratio > 2.0`, `Squeeze_Index < 0.25`, `Elasticity_Index > 1.5`, `Fanout_Velocity <= 0`）。
-  2. **MAE Damper（逆行抑制フィルター）**: 順行期待値を損なうことなくエントリー直後の最大逆行（MAE）を有意に抑制する特徴量（`AFS_Compression < Q25`, `Sandwich_Ratio <= 0.25`）。
-  3. **MFE Booster / Timing Trigger（順行増幅・初動トリガー）**: 短期オシレーター同期により初動のモメンタムと順行（MFE）を拡大する特徴量（`AFS_Order_Score == 3`, `Void_Distance >= 2.0 ATR`）。
+* **概要**: MTF特徴量を単一の「売買トリガー」として一律評価するのではなく、4h/12h/24h/72hのマルチホライズン評価と相対変化量（$\Delta$）基準により、以下の機能役割として客観分離・配置するアーキテクチャを確立した：
+  1. **MFE Booster**: `AFS_Order_Score == 3`（$\Delta\text{Net}_{24h} = +0.23\%$, $\Delta\text{ER} = +0.131$, $\Delta\text{MFE} = +0.44\%$）。
+  2. **MAE Damper (Risk Filter)**: `AFS_Compression < Q25`（$\Delta\text{Net}_{24h} = +0.10\%$, $\Delta\text{ER} = +0.103$, $\Delta\text{MAE} = -0.37\%$）、`Macro_Age_Ratio <= 1.0`（$\Delta\text{Net}_{24h} = +0.18\%$, $\Delta\text{MAE} = -0.24\%$）。
+  3. **Trap Gate (Invalidation Filter)**: `Macro_Age_Ratio > 2.0`（$\Delta\text{Net}_{24h} = -0.40\%$, $\Delta\text{ER} = -0.205$, $\Delta\text{MAE} = +0.47\%$）。
+  4. **Neutral / Context-Dependent**: `Sandwich_Ratio`、`The Void Filter`、`Fanout_Velocity` 等（単体での一律効果は限定的であり、上位コンテキストとの複合条件として扱う）。
 * **実験条件**: BTCUSD 1h、独立525件、Discovery全期間（2020-01〜2025-04）、SPEC-FEAT-001全コア特徴量
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61))
-* **仕様への影響**: `02_SPECIFICATIONS/features.md` の全特徴量に機能役割属性（Role Tag）を正式付与し、複合戦略構築の基礎仕様とする。
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#63](https://github.com/makagi/MTF_AI_Trade/issues/63))
+* **仕様への影響**: `02_SPECIFICATIONS/features.md` の全特徴量に機能役割属性（Role Tag）を客観的データに基づき正式付与。
 
 ---
 
@@ -492,6 +493,8 @@ graph TD
 | 2026-10-19 | 1.0.0 | EXP-55-001 反映、時間階層視点別MTF客観状態空間と階層間動態（K-025〜K-030）を客観検証・登録（計30知見の確立を達成） | @makagi / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55) |
 | 2026-10-19 | 1.1.0 | EXP-58 反映、デクラスタリング後の客観的証拠に基づき成否双方向分岐点・負のエッジ頑健性を検証（K-031〜K-034 登録・計34知見へ拡充） | @makagi / [#59](https://github.com/makagi/MTF_AI_Trade/pull/59) / [#60](https://github.com/makagi/MTF_AI_Trade/issues/60) |
 | 2026-10-19 | 1.2.0 | EXP-61 反映、時間成熟度・空間アタック回数・内部構造によるコア特徴量の役割別効果検証（K-035〜K-037 登録・計37知見へ拡充） | @makagi / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61) |
+| 2026-10-20 | 1.2.1 | EXP-61 監査是正反映（分割前デクラスタリング、最小離脱期間、客観的役割分類、K-035/K-036エビデンスレベル是正） | @makagi / [#63](https://github.com/makagi/MTF_AI_Trade/issues/63) |
+
 
 
 

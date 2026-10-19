@@ -323,12 +323,14 @@ def calculate_level_test_count(
     window_bars: int = 72,
     tolerance_atr: float = 0.5,
     atr_series: Optional[pd.Series] = None,
+    min_departure_bars: int = 3,
 ) -> pd.Series:
     """
     動的サポレジ水準に対するアタック回数 (Level Test Count) を計算する (CONC-STR-001 §2 / HYP-CTX-2)。
     高値・安値が水準の許容バンド (level ± tolerance_atr * ATR) に接触した別個のエピソードを検出し、
     過去 window_bars 期間内の累計アタック回数を集計する。
-    連続して接触しているバーは1回のエピソードとして扱う。
+    1バーの微小なノイズによる過剰カウントを排除するため、先行する非接触期間が
+    min_departure_bars 以上継続した後の再接触のみを新たなアタックエピソードとしてカウントする。
     """
     high = df["high"]
     low = df["low"]
@@ -342,8 +344,12 @@ def calculate_level_test_count(
     # Contact occurs if bar intersects [lower_band, upper_band]
     is_touch = (high >= lower_band) & (low <= upper_band) & (~level.isna())
 
-    # Episode start is a touch not preceded by a touch on the previous bar
-    touch_start = is_touch & (~is_touch.shift(1).fillna(False))
+    # Count consecutive non-touch bars preceding a touch
+    touch_group = is_touch.cumsum()
+    consec_non_touch = (~is_touch).groupby(touch_group).cumsum()
+
+    # Episode start requires at least min_departure_bars of departure (or initial touch)
+    touch_start = is_touch & (consec_non_touch.shift(1).fillna(min_departure_bars) >= min_departure_bars)
 
     # Rolling count of distinct test episodes in past window_bars
     test_count = touch_start.rolling(window=window_bars, min_periods=1).sum().astype(int)

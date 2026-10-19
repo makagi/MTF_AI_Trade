@@ -135,9 +135,16 @@ def test_calculate_regime_age(sample_ohlcv_data):
 def test_calculate_level_test_count(sample_ohlcv_data):
     # Construct a level near the middle
     level = calculate_sma(sample_ohlcv_data["close"], 10)
-    test_count = calculate_level_test_count(
+    test_count_default = calculate_level_test_count(
         sample_ohlcv_data, level=level, window_bars=20, tolerance_atr=0.5
     )
-    assert len(test_count) == 100
-    assert (test_count >= 0).all()
+    assert len(test_count_default) == 100
+    assert (test_count_default >= 0).all()
+
+    # Verify min_departure_bars separates noisy touches
+    test_count_strict = calculate_level_test_count(
+        sample_ohlcv_data, level=level, window_bars=20, tolerance_atr=0.5, min_departure_bars=6
+    )
+    assert len(test_count_strict) == 100
+    assert (test_count_strict <= test_count_default).all()
 
