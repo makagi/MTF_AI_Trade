@@ -481,13 +481,14 @@ graph TD
 ### K-038: 複合ロール統合（Sequential Role Gating）とミニマル・コンポジット
 * **ステータス**: 支持 (Supported: 戦略複合アーキテクチャ)
 * **概要**: 単一特徴量では突破できない 40 bps 摩擦コストを、直交する機能ロールの段階的統合により克服可能であることを実証した。特に、過剰フィルタリング（Over-filtering）を回避した **「Trap Gate (`Macro_Age_Ratio <= 2.0`)」×「MFE Booster (`AFS_Order == 3`)」の2層結合（Minimal Viable Composite: MVC, 独立86件）** は、サンプル枯渇を起こさずに以下の卓越した成績を達成した：
-  - **24h Net EV**: **`+0.42%`**（40 bps 控除後、PF `1.30`、ER `1.30`）
-  - **72h Net EV**: **`+1.08%`**（PF **`1.85`**、ER **`1.62`**）
+  - **24h Net EV**: **`+0.42%`**（40 bps 控除後、**PF `1.50`**, ER `1.30`, $t=1.40, p=0.1643$）
+  - **72h Net EV**: **`+1.08%`**（**PF `1.85`**, **ER `1.62`**, **$t=2.10, p=0.0391$ (有意)**）
   - **全時代プラス再現（Robustness）**: P1 Bull (`+1.31%`, $n=29$)、**P2 Bear (`+0.27%`, $n=18$)**、P3 Mixed (`+1.29%`, $n=39$) と全期間で安定プラスを維持。
-  - **アブレーション分析の示唆**: MAE Damper（AFS収縮 tight 等）をさらに直列（AND）結合すると、ボラティリティ収縮と爆発的推進力の時間差によりサンプル数が $N=55$ に急減し、P2 弱気相場での 72h 成績が -0.04% に悪化する。実戦的には「老朽過熱トラップの排除（Trap Gate）」と「全階層順列推進力の確認（MFE Booster）」の2軸結合が最も頑健な解となる。
+  - **レジーム層別分解（実態の解明）**: MVC の 65.1%（56/86件）は `Macro Range` ($n=35$, 72h `+1.19%`) および `Macro Bear` ($n=21$, 72h `+2.16%`) 下での発火であり、下位足から先行して強気転換する「ボトムアップ転換初動」が弱気相場耐性の源泉である（`Macro Bull` では $n=30$, 72h `+0.20%`）。
+  - **実運用規律（Trigger Cooldown）**: 親トリガーに対するクールダウン（初回のクリーンなブレイク限定）で 72h Net `+1.08%` ($p=0.0391$) と有意になるのに対し、ゲート通過後のクールダウン（ウィップソー再交差を許容）では 72h Net `+0.57%` ($p=0.1661$) に半減する。初回のクリーンブレイク限定条件が必須要件となる。
 * **実験条件**: BTCUSD 1h、独立525件母集団（分割前デクラスタリング適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/65-composite-feature-gating/record.md`](experiments/65-composite-feature-gating/record.md) (EXP-65 / [#65](https://github.com/makagi/MTF_AI_Trade/issues/65))
-* **仕様への影響**: 戦略設計規範（CONC-STR-001）において、単体特徴量トリガーを禁止し、Trap Gate × MFE Booster の複合設計を必須要件として採用。
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/65-composite-feature-gating/record.md`](experiments/65-composite-feature-gating/record.md) (EXP-65 / [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#67](https://github.com/makagi/MTF_AI_Trade/issues/67))
+* **仕様への影響**: 戦略設計規範（CONC-STR-001）において、単体特徴量トリガーを禁止し、Trap Gate × MFE Booster の複合設計および初回クリーンブレイク限定規律を必須要件として採用。
 
 ---
 

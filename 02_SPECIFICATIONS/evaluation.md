@@ -148,6 +148,21 @@ MTF分析において、「どの時間軸の視点で見ているか」によ�
 1. **有効境界（Valid Scope）**: どのようなMTF階層関係において優位性が発現するか。
 2. **無効化基準（Invalidation Criteria）**: 類似状況であっても、どのような状態（上位足逆風、レンジ内ノイズ、減速未完了等）が検知されたらシグナルを無効・取引遮断とすべきか。
 
+### 5.6 実験監査ゲート (Mandatory Experimental Audit Gates)
+複合コンテキスト分析および特徴量ゲーティング実験において、誤認やチェリーピッキング、未来参照を防ぐため、以下の3つの監査ゲートを必須要件とする：
+
+1. **レジーム非限定シグナルの層別分解義務 (Regime Disaggregation Obligation)**:
+   - マクロレジーム（Bull / Bear / Range）を特定条件として限定していない親シグナル（例: Meso Breakout 等）に対して `Macro_Age_Ratio` 等のレジーム依存特徴量を適用する場合、必ずその母集団を `Macro Bull / Range / Bear` 別に層別分解してサンプル数および期待値を測定しなければならない。
+   - レジーム非限定シグナルにおける結果を、単一レジーム（例: Bull 天井過熱）の現象として安易に一般化・誤認してはならない。
+2. **Trigger Cooldown と Execution Cooldown の明示 (Cooldown Mode Specification)**:
+   - 複合ゲーティングを評価する際、以下のどちらのクールダウン方式を採用しているかを明記し、乖離を検証しなければならない：
+     - **Trigger Cooldown（初回ブレイク限定）**: 親シグナルに対して先にクールダウンを適用し、最初の交差バーでのみゲート条件を判定する方式。
+     - **Execution Cooldown（エントリー後クールダウン）**: ゲート条件を満たして実際にエントリーしたバーからクールダウンを開始する方式（ウィップソー再交差を含む）。
+   - 実運用化に際しては、バックテストで確認された期待値がどちらの前提に基づいているかを仕様として確定しなければならない。
+3. **JSON 全テーブルのレポート網羅性と数値完全一致 (Full Reporting Integrity)**:
+   - `metrics.json` に出力されたすべての検証セクション（特にネガティブ結果・不成立となった対照実験群）を、`record.md` のテーブルおよび考察から省略・除外（チェリーピッキング）してはならない。
+   - `metrics.json` の実測値と `record.md` および `knowledge-lineage.md` に記載する数値は、小数点第2位まで完全に一致していなければならない。
+
 ---
 
 ## 6. Change History
@@ -159,4 +174,5 @@ MTF分析において、「どの時間軸の視点で見ているか」によ�
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一、Discovery期間表記（5.1）の完全整合 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 | 2026-10-14 | 0.2.1 | SPEC-FEAT-001 (features.md) との相互参照リンク追加 | @makagi / [#39](https://github.com/makagi/MTF_AI_Trade/pull/39) |
 | 2026-10-19 | 0.3.0 | 類似状況における成否の分岐点・双方向再現性分析（5.3）、時間階層視点の明示義務（5.4）、境界条件・無効化基準の知識化（5.5）を追加 | @makagi / [#57](https://github.com/makagi/MTF_AI_Trade/pull/57) |
+| 2026-10-21 | 0.4.0 | 実験監査ゲート（5.6: レジーム層別分解義務、Cooldownモード明示、JSON全網羅・数値完全一致）を追加 | @makagi / [#67](https://github.com/makagi/MTF_AI_Trade/issues/67) |
 

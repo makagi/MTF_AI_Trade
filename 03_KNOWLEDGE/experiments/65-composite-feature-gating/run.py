@@ -1,20 +1,22 @@
 """
-Reproducible Experiment Script for Issue #65 (EXP-65)
+Reproducible Experiment Script for Issue #65 & Issue #67 (EXP-65)
 Composite Feature Role Gating and Multi-Horizon Context Integration
-(Trap Gate x MAE Damper x MFE Booster)
+(Trap Gate x MAE Damper x MFE Booster) - Remediated Version
 
-Hypotheses:
+Key Hypotheses & Remediation:
 1. HYP-GATE-1 (Sequential Role Gating):
-   Combining Trap Gate (macro_age_exhausted / level_test_count >= 3)
-   + MAE Damper (afs_compression_tight / macro_age_fresh)
-   + MFE Booster (afs_order_full_bull)
-   progressively improves 40 bps Net EV and E-Ratio from negative baseline to positive net edge.
+   Progressive role gating from base trigger to Trap Gate, MAE Damper, and MFE Booster.
 2. HYP-GATE-2 (Horizon-Adaptive Fit):
-   Trend-following breakout signals (Signal A) achieve positive net edge at 72h horizon,
-   while dynamic S/R counter-trend bounces (Signal C) peak at 12h-24h and decay by 72h.
-3. HYP-GATE-3 (Sample Starvation Boundary & Ablation):
-   Identifies the minimal viable combination maintaining statistical validity (N >= 30, subperiod N >= 10)
-   and quantifies the isolated marginal contribution of each role via ablation.
+   Trend breakout (Meso Breakout / Signal A) optimal at 72h,
+   Dynamic S/R counter-trend bounces (Signal C) peak at 12h-24h and extend under deceleration.
+3. HYP-GATE-3 (Ablation & Minimal Viable Composite):
+   Isolates marginal role contributions and identifies Trap Gate x MFE Booster (MVC)
+   as the Pareto-optimal combination avoiding over-filtering.
+4. AUDIT REMEDIATION (Issue #67):
+   - Macro Regime Disaggregation of MVC (Bull vs Range vs Bear bottom-up reversal).
+   - Rolling 720h Quantile for AFS Compression (eliminating global lookahead).
+   - Bidirectional Void Distance for Signal C (downside support space).
+   - Trigger Cooldown (pre-segmentation, clean break) vs Execution Cooldown (post-segmentation) comparison with t-tests.
 """
 
 from pathlib import Path
@@ -70,7 +72,7 @@ def run_experiment(exp_dir: Path):
     cooldown = int(config["parameters"]["cooldown_bars"])
     periods_cfg = config["parameters"]["periods"]
 
-    print(f"--- Running Experiment {config['experiment_id']} (Composite Feature Gating) ---")
+    print(f"--- Running Experiment {config['experiment_id']} (Composite Feature Gating - Audited) ---")
     print(f"Loading {symbol} {timeframe} data ({start_date} to {end_date})...")
 
     df = load_ohlcv(symbol=symbol, timeframe=timeframe)
@@ -119,7 +121,11 @@ def run_experiment(exp_dir: Path):
     df["wall_density"] = wall_density
 
     df["fanout_velocity"] = calculate_fanout_velocity(df, fast_period=21, slow_period=89, atr_period=14)
-    df["void_distance"] = calculate_void_distance(df, overhead_periods=[55, 89, 144, 377], atr_period=14)
+    
+    # Bidirectional Void Distance (Audit Issue #67 Part 1.3)
+    df["void_distance_long"] = calculate_void_distance(df, overhead_periods=[55, 89, 144, 377], atr_period=14, direction="long")
+    df["void_distance_short"] = calculate_void_distance(df, overhead_periods=[55, 89, 144, 377], atr_period=14, direction="short")
+    df["void_distance"] = df["void_distance_long"]
 
     # =========================================================================
     # 3. Context Dimensions (Regime Age & Retest Counts)
@@ -141,8 +147,8 @@ def run_experiment(exp_dir: Path):
     for pname, pcfg in periods_cfg.items():
         df.loc[pcfg["start"]:pcfg["end"], "period"] = pname
 
-    # Feature Role Masks
-    afs_q25 = df["afs_compression"].quantile(0.25)
+    # Feature Role Masks: strictly using rolling 720h (30d) quantile to avoid lookahead (Audit Issue #67 Part 1.4)
+    afs_q25 = df["afs_compression"].rolling(720, min_periods=100).quantile(0.25)
     df["is_afs_order_full_bull"] = df["afs_order_score"] == 3
     df["is_afs_compression_tight"] = df["afs_compression"] < afs_q25
     df["is_macro_age_fresh"] = df["macro_age_ratio"] <= 1.0
@@ -157,7 +163,6 @@ def run_experiment(exp_dir: Path):
     print("Defining base signals and applying pre-segmentation declustering...")
 
     # Signal A: Macro Bull Breakout (K-031/K-036 basis)
-    # Price crosses above SMA 34 in Macro Bull
     sig_a_raw = df["macro_alignment_bull"] & (close > df["sma_34"]) & (close.shift(1) <= df["sma_34"].shift(1))
     sig_a_decl = decluster_events(sig_a_raw, cooldown_bars=cooldown)
 
@@ -207,13 +212,9 @@ def run_experiment(exp_dir: Path):
     # 5. HYP-GATE-1: Sequential Role Gating on Meso Trend Breakout (K-037 Baseline)
     # =========================================================================
     print("\n--- HYP-GATE-1: Sequential Role Gating Progression (Meso Breakout) ---")
-    # Base: Meso Breakout (N=525)
     s0_a = meso_breakout_decl
-    # Stage 1 (+ Trap Gate): Exclude Macro Age Exhausted (> 2.0)
     s1_a = s0_a & (~df["is_macro_age_exhausted"])
-    # Stage 2 (+ MAE Damper): Stage 1 + (AFS Compression Tight OR Macro Age Fresh)
     s2_a = s1_a & (df["is_afs_compression_tight"] | df["is_macro_age_fresh"])
-    # Stage 3 (+ MFE Booster): Stage 2 + AFS Order Full Bull
     s3_a = s2_a & df["is_afs_order_full_bull"]
 
     stages_meso = {
@@ -239,16 +240,12 @@ def run_experiment(exp_dir: Path):
         }
 
     # =========================================================================
-    # 6. HYP-GATE-1: Sequential Role Gating on Signal A Extended (K-031/K-036)
+    # 6. HYP-GATE-1: Sequential Role Gating on Signal A Extended (Audit Issue #67 Part 1.2)
     # =========================================================================
     print("\n--- HYP-GATE-1: Sequential Role Gating Progression (Signal A Extended) ---")
-    # Base: Signal A Extended (N=335)
     s0_ext = sig_a_ext_decl
-    # Stage 1 (+ Trap Gate): Exclude Macro Age Exhausted (> 2.0)
     s1_ext = s0_ext & (~df["is_macro_age_exhausted"])
-    # Stage 2 (+ MAE Damper): Stage 1 + (AFS Compression Tight OR Macro Age Fresh)
     s2_ext = s1_ext & (df["is_afs_compression_tight"] | df["is_macro_age_fresh"])
-    # Stage 3 (+ MFE Booster): Stage 2 + AFS Order Full Bull
     s3_ext = s2_ext & df["is_afs_order_full_bull"]
 
     stages_ext = {
@@ -276,15 +273,12 @@ def run_experiment(exp_dir: Path):
     # =========================================================================
     # 7. HYP-GATE-1 & HYP-GATE-2: Sequential Role Gating on Signal C (Dynamic S/R Short)
     # =========================================================================
-    print("\n--- HYP-GATE-1: Sequential Role Gating Progression (Signal C S/R Short) ---")
-    # Base: Signal C (N=120)
+    print("\n--- HYP-GATE-1: Sequential Role Gating Progression (Signal C S/R Short - Downside Void) ---")
     s0_c = sig_c_decl
-    # Stage 1 (+ Trap Gate): Retest Count <= 2 (Fresh Wall)
     s1_c = s0_c & (df["retest_count_233"] <= 2)
-    # Stage 2 (+ MAE Damper / Decel): Stage 1 + Fanout Velocity <= 0
     s2_c = s1_c & (df["fanout_velocity"] <= 0)
-    # Stage 3 (+ Downside Void Space): Stage 2 + Void Distance >= 1.5 ATR
-    s3_c = s2_c & (df["void_distance"] >= 1.5)
+    # Downside Void using direction="short" (Audit Issue #67 Part 1.3)
+    s3_c = s2_c & (df["void_distance_short"] >= 1.5)
 
     stages_c = {
         "Stage 0 (Base Trigger)": s0_c,
@@ -309,7 +303,7 @@ def run_experiment(exp_dir: Path):
         }
 
     # =========================================================================
-    # 8. HYP-GATE-3: Ablation Study (Component Contribution on Meso Breakout)
+    # 8. HYP-GATE-3: Ablation Study on Meso Breakout
     # =========================================================================
     print("\n--- HYP-GATE-3: Ablation Study on Meso Breakout ---")
     gate_trap = ~df["is_macro_age_exhausted"]
@@ -341,7 +335,58 @@ def run_experiment(exp_dir: Path):
         }
 
     # =========================================================================
-    # 9. Visualizations
+    # 9. Audit Part 1.1: Macro Regime Disaggregation of MVC (N=86)
+    # =========================================================================
+    print("\n--- Audit Part 1.1: Macro Regime Disaggregation of MVC (N=86) ---")
+    mvc_mask = s0_a & gate_trap & gate_booster
+    mvc_total = int(mvc_mask.sum())
+    mvc_regime_disaggregation = {}
+    for reg in ["Bull", "Range", "Bear"]:
+        reg_mask = mvc_mask & (df["macro_regime"] == reg)
+        n_reg = int(reg_mask.sum())
+        if n_reg > 0:
+            mh_reg = evaluate_multi_horizon(df, reg_mask, multi_horizons, cost=std_cost, is_short=False)
+            mvc_regime_disaggregation[f"Macro_{reg}"] = {
+                "trades": n_reg,
+                "share_pct": round(n_reg / mvc_total * 100, 1),
+                "multi_horizon_40bps": {str(k): v for k, v in mh_reg.items()},
+            }
+        else:
+            mvc_regime_disaggregation[f"Macro_{reg}"] = {"trades": 0, "share_pct": 0.0}
+
+    # =========================================================================
+    # 10. Audit Part 1.4: Trigger Cooldown vs Execution Cooldown Comparison & T-Tests
+    # =========================================================================
+    print("\n--- Audit Part 1.4: Trigger vs Execution Cooldown Comparison & T-Tests ---")
+    # Trigger Cooldown (Pre-segmentation clean break: N=86)
+    mvc_pre = meso_breakout_decl & gate_trap & gate_booster
+    # Execution Cooldown (Post-segmentation live entry: N=143)
+    mvc_post = decluster_events(meso_breakout_raw & gate_trap & gate_booster, cooldown_bars=cooldown)
+
+    cooldown_comparison = {}
+    for mode_name, mask_mode in [("trigger_cooldown_pre", mvc_pre), ("execution_cooldown_post", mvc_post)]:
+        mh_mode = evaluate_multi_horizon(df, mask_mode, [24, 72], cost=std_cost, is_short=False)
+        idx = np.where(mask_mode.values)[0]
+        r24 = [(close.iloc[i+24] / close.iloc[i] - 1.0) - std_cost for i in idx if i+24 < len(close)]
+        r72 = [(close.iloc[i+72] / close.iloc[i] - 1.0) - std_cost for i in idx if i+72 < len(close)]
+        t24, p24 = stats.ttest_1samp(r24, 0.0) if len(r24) > 1 else (0.0, 1.0)
+        t72, p72 = stats.ttest_1samp(r72, 0.0) if len(r72) > 1 else (0.0, 1.0)
+        cooldown_comparison[mode_name] = {
+            "total_trades": int(mask_mode.sum()),
+            "net_24h": mh_mode[24]["net_mean_return"],
+            "e_ratio_24h": mh_mode[24]["e_ratio"],
+            "profit_factor_24h": mh_mode[24]["profit_factor"],
+            "t_stat_24h": float(t24),
+            "p_val_24h": float(p24),
+            "net_72h": mh_mode[72]["net_mean_return"],
+            "e_ratio_72h": mh_mode[72]["e_ratio"],
+            "profit_factor_72h": mh_mode[72]["profit_factor"],
+            "t_stat_72h": float(t72),
+            "p_val_72h": float(p72),
+        }
+
+    # =========================================================================
+    # 11. Visualizations
     # =========================================================================
     print("\nGenerating visualizations...")
     plots_dir = exp_dir / "plots"
@@ -351,7 +396,6 @@ def run_experiment(exp_dir: Path):
     # Plot 1: Sequential Gating EV Progression
     fig, axes = plt.subplots(2, 2, figsize=(16, 12))
     
-    # 1a. Meso Breakout Net EV Progression across Horizons
     stage_keys = list(gating_results_meso.keys())
     for h in ["4", "12", "24", "72"]:
         evs = [gating_results_meso[s]["multi_horizon_40bps"][h]["net_mean_return"] * 100 for s in stage_keys]
@@ -363,7 +407,6 @@ def run_experiment(exp_dir: Path):
     axes[0, 0].set_title("Meso Breakout: Net EV Progression across Gating Stages", fontsize=12, fontweight="bold")
     axes[0, 0].legend()
 
-    # 1b. Meso Breakout E-Ratio Progression (24h & 72h)
     for h in ["24", "72"]:
         ers = [gating_results_meso[s]["multi_horizon_40bps"][h]["e_ratio"] for s in stage_keys]
         axes[0, 1].plot(range(len(stage_keys)), ers, marker="s", linewidth=2.5, label=f"E-Ratio {h}h")
@@ -374,7 +417,6 @@ def run_experiment(exp_dir: Path):
     axes[0, 1].set_title("Meso Breakout: E-Ratio Progression across Gating Stages", fontsize=12, fontweight="bold")
     axes[0, 1].legend()
 
-    # 1c. Signal C Net EV Progression (Counter-Trend Bounce: 4h, 12h, 24h, 72h)
     c_stage_keys = list(gating_results_c.keys())
     for h in ["4", "12", "24", "72"]:
         evs_c = [gating_results_c[s]["multi_horizon_40bps"][h]["net_mean_return"] * 100 for s in c_stage_keys]
@@ -386,7 +428,6 @@ def run_experiment(exp_dir: Path):
     axes[1, 0].set_title("Signal C: Net EV Progression across Gating Stages", fontsize=12, fontweight="bold")
     axes[1, 0].legend()
 
-    # 1d. Sample Size Retention across Stages
     ns_m = [gating_results_meso[s]["total_trades"] for s in stage_keys]
     ns_c = [gating_results_c[s]["total_trades"] for s in c_stage_keys]
     axes[1, 1].bar([i - 0.15 for i in range(4)], ns_m, width=0.3, label="Meso Breakout (Long)", alpha=0.8, color="steelblue")
@@ -402,7 +443,7 @@ def run_experiment(exp_dir: Path):
     plt.savefig(plots_dir / "01_sequential_gating_ev_progression.png", dpi=300)
     plt.close()
 
-    # Plot 2: Ablation Component Contribution (72h Net EV & E-Ratio)
+    # Plot 2: Ablation Component Contribution
     fig, axes = plt.subplots(1, 2, figsize=(16, 6))
     abl_keys = list(ablation_results.keys())
     ev_72 = [ablation_results[m]["multi_horizon_40bps"]["72"]["net_mean_return"] * 100 for m in abl_keys]
@@ -459,7 +500,6 @@ def run_experiment(exp_dir: Path):
     fig, axes = plt.subplots(1, 2, figsize=(16, 6))
     periods = ["P1_Bull", "P2_Bear", "P3_Mixed"]
 
-    # 4a. Meso Breakout Stages across Periods (72h Net EV)
     matrix_a = []
     for s in stage_keys:
         row = [gating_results_meso[s]["period_breakdown_72h"][p]["net_return"] * 100 for p in periods]
@@ -468,7 +508,6 @@ def run_experiment(exp_dir: Path):
     sns.heatmap(df_matrix_a, annot=True, fmt="+.2f", cmap="vlag", center=0.0, ax=axes[0], cbar_kws={'label': '72h Net EV (%)'})
     axes[0].set_title("Meso Breakout: 72h Net EV Stability across Regimes", fontsize=12, fontweight="bold")
 
-    # 4b. Signal C Stages across Periods (24h Net EV)
     matrix_c = []
     for s in c_stage_keys:
         row = [gating_results_c[s]["period_breakdown_24h"][p]["net_return"] * 100 for p in periods]
@@ -482,7 +521,7 @@ def run_experiment(exp_dir: Path):
     plt.close()
 
     # =========================================================================
-    # 10. Output Metrics to JSON
+    # 12. Output Metrics to JSON
     # =========================================================================
     print("Writing metrics to metrics.json...")
 
@@ -526,6 +565,8 @@ def run_experiment(exp_dir: Path):
         "signal_a_extended_sequential_gating": gating_results_ext,
         "signal_c_sequential_gating": gating_results_c,
         "ablation_study": ablation_results,
+        "mvc_macro_regime_disaggregation": mvc_regime_disaggregation,
+        "cooldown_mode_comparison": cooldown_comparison,
     }
 
     metrics_clean = convert_types(metrics_output)
