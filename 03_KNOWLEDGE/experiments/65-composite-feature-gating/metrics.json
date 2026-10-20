@@ -1,0 +1,3129 @@
+{
+  "experiment_id": "EXP-65",
+  "date": "2026-10-20",
+  "author": "@makagi",
+  "issue": 65,
+  "dataset": {
+    "symbol": "BTCUSD",
+    "timeframe": "1h",
+    "start_date": "2020-01-01",
+    "end_date": "2025-04-30",
+    "total_bars": 46728
+  },
+  "parameters": {
+    "standard_friction_cost": 0.004,
+    "reference_friction_cost": 0.0006,
+    "cooldown_bars": 24,
+    "multi_horizons": [
+      4,
+      12,
+      24,
+      72
+    ]
+  },
+  "sample_counts": {
+    "meso_breakout_decl": 525,
+    "sig_a_ext_decl": 335,
+    "sig_c_decl": 120
+  },
+  "meso_breakout_sequential_gating": {
+    "Stage 0 (Base Trigger)": {
+      "total_trades": 525,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 525,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0005628503989119623,
+          "net_mean_return": -0.004562850398911963,
+          "win_rate": 0.25523809523809526,
+          "profit_factor": 0.3257310842073235,
+          "net_cumulative_return": -2.3954964594287804,
+          "max_drawdown": 2.4559178226092016,
+          "mfe_mean": 0.007924804528895369,
+          "mfe_median": 0.004760484545496869,
+          "mae_mean": 0.008878784780182716,
+          "mae_median": 0.005669570276180608,
+          "e_ratio": 0.8925550877844665,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 525,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.00029043251590979435,
+          "net_mean_return": -0.0037095674840902054,
+          "win_rate": 0.38285714285714284,
+          "profit_factor": 0.596255413772519,
+          "net_cumulative_return": -1.947522929147358,
+          "max_drawdown": 2.109568127546985,
+          "mfe_mean": 0.01462955419801575,
+          "mfe_median": 0.009337103312665972,
+          "mae_mean": 0.015973992558583106,
+          "mae_median": 0.010336439449884875,
+          "e_ratio": 0.9158357964900288,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 524,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0018854780832811427,
+          "net_mean_return": -0.0021145219167188574,
+          "win_rate": 0.4351145038167939,
+          "profit_factor": 0.8177183892882947,
+          "net_cumulative_return": -1.1080094843606814,
+          "max_drawdown": 1.5449685474252752,
+          "mfe_mean": 0.021829806828640216,
+          "mfe_median": 0.015544293710503844,
+          "mae_mean": 0.021985103893804998,
+          "mae_median": 0.014170307954923755,
+          "e_ratio": 0.9929362596640473,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 524,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.005837020222282168,
+          "net_mean_return": 0.0018370202222821683,
+          "win_rate": 0.4866412213740458,
+          "profit_factor": 1.0966442132231062,
+          "net_cumulative_return": 0.9625985964758562,
+          "max_drawdown": 1.5117594015098428,
+          "mfe_mean": 0.04314539234391351,
+          "mfe_median": 0.030191170816966262,
+          "mae_mean": 0.03853941517499601,
+          "mae_median": 0.02739607831100048,
+          "e_ratio": 1.119513416277936,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 525,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0005628503989119623,
+          "net_mean_return": -0.0011628503989119625,
+          "win_rate": 0.44,
+          "profit_factor": 0.7422503165906731,
+          "net_cumulative_return": -0.6104964594287803,
+          "max_drawdown": 0.7787337019815145,
+          "mfe_mean": 0.007924804528895369,
+          "mfe_median": 0.004760484545496869,
+          "mae_mean": 0.008878784780182716,
+          "mae_median": 0.005669570276180608,
+          "e_ratio": 0.8925550877844665,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 525,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.00029043251590979435,
+          "net_mean_return": -0.0003095674840902058,
+          "win_rate": 0.4838095238095238,
+          "profit_factor": 0.9572525595694682,
+          "net_cumulative_return": -0.16252292914735805,
+          "max_drawdown": 0.7584055771918264,
+          "mfe_mean": 0.01462955419801575,
+          "mfe_median": 0.009337103312665972,
+          "mae_mean": 0.015973992558583106,
+          "mae_median": 0.010336439449884875,
+          "e_ratio": 0.9158357964900288,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 524,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0018854780832811427,
+          "net_mean_return": 0.0012854780832811418,
+          "win_rate": 0.5038167938931297,
+          "profit_factor": 1.1311869987373955,
+          "net_cumulative_return": 0.6735905156393183,
+          "max_drawdown": 0.5165500554988407,
+          "mfe_mean": 0.021829806828640216,
+          "mfe_median": 0.015544293710503844,
+          "mae_mean": 0.021985103893804998,
+          "mae_median": 0.014170307954923755,
+          "e_ratio": 0.9929362596640473,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 524,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.005837020222282168,
+          "net_mean_return": 0.005237020222282169,
+          "win_rate": 0.5286259541984732,
+          "profit_factor": 1.302067204521095,
+          "net_cumulative_return": 2.744198596475856,
+          "max_drawdown": 1.0530323611927719,
+          "mfe_mean": 0.04314539234391351,
+          "mfe_median": 0.030191170816966262,
+          "mae_mean": 0.03853941517499601,
+          "mae_median": 0.02739607831100048,
+          "e_ratio": 1.119513416277936,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 202,
+          "net_return": -0.0026700375956978796,
+          "win_rate": 0.44554455445544555,
+          "profit_factor": 0.8112422631679336,
+          "e_ratio": 0.9478595549361261
+        },
+        "P2_Bear": {
+          "trades": 88,
+          "net_return": -0.007032531096768974,
+          "win_rate": 0.32954545454545453,
+          "profit_factor": 0.49638623602422405,
+          "e_ratio": 0.7536671684478803
+        },
+        "P3_Mixed": {
+          "trades": 235,
+          "net_return": 0.00021453353199128163,
+          "win_rate": 0.4658119658119658,
+          "profit_factor": 1.025196658979487,
+          "e_ratio": 1.195951737557841
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 202,
+          "net_return": 0.0020670012358225353,
+          "win_rate": 0.5247524752475248,
+          "profit_factor": 1.0868172490263663,
+          "e_ratio": 1.0911706794626044
+        },
+        "P2_Bear": {
+          "trades": 88,
+          "net_return": -0.00933546434602995,
+          "win_rate": 0.36363636363636365,
+          "profit_factor": 0.6016755241539451,
+          "e_ratio": 0.8627439733801373
+        },
+        "P3_Mixed": {
+          "trades": 235,
+          "net_return": 0.005840107732009998,
+          "win_rate": 0.5,
+          "profit_factor": 1.4424836859075916,
+          "e_ratio": 1.298323233739126
+        }
+      }
+    },
+    "Stage 1 (+ Trap Gate)": {
+      "total_trades": 330,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -4.9582866536911074e-05,
+          "net_mean_return": -0.004049582866536911,
+          "win_rate": 0.2696969696969697,
+          "profit_factor": 0.363163715723274,
+          "net_cumulative_return": -1.3363623459571807,
+          "max_drawdown": 1.4264568620515816,
+          "mfe_mean": 0.00804420659283148,
+          "mfe_median": 0.004863315161517621,
+          "mae_mean": 0.008398364979896333,
+          "mae_median": 0.005105059433829146,
+          "e_ratio": 0.9578300790793657,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0013765518536069219,
+          "net_mean_return": -0.0026234481463930787,
+          "win_rate": 0.4,
+          "profit_factor": 0.6816216302192377,
+          "net_cumulative_return": -0.865737888309716,
+          "max_drawdown": 1.0557847815556005,
+          "mfe_mean": 0.014732887103554986,
+          "mfe_median": 0.009595267618771348,
+          "mae_mean": 0.014266369700375255,
+          "mae_median": 0.009442904837147083,
+          "e_ratio": 1.0327004986536596,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.004214384103061076,
+          "net_mean_return": 0.00021438410306107595,
+          "win_rate": 0.4636363636363636,
+          "profit_factor": 1.0218236177483957,
+          "net_cumulative_return": 0.07074675401015507,
+          "max_drawdown": 0.5282167718244672,
+          "mfe_mean": 0.02230925178313325,
+          "mfe_median": 0.016567581508552573,
+          "mae_mean": 0.019225241895141295,
+          "mae_median": 0.013002841611589377,
+          "e_ratio": 1.1604146207789128,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.008434246523937506,
+          "net_mean_return": 0.004434246523937506,
+          "win_rate": 0.49696969696969695,
+          "profit_factor": 1.255013727076774,
+          "net_cumulative_return": 1.463301352899377,
+          "max_drawdown": 0.915567912715824,
+          "mfe_mean": 0.04348278944135782,
+          "mfe_median": 0.031070276776797592,
+          "mae_mean": 0.03425100733271896,
+          "mae_median": 0.024811323228229456,
+          "e_ratio": 1.269533156177279,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -4.9582866536911074e-05,
+          "net_mean_return": -0.000649582866536911,
+          "win_rate": 0.4636363636363636,
+          "profit_factor": 0.8434097090966977,
+          "net_cumulative_return": -0.21436234595718065,
+          "max_drawdown": 0.4084131610099757,
+          "mfe_mean": 0.00804420659283148,
+          "mfe_median": 0.004863315161517621,
+          "mae_mean": 0.008398364979896333,
+          "mae_median": 0.005105059433829146,
+          "e_ratio": 0.9578300790793657,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0013765518536069219,
+          "net_mean_return": 0.0007765518536069214,
+          "win_rate": 0.49696969696969695,
+          "profit_factor": 1.1224879500050704,
+          "net_cumulative_return": 0.25626211169028407,
+          "max_drawdown": 0.33768596204051754,
+          "mfe_mean": 0.014732887103554986,
+          "mfe_median": 0.009595267618771348,
+          "mae_mean": 0.014266369700375255,
+          "mae_median": 0.009442904837147083,
+          "e_ratio": 1.0327004986536596,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.004214384103061076,
+          "net_mean_return": 0.003614384103061076,
+          "win_rate": 0.5393939393939394,
+          "profit_factor": 1.4445755454538143,
+          "net_cumulative_return": 1.192746754010155,
+          "max_drawdown": 0.26231250024304387,
+          "mfe_mean": 0.02230925178313325,
+          "mfe_median": 0.016567581508552573,
+          "mae_mean": 0.019225241895141295,
+          "mae_median": 0.013002841611589377,
+          "e_ratio": 1.1604146207789128,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.008434246523937506,
+          "net_mean_return": 0.007834246523937506,
+          "win_rate": 0.5484848484848485,
+          "profit_factor": 1.4969402214686172,
+          "net_cumulative_return": 2.5853013528993767,
+          "max_drawdown": 0.6469679127158239,
+          "mfe_mean": 0.04348278944135782,
+          "mfe_median": 0.031070276776797592,
+          "mae_mean": 0.03425100733271896,
+          "mae_median": 0.024811323228229456,
+          "e_ratio": 1.269533156177279,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 111,
+          "net_return": -3.3264595952156966e-05,
+          "win_rate": 0.4594594594594595,
+          "profit_factor": 0.9970717103821194,
+          "e_ratio": 1.102602259674759
+        },
+        "P2_Bear": {
+          "trades": 62,
+          "net_return": -0.004667527242099422,
+          "win_rate": 0.3709677419354839,
+          "profit_factor": 0.6357934686452686,
+          "e_ratio": 0.9215093586190142
+        },
+        "P3_Mixed": {
+          "trades": 157,
+          "net_return": 0.0023173618673312663,
+          "win_rate": 0.5031847133757962,
+          "profit_factor": 1.306701523755479,
+          "e_ratio": 1.3647680781219431
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 111,
+          "net_return": 0.005232014686269495,
+          "win_rate": 0.5315315315315315,
+          "profit_factor": 1.2506738043722816,
+          "e_ratio": 1.2342371386349629
+        },
+        "P2_Bear": {
+          "trades": 62,
+          "net_return": -0.008021399774364373,
+          "win_rate": 0.41935483870967744,
+          "profit_factor": 0.678195874522386,
+          "e_ratio": 0.9670002134847671
+        },
+        "P3_Mixed": {
+          "trades": 157,
+          "net_return": 0.008789009609771048,
+          "win_rate": 0.5031847133757962,
+          "profit_factor": 1.7355704865896102,
+          "e_ratio": 1.5012032784110751
+        }
+      }
+    },
+    "Stage 2 (+ MAE Damper)": {
+      "total_trades": 238,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0009325278643385179,
+          "net_mean_return": -0.004932527864338518,
+          "win_rate": 0.25210084033613445,
+          "profit_factor": 0.3000090630511402,
+          "net_cumulative_return": -1.1739416317125673,
+          "max_drawdown": 1.2394070327767392,
+          "mfe_mean": 0.007528236713478249,
+          "mfe_median": 0.004596142785461376,
+          "mae_mean": 0.009016871136876669,
+          "mae_median": 0.00505707174962503,
+          "e_ratio": 0.8349056562081396,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.00046544216733288083,
+          "net_mean_return": -0.00353455783266712,
+          "win_rate": 0.3949579831932773,
+          "profit_factor": 0.6081211014898484,
+          "net_cumulative_return": -0.8412247641747745,
+          "max_drawdown": 1.0157572437790305,
+          "mfe_mean": 0.014324220696818149,
+          "mfe_median": 0.009181461186096463,
+          "mae_mean": 0.015057157488941868,
+          "mae_median": 0.008759546417947704,
+          "e_ratio": 0.9513230307472047,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0031189616171961878,
+          "net_mean_return": -0.0008810383828038121,
+          "win_rate": 0.4495798319327731,
+          "profit_factor": 0.9181208650923209,
+          "net_cumulative_return": -0.20968713510730727,
+          "max_drawdown": 0.5935460788150806,
+          "mfe_mean": 0.02145139080825165,
+          "mfe_median": 0.015502174147668506,
+          "mae_mean": 0.019805024070770675,
+          "mae_median": 0.012721935078976423,
+          "e_ratio": 1.0831287420604943,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0075520017369728205,
+          "net_mean_return": 0.00355200173697282,
+          "win_rate": 0.48739495798319327,
+          "profit_factor": 1.1968028634867065,
+          "net_cumulative_return": 0.8453764133995312,
+          "max_drawdown": 0.7959454498779078,
+          "mfe_mean": 0.042132312753548215,
+          "mfe_median": 0.030002487449658586,
+          "mae_mean": 0.03469381136702052,
+          "mae_median": 0.024661839196140456,
+          "e_ratio": 1.2144042725037305,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0009325278643385179,
+          "net_mean_return": -0.0015325278643385182,
+          "win_rate": 0.4495798319327731,
+          "profit_factor": 0.6791832771366769,
+          "net_cumulative_return": -0.36474163171256735,
+          "max_drawdown": 0.5205923580181286,
+          "mfe_mean": 0.007528236713478249,
+          "mfe_median": 0.004596142785461376,
+          "mae_mean": 0.009016871136876669,
+          "mae_median": 0.00505707174962503,
+          "e_ratio": 0.8349056562081396,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.00046544216733288083,
+          "net_mean_return": -0.00013455783266711957,
+          "win_rate": 0.48739495798319327,
+          "profit_factor": 0.9810134350251483,
+          "net_cumulative_return": -0.032024764174774456,
+          "max_drawdown": 0.4265582110081705,
+          "mfe_mean": 0.014324220696818149,
+          "mfe_median": 0.009181461186096463,
+          "mae_mean": 0.015057157488941868,
+          "mae_median": 0.008759546417947704,
+          "e_ratio": 0.9513230307472047,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0031189616171961878,
+          "net_mean_return": 0.002518961617196188,
+          "win_rate": 0.5336134453781513,
+          "profit_factor": 1.2790300100055056,
+          "net_cumulative_return": 0.5995128648926927,
+          "max_drawdown": 0.3110214366381694,
+          "mfe_mean": 0.02145139080825165,
+          "mfe_median": 0.015502174147668506,
+          "mae_mean": 0.019805024070770675,
+          "mae_median": 0.012721935078976423,
+          "e_ratio": 1.0831287420604943,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0075520017369728205,
+          "net_mean_return": 0.00695200173697282,
+          "win_rate": 0.542016806722689,
+          "profit_factor": 1.4241203417381354,
+          "net_cumulative_return": 1.654576413399531,
+          "max_drawdown": 0.6157454498779076,
+          "mfe_mean": 0.042132312753548215,
+          "mfe_median": 0.030002487449658586,
+          "mae_mean": 0.03469381136702052,
+          "mae_median": 0.024661839196140456,
+          "e_ratio": 1.2144042725037305,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 78,
+          "net_return": -0.0021835504757733637,
+          "win_rate": 0.44871794871794873,
+          "profit_factor": 0.8243910541736682,
+          "e_ratio": 0.978822314469983
+        },
+        "P2_Bear": {
+          "trades": 48,
+          "net_return": -0.006318705710830021,
+          "win_rate": 0.3333333333333333,
+          "profit_factor": 0.5610033458874722,
+          "e_ratio": 0.7921434751290911
+        },
+        "P3_Mixed": {
+          "trades": 112,
+          "net_return": 0.002356497108239785,
+          "win_rate": 0.5,
+          "profit_factor": 1.2931939130284462,
+          "e_ratio": 1.3950531728027051
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 78,
+          "net_return": 0.003278284507638538,
+          "win_rate": 0.5128205128205128,
+          "profit_factor": 1.1560788319275968,
+          "e_ratio": 1.0982084482620784
+        },
+        "P2_Bear": {
+          "trades": 48,
+          "net_return": -0.01134546651637162,
+          "win_rate": 0.3958333333333333,
+          "profit_factor": 0.6023437174272062,
+          "e_ratio": 0.8714332743715869
+        },
+        "P3_Mixed": {
+          "trades": 112,
+          "net_return": 0.010127255487406811,
+          "win_rate": 0.5089285714285714,
+          "profit_factor": 1.880798573178949,
+          "e_ratio": 1.6121252769231271
+        }
+      }
+    },
+    "Stage 3 (+ MFE Booster)": {
+      "total_trades": 55,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0005885081328017384,
+          "net_mean_return": -0.004588508132801738,
+          "win_rate": 0.2909090909090909,
+          "profit_factor": 0.35527657050641825,
+          "net_cumulative_return": -0.2523679473040956,
+          "max_drawdown": 0.2698796904996574,
+          "mfe_mean": 0.008096503908219086,
+          "mfe_median": 0.004924769857309461,
+          "mae_mean": 0.009992778760939411,
+          "mae_median": 0.005807856055323106,
+          "e_ratio": 0.8102354812324437,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0016457800397726664,
+          "net_mean_return": -0.002354219960227334,
+          "win_rate": 0.43636363636363634,
+          "profit_factor": 0.6920643663535975,
+          "net_cumulative_return": -0.1294820978125034,
+          "max_drawdown": 0.2306008559023689,
+          "mfe_mean": 0.01488895121863701,
+          "mfe_median": 0.012850913503351949,
+          "mae_mean": 0.01691315445093753,
+          "mae_median": 0.011826785824961064,
+          "e_ratio": 0.8803178178161606,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.005711626617999195,
+          "net_mean_return": 0.0017116266179991954,
+          "win_rate": 0.509090909090909,
+          "profit_factor": 1.1764132809616847,
+          "net_cumulative_return": 0.09413946398995575,
+          "max_drawdown": 0.18939827134438667,
+          "mfe_mean": 0.023229145684948885,
+          "mfe_median": 0.017855925295803023,
+          "mae_mean": 0.02216145415775091,
+          "mae_median": 0.012924680377206746,
+          "e_ratio": 1.0481778641238013,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.013801943612176033,
+          "net_mean_return": 0.009801943612176033,
+          "win_rate": 0.6363636363636364,
+          "profit_factor": 1.7000692311775716,
+          "net_cumulative_return": 0.5391068986696818,
+          "max_drawdown": 0.1396059559638885,
+          "mfe_mean": 0.04459316039485912,
+          "mfe_median": 0.03077299135300768,
+          "mae_mean": 0.030358506605336136,
+          "mae_median": 0.020429053668266743,
+          "e_ratio": 1.4688851785292016,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0005885081328017384,
+          "net_mean_return": -0.0011885081328017384,
+          "win_rate": 0.4727272727272727,
+          "profit_factor": 0.7567963975164954,
+          "net_cumulative_return": -0.0653679473040956,
+          "max_drawdown": 0.11061550780639084,
+          "mfe_mean": 0.008096503908219086,
+          "mfe_median": 0.004924769857309461,
+          "mae_mean": 0.009992778760939411,
+          "mae_median": 0.005807856055323106,
+          "e_ratio": 0.8102354812324437,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0016457800397726664,
+          "net_mean_return": 0.0010457800397726663,
+          "win_rate": 0.5454545454545454,
+          "profit_factor": 1.1789818138976393,
+          "net_cumulative_return": 0.05751790218749665,
+          "max_drawdown": 0.11468043655867333,
+          "mfe_mean": 0.01488895121863701,
+          "mfe_median": 0.012850913503351949,
+          "mae_mean": 0.01691315445093753,
+          "mae_median": 0.011826785824961064,
+          "e_ratio": 0.8803178178161606,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.005711626617999195,
+          "net_mean_return": 0.0051116266179991945,
+          "win_rate": 0.6181818181818182,
+          "profit_factor": 1.6270346141992427,
+          "net_cumulative_return": 0.2811394639899557,
+          "max_drawdown": 0.15879827134438668,
+          "mfe_mean": 0.023229145684948885,
+          "mfe_median": 0.017855925295803023,
+          "mae_mean": 0.02216145415775091,
+          "mae_median": 0.012924680377206746,
+          "e_ratio": 1.0481778641238013,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.013801943612176033,
+          "net_mean_return": 0.013201943612176031,
+          "win_rate": 0.6545454545454545,
+          "profit_factor": 2.030068206457102,
+          "net_cumulative_return": 0.7261068986696817,
+          "max_drawdown": 0.11580595596388853,
+          "mfe_mean": 0.04459316039485912,
+          "mfe_median": 0.03077299135300768,
+          "mae_mean": 0.030358506605336136,
+          "mae_median": 0.020429053668266743,
+          "e_ratio": 1.4688851785292016,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 19,
+          "net_return": 0.005523583639414576,
+          "win_rate": 0.5789473684210527,
+          "profit_factor": 1.497962175985495,
+          "e_ratio": 1.0913204913306354
+        },
+        "P2_Bear": {
+          "trades": 11,
+          "net_return": 0.0017222746338566998,
+          "win_rate": 0.36363636363636365,
+          "profit_factor": 1.184749297998197,
+          "e_ratio": 0.8935777063508697
+        },
+        "P3_Mixed": {
+          "trades": 25,
+          "net_return": -0.0011901458452537976,
+          "win_rate": 0.52,
+          "profit_factor": 0.8649591024702505,
+          "e_ratio": 1.098375253700912
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 19,
+          "net_return": 0.018144354248745692,
+          "win_rate": 0.5789473684210527,
+          "profit_factor": 2.592573931594935,
+          "e_ratio": 1.7102101459706758
+        },
+        "P2_Bear": {
+          "trades": 11,
+          "net_return": -0.00037149169557249527,
+          "win_rate": 0.5454545454545454,
+          "profit_factor": 0.9837193898474887,
+          "e_ratio": 1.1481390068204407
+        },
+        "P3_Mixed": {
+          "trades": 25,
+          "net_return": 0.007938023063792442,
+          "win_rate": 0.72,
+          "profit_factor": 1.655798328195663,
+          "e_ratio": 1.4540451973436768
+        }
+      }
+    }
+  },
+  "signal_a_extended_sequential_gating": {
+    "Stage 0 (Base Trigger)": {
+      "total_trades": 335,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 335,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0002016195452463427,
+          "net_mean_return": -0.004201619545246343,
+          "win_rate": 0.29253731343283584,
+          "profit_factor": 0.34685721833499195,
+          "net_cumulative_return": -1.407542547657525,
+          "max_drawdown": 1.4297545138232137,
+          "mfe_mean": 0.008334356153863395,
+          "mfe_median": 0.005612097729136778,
+          "mae_mean": 0.008853382151438511,
+          "mae_median": 0.005663766295117104,
+          "e_ratio": 0.9413753988366148,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 334,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.00026068301963313664,
+          "net_mean_return": -0.0042606830196331375,
+          "win_rate": 0.38622754491017963,
+          "profit_factor": 0.5378126137283159,
+          "net_cumulative_return": -1.4230681285574678,
+          "max_drawdown": 1.5066236474267194,
+          "mfe_mean": 0.01444247972280219,
+          "mfe_median": 0.009804126339480631,
+          "mae_mean": 0.01664110076071624,
+          "mae_median": 0.011095227752121541,
+          "e_ratio": 0.8678800717856228,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 334,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0009826164576585221,
+          "net_mean_return": -0.0030173835423414775,
+          "win_rate": 0.40718562874251496,
+          "profit_factor": 0.7481737905091975,
+          "net_cumulative_return": -1.0078061031420535,
+          "max_drawdown": 1.202443596875964,
+          "mfe_mean": 0.021891389961005488,
+          "mfe_median": 0.016384302675044933,
+          "mae_mean": 0.022521860702647445,
+          "mae_median": 0.0159131340320744,
+          "e_ratio": 0.9720062764810615,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 332,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.009587582391824284,
+          "net_mean_return": 0.005587582391824282,
+          "win_rate": 0.5180722891566265,
+          "profit_factor": 1.321698713864331,
+          "net_cumulative_return": 1.8550773540856618,
+          "max_drawdown": 0.7827191270232632,
+          "mfe_mean": 0.044389309888724776,
+          "mfe_median": 0.030916496734825764,
+          "mae_mean": 0.0384549857531176,
+          "mae_median": 0.027981179903011286,
+          "e_ratio": 1.1543187188705712,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 335,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0002016195452463427,
+          "net_mean_return": -0.0008016195452463428,
+          "win_rate": 0.46567164179104475,
+          "profit_factor": 0.8145449735292701,
+          "net_cumulative_return": -0.26854254765752483,
+          "max_drawdown": 0.37523560542425927,
+          "mfe_mean": 0.008334356153863395,
+          "mfe_median": 0.005612097729136778,
+          "mae_mean": 0.008853382151438511,
+          "mae_median": 0.005663766295117104,
+          "e_ratio": 0.9413753988366148,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 334,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.00026068301963313664,
+          "net_mean_return": -0.0008606830196331369,
+          "win_rate": 0.4820359281437126,
+          "profit_factor": 0.881674379631315,
+          "net_cumulative_return": -0.28746812855746773,
+          "max_drawdown": 0.42937809034003294,
+          "mfe_mean": 0.01444247972280219,
+          "mfe_median": 0.009804126339480631,
+          "mae_mean": 0.01664110076071624,
+          "mae_median": 0.011095227752121541,
+          "e_ratio": 0.8678800717856228,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 334,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0009826164576585221,
+          "net_mean_return": 0.00038261645765852215,
+          "win_rate": 0.46706586826347307,
+          "profit_factor": 1.0380902955280924,
+          "net_cumulative_return": 0.1277938968579464,
+          "max_drawdown": 0.3615121603264503,
+          "mfe_mean": 0.021891389961005488,
+          "mfe_median": 0.016384302675044933,
+          "mae_mean": 0.022521860702647445,
+          "mae_median": 0.0159131340320744,
+          "e_ratio": 0.9720062764810615,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 332,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.009587582391824284,
+          "net_mean_return": 0.008987582391824282,
+          "win_rate": 0.5391566265060241,
+          "profit_factor": 1.56981059474176,
+          "net_cumulative_return": 2.983877354085662,
+          "max_drawdown": 0.6949610258823424,
+          "mfe_mean": 0.044389309888724776,
+          "mfe_median": 0.030916496734825764,
+          "mae_mean": 0.0384549857531176,
+          "mae_median": 0.027981179903011286,
+          "e_ratio": 1.1543187188705712,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 137,
+          "net_return": -0.000904385779144891,
+          "win_rate": 0.45255474452554745,
+          "profit_factor": 0.9281316090176187,
+          "e_ratio": 0.9989984961719567
+        },
+        "P2_Bear": {
+          "trades": 31,
+          "net_return": -0.009091174460833986,
+          "win_rate": 0.2903225806451613,
+          "profit_factor": 0.5356345310133984,
+          "e_ratio": 0.7930698337676751
+        },
+        "P3_Mixed": {
+          "trades": 167,
+          "net_return": -0.0036269809826105417,
+          "win_rate": 0.39156626506024095,
+          "profit_factor": 0.6397083865117371,
+          "e_ratio": 0.988522888344109
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 137,
+          "net_return": 0.0140610993390397,
+          "win_rate": 0.6131386861313869,
+          "profit_factor": 1.7410756120592894,
+          "e_ratio": 1.2758863939083687
+        },
+        "P2_Bear": {
+          "trades": 31,
+          "net_return": -0.015533181676352916,
+          "win_rate": 0.3548387096774194,
+          "profit_factor": 0.4746369971168175,
+          "e_ratio": 0.7288294719276133
+        },
+        "P3_Mixed": {
+          "trades": 167,
+          "net_return": 0.002501435223196121,
+          "win_rate": 0.4695121951219512,
+          "profit_factor": 1.1822849884401567,
+          "e_ratio": 1.124622459042826
+        }
+      }
+    },
+    "Stage 1 (+ Trap Gate)": {
+      "total_trades": 141,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 141,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.00029333235422300985,
+          "net_mean_return": -0.00429333235422301,
+          "win_rate": 0.3120567375886525,
+          "profit_factor": 0.33135284317229063,
+          "net_cumulative_return": -0.6053598619454444,
+          "max_drawdown": 0.6136095662420697,
+          "mfe_mean": 0.007859515740082562,
+          "mfe_median": 0.005638603161752423,
+          "mae_mean": 0.008627445433167591,
+          "mae_median": 0.004516745685703877,
+          "e_ratio": 0.9109899101612653,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 141,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 7.849420384568499e-07,
+          "net_mean_return": -0.003999215057961543,
+          "win_rate": 0.41843971631205673,
+          "profit_factor": 0.5362169223491863,
+          "net_cumulative_return": -0.5638893231725776,
+          "max_drawdown": 0.6063925108556297,
+          "mfe_mean": 0.014038689640011232,
+          "mfe_median": 0.010371539414364972,
+          "mae_mean": 0.015506757474589482,
+          "mae_median": 0.010419924207262853,
+          "e_ratio": 0.9053272202790342,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 141,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.002242463441117824,
+          "net_mean_return": -0.0017575365588821756,
+          "win_rate": 0.44680851063829785,
+          "profit_factor": 0.845459886334276,
+          "net_cumulative_return": -0.24781265480238676,
+          "max_drawdown": 0.3371903564644603,
+          "mfe_mean": 0.022363851612375724,
+          "mfe_median": 0.01817007984740644,
+          "mae_mean": 0.0199535354185572,
+          "mae_median": 0.013510026216090256,
+          "e_ratio": 1.1207964475095917,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 140,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.008983875403471191,
+          "net_mean_return": 0.004983875403471189,
+          "win_rate": 0.5071428571428571,
+          "profit_factor": 1.2968360648381472,
+          "net_cumulative_return": 0.6977425564859665,
+          "max_drawdown": 0.43921284825254153,
+          "mfe_mean": 0.04184432206539152,
+          "mfe_median": 0.028885116393794884,
+          "mae_mean": 0.03427649288577481,
+          "mae_median": 0.025412750375204143,
+          "e_ratio": 1.2207877335886208,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 141,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.00029333235422300985,
+          "net_mean_return": -0.0008933323542230099,
+          "win_rate": 0.475177304964539,
+          "profit_factor": 0.7957748754136533,
+          "net_cumulative_return": -0.1259598619454444,
+          "max_drawdown": 0.24542406906129832,
+          "mfe_mean": 0.007859515740082562,
+          "mfe_median": 0.005638603161752423,
+          "mae_mean": 0.008627445433167591,
+          "mae_median": 0.004516745685703877,
+          "e_ratio": 0.9109899101612653,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 141,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 7.849420384568499e-07,
+          "net_mean_return": -0.0005992150579615433,
+          "win_rate": 0.48936170212765956,
+          "profit_factor": 0.9111263906463953,
+          "net_cumulative_return": -0.0844893231725776,
+          "max_drawdown": 0.18262746750683495,
+          "mfe_mean": 0.014038689640011232,
+          "mfe_median": 0.010371539414364972,
+          "mae_mean": 0.015506757474589482,
+          "mae_median": 0.010419924207262853,
+          "e_ratio": 0.9053272202790342,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 141,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.002242463441117824,
+          "net_mean_return": 0.0016424634411178237,
+          "win_rate": 0.49645390070921985,
+          "profit_factor": 1.172129703034396,
+          "net_cumulative_return": 0.23158734519761315,
+          "max_drawdown": 0.21169568911270759,
+          "mfe_mean": 0.022363851612375724,
+          "mfe_median": 0.01817007984740644,
+          "mae_mean": 0.0199535354185572,
+          "mae_median": 0.013510026216090256,
+          "e_ratio": 1.1207964475095917,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 140,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.008983875403471191,
+          "net_mean_return": 0.00838387540347119,
+          "win_rate": 0.5357142857142857,
+          "profit_factor": 1.552468149031401,
+          "net_cumulative_return": 1.1737425564859665,
+          "max_drawdown": 0.3576128482525413,
+          "mfe_mean": 0.04184432206539152,
+          "mfe_median": 0.028885116393794884,
+          "mae_mean": 0.03427649288577481,
+          "mae_median": 0.025412750375204143,
+          "e_ratio": 1.2207877335886208,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 43,
+          "net_return": 0.0005681203253853172,
+          "win_rate": 0.4883720930232558,
+          "profit_factor": 1.0563431356952444,
+          "e_ratio": 1.2587943623956404
+        },
+        "P2_Bear": {
+          "trades": 26,
+          "net_return": -0.008510035833774212,
+          "win_rate": 0.34615384615384615,
+          "profit_factor": 0.5950131259925937,
+          "e_ratio": 0.8530646244766112
+        },
+        "P3_Mixed": {
+          "trades": 72,
+          "net_return": -0.0007080680154975824,
+          "win_rate": 0.4583333333333333,
+          "profit_factor": 0.9182513112598831,
+          "e_ratio": 1.175266299763438
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 43,
+          "net_return": 0.014238452712505423,
+          "win_rate": 0.6046511627906976,
+          "profit_factor": 1.867936633227727,
+          "e_ratio": 1.4417119768224953
+        },
+        "P2_Bear": {
+          "trades": 26,
+          "net_return": -0.011420963158087445,
+          "win_rate": 0.4230769230769231,
+          "profit_factor": 0.5943263240125833,
+          "e_ratio": 0.8399825053090695
+        },
+        "P3_Mixed": {
+          "trades": 72,
+          "net_return": 0.0053863962247677035,
+          "win_rate": 0.4788732394366197,
+          "profit_factor": 1.4187817482987648,
+          "e_ratio": 1.2633659149932703
+        }
+      }
+    },
+    "Stage 2 (+ MAE Damper)": {
+      "total_trades": 99,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 99,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.00043105345102850614,
+          "net_mean_return": -0.004431053451028506,
+          "win_rate": 0.31313131313131315,
+          "profit_factor": 0.3173894220891702,
+          "net_cumulative_return": -0.43867429165182215,
+          "max_drawdown": 0.4595365857202875,
+          "mfe_mean": 0.007852776646895957,
+          "mfe_median": 0.005335345769370253,
+          "mae_mean": 0.008725592375514296,
+          "mae_median": 0.004059706908366614,
+          "e_ratio": 0.8999706047388109,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 99,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0008878031311531475,
+          "net_mean_return": -0.004887803131153147,
+          "win_rate": 0.41414141414141414,
+          "profit_factor": 0.46964846437868896,
+          "net_cumulative_return": -0.48389250998416156,
+          "max_drawdown": 0.5334889893852465,
+          "mfe_mean": 0.014280583227608284,
+          "mfe_median": 0.011370520433206405,
+          "mae_mean": 0.016172388467882683,
+          "mae_median": 0.009584800491715693,
+          "e_ratio": 0.8830225205119576,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 99,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0036204822617828224,
+          "net_mean_return": -0.00037951773821717674,
+          "win_rate": 0.48484848484848486,
+          "profit_factor": 0.9662756402760558,
+          "net_cumulative_return": -0.037572256083500497,
+          "max_drawdown": 0.24888735563633338,
+          "mfe_mean": 0.02369037166389093,
+          "mfe_median": 0.020708318000480924,
+          "mae_mean": 0.020333736076673603,
+          "mae_median": 0.012735670378768335,
+          "e_ratio": 1.1650771690239445,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 99,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.011359268345745742,
+          "net_mean_return": 0.00735926834574574,
+          "win_rate": 0.5252525252525253,
+          "profit_factor": 1.4577916644356261,
+          "net_cumulative_return": 0.7285675662288282,
+          "max_drawdown": 0.38337423361774703,
+          "mfe_mean": 0.04315970052549567,
+          "mfe_median": 0.02981830938314171,
+          "mae_mean": 0.03307444457676307,
+          "mae_median": 0.024546428444336934,
+          "e_ratio": 1.3049259353494371,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 99,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.00043105345102850614,
+          "net_mean_return": -0.001031053451028506,
+          "win_rate": 0.48484848484848486,
+          "profit_factor": 0.7691974404351545,
+          "net_cumulative_return": -0.10207429165182211,
+          "max_drawdown": 0.2152395065084518,
+          "mfe_mean": 0.007852776646895957,
+          "mfe_median": 0.005335345769370253,
+          "mae_mean": 0.008725592375514296,
+          "mae_median": 0.004059706908366614,
+          "e_ratio": 0.8999706047388109,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 99,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0008878031311531475,
+          "net_mean_return": -0.0014878031311531472,
+          "win_rate": 0.47474747474747475,
+          "profit_factor": 0.796046793237912,
+          "net_cumulative_return": -0.14729250998416157,
+          "max_drawdown": 0.28137747894986587,
+          "mfe_mean": 0.014280583227608284,
+          "mfe_median": 0.011370520433206405,
+          "mae_mean": 0.016172388467882683,
+          "mae_median": 0.009584800491715693,
+          "e_ratio": 0.8830225205119576,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 99,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0036204822617828224,
+          "net_mean_return": 0.003020482261782822,
+          "win_rate": 0.5353535353535354,
+          "profit_factor": 1.3159556234564054,
+          "net_cumulative_return": 0.2990277439164994,
+          "max_drawdown": 0.21286225001640652,
+          "mfe_mean": 0.02369037166389093,
+          "mfe_median": 0.020708318000480924,
+          "mae_mean": 0.020333736076673603,
+          "mae_median": 0.012735670378768335,
+          "e_ratio": 1.1650771690239445,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 99,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.011359268345745742,
+          "net_mean_return": 0.01075926834574574,
+          "win_rate": 0.5656565656565656,
+          "profit_factor": 1.739583003775996,
+          "net_cumulative_return": 1.0651675662288282,
+          "max_drawdown": 0.3119742336177469,
+          "mfe_mean": 0.04315970052549567,
+          "mfe_median": 0.02981830938314171,
+          "mae_mean": 0.03307444457676307,
+          "mae_median": 0.024546428444336934,
+          "e_ratio": 1.3049259353494371,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 31,
+          "net_return": 0.004087145865815956,
+          "win_rate": 0.5806451612903226,
+          "profit_factor": 1.437659185951943,
+          "e_ratio": 1.3819093178560198
+        },
+        "P2_Bear": {
+          "trades": 16,
+          "net_return": -0.013841584010239435,
+          "win_rate": 0.3125,
+          "profit_factor": 0.4701976035884345,
+          "e_ratio": 0.6551704133496226
+        },
+        "P3_Mixed": {
+          "trades": 52,
+          "net_return": 0.0010998378123083811,
+          "win_rate": 0.4807692307692308,
+          "profit_factor": 1.1406631462237498,
+          "e_ratio": 1.3344559666919344
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 31,
+          "net_return": 0.014199188604104938,
+          "win_rate": 0.6129032258064516,
+          "profit_factor": 1.984758038428998,
+          "e_ratio": 1.4212625731489612
+        },
+        "P2_Bear": {
+          "trades": 16,
+          "net_return": -0.017360537979070622,
+          "win_rate": 0.375,
+          "profit_factor": 0.5018704347731823,
+          "e_ratio": 0.6939984649976259
+        },
+        "P3_Mixed": {
+          "trades": 52,
+          "net_return": 0.010887717830128946,
+          "win_rate": 0.5192307692307693,
+          "profit_factor": 1.9647104218807254,
+          "e_ratio": 1.5771522252240788
+        }
+      }
+    },
+    "Stage 3 (+ MFE Booster)": {
+      "total_trades": 33,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 33,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.003298891154267223,
+          "net_mean_return": -0.007298891154267223,
+          "win_rate": 0.36363636363636365,
+          "profit_factor": 0.2225937396864611,
+          "net_cumulative_return": -0.24086340809081835,
+          "max_drawdown": 0.28137554836003426,
+          "mfe_mean": 0.008106908279862823,
+          "mfe_median": 0.005335345769370253,
+          "mae_mean": 0.013315295593099099,
+          "mae_median": 0.0056394569084447736,
+          "e_ratio": 0.6088417807310549,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 33,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0024287538730616187,
+          "net_mean_return": -0.006428753873061619,
+          "win_rate": 0.45454545454545453,
+          "profit_factor": 0.4232948940238417,
+          "net_cumulative_return": -0.21214887781103345,
+          "max_drawdown": 0.294824944889901,
+          "mfe_mean": 0.014567627604211838,
+          "mfe_median": 0.011570209532853636,
+          "mae_mean": 0.019748492559554413,
+          "mae_median": 0.009347389704374168,
+          "e_ratio": 0.7376577002159059,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 33,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0026182667866163126,
+          "net_mean_return": -0.0013817332133836881,
+          "win_rate": 0.5454545454545454,
+          "profit_factor": 0.8928108383888144,
+          "net_cumulative_return": -0.04559719604166171,
+          "max_drawdown": 0.22001965864872827,
+          "mfe_mean": 0.02477252247559808,
+          "mfe_median": 0.02275951407026949,
+          "mae_mean": 0.023465140904634547,
+          "mae_median": 0.014172265338388449,
+          "e_ratio": 1.0557159054052523,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 33,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.007636751224100834,
+          "net_mean_return": 0.0036367512241008335,
+          "win_rate": 0.5757575757575758,
+          "profit_factor": 1.2194215985502315,
+          "net_cumulative_return": 0.1200127903953275,
+          "max_drawdown": 0.29188920679079033,
+          "mfe_mean": 0.038812188550778254,
+          "mfe_median": 0.027687077724736903,
+          "mae_mean": 0.03464637260413629,
+          "mae_median": 0.022694539896932993,
+          "e_ratio": 1.1202381557873282,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 33,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.003298891154267223,
+          "net_mean_return": -0.003898891154267222,
+          "win_rate": 0.42424242424242425,
+          "profit_factor": 0.47044355736116816,
+          "net_cumulative_return": -0.12866340809081833,
+          "max_drawdown": 0.20317554836003426,
+          "mfe_mean": 0.008106908279862823,
+          "mfe_median": 0.005335345769370253,
+          "mae_mean": 0.013315295593099099,
+          "mae_median": 0.0056394569084447736,
+          "e_ratio": 0.6088417807310549,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 33,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0024287538730616187,
+          "net_mean_return": -0.003028753873061619,
+          "win_rate": 0.5757575757575758,
+          "profit_factor": 0.6787224446507336,
+          "net_cumulative_return": -0.09994887781103343,
+          "max_drawdown": 0.22002494488990104,
+          "mfe_mean": 0.014567627604211838,
+          "mfe_median": 0.011570209532853636,
+          "mae_mean": 0.019748492559554413,
+          "mae_median": 0.009347389704374168,
+          "e_ratio": 0.7376577002159059,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 33,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0026182667866163126,
+          "net_mean_return": 0.0020182667866163106,
+          "win_rate": 0.6060606060606061,
+          "profit_factor": 1.1770870398386373,
+          "net_cumulative_return": 0.06660280395833824,
+          "max_drawdown": 0.19011521673109857,
+          "mfe_mean": 0.02477252247559808,
+          "mfe_median": 0.02275951407026949,
+          "mae_mean": 0.023465140904634547,
+          "mae_median": 0.014172265338388449,
+          "e_ratio": 1.0557159054052523,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 33,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.007636751224100834,
+          "net_mean_return": 0.007036751224100834,
+          "win_rate": 0.6666666666666666,
+          "profit_factor": 1.4580215133871817,
+          "net_cumulative_return": 0.23221279039532752,
+          "max_drawdown": 0.2622382257630501,
+          "mfe_mean": 0.038812188550778254,
+          "mfe_median": 0.027687077724736903,
+          "mae_mean": 0.03464637260413629,
+          "mae_median": 0.022694539896932993,
+          "e_ratio": 1.1202381557873282,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 11,
+          "net_return": 0.007060028418530429,
+          "win_rate": 0.6363636363636364,
+          "profit_factor": 1.9877544939172431,
+          "e_ratio": 1.717404787652467
+        },
+        "P2_Bear": {
+          "trades": 5,
+          "net_return": -0.02588728363543554,
+          "win_rate": 0.4,
+          "profit_factor": 0.35383631713345054,
+          "e_ratio": 0.44838320540980425
+        },
+        "P3_Mixed": {
+          "trades": 17,
+          "net_return": 0.0003634652665694851,
+          "win_rate": 0.5294117647058824,
+          "profit_factor": 1.0421907732315883,
+          "e_ratio": 1.1442159923565949
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 11,
+          "net_return": 0.017562092006210058,
+          "win_rate": 0.5454545454545454,
+          "profit_factor": 2.17328889108689,
+          "e_ratio": 1.8302926354350768
+        },
+        "P2_Bear": {
+          "trades": 5,
+          "net_return": -0.04060276835489967,
+          "win_rate": 0.4,
+          "profit_factor": 0.19294623793003257,
+          "e_ratio": 0.3116293746244691
+        },
+        "P3_Mixed": {
+          "trades": 17,
+          "net_return": 0.007637860005971484,
+          "win_rate": 0.6470588235294118,
+          "profit_factor": 1.9930641906272695,
+          "e_ratio": 1.310643425418818
+        }
+      }
+    }
+  },
+  "signal_c_sequential_gating": {
+    "Stage 0 (Base Trigger)": {
+      "total_trades": 120,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 120,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0010151115211894384,
+          "net_mean_return": -0.005015111521189438,
+          "win_rate": 0.3,
+          "profit_factor": 0.2831612302347878,
+          "net_cumulative_return": -0.6018133825427325,
+          "max_drawdown": 0.595205916527795,
+          "mfe_mean": 0.008038657189798152,
+          "mfe_median": 0.005622633971139124,
+          "mae_mean": 0.009396547829010641,
+          "mae_median": 0.005965484742012393,
+          "e_ratio": 0.8554904775751606,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 120,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0026973987507415377,
+          "net_mean_return": -0.006697398750741538,
+          "win_rate": 0.3333333333333333,
+          "profit_factor": 0.3728676449712113,
+          "net_cumulative_return": -0.8036878500889846,
+          "max_drawdown": 0.7924818125114926,
+          "mfe_mean": 0.013429019246297108,
+          "mfe_median": 0.009185509336269916,
+          "mae_mean": 0.017018328744204444,
+          "mae_median": 0.01163241359290899,
+          "e_ratio": 0.7890915405468549,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 120,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0018168466851818193,
+          "net_mean_return": -0.00581684668518182,
+          "win_rate": 0.4083333333333333,
+          "profit_factor": 0.6049375863133414,
+          "net_cumulative_return": -0.6980216022218184,
+          "max_drawdown": 0.737275745711663,
+          "mfe_mean": 0.021494006394624756,
+          "mfe_median": 0.014953038738561127,
+          "mae_mean": 0.024655715881383926,
+          "mae_median": 0.018867564577628157,
+          "e_ratio": 0.8717656586420032,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 120,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.002941038955449625,
+          "net_mean_return": -0.006941038955449627,
+          "win_rate": 0.4083333333333333,
+          "profit_factor": 0.6696564607202735,
+          "net_cumulative_return": -0.8329246746539551,
+          "max_drawdown": 1.0164388817092154,
+          "mfe_mean": 0.040161650649197,
+          "mfe_median": 0.0287018425088014,
+          "mae_mean": 0.04138788016900537,
+          "mae_median": 0.03318517941997505,
+          "e_ratio": 0.9703722559647627,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 120,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0010151115211894384,
+          "net_mean_return": -0.0016151115211894384,
+          "win_rate": 0.48333333333333334,
+          "profit_factor": 0.6686177642262977,
+          "net_cumulative_return": -0.19381338254273262,
+          "max_drawdown": 0.22808445539960195,
+          "mfe_mean": 0.008038657189798152,
+          "mfe_median": 0.005622633971139124,
+          "mae_mean": 0.009396547829010641,
+          "mae_median": 0.005965484742012393,
+          "e_ratio": 0.8554904775751606,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 120,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0026973987507415377,
+          "net_mean_return": -0.0032973987507415375,
+          "win_rate": 0.48333333333333334,
+          "profit_factor": 0.6214346224361317,
+          "net_cumulative_return": -0.3956878500889845,
+          "max_drawdown": 0.42710347142049876,
+          "mfe_mean": 0.013429019246297108,
+          "mfe_median": 0.009185509336269916,
+          "mae_mean": 0.017018328744204444,
+          "mae_median": 0.01163241359290899,
+          "e_ratio": 0.7890915405468549,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 120,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0018168466851818193,
+          "net_mean_return": -0.00241684668518182,
+          "win_rate": 0.5083333333333333,
+          "profit_factor": 0.8122337364915028,
+          "net_cumulative_return": -0.2900216022218184,
+          "max_drawdown": 0.46574334897224595,
+          "mfe_mean": 0.021494006394624756,
+          "mfe_median": 0.014953038738561127,
+          "mae_mean": 0.024655715881383926,
+          "mae_median": 0.018867564577628157,
+          "e_ratio": 0.8717656586420032,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 120,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.002941038955449625,
+          "net_mean_return": -0.003541038955449626,
+          "win_rate": 0.4666666666666667,
+          "profit_factor": 0.8147267959357205,
+          "net_cumulative_return": -0.4249246746539551,
+          "max_drawdown": 0.8022388817092155,
+          "mfe_mean": 0.040161650649197,
+          "mfe_median": 0.0287018425088014,
+          "mae_mean": 0.04138788016900537,
+          "mae_median": 0.03318517941997505,
+          "e_ratio": 0.9703722559647627,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 35,
+          "net_return": -0.003777700479587966,
+          "win_rate": 0.42857142857142855,
+          "profit_factor": 0.7651573920884007,
+          "e_ratio": 0.8312389353079441
+        },
+        "P2_Bear": {
+          "trades": 32,
+          "net_return": -0.007094160041052986,
+          "win_rate": 0.4375,
+          "profit_factor": 0.603765730897254,
+          "e_ratio": 0.99823511894863
+        },
+        "P3_Mixed": {
+          "trades": 53,
+          "net_return": -0.006392244606085737,
+          "win_rate": 0.37735849056603776,
+          "profit_factor": 0.4630275316955671,
+          "e_ratio": 0.8174619895940148
+        }
+      },
+      "period_breakdown_12h": {
+        "P1_Bull": {
+          "trades": 35,
+          "net_return": -0.009132703204609799,
+          "win_rate": 0.34285714285714286,
+          "profit_factor": 0.2181246565915169,
+          "e_ratio": 0.6005525103747951
+        },
+        "P2_Bear": {
+          "trades": 32,
+          "net_return": -0.0042279169081701345,
+          "win_rate": 0.34375,
+          "profit_factor": 0.6162542764308852,
+          "e_ratio": 1.1315928114571026
+        },
+        "P3_Mixed": {
+          "trades": 53,
+          "net_return": -0.006580186733324477,
+          "win_rate": 0.32075471698113206,
+          "profit_factor": 0.32952123385020654,
+          "e_ratio": 0.7543987501826971
+        }
+      }
+    },
+    "Stage 1 (+ Trap Gate)": {
+      "total_trades": 60,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 60,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0002589702356576938,
+          "net_mean_return": -0.0037410297643423068,
+          "win_rate": 0.3333333333333333,
+          "profit_factor": 0.39762791836220795,
+          "net_cumulative_return": -0.22446178586053842,
+          "max_drawdown": 0.21446543434484097,
+          "mfe_mean": 0.009099500128397414,
+          "mfe_median": 0.006113312856553753,
+          "mae_mean": 0.009094244204964531,
+          "mae_median": 0.005509815642814537,
+          "e_ratio": 1.0005779395532413,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 60,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0007843159928764117,
+          "net_mean_return": -0.0032156840071235885,
+          "win_rate": 0.38333333333333336,
+          "profit_factor": 0.6157955786627652,
+          "net_cumulative_return": -0.1929410404274153,
+          "max_drawdown": 0.2367469687595346,
+          "mfe_mean": 0.014927828416595032,
+          "mfe_median": 0.009489582331305953,
+          "mae_mean": 0.015574176299723085,
+          "mae_median": 0.00872212966525778,
+          "e_ratio": 0.9584987436453031,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 60,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0016790540443731919,
+          "net_mean_return": -0.002320945955626811,
+          "win_rate": 0.48333333333333334,
+          "profit_factor": 0.8354832745269619,
+          "net_cumulative_return": -0.13925675733760864,
+          "max_drawdown": 0.35802791561628466,
+          "mfe_mean": 0.024711408220394252,
+          "mfe_median": 0.01691448530602818,
+          "mae_mean": 0.02426941105455283,
+          "mae_median": 0.01845108069670323,
+          "e_ratio": 1.0182121092616505,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 60,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0031839044442854895,
+          "net_mean_return": -0.007183904444285489,
+          "win_rate": 0.45,
+          "profit_factor": 0.6406350030754061,
+          "net_cumulative_return": -0.43103426665712935,
+          "max_drawdown": 0.49554923081711927,
+          "mfe_mean": 0.03673823981904871,
+          "mfe_median": 0.029130786119705536,
+          "mae_mean": 0.04053183164018863,
+          "mae_median": 0.03473954003715407,
+          "e_ratio": 0.906404628963808,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 60,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0002589702356576938,
+          "net_mean_return": -0.00034102976434230713,
+          "win_rate": 0.5666666666666667,
+          "profit_factor": 0.9209841843030746,
+          "net_cumulative_return": -0.02046178586053843,
+          "max_drawdown": 0.07698663103696313,
+          "mfe_mean": 0.009099500128397414,
+          "mfe_median": 0.006113312856553753,
+          "mae_mean": 0.009094244204964531,
+          "mae_median": 0.005509815642814537,
+          "e_ratio": 1.0005779395532413,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 60,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0007843159928764117,
+          "net_mean_return": 0.00018431599287641113,
+          "win_rate": 0.55,
+          "profit_factor": 1.0278741849458242,
+          "net_cumulative_return": 0.011058959572584667,
+          "max_drawdown": 0.16605452587854486,
+          "mfe_mean": 0.014927828416595032,
+          "mfe_median": 0.009489582331305953,
+          "mae_mean": 0.015574176299723085,
+          "mae_median": 0.00872212966525778,
+          "e_ratio": 0.9584987436453031,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 60,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0016790540443731919,
+          "net_mean_return": 0.001079054044373191,
+          "win_rate": 0.5333333333333333,
+          "profit_factor": 1.086867792152072,
+          "net_cumulative_return": 0.06474324266239145,
+          "max_drawdown": 0.29342791561628456,
+          "mfe_mean": 0.024711408220394252,
+          "mfe_median": 0.01691448530602818,
+          "mae_mean": 0.02426941105455283,
+          "mae_median": 0.01845108069670323,
+          "e_ratio": 1.0182121092616505,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 60,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": -0.0031839044442854895,
+          "net_mean_return": -0.003783904444285492,
+          "win_rate": 0.5166666666666667,
+          "profit_factor": 0.7931768810937848,
+          "net_cumulative_return": -0.2270342666571295,
+          "max_drawdown": 0.33914923081711945,
+          "mfe_mean": 0.03673823981904871,
+          "mfe_median": 0.029130786119705536,
+          "mae_mean": 0.04053183164018863,
+          "mae_median": 0.03473954003715407,
+          "e_ratio": 0.906404628963808,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 22,
+          "net_return": -0.004185031599158579,
+          "win_rate": 0.36363636363636365,
+          "profit_factor": 0.7572876404437027,
+          "e_ratio": 0.792132365374209
+        },
+        "P2_Bear": {
+          "trades": 17,
+          "net_return": -0.0003182330053167079,
+          "win_rate": 0.5294117647058824,
+          "profit_factor": 0.9767478215848041,
+          "e_ratio": 1.4227658602826994
+        },
+        "P3_Mixed": {
+          "trades": 21,
+          "net_return": -0.0019893381459874186,
+          "win_rate": 0.5714285714285714,
+          "profit_factor": 0.8218154362783341,
+          "e_ratio": 1.1011332635034703
+        }
+      },
+      "period_breakdown_12h": {
+        "P1_Bull": {
+          "trades": 22,
+          "net_return": -0.005283316790503677,
+          "win_rate": 0.36363636363636365,
+          "profit_factor": 0.3684978886431656,
+          "e_ratio": 0.6341711663453143
+        },
+        "P2_Bear": {
+          "trades": 17,
+          "net_return": 0.0007501257461309515,
+          "win_rate": 0.4117647058823529,
+          "profit_factor": 1.1060810853976673,
+          "e_ratio": 1.816656272588694
+        },
+        "P3_Mixed": {
+          "trades": 21,
+          "net_return": -0.004260009939074315,
+          "win_rate": 0.38095238095238093,
+          "profit_factor": 0.5479847402952719,
+          "e_ratio": 0.8721865023561313
+        }
+      }
+    },
+    "Stage 2 (+ MAE Damper)": {
+      "total_trades": 15,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 15,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0052323168653615896,
+          "net_mean_return": 0.0012323168653615886,
+          "win_rate": 0.3333333333333333,
+          "profit_factor": 1.2665220530152053,
+          "net_cumulative_return": 0.01848475298042383,
+          "max_drawdown": 0.023381005719248386,
+          "mfe_mean": 0.012828340619376303,
+          "mfe_median": 0.00570586003643517,
+          "mae_mean": 0.008786030737428636,
+          "mae_median": 0.005324200748736121,
+          "e_ratio": 1.4600837400587914,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 15,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.006739069973551383,
+          "net_mean_return": 0.0027390699735513834,
+          "win_rate": 0.4666666666666667,
+          "profit_factor": 1.3789473836536708,
+          "net_cumulative_return": 0.04108604960327075,
+          "max_drawdown": 0.031195715120796885,
+          "mfe_mean": 0.019655576556799906,
+          "mfe_median": 0.010365526479341875,
+          "mae_mean": 0.013837884552946508,
+          "mae_median": 0.007631852940926722,
+          "e_ratio": 1.4204177294292164,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 15,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.007841945148362851,
+          "net_mean_return": 0.00384194514836285,
+          "win_rate": 0.4666666666666667,
+          "profit_factor": 1.2818313822178804,
+          "net_cumulative_return": 0.05762917722544275,
+          "max_drawdown": 0.10001616528290222,
+          "mfe_mean": 0.029821497952657764,
+          "mfe_median": 0.023404791606903615,
+          "mae_mean": 0.021010062187086644,
+          "mae_median": 0.01378708041987368,
+          "e_ratio": 1.4193912272657083,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 15,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.014519650222008691,
+          "net_mean_return": 0.01051965022200869,
+          "win_rate": 0.6,
+          "profit_factor": 1.7781510390229562,
+          "net_cumulative_return": 0.15779475333013035,
+          "max_drawdown": 0.13848419130797732,
+          "mfe_mean": 0.050276291579304175,
+          "mfe_median": 0.030435899828975762,
+          "mae_mean": 0.033856401023344786,
+          "mae_median": 0.034986036665015145,
+          "e_ratio": 1.4849862968198388,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 15,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.0052323168653615896,
+          "net_mean_return": 0.004632316865361589,
+          "win_rate": 0.4666666666666667,
+          "profit_factor": 2.718661620223745,
+          "net_cumulative_return": 0.06948475298042384,
+          "max_drawdown": 0.014632156911874873,
+          "mfe_mean": 0.012828340619376303,
+          "mfe_median": 0.00570586003643517,
+          "mae_mean": 0.008786030737428636,
+          "mae_median": 0.005324200748736121,
+          "e_ratio": 1.4600837400587914,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 15,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.006739069973551383,
+          "net_mean_return": 0.006139069973551383,
+          "win_rate": 0.5333333333333333,
+          "profit_factor": 2.114205456495835,
+          "net_cumulative_return": 0.09208604960327074,
+          "max_drawdown": 0.02308664932177212,
+          "mfe_mean": 0.019655576556799906,
+          "mfe_median": 0.010365526479341875,
+          "mae_mean": 0.013837884552946508,
+          "mae_median": 0.007631852940926722,
+          "e_ratio": 1.4204177294292164,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 15,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.007841945148362851,
+          "net_mean_return": 0.00724194514836285,
+          "win_rate": 0.4666666666666667,
+          "profit_factor": 1.6127512029393576,
+          "net_cumulative_return": 0.10862917722544276,
+          "max_drawdown": 0.09321616528290222,
+          "mfe_mean": 0.029821497952657764,
+          "mfe_median": 0.023404791606903615,
+          "mae_mean": 0.021010062187086644,
+          "mae_median": 0.01378708041987368,
+          "e_ratio": 1.4193912272657083,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 15,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.014519650222008691,
+          "net_mean_return": 0.013919650222008688,
+          "win_rate": 0.6666666666666666,
+          "profit_factor": 2.1306072002473084,
+          "net_cumulative_return": 0.2087947533301303,
+          "max_drawdown": 0.13168419130797732,
+          "mfe_mean": 0.050276291579304175,
+          "mfe_median": 0.030435899828975762,
+          "mae_mean": 0.033856401023344786,
+          "mae_median": 0.034986036665015145,
+          "e_ratio": 1.4849862968198388,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 5,
+          "net_return": -0.014021633062535743,
+          "win_rate": 0.2,
+          "profit_factor": 0.500877679407749,
+          "e_ratio": 0.6505166076534666
+        },
+        "P2_Bear": {
+          "trades": 4,
+          "net_return": 0.01766194915954773,
+          "win_rate": 0.5,
+          "profit_factor": 4.429426767761748,
+          "e_ratio": 5.658880012086679
+        },
+        "P3_Mixed": {
+          "trades": 6,
+          "net_return": 0.009514924316655092,
+          "win_rate": 0.6666666666666666,
+          "profit_factor": 2.3148913863860217,
+          "e_ratio": 2.045051795986105
+        }
+      },
+      "period_breakdown_12h": {
+        "P1_Bull": {
+          "trades": 5,
+          "net_return": -0.011086593717103311,
+          "win_rate": 0.2,
+          "profit_factor": 0.09001420060367066,
+          "e_ratio": 0.4828122411267368
+        },
+        "P2_Bear": {
+          "trades": 4,
+          "net_return": 0.015070436610856781,
+          "win_rate": 0.5,
+          "profit_factor": 4.620599708241818,
+          "e_ratio": 6.699877904960572
+        },
+        "P3_Mixed": {
+          "trades": 6,
+          "net_return": 0.006039545290893365,
+          "win_rate": 0.6666666666666666,
+          "profit_factor": 2.1744163916164174,
+          "e_ratio": 1.6904692299726751
+        }
+      }
+    },
+    "Stage 3 (+ Downside Void)": {
+      "total_trades": 8,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 8,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.005999846694753248,
+          "net_mean_return": 0.0019998466947532476,
+          "win_rate": 0.25,
+          "profit_factor": 1.293683321125913,
+          "net_cumulative_return": 0.01599877355802598,
+          "max_drawdown": 0.021432156911874875,
+          "mfe_mean": 0.014554198421260843,
+          "mfe_median": 0.003443338890882931,
+          "mae_mean": 0.010641503988929397,
+          "mae_median": 0.007314363985023454,
+          "e_ratio": 1.367682466350801,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 8,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.010180383863368432,
+          "net_mean_return": 0.00618038386336843,
+          "win_rate": 0.5,
+          "profit_factor": 1.5963569934475197,
+          "net_cumulative_return": 0.04944307090694744,
+          "max_drawdown": 0.02648664932177212,
+          "mfe_mean": 0.02636963560287088,
+          "mfe_median": 0.011499899373214354,
+          "mae_mean": 0.01933690964600486,
+          "mae_median": 0.023326723374487872,
+          "e_ratio": 1.363694410617419,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 8,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.018007694964148023,
+          "net_mean_return": 0.014007694964148023,
+          "win_rate": 0.625,
+          "profit_factor": 1.8681964634173838,
+          "net_cumulative_return": 0.11206155971318418,
+          "max_drawdown": 0.07496803153975473,
+          "mfe_mean": 0.04247436509768186,
+          "mfe_median": 0.03145627691153276,
+          "mae_mean": 0.028591119402328037,
+          "mae_median": 0.027263974487918702,
+          "e_ratio": 1.4855789484836812,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 8,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.034764314981794525,
+          "net_mean_return": 0.03076431498179452,
+          "win_rate": 0.75,
+          "profit_factor": 3.979466317186434,
+          "net_cumulative_return": 0.24611451985435617,
+          "max_drawdown": 0.07186128347246622,
+          "mfe_mean": 0.07112450364574979,
+          "mfe_median": 0.06216441535789685,
+          "mae_mean": 0.03458285343126749,
+          "mae_median": 0.037679919756273626,
+          "e_ratio": 2.0566406929696495,
+          "horizon_bars": 72
+        }
+      },
+      "multi_horizon_6bps": {
+        "4": {
+          "total_trades": 8,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.005999846694753248,
+          "net_mean_return": 0.005399846694753247,
+          "win_rate": 0.25,
+          "profit_factor": 2.2677081847400022,
+          "net_cumulative_return": 0.043198773558025975,
+          "max_drawdown": 0.014632156911874871,
+          "mfe_mean": 0.014554198421260843,
+          "mfe_median": 0.003443338890882931,
+          "mae_mean": 0.010641503988929397,
+          "mae_median": 0.007314363985023454,
+          "e_ratio": 1.367682466350801,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 8,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.010180383863368432,
+          "net_mean_return": 0.00958038386336843,
+          "win_rate": 0.5,
+          "profit_factor": 2.105824793673182,
+          "net_cumulative_return": 0.07664307090694744,
+          "max_drawdown": 0.02308664932177212,
+          "mfe_mean": 0.02636963560287088,
+          "mfe_median": 0.011499899373214354,
+          "mae_mean": 0.01933690964600486,
+          "mae_median": 0.023326723374487872,
+          "e_ratio": 1.363694410617419,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 8,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.018007694964148023,
+          "net_mean_return": 0.01740769496414802,
+          "win_rate": 0.625,
+          "profit_factor": 2.171505972807371,
+          "net_cumulative_return": 0.13926155971318416,
+          "max_drawdown": 0.07156803153975473,
+          "mfe_mean": 0.04247436509768186,
+          "mfe_median": 0.03145627691153276,
+          "mae_mean": 0.028591119402328037,
+          "mae_median": 0.027263974487918702,
+          "e_ratio": 1.4855789484836812,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 8,
+          "friction_cost_applied": 0.0006,
+          "gross_mean_return": 0.034764314981794525,
+          "net_mean_return": 0.03416431498179452,
+          "win_rate": 0.75,
+          "profit_factor": 4.605563191463219,
+          "net_cumulative_return": 0.2733145198543562,
+          "max_drawdown": 0.06846128347246622,
+          "mfe_mean": 0.07112450364574979,
+          "mfe_median": 0.06216441535789685,
+          "mae_mean": 0.03458285343126749,
+          "mae_median": 0.037679919756273626,
+          "e_ratio": 2.0566406929696495,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 3,
+          "net_return": -0.008088959204071914,
+          "win_rate": 0.3333333333333333,
+          "profit_factor": 0.7435376684648076,
+          "e_ratio": 0.6349845730554032
+        },
+        "P2_Bear": {
+          "trades": 1,
+          "net_return": 0.0787484920870601,
+          "win_rate": 1.0,
+          "profit_factor": Infinity,
+          "e_ratio": 75.94301994302091
+        },
+        "P3_Mixed": {
+          "trades": 4,
+          "net_return": 0.014394986309584952,
+          "win_rate": 0.75,
+          "profit_factor": 2.671291802219522,
+          "e_ratio": 2.010392699025931
+        }
+      },
+      "period_breakdown_12h": {
+        "P1_Bull": {
+          "trades": 3,
+          "net_return": -0.01552320765466345,
+          "win_rate": 0.3333333333333333,
+          "profit_factor": 0.10534141823516759,
+          "e_ratio": 0.27058996076055947
+        },
+        "P2_Bear": {
+          "trades": 1,
+          "net_return": 0.06499081224245189,
+          "win_rate": 1.0,
+          "profit_factor": Infinity,
+          "e_ratio": 69.55962555962645
+        },
+        "P3_Mixed": {
+          "trades": 4,
+          "net_return": 0.007755470407121474,
+          "win_rate": 0.5,
+          "profit_factor": 2.0053904316884137,
+          "e_ratio": 1.6237862548536883
+        }
+      }
+    }
+  },
+  "ablation_study": {
+    "Full Model (Trap + Damper + Booster)": {
+      "total_trades": 55,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0005885081328017384,
+          "net_mean_return": -0.004588508132801738,
+          "win_rate": 0.2909090909090909,
+          "profit_factor": 0.35527657050641825,
+          "net_cumulative_return": -0.2523679473040956,
+          "max_drawdown": 0.2698796904996574,
+          "mfe_mean": 0.008096503908219086,
+          "mfe_median": 0.004924769857309461,
+          "mae_mean": 0.009992778760939411,
+          "mae_median": 0.005807856055323106,
+          "e_ratio": 0.8102354812324437,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0016457800397726664,
+          "net_mean_return": -0.002354219960227334,
+          "win_rate": 0.43636363636363634,
+          "profit_factor": 0.6920643663535975,
+          "net_cumulative_return": -0.1294820978125034,
+          "max_drawdown": 0.2306008559023689,
+          "mfe_mean": 0.01488895121863701,
+          "mfe_median": 0.012850913503351949,
+          "mae_mean": 0.01691315445093753,
+          "mae_median": 0.011826785824961064,
+          "e_ratio": 0.8803178178161606,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.005711626617999195,
+          "net_mean_return": 0.0017116266179991954,
+          "win_rate": 0.509090909090909,
+          "profit_factor": 1.1764132809616847,
+          "net_cumulative_return": 0.09413946398995575,
+          "max_drawdown": 0.18939827134438667,
+          "mfe_mean": 0.023229145684948885,
+          "mfe_median": 0.017855925295803023,
+          "mae_mean": 0.02216145415775091,
+          "mae_median": 0.012924680377206746,
+          "e_ratio": 1.0481778641238013,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 55,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.013801943612176033,
+          "net_mean_return": 0.009801943612176033,
+          "win_rate": 0.6363636363636364,
+          "profit_factor": 1.7000692311775716,
+          "net_cumulative_return": 0.5391068986696818,
+          "max_drawdown": 0.1396059559638885,
+          "mfe_mean": 0.04459316039485912,
+          "mfe_median": 0.03077299135300768,
+          "mae_mean": 0.030358506605336136,
+          "mae_median": 0.020429053668266743,
+          "e_ratio": 1.4688851785292016,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 19,
+          "net_return": 0.005523583639414576,
+          "win_rate": 0.5789473684210527,
+          "profit_factor": 1.497962175985495,
+          "e_ratio": 1.0913204913306354
+        },
+        "P2_Bear": {
+          "trades": 11,
+          "net_return": 0.0017222746338566998,
+          "win_rate": 0.36363636363636365,
+          "profit_factor": 1.184749297998197,
+          "e_ratio": 0.8935777063508697
+        },
+        "P3_Mixed": {
+          "trades": 25,
+          "net_return": -0.0011901458452537976,
+          "win_rate": 0.52,
+          "profit_factor": 0.8649591024702505,
+          "e_ratio": 1.098375253700912
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 19,
+          "net_return": 0.018144354248745692,
+          "win_rate": 0.5789473684210527,
+          "profit_factor": 2.592573931594935,
+          "e_ratio": 1.7102101459706758
+        },
+        "P2_Bear": {
+          "trades": 11,
+          "net_return": -0.00037149169557249527,
+          "win_rate": 0.5454545454545454,
+          "profit_factor": 0.9837193898474887,
+          "e_ratio": 1.1481390068204407
+        },
+        "P3_Mixed": {
+          "trades": 25,
+          "net_return": 0.007938023063792442,
+          "win_rate": 0.72,
+          "profit_factor": 1.655798328195663,
+          "e_ratio": 1.4540451973436768
+        }
+      }
+    },
+    "w/o Trap Gate (Damper + Booster)": {
+      "total_trades": 56,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 56,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0006556916682236066,
+          "net_mean_return": -0.004655691668223607,
+          "win_rate": 0.2857142857142857,
+          "profit_factor": 0.3478555178212375,
+          "net_cumulative_return": -0.260718733420522,
+          "max_drawdown": 0.2782304766160838,
+          "mfe_mean": 0.007976225894213334,
+          "mfe_median": 0.004902015680038772,
+          "mae_mean": 0.009929269977699542,
+          "mae_median": 0.006010220725688348,
+          "e_ratio": 0.8033043629720401,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 56,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0014973444202494711,
+          "net_mean_return": -0.0025026555797505287,
+          "win_rate": 0.42857142857142855,
+          "profit_factor": 0.674942788394654,
+          "net_cumulative_return": -0.1401487124660296,
+          "max_drawdown": 0.2412674705558952,
+          "mfe_mean": 0.014647379502659513,
+          "mfe_median": 0.012810660463605671,
+          "mae_mean": 0.01684129198169539,
+          "mae_median": 0.011845775498294518,
+          "e_ratio": 0.8697301560105712,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 56,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.005432980427064761,
+          "net_mean_return": 0.0014329804270647628,
+          "win_rate": 0.5,
+          "profit_factor": 1.1465635801866751,
+          "net_cumulative_return": 0.08024690391562672,
+          "max_drawdown": 0.18939827134438667,
+          "mfe_mean": 0.022838641924930098,
+          "mfe_median": 0.01733972506828941,
+          "mae_mean": 0.022011227638317123,
+          "mae_median": 0.013002841611589377,
+          "e_ratio": 1.0375905560656968,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 56,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.01147182100931215,
+          "net_mean_return": 0.007471821009312147,
+          "win_rate": 0.625,
+          "profit_factor": 1.4697351528559297,
+          "net_cumulative_return": 0.4184219765214803,
+          "max_drawdown": 0.237205280985316,
+          "mfe_mean": 0.043821156372163377,
+          "mfe_median": 0.030322358858311277,
+          "mae_mean": 0.03277170193727116,
+          "mae_median": 0.020499426846769225,
+          "e_ratio": 1.337164498079537,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 19,
+          "net_return": 0.005523583639414576,
+          "win_rate": 0.5789473684210527,
+          "profit_factor": 1.497962175985495,
+          "e_ratio": 1.0913204913306354
+        },
+        "P2_Bear": {
+          "trades": 11,
+          "net_return": 0.0017222746338566998,
+          "win_rate": 0.36363636363636365,
+          "profit_factor": 1.184749297998197,
+          "e_ratio": 0.8935777063508697
+        },
+        "P3_Mixed": {
+          "trades": 26,
+          "net_return": -0.0016787002386797697,
+          "win_rate": 0.5,
+          "profit_factor": 0.8136554879561688,
+          "e_ratio": 1.0691038805023279
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 19,
+          "net_return": 0.018144354248745692,
+          "win_rate": 0.5789473684210527,
+          "profit_factor": 2.592573931594935,
+          "e_ratio": 1.7102101459706758
+        },
+        "P2_Bear": {
+          "trades": 11,
+          "net_return": -0.00037149169557249527,
+          "win_rate": 0.5454545454545454,
+          "profit_factor": 0.9837193898474887,
+          "e_ratio": 1.1481390068204407
+        },
+        "P3_Mixed": {
+          "trades": 26,
+          "net_return": 0.0029909867094849818,
+          "win_rate": 0.6923076923076923,
+          "profit_factor": 1.1837154333671944,
+          "e_ratio": 1.147362959175333
+        }
+      }
+    },
+    "w/o MAE Damper (Trap + Booster)": {
+      "total_trades": 86,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 86,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0011445697257061705,
+          "net_mean_return": -0.0028554302742938302,
+          "win_rate": 0.32558139534883723,
+          "profit_factor": 0.5231883291682591,
+          "net_cumulative_return": -0.2455670035892694,
+          "max_drawdown": 0.27629724630695435,
+          "mfe_mean": 0.009587741346312842,
+          "mfe_median": 0.005692232817356946,
+          "mae_mean": 0.008876724793360437,
+          "mae_median": 0.006023016154480416,
+          "e_ratio": 1.080098974509633,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 86,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.003682577037401449,
+          "net_mean_return": -0.0003174229625985514,
+          "win_rate": 0.47674418604651164,
+          "profit_factor": 0.9544198217103421,
+          "net_cumulative_return": -0.027298374783475424,
+          "max_drawdown": 0.18467173298226652,
+          "mfe_mean": 0.016437530684523142,
+          "mfe_median": 0.013185743315017918,
+          "mae_mean": 0.01512632347389043,
+          "mae_median": 0.010938207003562374,
+          "e_ratio": 1.0866838007858282,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 86,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.008232274755435398,
+          "net_mean_return": 0.004232274755435398,
+          "win_rate": 0.5581395348837209,
+          "profit_factor": 1.498040693902636,
+          "net_cumulative_return": 0.3639756289674442,
+          "max_drawdown": 0.17722566171900908,
+          "mfe_mean": 0.026238717713287514,
+          "mfe_median": 0.021475070875343144,
+          "mae_mean": 0.020253305183588765,
+          "mae_median": 0.013002841611589377,
+          "e_ratio": 1.2955276916751703,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 86,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.014817259428408058,
+          "net_mean_return": 0.010817259428408057,
+          "win_rate": 0.6162790697674418,
+          "profit_factor": 1.8514661089789048,
+          "net_cumulative_return": 0.9302843108430929,
+          "max_drawdown": 0.15264400459411948,
+          "mfe_mean": 0.04759954871569592,
+          "mfe_median": 0.035055023416516784,
+          "mae_mean": 0.029308160771939727,
+          "mae_median": 0.02036147377419906,
+          "e_ratio": 1.6241056232115652,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 29,
+          "net_return": 0.006863210374222958,
+          "win_rate": 0.5517241379310345,
+          "profit_factor": 1.6333389257027717,
+          "e_ratio": 1.281496765363123
+        },
+        "P2_Bear": {
+          "trades": 18,
+          "net_return": 0.0038333576592350874,
+          "win_rate": 0.5,
+          "profit_factor": 1.4794830518628297,
+          "e_ratio": 1.2253076456793588
+        },
+        "P3_Mixed": {
+          "trades": 39,
+          "net_return": 0.002460053596121714,
+          "win_rate": 0.5897435897435898,
+          "profit_factor": 1.3518884917894,
+          "e_ratio": 1.3573030296937554
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 29,
+          "net_return": 0.013113094295439583,
+          "win_rate": 0.6206896551724138,
+          "profit_factor": 1.9905794444898133,
+          "e_ratio": 1.5774549303899235
+        },
+        "P2_Bear": {
+          "trades": 18,
+          "net_return": 0.0026643005074263823,
+          "win_rate": 0.5,
+          "profit_factor": 1.1420552308235286,
+          "e_ratio": 1.4786601551142262
+        },
+        "P3_Mixed": {
+          "trades": 39,
+          "net_return": 0.012873004285683848,
+          "win_rate": 0.6666666666666666,
+          "profit_factor": 2.352955338039001,
+          "e_ratio": 1.7855263078942158
+        }
+      }
+    },
+    "w/o MFE Booster (Trap + Damper)": {
+      "total_trades": 238,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0009325278643385179,
+          "net_mean_return": -0.004932527864338518,
+          "win_rate": 0.25210084033613445,
+          "profit_factor": 0.3000090630511402,
+          "net_cumulative_return": -1.1739416317125673,
+          "max_drawdown": 1.2394070327767392,
+          "mfe_mean": 0.007528236713478249,
+          "mfe_median": 0.004596142785461376,
+          "mae_mean": 0.009016871136876669,
+          "mae_median": 0.00505707174962503,
+          "e_ratio": 0.8349056562081396,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.00046544216733288083,
+          "net_mean_return": -0.00353455783266712,
+          "win_rate": 0.3949579831932773,
+          "profit_factor": 0.6081211014898484,
+          "net_cumulative_return": -0.8412247641747745,
+          "max_drawdown": 1.0157572437790305,
+          "mfe_mean": 0.014324220696818149,
+          "mfe_median": 0.009181461186096463,
+          "mae_mean": 0.015057157488941868,
+          "mae_median": 0.008759546417947704,
+          "e_ratio": 0.9513230307472047,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0031189616171961878,
+          "net_mean_return": -0.0008810383828038121,
+          "win_rate": 0.4495798319327731,
+          "profit_factor": 0.9181208650923209,
+          "net_cumulative_return": -0.20968713510730727,
+          "max_drawdown": 0.5935460788150806,
+          "mfe_mean": 0.02145139080825165,
+          "mfe_median": 0.015502174147668506,
+          "mae_mean": 0.019805024070770675,
+          "mae_median": 0.012721935078976423,
+          "e_ratio": 1.0831287420604943,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 238,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0075520017369728205,
+          "net_mean_return": 0.00355200173697282,
+          "win_rate": 0.48739495798319327,
+          "profit_factor": 1.1968028634867065,
+          "net_cumulative_return": 0.8453764133995312,
+          "max_drawdown": 0.7959454498779078,
+          "mfe_mean": 0.042132312753548215,
+          "mfe_median": 0.030002487449658586,
+          "mae_mean": 0.03469381136702052,
+          "mae_median": 0.024661839196140456,
+          "e_ratio": 1.2144042725037305,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 78,
+          "net_return": -0.0021835504757733637,
+          "win_rate": 0.44871794871794873,
+          "profit_factor": 0.8243910541736682,
+          "e_ratio": 0.978822314469983
+        },
+        "P2_Bear": {
+          "trades": 48,
+          "net_return": -0.006318705710830021,
+          "win_rate": 0.3333333333333333,
+          "profit_factor": 0.5610033458874722,
+          "e_ratio": 0.7921434751290911
+        },
+        "P3_Mixed": {
+          "trades": 112,
+          "net_return": 0.002356497108239785,
+          "win_rate": 0.5,
+          "profit_factor": 1.2931939130284462,
+          "e_ratio": 1.3950531728027051
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 78,
+          "net_return": 0.003278284507638538,
+          "win_rate": 0.5128205128205128,
+          "profit_factor": 1.1560788319275968,
+          "e_ratio": 1.0982084482620784
+        },
+        "P2_Bear": {
+          "trades": 48,
+          "net_return": -0.01134546651637162,
+          "win_rate": 0.3958333333333333,
+          "profit_factor": 0.6023437174272062,
+          "e_ratio": 0.8714332743715869
+        },
+        "P3_Mixed": {
+          "trades": 112,
+          "net_return": 0.010127255487406811,
+          "win_rate": 0.5089285714285714,
+          "profit_factor": 1.880798573178949,
+          "e_ratio": 1.6121252769231271
+        }
+      }
+    },
+    "Trap Gate Only": {
+      "total_trades": 330,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -4.9582866536911074e-05,
+          "net_mean_return": -0.004049582866536911,
+          "win_rate": 0.2696969696969697,
+          "profit_factor": 0.363163715723274,
+          "net_cumulative_return": -1.3363623459571807,
+          "max_drawdown": 1.4264568620515816,
+          "mfe_mean": 0.00804420659283148,
+          "mfe_median": 0.004863315161517621,
+          "mae_mean": 0.008398364979896333,
+          "mae_median": 0.005105059433829146,
+          "e_ratio": 0.9578300790793657,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0013765518536069219,
+          "net_mean_return": -0.0026234481463930787,
+          "win_rate": 0.4,
+          "profit_factor": 0.6816216302192377,
+          "net_cumulative_return": -0.865737888309716,
+          "max_drawdown": 1.0557847815556005,
+          "mfe_mean": 0.014732887103554986,
+          "mfe_median": 0.009595267618771348,
+          "mae_mean": 0.014266369700375255,
+          "mae_median": 0.009442904837147083,
+          "e_ratio": 1.0327004986536596,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.004214384103061076,
+          "net_mean_return": 0.00021438410306107595,
+          "win_rate": 0.4636363636363636,
+          "profit_factor": 1.0218236177483957,
+          "net_cumulative_return": 0.07074675401015507,
+          "max_drawdown": 0.5282167718244672,
+          "mfe_mean": 0.02230925178313325,
+          "mfe_median": 0.016567581508552573,
+          "mae_mean": 0.019225241895141295,
+          "mae_median": 0.013002841611589377,
+          "e_ratio": 1.1604146207789128,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 330,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.008434246523937506,
+          "net_mean_return": 0.004434246523937506,
+          "win_rate": 0.49696969696969695,
+          "profit_factor": 1.255013727076774,
+          "net_cumulative_return": 1.463301352899377,
+          "max_drawdown": 0.915567912715824,
+          "mfe_mean": 0.04348278944135782,
+          "mfe_median": 0.031070276776797592,
+          "mae_mean": 0.03425100733271896,
+          "mae_median": 0.024811323228229456,
+          "e_ratio": 1.269533156177279,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 111,
+          "net_return": -3.3264595952156966e-05,
+          "win_rate": 0.4594594594594595,
+          "profit_factor": 0.9970717103821194,
+          "e_ratio": 1.102602259674759
+        },
+        "P2_Bear": {
+          "trades": 62,
+          "net_return": -0.004667527242099422,
+          "win_rate": 0.3709677419354839,
+          "profit_factor": 0.6357934686452686,
+          "e_ratio": 0.9215093586190142
+        },
+        "P3_Mixed": {
+          "trades": 157,
+          "net_return": 0.0023173618673312663,
+          "win_rate": 0.5031847133757962,
+          "profit_factor": 1.306701523755479,
+          "e_ratio": 1.3647680781219431
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 111,
+          "net_return": 0.005232014686269495,
+          "win_rate": 0.5315315315315315,
+          "profit_factor": 1.2506738043722816,
+          "e_ratio": 1.2342371386349629
+        },
+        "P2_Bear": {
+          "trades": 62,
+          "net_return": -0.008021399774364373,
+          "win_rate": 0.41935483870967744,
+          "profit_factor": 0.678195874522386,
+          "e_ratio": 0.9670002134847671
+        },
+        "P3_Mixed": {
+          "trades": 157,
+          "net_return": 0.008789009609771048,
+          "win_rate": 0.5031847133757962,
+          "profit_factor": 1.7355704865896102,
+          "e_ratio": 1.5012032784110751
+        }
+      }
+    },
+    "MAE Damper Only": {
+      "total_trades": 284,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 284,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0011643141311625225,
+          "net_mean_return": -0.005164314131162523,
+          "win_rate": 0.24647887323943662,
+          "profit_factor": 0.28307500754091874,
+          "net_cumulative_return": -1.4666652132501565,
+          "max_drawdown": 1.516265808206699,
+          "mfe_mean": 0.007437848777802753,
+          "mfe_median": 0.004547659219977727,
+          "mae_mean": 0.009276969794359715,
+          "mae_median": 0.005488329569380119,
+          "e_ratio": 0.8017541225934437,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 284,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.000827358966256332,
+          "net_mean_return": -0.0031726410337436684,
+          "win_rate": 0.397887323943662,
+          "profit_factor": 0.6396436122098477,
+          "net_cumulative_return": -0.9010300535832018,
+          "max_drawdown": 1.1067459341886352,
+          "mfe_mean": 0.014270023292954953,
+          "mfe_median": 0.009181461186096463,
+          "mae_mean": 0.015020368380379295,
+          "mae_median": 0.008961311185455945,
+          "e_ratio": 0.9500448279015249,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 284,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.003068547837581177,
+          "net_mean_return": -0.0009314521624188233,
+          "win_rate": 0.4507042253521127,
+          "profit_factor": 0.9099614849974665,
+          "net_cumulative_return": -0.26453241412694584,
+          "max_drawdown": 0.7641980591510275,
+          "mfe_mean": 0.02127396951846439,
+          "mfe_median": 0.015502174147668506,
+          "mae_mean": 0.019840151085792467,
+          "mae_median": 0.012905133341635542,
+          "e_ratio": 1.0722685238873346,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 284,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.007598964855187658,
+          "net_mean_return": 0.003598964855187658,
+          "win_rate": 0.49295774647887325,
+          "profit_factor": 1.1981087593783117,
+          "net_cumulative_return": 1.0221060188732949,
+          "max_drawdown": 0.8225753904684847,
+          "mfe_mean": 0.042567758516265944,
+          "mfe_median": 0.029840236058073268,
+          "mae_mean": 0.035857242975861556,
+          "mae_median": 0.02553177764042864,
+          "e_ratio": 1.1871453291855647,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 102,
+          "net_return": -0.002002285457215146,
+          "win_rate": 0.47058823529411764,
+          "profit_factor": 0.8268285938957904,
+          "e_ratio": 0.9735637385252142
+        },
+        "P2_Bear": {
+          "trades": 52,
+          "net_return": -0.006890627443488931,
+          "win_rate": 0.3269230769230769,
+          "profit_factor": 0.5215136120878945,
+          "e_ratio": 0.730841595393274
+        },
+        "P3_Mixed": {
+          "trades": 130,
+          "net_return": 0.002292410227464795,
+          "win_rate": 0.4846153846153846,
+          "profit_factor": 1.2951281607203038,
+          "e_ratio": 1.4271478543154141
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 102,
+          "net_return": 0.002658708304852864,
+          "win_rate": 0.5098039215686274,
+          "profit_factor": 1.1244899802053838,
+          "e_ratio": 1.0603514136224397
+        },
+        "P2_Bear": {
+          "trades": 52,
+          "net_return": -0.011779818206207084,
+          "win_rate": 0.38461538461538464,
+          "profit_factor": 0.5750269677854446,
+          "e_ratio": 0.8444805923558258
+        },
+        "P3_Mixed": {
+          "trades": 130,
+          "net_return": 0.010488217834623623,
+          "win_rate": 0.5230769230769231,
+          "profit_factor": 1.8856355252739916,
+          "e_ratio": 1.5940570344866298
+        }
+      }
+    },
+    "MFE Booster Only": {
+      "total_trades": 126,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 126,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 9.68798727363566e-05,
+          "net_mean_return": -0.003903120127263644,
+          "win_rate": 0.30158730158730157,
+          "profit_factor": 0.4196018480144339,
+          "net_cumulative_return": -0.4917931360352191,
+          "max_drawdown": 0.4938193507087678,
+          "mfe_mean": 0.009083095786840283,
+          "mfe_median": 0.005414109428436658,
+          "mae_mean": 0.009402260661023365,
+          "mae_median": 0.006440298566911489,
+          "e_ratio": 0.9660544537436443,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 126,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.001785245956686884,
+          "net_mean_return": -0.002214754043313117,
+          "win_rate": 0.4444444444444444,
+          "profit_factor": 0.7459715832118026,
+          "net_cumulative_return": -0.27905900945745277,
+          "max_drawdown": 0.37863187811717924,
+          "mfe_mean": 0.01727043096248802,
+          "mfe_median": 0.013474865180935143,
+          "mae_mean": 0.017377318714827356,
+          "mae_median": 0.011359799044439116,
+          "e_ratio": 0.993849007773096,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 126,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.004140224315091212,
+          "net_mean_return": 0.00014022431509121163,
+          "win_rate": 0.5,
+          "profit_factor": 1.011337238756226,
+          "net_cumulative_return": 0.017668263701492666,
+          "max_drawdown": 0.4799636977110343,
+          "mfe_mean": 0.02627734504841631,
+          "mfe_median": 0.019961454924488635,
+          "mae_mean": 0.023387742624239982,
+          "mae_median": 0.013486042603131588,
+          "e_ratio": 1.1235520020295344,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 126,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.00920746764261061,
+          "net_mean_return": 0.005207467642610605,
+          "win_rate": 0.5714285714285714,
+          "profit_factor": 1.295556869055535,
+          "net_cumulative_return": 0.6561409229689362,
+          "max_drawdown": 0.46755771942621005,
+          "mfe_mean": 0.04566575834087588,
+          "mfe_median": 0.03418873713561403,
+          "mae_mean": 0.037736077148808354,
+          "mae_median": 0.024172068752471486,
+          "e_ratio": 1.2101352814389699,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 46,
+          "net_return": -0.00046253474232581113,
+          "win_rate": 0.4782608695652174,
+          "profit_factor": 0.9753685996507077,
+          "e_ratio": 1.1413555873018175
+        },
+        "P2_Bear": {
+          "trades": 27,
+          "net_return": 0.0005429440422394141,
+          "win_rate": 0.4444444444444444,
+          "profit_factor": 1.0530706169554496,
+          "e_ratio": 1.0083848717152493
+        },
+        "P3_Mixed": {
+          "trades": 53,
+          "net_return": 0.0004582145793965233,
+          "win_rate": 0.5471698113207547,
+          "profit_factor": 1.0580432193303708,
+          "e_ratio": 1.1758001688059088
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 46,
+          "net_return": 0.010538764215333394,
+          "win_rate": 0.6086956521739131,
+          "profit_factor": 1.5111587876434354,
+          "e_ratio": 1.300792866185849
+        },
+        "P2_Bear": {
+          "trades": 27,
+          "net_return": -0.0014760134670227462,
+          "win_rate": 0.4074074074074074,
+          "profit_factor": 0.9174963001731335,
+          "e_ratio": 1.1622824630663657
+        },
+        "P3_Mixed": {
+          "trades": 53,
+          "net_return": 0.003985096842890834,
+          "win_rate": 0.6226415094339622,
+          "profit_factor": 1.2678366329673574,
+          "e_ratio": 1.1160714495694013
+        }
+      }
+    },
+    "Baseline (None)": {
+      "total_trades": 525,
+      "multi_horizon_40bps": {
+        "4": {
+          "total_trades": 525,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": -0.0005628503989119623,
+          "net_mean_return": -0.004562850398911963,
+          "win_rate": 0.25523809523809526,
+          "profit_factor": 0.3257310842073235,
+          "net_cumulative_return": -2.3954964594287804,
+          "max_drawdown": 2.4559178226092016,
+          "mfe_mean": 0.007924804528895369,
+          "mfe_median": 0.004760484545496869,
+          "mae_mean": 0.008878784780182716,
+          "mae_median": 0.005669570276180608,
+          "e_ratio": 0.8925550877844665,
+          "horizon_bars": 4
+        },
+        "12": {
+          "total_trades": 525,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.00029043251590979435,
+          "net_mean_return": -0.0037095674840902054,
+          "win_rate": 0.38285714285714284,
+          "profit_factor": 0.596255413772519,
+          "net_cumulative_return": -1.947522929147358,
+          "max_drawdown": 2.109568127546985,
+          "mfe_mean": 0.01462955419801575,
+          "mfe_median": 0.009337103312665972,
+          "mae_mean": 0.015973992558583106,
+          "mae_median": 0.010336439449884875,
+          "e_ratio": 0.9158357964900288,
+          "horizon_bars": 12
+        },
+        "24": {
+          "total_trades": 524,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.0018854780832811427,
+          "net_mean_return": -0.0021145219167188574,
+          "win_rate": 0.4351145038167939,
+          "profit_factor": 0.8177183892882947,
+          "net_cumulative_return": -1.1080094843606814,
+          "max_drawdown": 1.5449685474252752,
+          "mfe_mean": 0.021829806828640216,
+          "mfe_median": 0.015544293710503844,
+          "mae_mean": 0.021985103893804998,
+          "mae_median": 0.014170307954923755,
+          "e_ratio": 0.9929362596640473,
+          "horizon_bars": 24
+        },
+        "72": {
+          "total_trades": 524,
+          "friction_cost_applied": 0.004,
+          "gross_mean_return": 0.005837020222282168,
+          "net_mean_return": 0.0018370202222821683,
+          "win_rate": 0.4866412213740458,
+          "profit_factor": 1.0966442132231062,
+          "net_cumulative_return": 0.9625985964758562,
+          "max_drawdown": 1.5117594015098428,
+          "mfe_mean": 0.04314539234391351,
+          "mfe_median": 0.030191170816966262,
+          "mae_mean": 0.03853941517499601,
+          "mae_median": 0.02739607831100048,
+          "e_ratio": 1.119513416277936,
+          "horizon_bars": 72
+        }
+      },
+      "period_breakdown_24h": {
+        "P1_Bull": {
+          "trades": 202,
+          "net_return": -0.0026700375956978796,
+          "win_rate": 0.44554455445544555,
+          "profit_factor": 0.8112422631679336,
+          "e_ratio": 0.9478595549361261
+        },
+        "P2_Bear": {
+          "trades": 88,
+          "net_return": -0.007032531096768974,
+          "win_rate": 0.32954545454545453,
+          "profit_factor": 0.49638623602422405,
+          "e_ratio": 0.7536671684478803
+        },
+        "P3_Mixed": {
+          "trades": 235,
+          "net_return": 0.00021453353199128163,
+          "win_rate": 0.4658119658119658,
+          "profit_factor": 1.025196658979487,
+          "e_ratio": 1.195951737557841
+        }
+      },
+      "period_breakdown_72h": {
+        "P1_Bull": {
+          "trades": 202,
+          "net_return": 0.0020670012358225353,
+          "win_rate": 0.5247524752475248,
+          "profit_factor": 1.0868172490263663,
+          "e_ratio": 1.0911706794626044
+        },
+        "P2_Bear": {
+          "trades": 88,
+          "net_return": -0.00933546434602995,
+          "win_rate": 0.36363636363636365,
+          "profit_factor": 0.6016755241539451,
+          "e_ratio": 0.8627439733801373
+        },
+        "P3_Mixed": {
+          "trades": 235,
+          "net_return": 0.005840107732009998,
+          "win_rate": 0.5,
+          "profit_factor": 1.4424836859075916,
+          "e_ratio": 1.298323233739126
+        }
+      }
+    }
+  }
+}
