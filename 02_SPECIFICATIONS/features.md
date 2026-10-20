@@ -148,10 +148,12 @@
 * **概念**: 動的サポレジ水準への接触回数と流動性消費モデル（CONC-STR-001 §2）。同一水準へのテストが繰り返されるほど防戦指値が消費され、反発力は低下しブレイク（貫通）確率が高まる。
 * **数式定義**:
   - 水準 $L_t$ に対して、許容バンド幅 $\delta = 0.5 \times \text{ATR}_t$ とする。
-  - バーが高値・安値でバンド $[\max(L_t - \delta, 0), L_t + \delta]$ に接触した別個のエピソード開始点を $\mathbf{1}_{\text{touch\_start}, t}$ とする（連続接触バーは1回とカウント）。
+  - 価格（High/Low）がバンド $[\max(L_t - \delta, 0), L_t + \delta]$ に接触している状態を接触フラグ $C_t \in \{0, 1\}$ とする。
+  - **エピソード分離規則（微小ノイズ排除）**: 単一の接触波内で価格がバンド境界を1バー単位で微小振動するノイズを排除するため、先行する離脱期間が少なくとも $\text{min\_departure\_bars} = 3$ バー以上継続していた場合のみ、新規のテストエピソード開始点 $\mathbf{1}_{\text{touch\_start}, t}$ としてカウントする：
+    $$\mathbf{1}_{\text{touch\_start}, t} = 1 \iff C_t = 1 \land \left(\sum_{k=1}^{\text{min\_departure\_bars}} C_{t-k} = 0\right)$$
   - 過去 $W=72$ バーにおける累積接触回数：
     $$\text{Level\_Test\_Count}_t(L, W) = \sum_{i=0}^{W-1} \mathbf{1}_{\text{touch\_start}, t-i}$$
-* **解釈**: $\text{Test\_Count} \in \{1, 2\}$ は初動〜2回目の防戦反発領域、$\text{Test\_Count} \ge 3$ は流動性枯渇によるブレイク・貫通警戒領域。
+* **解釈**: $\text{Test\_Count} \in \{1, 2\}$ は初動〜2回目の防戦反発領域（Fresh Wall）、$\text{Test\_Count} \ge 3$ は流動性枯渇によるブレイク・貫通警戒領域（Exhausted Wall）。
 
 ---
 

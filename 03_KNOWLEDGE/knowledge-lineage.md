@@ -456,7 +456,7 @@ graph TD
 
 ### K-036: レジーム成熟度による高乖離ブレイクの二面性
 * **ステータス**: 保留・途上 (Inconclusive as Directional Signal / Supported as 24h Trap Gate)
-* **概要**: Signal A 高乖離ブレイク（独立335件）において、レジーム持続時間中央値（78.5時間: K-027）に対する経過比率 `Macro_Age_Ratio` を検証。**Mid-Stage（`1.2 < Age <= 2.0`, n=45）では 12h Net EV +0.23%、PF 1.36、24h E-Ratio 1.37、72h Net EV +0.48% (E-Ratio 1.29)** と順行が逆行を凌駕する一方、**中央値の2倍を超えた老朽期（`Age > 2.0`, n=194）では 24h E-Ratio が 0.86 へ急落し、特に弱気相場（P2）では 24h Net EV -2.40%、72h Net EV -4.70%（E-Ratio 0.18）と壊滅的ドローダウン**を招く。72h ホライズン全体では成功群・失敗群間の成熟度比率に有意差はない（$d = 0.038, p = 0.7322$）ため、72h 方向予測としては保留とするが、24h 老朽過熱トラップ遮断ゲート（Trap Gate）として支持。
+* **概要**: Signal A 高乖離ブレイク（独立335件）において、レジーム持続時間中央値（78.5時間: K-027）に対する経過比率 `Macro_Age_Ratio` を検証。**Mid-Stage（`1.2 < Age <= 2.0`, n=45）では 12h Net EV +0.23%、PF 1.36、24h E-Ratio 1.37、72h Net EV +0.48% (E-Ratio 1.29)** と順行が逆行を凌駕する一方、**中央値の2倍を超えた老朽期（`Age > 2.0`, n=194）では 24h E-Ratio が 0.88 へ低下し（24h Net EV -0.39%）、特に弱気相場（P2）では 24h Net EV -1.21%、72h Net EV -3.69%（E-Ratio 0.25）と大敗**を招く。72h ホライズン全体では成功群・失敗群間の成熟度比率に有意差はない（$d = 0.038, p = 0.7322$）ため、72h 方向予測としては保留とするが、24h 老朽過熱トラップ遮断ゲート（Trap Gate）として支持。
 * **実験条件**: BTCUSD 1h、独立335件（分割前デクラスタリング適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#63](https://github.com/makagi/MTF_AI_Trade/issues/63))
 * **仕様への影響**: SPEC-FEAT-001 §4.7（Regime Age Ratio）の境界値として確立。順張りブレイクにおいて `Macro_Age_Ratio > 2.0` は過熱トラップ遮断ゲート（Trap Gate）として採用。
