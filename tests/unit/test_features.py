@@ -15,6 +15,9 @@ from src.features import (
     calculate_afs,
     calculate_topology,
     calculate_fanout_velocity,
+    calculate_void_distance,
+    calculate_regime_age,
+    calculate_level_test_count,
 )
 
 
@@ -91,3 +94,57 @@ def test_calculate_fanout_velocity(sample_ohlcv_data):
     assert len(velocity) == 100
     valid = velocity.dropna()
     assert len(valid) > 0
+
+
+def test_calculate_topology(sample_ohlcv_data):
+    sandwich, density = calculate_topology(sample_ohlcv_data, atr_period=10)
+    assert len(sandwich) == 100
+    assert len(density) == 100
+    valid_s = sandwich.dropna()
+    assert len(valid_s) > 0
+    assert (valid_s >= 0.0).all()
+    assert (density >= 0).all()
+
+
+def test_calculate_void_distance(sample_ohlcv_data):
+    void_dist = calculate_void_distance(
+        sample_ohlcv_data, overhead_periods=[10, 20, 30], atr_period=10
+    )
+    assert len(void_dist) == 100
+    valid_v = void_dist.dropna()
+    assert len(valid_v) > 0
+    assert (valid_v >= 0.0).all()
+
+
+def test_calculate_regime_age(sample_ohlcv_data):
+    regime_df = calculate_regime_age(
+        sample_ohlcv_data,
+        macro_periods=(10, 20, 30),
+        meso_periods=(5, 10, 15),
+        micro_periods=(3, 5, 8),
+        median_durations={"macro": 20.0, "meso": 10.0, "micro": 5.0},
+    )
+    assert len(regime_df) == 100
+    assert "macro_regime" in regime_df.columns
+    assert "macro_age_bars" in regime_df.columns
+    assert "macro_age_ratio" in regime_df.columns
+    assert (regime_df["macro_age_bars"] >= 1).all()
+    assert (regime_df["macro_age_ratio"] > 0).all()
+
+
+def test_calculate_level_test_count(sample_ohlcv_data):
+    # Construct a level near the middle
+    level = calculate_sma(sample_ohlcv_data["close"], 10)
+    test_count_default = calculate_level_test_count(
+        sample_ohlcv_data, level=level, window_bars=20, tolerance_atr=0.5
+    )
+    assert len(test_count_default) == 100
+    assert (test_count_default >= 0).all()
+
+    # Verify min_departure_bars separates noisy touches
+    test_count_strict = calculate_level_test_count(
+        sample_ohlcv_data, level=level, window_bars=20, tolerance_atr=0.5, min_departure_bars=6
+    )
+    assert len(test_count_strict) == 100
+    assert (test_count_strict <= test_count_default).all()
+
