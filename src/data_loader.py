@@ -11,6 +11,7 @@ from pathlib import Path
 import pandas as pd
 
 from src.config import (
+    get_data_dir,
     get_symbol_dir,
     DISCOVERY_START,
     DISCOVERY_END,
@@ -32,6 +33,19 @@ def load_ohlcv(
     symbol_dir = get_symbol_dir(symbol, timeframe)
     if not symbol_dir.exists():
         raise FileNotFoundError(f"Symbol directory not found: {symbol_dir}")
+
+    # Check for processed parquet cache (e.g. BTCUSD_1m_discovery.parquet)
+    processed_parquet = get_data_dir() / "processed" / f"{symbol.upper()}_{timeframe.lower()}_discovery.parquet"
+    if processed_parquet.exists() and not include_holdout:
+        df = pd.read_parquet(processed_parquet)
+        if "datetime" in df.columns:
+            df["datetime"] = pd.to_datetime(df["datetime"], utc=True)
+            df.set_index("datetime", inplace=True)
+        elif df.index.name != "datetime":
+            df.index = pd.to_datetime(df.index, utc=True)
+            df.index.name = "datetime"
+        df = df[df.index < pd.Timestamp(HOLDOUT_START, tz="UTC")].copy()
+        return df
 
     # Search for standard file names
     csv_candidates = [

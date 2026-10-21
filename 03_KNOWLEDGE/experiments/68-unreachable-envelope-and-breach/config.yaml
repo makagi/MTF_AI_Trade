@@ -1,0 +1,61 @@
+# EXP-68: Unreachable Envelope & Boundary Breach Dynamics Configuration
+experiment_id: EXP-68
+issue_id: 68
+title: "Unreachable Envelope and Boundary Breach Dynamics across 1h and 1m Scales"
+
+# Period Partitioning (SPEC-EVAL-001)
+symbol: "BTCUSD"
+period:
+  discovery_start: "2020-01-01"
+  discovery_end: "2025-04-30"
+  p1_bull:
+    start: "2020-01-01"
+    end: "2021-12-31"
+  p2_bear:
+    start: "2022-01-01"
+    end: "2022-12-31"
+  p3_mixed:
+    start: "2023-01-01"
+    end: "2025-04-30"
+
+# Multi-Scale Horizons
+horizons:
+  1h:
+    short: 4
+    medium: 12
+    standard: 24
+    extended: 72
+  1m:
+    ultra_short: 15
+    short: 30
+    medium: 60
+    long: 240
+
+# Boundary Quantiles
+quantiles:
+  - 0.90
+  - 0.95
+  - 0.99
+
+# Context Conditions
+context_conditions:
+  # 1. Structural Fortress Cap
+  fortress_cap:
+    wall_density_min: 3
+    level_test_count_max: 1
+    fanout_velocity_max: 0.0
+  # 2. Energy-Starved Reach Ceiling
+  energy_starved:
+    macro_age_ratio_min: 2.0
+    fanout_velocity_max: 0.0
+    reverse_order_afs: 0
+  # 3. Safe Floor (Bullish Alignment Initial Stage)
+  safe_floor_aligned:
+    afs_order: 3
+    macro_age_ratio_max: 2.0
+    slope_55_positive: true
+
+# De-clustering
+decluster_cooldown:
+  1h_bars: 24
+  1m_bars: 60

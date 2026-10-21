@@ -50,6 +50,7 @@ def test_experiment_metrics_integrity():
         "58-differential-and-negative-robustness",
         "61-multidimensional-context",
         "65-composite-feature-gating",
+        "68-unreachable-envelope-and-breach",
     ]
 
     for exp_id in exp_ids:
@@ -101,3 +102,30 @@ def test_exp65_audited_metrics_consistency():
     cd_modes = d["cooldown_mode_comparison"]
     assert cd_modes["trigger_cooldown_pre"]["total_trades"] == 86
     assert cd_modes["execution_cooldown_post"]["total_trades"] == 143
+
+
+def test_exp68_envelope_metrics_consistency():
+    """
+    Specifically verify EXP-68 unreachable envelope and boundary breach metrics:
+    - Fractal scaling power-law fit R^2 >= 0.99 and alpha exponent ~ 0.517
+    - Safe Floor 95th quantile for 72h MVC winners is 8.23 ATR
+    - Boundary breach Cascade ratio > 90% and Sweep macro-counter ratio > 75%
+    """
+    edir = REPO_ROOT / "03_KNOWLEDGE" / "experiments" / "68-unreachable-envelope-and-breach"
+    with open(edir / "metrics.json", "r", encoding="utf-8") as f:
+        d = json.load(f)
+
+    # 1. Fractal Scaling
+    scaling = d["fractal_scaling"]
+    assert scaling["r_squared"] >= 0.99
+    assert round(scaling["alpha_exponent"], 3) == 0.517
+
+    # 2. 72h Safe Floor
+    sf_72h = d["1h_envelope"]["horizons"]["72"]["mvc_safe_floor"]
+    assert round(sf_72h["winner_down_atr"]["q95"], 2) == 8.23
+    assert round(sf_72h["loser_down_atr"]["q95"], 2) == 18.17
+
+    # 3. Boundary Breach Dynamics
+    breach = d["boundary_breach_dynamics"]
+    assert breach["cascade"]["ratio_pct"] > 90.0
+    assert breach["sweep"]["macro_counter_pct"] > 75.0
