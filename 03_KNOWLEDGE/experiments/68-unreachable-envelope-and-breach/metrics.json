@@ -1,6 +1,6 @@
 {
   "experiment_id": "EXP-68",
-  "description": "Unreachable Envelope and Boundary Breach Dynamics across 1h and 1m Scales",
+  "description": "Unreachable Envelope and Boundary Breach Dynamics across 1h and 1m Scales (Audited)",
   "1h_envelope": {
     "horizons": {
       "4": {
@@ -40,41 +40,29 @@
           }
         },
         "energy_starved": {
-          "events": 941,
+          "events": 582,
           "up_atr": {
-            "q90": 2.3917,
-            "q95": 3.1072,
-            "q99": 5.1334
+            "q90": 2.0777,
+            "q95": 2.7817,
+            "q99": 4.49
           },
           "up_pct": {
-            "q90": 0.0195,
-            "q95": 0.0281,
+            "q90": 0.0193,
+            "q95": 0.0249,
             "q99": 0.0506
           }
         },
         "safe_floor": {
-          "events": 239,
+          "events": 534,
           "down_atr": {
-            "q90": 2.2644,
-            "q95": 3.409,
-            "q99": 4.9829
+            "q90": 2.1336,
+            "q95": 3.1001,
+            "q99": 5.3163
           },
           "down_pct": {
-            "q90": 0.0176,
-            "q95": 0.0225,
-            "q99": 0.0351
-          }
-        },
-        "mvc_safe_floor": {
-          "winner_down_atr": {
-            "q90": 2.4447,
-            "q95": 3.4977,
-            "q99": 4.246
-          },
-          "loser_down_atr": {
-            "q90": 2.3744,
-            "q95": 3.0353,
-            "q99": 4.6126
+            "q90": 0.0183,
+            "q95": 0.0237,
+            "q99": 0.038
           }
         }
       },
@@ -115,41 +103,29 @@
           }
         },
         "energy_starved": {
-          "events": 941,
+          "events": 582,
           "up_atr": {
-            "q90": 4.0447,
-            "q95": 5.4003,
-            "q99": 10.2556
+            "q90": 3.7969,
+            "q95": 5.1907,
+            "q99": 8.8024
           },
           "up_pct": {
-            "q90": 0.0359,
-            "q95": 0.048,
-            "q99": 0.0816
+            "q90": 0.0348,
+            "q95": 0.0463,
+            "q99": 0.0789
           }
         },
         "safe_floor": {
-          "events": 239,
+          "events": 534,
           "down_atr": {
-            "q90": 4.5113,
-            "q95": 6.0086,
-            "q99": 10.3251
+            "q90": 3.9285,
+            "q95": 5.2578,
+            "q99": 8.2845
           },
           "down_pct": {
-            "q90": 0.0301,
-            "q95": 0.0448,
-            "q99": 0.0633
-          }
-        },
-        "mvc_safe_floor": {
-          "winner_down_atr": {
-            "q90": 3.8492,
-            "q95": 5.7493,
-            "q99": 8.4848
-          },
-          "loser_down_atr": {
-            "q90": 3.786,
-            "q95": 4.3493,
-            "q99": 7.9567
+            "q90": 0.0296,
+            "q95": 0.0377,
+            "q99": 0.0642
           }
         }
       },
@@ -190,41 +166,29 @@
           }
         },
         "energy_starved": {
-          "events": 941,
+          "events": 582,
           "up_atr": {
-            "q90": 6.4128,
-            "q95": 8.3172,
-            "q99": 13.5608
+            "q90": 6.2836,
+            "q95": 7.9195,
+            "q99": 11.612
           },
           "up_pct": {
-            "q90": 0.0532,
-            "q95": 0.0675,
-            "q99": 0.1141
+            "q90": 0.0526,
+            "q95": 0.0686,
+            "q99": 0.0948
           }
         },
         "safe_floor": {
-          "events": 239,
+          "events": 534,
           "down_atr": {
-            "q90": 6.1051,
-            "q95": 9.5015,
-            "q99": 14.5148
+            "q90": 6.1803,
+            "q95": 8.3382,
+            "q99": 13.2442
           },
           "down_pct": {
-            "q90": 0.0462,
-            "q95": 0.0574,
-            "q99": 0.0942
-          }
-        },
-        "mvc_safe_floor": {
-          "winner_down_atr": {
-            "q90": 5.5062,
-            "q95": 8.1469,
-            "q99": 12.3488
-          },
-          "loser_down_atr": {
-            "q90": 6.4085,
-            "q95": 7.4455,
-            "q99": 12.9979
+            "q90": 0.0455,
+            "q95": 0.0602,
+            "q99": 0.0921
           }
         }
       },
@@ -265,41 +229,29 @@
           }
         },
         "energy_starved": {
-          "events": 941,
+          "events": 582,
           "up_atr": {
-            "q90": 11.6406,
-            "q95": 15.3939,
-            "q99": 37.4484
+            "q90": 11.6072,
+            "q95": 16.0182,
+            "q99": 34.4771
           },
           "up_pct": {
-            "q90": 0.0891,
-            "q95": 0.1205,
-            "q99": 0.1987
+            "q90": 0.0903,
+            "q95": 0.1221,
+            "q99": 0.2016
           }
         },
         "safe_floor": {
-          "events": 239,
+          "events": 534,
           "down_atr": {
-            "q90": 12.2457,
-            "q95": 15.0517,
-            "q99": 27.7999
+            "q90": 10.7689,
+            "q95": 14.3821,
+            "q99": 24.9909
           },
           "down_pct": {
-            "q90": 0.0712,
-            "q95": 0.0994,
-            "q99": 0.1647
-          }
-        },
-        "mvc_safe_floor": {
-          "winner_down_atr": {
-            "q90": 6.6336,
-            "q95": 8.2313,
-            "q99": 12.3488
-          },
-          "loser_down_atr": {
-            "q90": 15.5946,
-            "q95": 18.1693,
-            "q99": 24.7718
+            "q90": 0.0766,
+            "q95": 0.0986,
+            "q99": 0.1343
           }
         }
       }
@@ -331,16 +283,29 @@
           }
         },
         "fortress_cap": {
-          "events": 163061,
+          "events": 10730,
           "up_atr": {
-            "q90": 5.244,
-            "q95": 6.9285,
-            "q99": 12.3461
+            "q90": 5.3023,
+            "q95": 7.1137,
+            "q99": 13.0118
           },
           "up_pct": {
             "q90": 0.0042,
             "q95": 0.0058,
-            "q99": 0.011
+            "q99": 0.0111
+          }
+        },
+        "bullish_alignment": {
+          "events": 12240,
+          "up_atr": {
+            "q90": 6.9641,
+            "q95": 9.9943,
+            "q99": 20.5128
+          },
+          "up_pct": {
+            "q90": 0.0053,
+            "q95": 0.0078,
+            "q99": 0.015
           }
         }
       },
@@ -368,16 +333,29 @@
           }
         },
         "fortress_cap": {
-          "events": 163061,
+          "events": 10730,
           "up_atr": {
-            "q90": 7.8327,
-            "q95": 10.5682,
-            "q99": 19.1374
+            "q90": 7.9765,
+            "q95": 11.0514,
+            "q99": 19.3144
           },
           "up_pct": {
-            "q90": 0.006,
-            "q95": 0.0085,
-            "q99": 0.016
+            "q90": 0.0061,
+            "q95": 0.0086,
+            "q99": 0.0157
+          }
+        },
+        "bullish_alignment": {
+          "events": 12240,
+          "up_atr": {
+            "q90": 10.5593,
+            "q95": 15.027,
+            "q99": 30.7428
+          },
+          "up_pct": {
+            "q90": 0.0077,
+            "q95": 0.0112,
+            "q99": 0.0209
           }
         }
       },
@@ -405,16 +383,29 @@
           }
         },
         "fortress_cap": {
-          "events": 163061,
+          "events": 10730,
           "up_atr": {
-            "q90": 11.961,
-            "q95": 16.3906,
-            "q99": 29.9303
+            "q90": 12.2221,
+            "q95": 16.5232,
+            "q99": 30.1759
           },
           "up_pct": {
             "q90": 0.009,
-            "q95": 0.0126,
-            "q99": 0.0231
+            "q95": 0.0127,
+            "q99": 0.0228
+          }
+        },
+        "bullish_alignment": {
+          "events": 12240,
+          "up_atr": {
+            "q90": 15.4447,
+            "q95": 22.4062,
+            "q99": 42.807
+          },
+          "up_pct": {
+            "q90": 0.011,
+            "q95": 0.0156,
+            "q99": 0.0287
           }
         }
       },
@@ -442,18 +433,128 @@
           }
         },
         "fortress_cap": {
-          "events": 163061,
+          "events": 10730,
           "up_atr": {
-            "q90": 27.9022,
-            "q95": 38.8205,
-            "q99": 72.9051
+            "q90": 28.3916,
+            "q95": 39.1726,
+            "q99": 74.1063
           },
           "up_pct": {
-            "q90": 0.02,
-            "q95": 0.0272,
-            "q99": 0.047
+            "q90": 0.0199,
+            "q95": 0.0273,
+            "q99": 0.0462
+          }
+        },
+        "bullish_alignment": {
+          "events": 12240,
+          "up_atr": {
+            "q90": 33.5611,
+            "q95": 47.2566,
+            "q99": 87.3596
+          },
+          "up_pct": {
+            "q90": 0.022,
+            "q95": 0.0303,
+            "q99": 0.0544
           }
         }
+      }
+    }
+  },
+  "dynamic_safe_floor_mvc": {
+    "4": {
+      "elapsed_hours": 4,
+      "drawdown_from_entry_atr": {
+        "winner_q90": 1.9386,
+        "winner_q95": 2.6836,
+        "loser_q90": 2.6787,
+        "loser_q95": 3.5488
+      },
+      "sma34_penetration_atr": {
+        "winner_q05": -2.1664,
+        "loser_q05": -2.5643
+      },
+      "pullback_from_peak_atr": {
+        "winner_q90": 3.3716,
+        "winner_q95": 3.8471,
+        "loser_q90": 3.2918,
+        "loser_q95": 3.8758
+      }
+    },
+    "12": {
+      "elapsed_hours": 12,
+      "drawdown_from_entry_atr": {
+        "winner_q90": 3.0215,
+        "winner_q95": 3.6315,
+        "loser_q90": 5.0008,
+        "loser_q95": 6.405
+      },
+      "sma34_penetration_atr": {
+        "winner_q05": -2.8769,
+        "loser_q05": -4.9004
+      },
+      "pullback_from_peak_atr": {
+        "winner_q90": 4.7058,
+        "winner_q95": 5.3483,
+        "loser_q90": 5.5887,
+        "loser_q95": 6.9671
+      }
+    },
+    "24": {
+      "elapsed_hours": 24,
+      "drawdown_from_entry_atr": {
+        "winner_q90": 3.7169,
+        "winner_q95": 5.4896,
+        "loser_q90": 8.8003,
+        "loser_q95": 11.0702
+      },
+      "sma34_penetration_atr": {
+        "winner_q05": -3.9936,
+        "loser_q05": -7.8426
+      },
+      "pullback_from_peak_atr": {
+        "winner_q90": 5.5171,
+        "winner_q95": 6.0652,
+        "loser_q90": 7.4509,
+        "loser_q95": 9.1443
+      }
+    },
+    "48": {
+      "elapsed_hours": 48,
+      "drawdown_from_entry_atr": {
+        "winner_q90": 3.8088,
+        "winner_q95": 5.4896,
+        "loser_q90": 12.3614,
+        "loser_q95": 19.9124
+      },
+      "sma34_penetration_atr": {
+        "winner_q05": -4.2479,
+        "loser_q05": -8.9944
+      },
+      "pullback_from_peak_atr": {
+        "winner_q90": 6.2714,
+        "winner_q95": 6.562,
+        "loser_q90": 11.2085,
+        "loser_q95": 12.2406
+      }
+    },
+    "72": {
+      "elapsed_hours": 72,
+      "drawdown_from_entry_atr": {
+        "winner_q90": 4.2582,
+        "winner_q95": 5.7926,
+        "loser_q90": 15.8115,
+        "loser_q95": 20.1493
+      },
+      "sma34_penetration_atr": {
+        "winner_q05": -4.4333,
+        "loser_q05": -8.9944
+      },
+      "pullback_from_peak_atr": {
+        "winner_q90": 7.7092,
+        "winner_q95": 8.4876,
+        "loser_q90": 14.4676,
+        "loser_q95": 15.225
       }
     }
   },
@@ -462,51 +563,51 @@
       "12": {
         "baseline_up_atr_q95": 5.4254,
         "fortress_up_atr_q95": 5.1469,
-        "safe_floor_down_atr_q95": 4.7155
+        "safe_floor_down_atr_q95": 4.4386
       },
       "24": {
         "baseline_up_atr_q95": 8.362,
         "fortress_up_atr_q95": 7.3569,
-        "safe_floor_down_atr_q95": 7.8465
+        "safe_floor_down_atr_q95": 8.2484
       },
       "72": {
         "baseline_up_atr_q95": 15.6766,
         "fortress_up_atr_q95": 9.8428,
-        "safe_floor_down_atr_q95": 14.815
+        "safe_floor_down_atr_q95": 13.3788
       }
     },
     "P2_Bear": {
       "12": {
         "baseline_up_atr_q95": 5.5922,
         "fortress_up_atr_q95": 3.6904,
-        "safe_floor_down_atr_q95": 5.6782
+        "safe_floor_down_atr_q95": 5.0038
       },
       "24": {
         "baseline_up_atr_q95": 8.2606,
         "fortress_up_atr_q95": 5.9943,
-        "safe_floor_down_atr_q95": 10.4956
+        "safe_floor_down_atr_q95": 6.7637
       },
       "72": {
         "baseline_up_atr_q95": 14.8508,
         "fortress_up_atr_q95": 6.1531,
-        "safe_floor_down_atr_q95": 12.7438
+        "safe_floor_down_atr_q95": 14.3848
       }
     },
     "P3_Mixed": {
       "12": {
         "baseline_up_atr_q95": 6.5551,
         "fortress_up_atr_q95": 4.4412,
-        "safe_floor_down_atr_q95": 7.539
+        "safe_floor_down_atr_q95": 5.3675
       },
       "24": {
         "baseline_up_atr_q95": 10.0335,
         "fortress_up_atr_q95": 7.041,
-        "safe_floor_down_atr_q95": 9.2505
+        "safe_floor_down_atr_q95": 8.3867
       },
       "72": {
         "baseline_up_atr_q95": 21.0943,
         "fortress_up_atr_q95": 17.4572,
-        "safe_floor_down_atr_q95": 16.1962
+        "safe_floor_down_atr_q95": 15.0647
       }
     }
   },
@@ -515,7 +616,11 @@
     "prefactor_c": 0.0137,
     "r_squared": 1.0,
     "random_walk_alpha_benchmark": 0.5,
-    "sub_diffusion_confirmed": false,
+    "contextual_alphas_1h": {
+      "baseline_alpha": 0.5184,
+      "fortress_cap_alpha": 0.4138,
+      "sub_diffusion_confirmed": true
+    },
     "data_points": [
       {
         "scale": "1m",
@@ -560,24 +665,72 @@
     ]
   },
   "boundary_breach_dynamics": {
-    "horizon_hours": 12,
-    "boundary_q95_atr": 5.9834,
-    "total_breaches": 2335,
-    "cascade": {
-      "count": 2163,
-      "ratio_pct": 92.63,
-      "macro_aligned_pct": 59.73,
-      "entry_bar_range_atr": 1.15
-    },
-    "sweep": {
-      "count": 42,
-      "ratio_pct": 1.8,
-      "macro_counter_pct": 78.57,
-      "entry_bar_range_atr": 1.02
-    },
-    "neutral": {
-      "count": 130,
-      "ratio_pct": 5.57
+    "event_definition": "Clean Breakout above 24h Rolling High with 24h Cooldown",
+    "total_independent_breaches": 742,
+    "post_horizons": {
+      "4": {
+        "tau_post_hours": 4,
+        "cascade": {
+          "count": 269,
+          "ratio_pct": 36.25,
+          "macro_aligned_pct": 59.85,
+          "entry_bar_range_atr": 2.32,
+          "mean_post_ret_atr": 1.87
+        },
+        "sweep": {
+          "count": 409,
+          "ratio_pct": 55.12,
+          "macro_counter_pct": 42.79,
+          "entry_bar_range_atr": 1.98,
+          "mean_post_ret_atr": -1.15
+        },
+        "neutral": {
+          "count": 64,
+          "ratio_pct": 8.63
+        }
+      },
+      "12": {
+        "tau_post_hours": 12,
+        "cascade": {
+          "count": 317,
+          "ratio_pct": 42.72,
+          "macro_aligned_pct": 58.04,
+          "entry_bar_range_atr": 2.24,
+          "mean_post_ret_atr": 2.81
+        },
+        "sweep": {
+          "count": 405,
+          "ratio_pct": 54.58,
+          "macro_counter_pct": 41.98,
+          "entry_bar_range_atr": 2.02,
+          "mean_post_ret_atr": -1.94
+        },
+        "neutral": {
+          "count": 20,
+          "ratio_pct": 2.7
+        }
+      },
+      "24": {
+        "tau_post_hours": 24,
+        "cascade": {
+          "count": 346,
+          "ratio_pct": 46.63,
+          "macro_aligned_pct": 60.12,
+          "entry_bar_range_atr": 2.2,
+          "mean_post_ret_atr": 4.09
+        },
+        "sweep": {
+          "count": 389,
+          "ratio_pct": 52.43,
+          "macro_counter_pct": 45.24,
+          "entry_bar_range_atr": 2.04,
+          "mean_post_ret_atr": -2.86
+        },
+        "neutral": {
+          "count": 7,
+          "ratio_pct": 0.94
+        }
+      }
     }
   }
 }
