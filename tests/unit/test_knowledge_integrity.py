@@ -50,6 +50,7 @@ def test_experiment_metrics_integrity():
         "58-differential-and-negative-robustness",
         "61-multidimensional-context",
         "65-composite-feature-gating",
+        "68-unreachable-envelope-and-breach",
     ]
 
     for exp_id in exp_ids:
@@ -101,3 +102,68 @@ def test_exp65_audited_metrics_consistency():
     cd_modes = d["cooldown_mode_comparison"]
     assert cd_modes["trigger_cooldown_pre"]["total_trades"] == 86
     assert cd_modes["execution_cooldown_post"]["total_trades"] == 143
+
+
+def test_no_bfill_in_experiment_scripts():
+    """
+    Ensure experiment scripts do not use backward fill (.bfill())
+    which introduces future-data lookahead per SPEC-FEAT-001 §2.1.
+    """
+    exp_dir = REPO_ROOT / "03_KNOWLEDGE" / "experiments"
+    run_scripts = list(exp_dir.glob("*/run.py"))
+    assert len(run_scripts) > 0, "No experiment run.py scripts found"
+
+    violations = []
+    for script in run_scripts:
+        content = script.read_text(encoding="utf-8")
+        lines = content.splitlines()
+        in_docstring = False
+        for idx, line in enumerate(lines, 1):
+            stripped = line.strip()
+            if '"""' in stripped or "'''" in stripped:
+                # Toggle or handle single-line docstring
+                quotes = '"""' if '"""' in stripped else "'''"
+                if stripped.count(quotes) % 2 == 1:
+                    in_docstring = not in_docstring
+                continue
+            if in_docstring or stripped.startswith("#"):
+                continue
+            if re.search(r'\.\s*bfill\s*\(', stripped):
+                violations.append(f"{script.parent.name}/{script.name}:{idx}: {stripped}")
+
+    assert not violations, f"Found lookahead .bfill() in experiment scripts:\n" + "\n".join(violations)
+
+
+def test_exp68_envelope_metrics_consistency():
+    """
+    Specifically verify EXP-68 audited metrics in metrics.json:
+    - Fractal scaling power-law fit R^2 >= 0.99 and alpha exponent ~ 0.517
+    - Dynamic Safe Floor for K-038 MVC across elapsed time (N=86: 53 wins, 33 losses)
+    - 72h Drawdown from Entry 95th: Winner 5.79 ATR vs Loser 20.15 ATR
+    - Non-tautological Boundary Breach Events (N=742 independent breakouts)
+    """
+    edir = REPO_ROOT / "03_KNOWLEDGE" / "experiments" / "68-unreachable-envelope-and-breach"
+    with open(edir / "metrics.json", "r", encoding="utf-8") as f:
+        d = json.load(f)
+
+    # 1. Fractal Scaling
+    scaling = d["fractal_scaling"]
+    assert scaling["r_squared"] >= 0.99
+    assert round(scaling["alpha_exponent"], 3) == 0.517
+    assert scaling["contextual_alphas_1h"]["sub_diffusion_confirmed"] is True
+
+    # 2. Dynamic Safe Floor Trajectory (K-038 MVC N=86)
+    dyn_sf = d["dynamic_safe_floor_mvc"]
+    assert round(dyn_sf["4"]["drawdown_from_entry_atr"]["winner_q95"], 2) == 2.68
+    assert round(dyn_sf["24"]["drawdown_from_entry_atr"]["winner_q95"], 2) == 5.49
+    assert round(dyn_sf["72"]["drawdown_from_entry_atr"]["winner_q95"], 2) == 5.79
+    assert round(dyn_sf["72"]["drawdown_from_entry_atr"]["loser_q95"], 2) == 20.15
+    assert round(dyn_sf["72"]["sma34_penetration_atr"]["winner_q05"], 2) == -4.43
+    assert round(dyn_sf["72"]["pullback_from_peak_atr"]["winner_q95"], 2) == 8.49
+
+    # 3. Non-tautological Boundary Breach Dynamics
+    breach = d["boundary_breach_dynamics"]
+    assert breach["total_independent_breaches"] == 742
+    post_24 = breach["post_horizons"]["24"]
+    assert post_24["cascade"]["count"] == 346
+    assert post_24["sweep"]["count"] == 389

@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 1.2.0  
+**Version:** 1.4.1  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-19  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61)  
+**Last Updated:** 2026-10-21  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -70,6 +70,7 @@ graph TD
     K036["K-036: レジーム成熟度による高乖離ブレイクの二面性<br/>(Inconclusive / 24h Trap Gate支持)"]:::inconclusive
     K037["K-037: MTFコア特徴量の機能役割分離体系<br/>(Supported: Trap Gate/MAE Damper/MFE Booster)"]:::supported
     K038["K-038: 複合ロール統合とミニマル・コンポジット<br/>(Supported: Trap Gate×MFE Boosterで全期プラス突破)"]:::supported
+    K039["K-039: 動的不可侵エンベロープ則と階層的撤退基準<br/>(Supported: 動的Safe Floor 5.79 ATR / 非トートロジー事後評価)"]:::supported
 
     K017 --> K021
     K021 --> K030
@@ -84,6 +85,7 @@ graph TD
     K035 --> K037
     K036 --> K037
     K037 --> K038
+    K038 --> K039
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -492,6 +494,29 @@ graph TD
 
 ---
 
+### K-039: 動的不可侵エンベロープ則と階層的撤退基準
+* **ステータス**: 支持 (Supported: 普遍幾何学則・動的リスク管理仕様)
+* **概要**: 「価格がどこまで伸びるか（点予測）」の限界を克服し、「時間 $\tau$ 以内に統計的・構造的に行くはずがない領域（到達確率 $< 5\%$）」を定量化する **動的不可侵エンベロープ（Dynamic Unreachable Envelope）** を確立した：
+  1. **フラクタル・スケーリング則（Fractal Scaling Power-Law）**:
+     - 15分（0.25h）から 72時間までの全 8 ホライズンにおいて、95% 到達限界 $B_{95}(\tau)$ は決定係数 **$R^2 = 1.000$** で普遍的べき乗則 $B_{95}(\tau) = 0.0137 \cdot \tau^{0.5169}$ に完全合致した（1m 240m と 1h 4h はともに `+2.81%` で完全一致）。
+     - 構造要塞下では上位足スケーリング指数が **$\alpha = 0.3804$** へと急激に劣拡散化（Sub-diffusion）し、時間経過に伴う上方伸長が頭打ち（ロック）される。
+  2. **K-038 MVC における「時間経過に伴う動的不可侵ライン（Dynamic Safe Floor）」**:
+     - 正規 K-038 MVC（独立 86件: 勝ち 53件, 負け 33件）において、経過時間 $\Delta t$ に伴う下方逆行境界を解剖：
+       - **エントリーからの最大逆行（Drawdown from Entry 95th）**: $\Delta t = 4\text{h}$ で `2.68 ATR`、$\Delta t = 12\text{h}$ で `3.63 ATR`、$\Delta t = 24\text{h}$ で `5.49 ATR`、$\Delta t = 72\text{h}$ で **`5.79 ATR`**（約 $-2.05\%$）。負けトレードは 72h で **`20.15 ATR`** まで沈む。
+       - **動的構造線（$\text{SMA}_{34, t}$）からの最悪下方乖離（5th Percentile）**: 勝ちトレードは時間経過で $\text{SMA}_{34}$ が切り上がり、全期間を通じて一度も **`SMA_34 - 4.43 ATR`** を下回らない（負けトレードは `-8.99 ATR` まで脱落）。
+       - **含み益到達ピークからの最大トレーリングプルバック（Peak Pullback 95th）**: 勝ちトレードの 95% はピークから **`8.49 ATR`** 以内の押し目に収まる（負けトレードは `15.23 ATR` 崩壊）。
+  3. **境界突破（Boundary Breach）の非トートロジー事後動態**:
+     - 24h 高値ブレイク（独立 742件）を突破時点 $t_{\text{breach}}$ として検出し、事後ホライズン $\tau_{\text{post}} \in \{4\text{h}, 12\text{h}, 24\text{h}\}$ の動態を追跡。
+     - $+24\text{h}$ 事後推移において Cascade 46.63%（346件）vs Sweep 52.43%（389件）となり、Cascade の 60.12% がマクロ順行（`Slope_233 > 0`）であるのに対し、Sweep はマクロ逆行（`Slope_233 <= 0`）が 45.24% を占める。
+  4. **1m スケールにおける独立不可侵境界（60m クールダウン適用）**:
+     - 1m Fortress Cap（独立 10,730件）では 15m 95th が `7.11 ATR`（Base `7.76 ATR` から圧縮）。
+     - 1m Bullish Alignment（独立 12,240件）では 15m 95th が **`9.99 ATR`**、60m **`22.41 ATR`**、240m **`47.26 ATR`** へ爆発的伸長。
+* **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、Discovery全期間（2020-01〜2025-04）、P1/P2/P3 時代別安定性検証
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/68-unreachable-envelope-and-breach/record.md`](experiments/68-unreachable-envelope-and-breach/record.md) (EXP-68 / [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71))
+* **仕様への影響**: リスク管理仕様およびエグジット仕様において、固定時間保有を廃止し、経過時間型 Safe Floor（12h: `-3.63 ATR`, 24h: `-5.49 ATR`, 72h: `-5.79 ATR`）、動的構造ライン割れ（$\text{SMA}_{34} - 4.43 \text{ ATR}$）、およびトレーリングプルバック（ピークから `-8.49 ATR`）による3重複合動的エグジットを採用。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -510,7 +535,9 @@ graph TD
 | 2026-10-19 | 1.1.0 | EXP-58 反映、デクラスタリング後の客観的証拠に基づき成否双方向分岐点・負のエッジ頑健性を検証（K-031〜K-034 登録・計34知見へ拡充） | @makagi / [#59](https://github.com/makagi/MTF_AI_Trade/pull/59) / [#60](https://github.com/makagi/MTF_AI_Trade/issues/60) |
 | 2026-10-19 | 1.2.0 | EXP-61 反映、時間成熟度・空間アタック回数・内部構造によるコア特徴量の役割別効果検証（K-035〜K-037 登録・計37知見へ拡充） | @makagi / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61) |
 | 2026-10-20 | 1.2.1 | EXP-61 監査是正反映（分割前デクラスタリング、最小離脱期間、客観的役割分類、K-035/K-036エビデンスレベル是正） | @makagi / [#63](https://github.com/makagi/MTF_AI_Trade/issues/63) / [#64](https://github.com/makagi/MTF_AI_Trade/issues/64) |
-| 2026-10-20 | 1.3.0 | EXP-65 反映、多層ロール統合（Sequential Role Gating）とミニマル・コンポジット（K-038 登録・計38知見へ拡充） | @makagi / [#65](https://github.com/makagi/MTF_AI_Trade/issues/65) | |
+| 2026-10-20 | 1.3.0 | EXP-65 反映、多層ロール統合（Sequential Role Gating）とミニマル・コンポジット（K-038 登録・計38知見へ拡充） | @makagi / [#65](https://github.com/makagi/MTF_AI_Trade/issues/65) |
+| 2026-10-21 | 1.4.0 | EXP-68 反映、到達不可能エンベロープ則とSafe Floor早期撤退基準（K-039 登録・計39知見へ拡充） | @makagi / [#68](https://github.com/makagi/MTF_AI_Trade/issues/68) |
+| 2026-10-21 | 1.4.1 | EXP-68 監査是正反映（動的Safe Floor/トレーリング定式化、非トートロジー事後突破評価、K-038 MVC N=86完全準拠、.bfill未来参照排除） | @makagi / [#71](https://github.com/makagi/MTF_AI_Trade/issues/71) |
 
 
 
