@@ -125,11 +125,15 @@
 ---
 
 ### 4.6 真空地帯 (The Void Filter)
-* **概念**: モメンタムが反転しても、直上にマクロの壁（抵抗線）が存在すれば価格は伸びずに失速する。上空に障害物のない十分な真空地帯（弾道空間）が存在するかを判定する。
+* **概念**: モメンタムが発生しても、進行方向にマクロの壁（抵抗線・支持線）が存在すれば価格は伸びずに失速する。進行方向に障害物のない十分な真空地帯（弾道空間）が存在するかを判定する。
 * **数式定義**:
-  $$\text{Overhead\_SMA}_t = \min(\{ \text{SMA}_{k,t} \mid \text{SMA}_{k,t} > \text{Close}_t \text{ for } k \in [55, 89, 144, 377] \} \cup \{\text{Close}_t \times 1.20\})$$
-  $$\text{Void\_Distance}_t = \frac{\text{Overhead\_SMA}_t - \text{Close}_t}{\text{ATR}_t + 10^{-8}}$$
-* **解釈**: `Void_Distance` が大きいほど（例: 2.0 ATR以上）、上値抵抗を受けることなく走る空間が確保されている。
+  - **ロング方向 (`direction="long"`)**:
+    $$\text{Overhead\_SMA}_t = \min(\{ \text{SMA}_{k,t} \mid \text{SMA}_{k,t} > \text{Close}_t \text{ for } k \in [55, 89, 144, 377] \} \cup \{\text{Close}_t \times 1.20\})$$
+    $$\text{Void\_Distance\_Long}_t = \frac{\text{Overhead\_SMA}_t - \text{Close}_t}{\text{ATR}_t + 10^{-8}}$$
+  - **ショート方向 (`direction="short"`)**:
+    $$\text{Underlying\_SMA}_t = \max(\{ \text{SMA}_{k,t} \mid \text{SMA}_{k,t} < \text{Close}_t \text{ for } k \in [55, 89, 144, 377] \} \cup \{\text{Close}_t \times 0.80\})$$
+    $$\text{Void\_Distance\_Short}_t = \frac{\text{Close}_t - \text{Underlying\_SMA}_t}{\text{ATR}_t + 10^{-8}}$$
+* **解釈**: `Void_Distance` が大きいほど（例: 1.5〜2.0 ATR以上）、進行方向に障害物がなく走る空間が確保されている。ショート戦略では必ず `direction="short"` を適用し、直下のサポートまでの距離を評価する。
 
 ---
 

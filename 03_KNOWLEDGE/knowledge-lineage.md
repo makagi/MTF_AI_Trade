@@ -69,6 +69,7 @@ graph TD
     K035["K-035: 動的サポレジ・アタック回数境界モデル<br/>(Inconclusive / Trap Gate支持)"]:::inconclusive
     K036["K-036: レジーム成熟度による高乖離ブレイクの二面性<br/>(Inconclusive / 24h Trap Gate支持)"]:::inconclusive
     K037["K-037: MTFコア特徴量の機能役割分離体系<br/>(Supported: Trap Gate/MAE Damper/MFE Booster)"]:::supported
+    K038["K-038: 複合ロール統合とミニマル・コンポジット<br/>(Supported: Trap Gate×MFE Boosterで全期プラス突破)"]:::supported
 
     K017 --> K021
     K021 --> K030
@@ -82,6 +83,7 @@ graph TD
     K031 --> K036
     K035 --> K037
     K036 --> K037
+    K037 --> K038
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -476,6 +478,20 @@ graph TD
 
 ---
 
+### K-038: 複合ロール統合（Sequential Role Gating）とミニマル・コンポジット
+* **ステータス**: 支持 (Supported: 戦略複合アーキテクチャ)
+* **概要**: 単一特徴量では突破できない 40 bps 摩擦コストを、直交する機能ロールの段階的統合により克服可能であることを実証した。特に、過剰フィルタリング（Over-filtering）を回避した **「Trap Gate (`Macro_Age_Ratio <= 2.0`)」×「MFE Booster (`AFS_Order == 3`)」の2層結合（Minimal Viable Composite: MVC, 独立86件）** は、サンプル枯渇を起こさずに以下の卓越した成績を達成した：
+  - **24h Net EV**: **`+0.42%`**（40 bps 控除後、**PF `1.50`**, ER `1.30`, $t=1.40, p=0.1643$）
+  - **72h Net EV**: **`+1.08%`**（**PF `1.85`**, **ER `1.62`**, **$t=2.10, p=0.0391$ (有意)**）
+  - **全時代プラス再現（Robustness）**: P1 Bull (`+1.31%`, $n=29$)、**P2 Bear (`+0.27%`, $n=18$)**、P3 Mixed (`+1.29%`, $n=39$) と全期間で安定プラスを維持。
+  - **レジーム層別分解（実態の解明）**: MVC の 65.1%（56/86件）は `Macro Range` ($n=35$, 72h `+1.19%`) および `Macro Bear` ($n=21$, 72h `+2.16%`) 下での発火であり、下位足から先行して強気転換する「ボトムアップ転換初動」が弱気相場耐性の源泉である（`Macro Bull` では $n=30$, 72h `+0.20%`）。
+  - **実運用規律（Trigger Cooldown）**: 親トリガーに対するクールダウン（初回のクリーンなブレイク限定）で 72h Net `+1.08%` ($p=0.0391$) と有意になるのに対し、ゲート通過後のクールダウン（ウィップソー再交差を許容）では 72h Net `+0.57%` ($p=0.1661$) に半減する。初回のクリーンブレイク限定条件が必須要件となる。
+* **実験条件**: BTCUSD 1h、独立525件母集団（分割前デクラスタリング適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/65-composite-feature-gating/record.md`](experiments/65-composite-feature-gating/record.md) (EXP-65 / [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#67](https://github.com/makagi/MTF_AI_Trade/issues/67))
+* **仕様への影響**: 戦略設計規範（CONC-STR-001）において、単体特徴量トリガーを禁止し、Trap Gate × MFE Booster の複合設計および初回クリーンブレイク限定規律を必須要件として採用。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -493,7 +509,8 @@ graph TD
 | 2026-10-19 | 1.0.0 | EXP-55-001 反映、時間階層視点別MTF客観状態空間と階層間動態（K-025〜K-030）を客観検証・登録（計30知見の確立を達成） | @makagi / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55) |
 | 2026-10-19 | 1.1.0 | EXP-58 反映、デクラスタリング後の客観的証拠に基づき成否双方向分岐点・負のエッジ頑健性を検証（K-031〜K-034 登録・計34知見へ拡充） | @makagi / [#59](https://github.com/makagi/MTF_AI_Trade/pull/59) / [#60](https://github.com/makagi/MTF_AI_Trade/issues/60) |
 | 2026-10-19 | 1.2.0 | EXP-61 反映、時間成熟度・空間アタック回数・内部構造によるコア特徴量の役割別効果検証（K-035〜K-037 登録・計37知見へ拡充） | @makagi / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61) |
-| 2026-10-20 | 1.2.1 | EXP-61 監査是正反映（分割前デクラスタリング、最小離脱期間、客観的役割分類、K-035/K-036エビデンスレベル是正） | @makagi / [#63](https://github.com/makagi/MTF_AI_Trade/issues/63) |
+| 2026-10-20 | 1.2.1 | EXP-61 監査是正反映（分割前デクラスタリング、最小離脱期間、客観的役割分類、K-035/K-036エビデンスレベル是正） | @makagi / [#63](https://github.com/makagi/MTF_AI_Trade/issues/63) / [#64](https://github.com/makagi/MTF_AI_Trade/issues/64) |
+| 2026-10-20 | 1.3.0 | EXP-65 反映、多層ロール統合（Sequential Role Gating）とミニマル・コンポジット（K-038 登録・計38知見へ拡充） | @makagi / [#65](https://github.com/makagi/MTF_AI_Trade/issues/65) | |
 
 
 

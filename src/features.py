@@ -204,15 +204,23 @@ def calculate_void_distance(
     df: pd.DataFrame,
     overhead_periods: Optional[List[int]] = None,
     atr_period: int = 14,
+    direction: str = "long",
     eps: float = 1e-8,
 ) -> pd.Series:
     """
     真空地帯 (The Void Filter) を計算する (SPEC-FEAT-001 §4.6)。
-    Overhead_SMA = min({SMA_k | SMA_k > Close} ∪ {Close * 1.20})
-    Void_Distance = (Overhead_SMA - Close) / (ATR + eps)
+    direction="long":
+        Overhead_SMA = min({SMA_k | SMA_k > Close} ∪ {Close * 1.20})
+        Void_Distance = (Overhead_SMA - Close) / (ATR + eps)
+    direction="short":
+        Underlying_SMA = max({SMA_k | SMA_k < Close} ∪ {Close * 0.80})
+        Void_Distance = (Close - Underlying_SMA) / (ATR + eps)
     """
     if overhead_periods is None:
         overhead_periods = [55, 89, 144, 377]
+
+    if direction not in ("long", "short"):
+        raise ValueError(f"direction must be 'long' or 'short', got '{direction}'")
 
     close = df["close"]
     atr = calculate_atr(df, period=atr_period)
@@ -221,11 +229,16 @@ def calculate_void_distance(
     smas = [calculate_sma(close, p) for p in overhead_periods]
     smas_df = pd.concat(smas, axis=1)
 
-    overheads = smas_df.where(smas_df.gt(close, axis=0))
-    overhead_sma = overheads.min(axis=1).fillna(close * 1.20)
+    if direction == "long":
+        overheads = smas_df.where(smas_df.gt(close, axis=0))
+        target_sma = overheads.min(axis=1).fillna(close * 1.20)
+        void_dist = (target_sma - close) / (eff_atr + eps)
+    else:
+        underlyings = smas_df.where(smas_df.lt(close, axis=0))
+        target_sma = underlyings.max(axis=1).fillna(close * 0.80)
+        void_dist = (close - target_sma) / (eff_atr + eps)
 
-    void_dist = (overhead_sma - close) / (eff_atr + eps)
-    void_dist.name = "Void_Distance"
+    void_dist.name = f"Void_Distance_{direction}"
     void_dist[close.isna()] = np.nan
     return void_dist
 

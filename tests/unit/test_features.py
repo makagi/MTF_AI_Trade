@@ -107,13 +107,27 @@ def test_calculate_topology(sample_ohlcv_data):
 
 
 def test_calculate_void_distance(sample_ohlcv_data):
-    void_dist = calculate_void_distance(
-        sample_ohlcv_data, overhead_periods=[10, 20, 30], atr_period=10
+    void_dist_long = calculate_void_distance(
+        sample_ohlcv_data, overhead_periods=[10, 20, 30], atr_period=10, direction="long"
     )
-    assert len(void_dist) == 100
-    valid_v = void_dist.dropna()
-    assert len(valid_v) > 0
-    assert (valid_v >= 0.0).all()
+    assert len(void_dist_long) == 100
+    valid_long = void_dist_long.dropna()
+    assert len(valid_long) > 0
+    assert (valid_long >= 0.0).all()
+
+    # Short direction (distance to underlying support)
+    void_dist_short = calculate_void_distance(
+        sample_ohlcv_data, overhead_periods=[10, 20, 30], atr_period=10, direction="short"
+    )
+    assert len(void_dist_short) == 100
+    valid_short = void_dist_short.dropna()
+    assert len(valid_short) > 0
+    assert (valid_short >= 0.0).all()
+
+    # Invalid direction check
+    import pytest
+    with pytest.raises(ValueError):
+        calculate_void_distance(sample_ohlcv_data, direction="invalid")
 
 
 def test_calculate_regime_age(sample_ohlcv_data):

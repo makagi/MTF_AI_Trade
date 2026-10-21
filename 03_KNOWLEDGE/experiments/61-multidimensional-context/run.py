@@ -330,7 +330,7 @@ def run_experiment(exp_dir: Path):
         "elasticity_high": df["elasticity_index"] > 1.5,
         "elasticity_low": df["elasticity_index"] <= 1.0,
         "afs_order_full_bull": df["afs_order_score"] == 3,
-        "afs_compression_tight": df["afs_compression"] < df["afs_compression"].quantile(0.25),
+        "afs_compression_tight": df["afs_compression"] < df["afs_compression"].rolling(720, min_periods=100).quantile(0.25),
         "sandwich_near_floor": df["sandwich_ratio"] <= 0.25,
         "sandwich_near_ceiling": df["sandwich_ratio"] >= 0.75,
         "wall_density_high": df["wall_density"] >= 2,
