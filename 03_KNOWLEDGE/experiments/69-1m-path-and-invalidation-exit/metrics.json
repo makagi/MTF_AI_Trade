@@ -1,0 +1,203 @@
+{
+  "experiment_id": "EXP-69",
+  "description": "1h K-038 MVC x 1m Intra-bar Path Integration: Early Invalidation Exit & 1m Execution Refinement",
+  "total_mvc_opportunities": 86,
+  "exit_strategies": {
+    "S0_Baseline_Fixed_72h": {
+      "executed_trades": 86,
+      "fill_rate_pct": 100.0,
+      "net_mean_return_pct": 1.07,
+      "profit_factor": 1.84,
+      "win_rate_pct": 60.47,
+      "worst_trade_pct": -15.86,
+      "max_drawdown_pct": 16.23,
+      "avg_duration_hours": 72.0,
+      "total_opportunity_net_return_pct": 92.29
+    },
+    "S1_Fixed_Safe_Floor_579": {
+      "executed_trades": 86,
+      "fill_rate_pct": 100.0,
+      "net_mean_return_pct": 1.03,
+      "profit_factor": 1.88,
+      "win_rate_pct": 56.98,
+      "worst_trade_pct": -8.02,
+      "max_drawdown_pct": 15.8,
+      "avg_duration_hours": 63.6,
+      "total_opportunity_net_return_pct": 88.48
+    },
+    "S2_Time_Elapsing_Safe_Floor": {
+      "executed_trades": 86,
+      "fill_rate_pct": 100.0,
+      "net_mean_return_pct": 0.96,
+      "profit_factor": 1.84,
+      "win_rate_pct": 54.65,
+      "worst_trade_pct": -8.02,
+      "max_drawdown_pct": 15.59,
+      "avg_duration_hours": 58.5,
+      "total_opportunity_net_return_pct": 82.55
+    },
+    "S3_Dynamic_Structural_SMA34": {
+      "executed_trades": 86,
+      "fill_rate_pct": 100.0,
+      "net_mean_return_pct": 1.07,
+      "profit_factor": 1.87,
+      "win_rate_pct": 56.98,
+      "worst_trade_pct": -7.33,
+      "max_drawdown_pct": 15.62,
+      "avg_duration_hours": 63.8,
+      "total_opportunity_net_return_pct": 92.21
+    },
+    "S4_Trailing_Profit_Harvest_849": {
+      "executed_trades": 86,
+      "fill_rate_pct": 100.0,
+      "net_mean_return_pct": 0.95,
+      "profit_factor": 1.86,
+      "win_rate_pct": 58.14,
+      "worst_trade_pct": -8.02,
+      "max_drawdown_pct": 15.61,
+      "avg_duration_hours": 61.0,
+      "total_opportunity_net_return_pct": 81.53
+    },
+    "S5_Composite_Optimal_Exit": {
+      "executed_trades": 86,
+      "fill_rate_pct": 100.0,
+      "net_mean_return_pct": 0.88,
+      "profit_factor": 1.82,
+      "win_rate_pct": 55.81,
+      "worst_trade_pct": -8.02,
+      "max_drawdown_pct": 16.46,
+      "avg_duration_hours": 55.9,
+      "total_opportunity_net_return_pct": 75.6
+    }
+  },
+  "entry_refinements": {
+    "E0_Instant_Close_Baseline": {
+      "total_opportunities": 86,
+      "filled_trades": 86,
+      "fill_rate_pct": 100.0,
+      "filled_net_mean_pct": 1.07,
+      "total_opportunity_net_return_pct": 92.29
+    },
+    "E1_Pullback_03_ATR_Limit": {
+      "total_opportunities": 86,
+      "filled_trades": 55,
+      "fill_rate_pct": 63.95,
+      "filled_net_mean_pct": 0.86,
+      "total_opportunity_net_return_pct": 47.04
+    },
+    "E2_Micro_Breakout_Confirmation": {
+      "total_opportunities": 86,
+      "filled_trades": 41,
+      "fill_rate_pct": 47.67,
+      "filled_net_mean_pct": 0.6,
+      "total_opportunity_net_return_pct": 24.56
+    }
+  },
+  "cross_period_robustness": {
+    "P1_Bull": {
+      "S0_Baseline": {
+        "executed_trades": 29,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": 1.28,
+        "profit_factor": 1.93,
+        "win_rate_pct": 62.07,
+        "worst_trade_pct": -15.86,
+        "max_drawdown_pct": 16.23,
+        "avg_duration_hours": 72.0,
+        "total_opportunity_net_return_pct": 36.99
+      },
+      "S1_Safe_Floor": {
+        "executed_trades": 29,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": 1.46,
+        "profit_factor": 2.26,
+        "win_rate_pct": 58.62,
+        "worst_trade_pct": -6.5,
+        "max_drawdown_pct": 15.8,
+        "avg_duration_hours": 62.6,
+        "total_opportunity_net_return_pct": 42.28
+      },
+      "S5_Composite": {
+        "executed_trades": 29,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": 1.26,
+        "profit_factor": 2.2,
+        "win_rate_pct": 58.62,
+        "worst_trade_pct": -6.18,
+        "max_drawdown_pct": 12.83,
+        "avg_duration_hours": 57.8,
+        "total_opportunity_net_return_pct": 36.45
+      }
+    },
+    "P2_Bear": {
+      "S0_Baseline": {
+        "executed_trades": 18,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": 0.31,
+        "profit_factor": 1.17,
+        "win_rate_pct": 50.0,
+        "worst_trade_pct": -9.75,
+        "max_drawdown_pct": 7.02,
+        "avg_duration_hours": 72.0,
+        "total_opportunity_net_return_pct": 5.5
+      },
+      "S1_Safe_Floor": {
+        "executed_trades": 18,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": -0.32,
+        "profit_factor": 0.82,
+        "win_rate_pct": 44.44,
+        "worst_trade_pct": -6.58,
+        "max_drawdown_pct": 14.98,
+        "avg_duration_hours": 64.5,
+        "total_opportunity_net_return_pct": -5.68
+      },
+      "S5_Composite": {
+        "executed_trades": 18,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": -0.23,
+        "profit_factor": 0.84,
+        "win_rate_pct": 44.44,
+        "worst_trade_pct": -4.3,
+        "max_drawdown_pct": 10.91,
+        "avg_duration_hours": 54.3,
+        "total_opportunity_net_return_pct": -4.11
+      }
+    },
+    "P3_Mixed": {
+      "S0_Baseline": {
+        "executed_trades": 39,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": 1.28,
+        "profit_factor": 2.34,
+        "win_rate_pct": 64.1,
+        "worst_trade_pct": -8.92,
+        "max_drawdown_pct": 10.41,
+        "avg_duration_hours": 72.0,
+        "total_opportunity_net_return_pct": 49.8
+      },
+      "S1_Safe_Floor": {
+        "executed_trades": 39,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": 1.33,
+        "profit_factor": 2.52,
+        "win_rate_pct": 61.54,
+        "worst_trade_pct": -8.02,
+        "max_drawdown_pct": 13.8,
+        "avg_duration_hours": 64.0,
+        "total_opportunity_net_return_pct": 51.88
+      },
+      "S5_Composite": {
+        "executed_trades": 39,
+        "fill_rate_pct": 100.0,
+        "net_mean_return_pct": 1.11,
+        "profit_factor": 2.18,
+        "win_rate_pct": 58.97,
+        "worst_trade_pct": -8.02,
+        "max_drawdown_pct": 16.46,
+        "avg_duration_hours": 55.3,
+        "total_opportunity_net_return_pct": 43.26
+      }
+    }
+  }
+}

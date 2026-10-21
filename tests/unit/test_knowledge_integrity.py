@@ -51,6 +51,7 @@ def test_experiment_metrics_integrity():
         "61-multidimensional-context",
         "65-composite-feature-gating",
         "68-unreachable-envelope-and-breach",
+        "69-1m-path-and-invalidation-exit",
     ]
 
     for exp_id in exp_ids:
@@ -167,3 +168,56 @@ def test_exp68_envelope_metrics_consistency():
     post_24 = breach["post_horizons"]["24"]
     assert post_24["cascade"]["count"] == 346
     assert post_24["sweep"]["count"] == 389
+
+
+def test_exp69_path_metrics_consistency():
+    """
+    Specifically verify EXP-69 metrics in metrics.json:
+    - K-038 MVC 1m intra-bar path integration across 86 opportunities
+    - S3 Dynamic Structural exit compresses worst trade from -15.86% to -7.33% while preserving Net EV +1.07%
+    - S1 Fixed Safe Floor compresses worst trade to -8.02% with PF 1.88
+    - E1 0.3 ATR pullback limit drops fill rate to 63.95% and halves total returns (Opportunity Drag)
+    """
+    edir = REPO_ROOT / "03_KNOWLEDGE" / "experiments" / "69-1m-path-and-invalidation-exit"
+    with open(edir / "metrics.json", "r", encoding="utf-8") as f:
+        d = json.load(f)
+
+    assert d["total_mvc_opportunities"] == 86
+
+    # 1. Exit Strategies
+    exits = d["exit_strategies"]
+    s0 = exits["S0_Baseline_Fixed_72h"]
+    assert s0["executed_trades"] == 86
+    assert round(s0["net_mean_return_pct"], 2) == 1.07
+    assert round(s0["worst_trade_pct"], 2) == -15.86
+    assert round(s0["profit_factor"], 2) == 1.84
+
+    s1 = exits["S1_Fixed_Safe_Floor_579"]
+    assert round(s1["worst_trade_pct"], 2) == -8.02
+    assert round(s1["profit_factor"], 2) == 1.88
+    assert s1["avg_duration_hours"] < 64.0
+
+    s3 = exits["S3_Dynamic_Structural_SMA34"]
+    assert round(s3["net_mean_return_pct"], 2) == 1.07
+    assert round(s3["worst_trade_pct"], 2) == -7.33
+    assert round(s3["profit_factor"], 2) == 1.87
+    assert round(s3["total_opportunity_net_return_pct"], 2) == 92.21
+
+    # 2. Entry Refinements (Opportunity Drag Verification)
+    entries = d["entry_refinements"]
+    e0 = entries["E0_Instant_Close_Baseline"]
+    e1 = entries["E1_Pullback_03_ATR_Limit"]
+    assert e0["fill_rate_pct"] == 100.0
+    assert round(e0["total_opportunity_net_return_pct"], 2) == 92.29
+
+    assert round(e1["fill_rate_pct"], 2) == 63.95
+    assert round(e1["total_opportunity_net_return_pct"], 2) == 47.04
+    # E1 total opportunity net return must be almost halved due to missing the best runaway winners
+    assert e1["total_opportunity_net_return_pct"] < e0["total_opportunity_net_return_pct"] * 0.55
+
+    # 3. Cross Period Robustness
+    cp = d["cross_period_robustness"]
+    assert "P1_Bull" in cp and "P2_Bear" in cp and "P3_Mixed" in cp
+    assert cp["P1_Bull"]["S1_Safe_Floor"]["profit_factor"] >= 2.2
+    assert cp["P3_Mixed"]["S1_Safe_Floor"]["profit_factor"] >= 2.5
+
