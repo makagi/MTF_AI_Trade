@@ -172,52 +172,89 @@ def test_exp68_envelope_metrics_consistency():
 
 def test_exp69_path_metrics_consistency():
     """
-    Specifically verify EXP-69 metrics in metrics.json:
+    Specifically verify EXP-69 remediated metrics in metrics.json (Issue #73):
     - K-038 MVC 1m intra-bar path integration across 86 opportunities
-    - S3 Dynamic Structural exit compresses worst trade from -15.86% to -7.33% while preserving Net EV +1.07%
-    - S1 Fixed Safe Floor compresses worst trade to -8.02% with PF 1.88
-    - E1 0.3 ATR pullback limit drops fill rate to 63.95% and halves total returns (Opportunity Drag)
+    - S3 Sensitivity k=5.0 achieves Net EV +1.13% (exceeding baseline +1.07%), PF 1.95, Worst -7.35%
+    - S3 k=5.0 and k=4.43 maintain positive EV in P2 Bear (+0.40% and +0.46%) avoiding S1 Whipsaw
+    - S4 Dynamic Profit Ratchet shortens average duration to 28.5h with Worst -6.58% and PF 1.97
+    - E3 1m Microstructure Reclaim has 97.67% fill rate but total return (+88.48%) still lags E0 (+92.29%)
+    - Signal C Stage 2 Short (N=15) verifies 72h Net EV +1.04% with Safe Floor Max DD 10.66%
     """
     edir = REPO_ROOT / "03_KNOWLEDGE" / "experiments" / "69-1m-path-and-invalidation-exit"
     with open(edir / "metrics.json", "r", encoding="utf-8") as f:
         d = json.load(f)
 
     assert d["total_mvc_opportunities"] == 86
+    assert d["total_signal_c_opportunities"] == 15
 
-    # 1. Exit Strategies
-    exits = d["exit_strategies"]
+    # 1. Exit Strategies on K-038 MVC
+    exits = d["mvc_exit_strategies"]
     s0 = exits["S0_Baseline_Fixed_72h"]
-    assert s0["executed_trades"] == 86
-    assert round(s0["net_mean_return_pct"], 2) == 1.07
-    assert round(s0["worst_trade_pct"], 2) == -15.86
-    assert round(s0["profit_factor"], 2) == 1.84
+    assert s0["Full"]["executed_trades"] == 86
+    assert round(s0["Full"]["net_mean_return_pct"], 2) == 1.07
+    assert round(s0["Full"]["worst_trade_pct"], 2) == -15.86
+    assert round(s0["Full"]["profit_factor"], 2) == 1.84
 
     s1 = exits["S1_Fixed_Safe_Floor_579"]
-    assert round(s1["worst_trade_pct"], 2) == -8.02
-    assert round(s1["profit_factor"], 2) == 1.88
-    assert s1["avg_duration_hours"] < 64.0
+    assert round(s1["Full"]["worst_trade_pct"], 2) == -8.02
+    assert round(s1["Full"]["profit_factor"], 2) == 1.88
+    # S1 suffers Whipsaw in P2 Bear
+    assert s1["P2_Bear"]["net_mean_return_pct"] < 0
 
-    s3 = exits["S3_Dynamic_Structural_SMA34"]
-    assert round(s3["net_mean_return_pct"], 2) == 1.07
-    assert round(s3["worst_trade_pct"], 2) == -7.33
-    assert round(s3["profit_factor"], 2) == 1.87
-    assert round(s3["total_opportunity_net_return_pct"], 2) == 92.21
+    s3_k50 = exits["S3_Sensitivity_k50"]
+    assert round(s3_k50["Full"]["net_mean_return_pct"], 2) == 1.13
+    assert round(s3_k50["Full"]["profit_factor"], 2) == 1.95
+    assert round(s3_k50["Full"]["worst_trade_pct"], 2) == -7.35
+    assert round(s3_k50["Full"]["total_opportunity_net_return_pct"], 2) == 97.55
+    # S3 avoids Whipsaw in P2 Bear
+    assert s3_k50["P2_Bear"]["net_mean_return_pct"] > 0
+    assert exits["S3_Dynamic_Structural_SMA34_k443"]["P2_Bear"]["net_mean_return_pct"] > 0
+
+    s4 = exits["S4_Dynamic_Profit_Ratchet"]
+    assert s4["Full"]["avg_duration_hours"] < 30.0
+    assert round(s4["Full"]["worst_trade_pct"], 2) == -6.58
+    assert round(s4["Full"]["profit_factor"], 2) == 1.97
 
     # 2. Entry Refinements (Opportunity Drag Verification)
-    entries = d["entry_refinements"]
+    entries = d["mvc_entry_refinements"]
     e0 = entries["E0_Instant_Close_Baseline"]
     e1 = entries["E1_Pullback_03_ATR_Limit"]
+    e3 = entries["E3_1m_Microstructure_Reclaim"]
+
     assert e0["fill_rate_pct"] == 100.0
     assert round(e0["total_opportunity_net_return_pct"], 2) == 92.29
-
     assert round(e1["fill_rate_pct"], 2) == 63.95
     assert round(e1["total_opportunity_net_return_pct"], 2) == 47.04
-    # E1 total opportunity net return must be almost halved due to missing the best runaway winners
-    assert e1["total_opportunity_net_return_pct"] < e0["total_opportunity_net_return_pct"] * 0.55
+    assert round(e3["fill_rate_pct"], 2) == 97.67
+    assert round(e3["total_opportunity_net_return_pct"], 2) == 88.48
+    # Even micro-structure confirmation (E3) suffers opportunity drag relative to E0
+    assert e3["total_opportunity_net_return_pct"] < e0["total_opportunity_net_return_pct"]
 
-    # 3. Cross Period Robustness
-    cp = d["cross_period_robustness"]
-    assert "P1_Bull" in cp and "P2_Bear" in cp and "P3_Mixed" in cp
-    assert cp["P1_Bull"]["S1_Safe_Floor"]["profit_factor"] >= 2.2
-    assert cp["P3_Mixed"]["S1_Safe_Floor"]["profit_factor"] >= 2.5
+    # 3. Signal C Stage 2 Short
+    sig_c = d["signal_c_exit_strategies"]
+    assert round(sig_c["S0_Baseline_Fixed_72h"]["net_mean_return_pct"], 2) == 1.04
+    assert sig_c["S0_Baseline_Fixed_72h"]["win_rate_pct"] > 60.0
+    assert sig_c["S1_Fixed_Safe_Floor_579"]["max_drawdown_pct"] < sig_c["S0_Baseline_Fixed_72h"]["max_drawdown_pct"]
+
+
+def test_no_intra_hour_lookahead_in_exp69():
+    """
+    Ensure EXP-69 run.py does not contain un-offset t_bar.floor('1h') lookups
+    without subtracting 1 hour, strictly ensuring t_1h + 1h <= t_bar.
+    """
+    script = REPO_ROOT / "03_KNOWLEDGE" / "experiments" / "69-1m-path-and-invalidation-exit" / "run.py"
+    content = script.read_text(encoding="utf-8")
+    lines = content.splitlines()
+
+    violations = []
+    for idx, line in enumerate(lines, 1):
+        stripped = line.strip()
+        if stripped.startswith("#"):
+            continue
+        # Catch bare t_bar.floor("1h") without subtracting 1 hour
+        if "t_bar.floor(" in stripped and "pd.Timedelta" not in stripped and "- 1h" not in stripped and "- pd.Timedelta(hours=1)" not in stripped:
+            violations.append(f"Line {idx}: {stripped}")
+
+    assert not violations, f"Found potential intra-hour lookahead in EXP-69:\n" + "\n".join(violations)
+
 

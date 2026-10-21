@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 1.5.0  
+**Version:** 1.5.1  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-21  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71)  
+**Last Updated:** 2026-10-22  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -71,7 +71,7 @@ graph TD
     K037["K-037: MTFコア特徴量の機能役割分離体系<br/>(Supported: Trap Gate/MAE Damper/MFE Booster)"]:::supported
     K038["K-038: 複合ロール統合とミニマル・コンポジット<br/>(Supported: Trap Gate×MFE Boosterで全期プラス突破)"]:::supported
     K039["K-039: 動的不可侵エンベロープ則と階層的撤退基準<br/>(Supported: 動的Safe Floor 5.79 ATR / 非トートロジー事後評価)"]:::supported
-    K040["K-040: 1mイントラバー軌跡統合と動的早期撤退・執行機会損失則<br/>(Supported: S3 Net EV+1.07%維持 Worst-7.33% / 成行即時E0必須)"]:::supported
+    K040["K-040: 1mイントラバー軌跡統合と動的早期撤退・執行機会損失則<br/>(Supported: S3_k50 Net EV+1.13% Worst-7.35% / 成行即時E0必須)"]:::supported
 
     K017 --> K021
     K021 --> K030
@@ -532,20 +532,21 @@ graph TD
 
 ### K-040: 1m イントラバー軌跡統合と動的早期撤退・執行機会損失則
 * **ステータス**: 支持 (Supported)
-* **概要**: 1h 確定エッジシグナル（K-038 MVC, 独立 86件）に 1分足全 4,320 ステップのイントラバー軌跡を完全統合し、動的不可侵ラインによる早期無効化撤退と 1m 執行精緻化を定量実証。
-  1. **動的構造ライン撤退（S3）のテールリスク半減効果**:
-     - $\text{SMA}_{34, t} - 4.43 \text{ ATR}_t$ 割れでの 1m 即時撤退により、Baseline（72h固定保有）の期待値 Net EV **`+1.07%`**（総累積リターン `+92.21%` vs `+92.29%`）を完全維持したまま、**ワーストトレード損失を $-15.86\% \to -7.33\%$ へ 54% 劇的に圧縮**。
-     - PF は `1.84` から **`1.87`** へ向上、平均保有時間は `72.0h` から `63.8h` へ短縮。
-     - 固定 Safe Floor（S1: $-5.79 \text{ ATR}$）でもワースト損失は **`-8.02%`**（半減）、PF **`1.88`**。
-  2. **1m 執行精緻化における「機会損失ドラッグ（Opportunity Drag）」**:
-     - シグナル確定後 60 分以内の $0.3 \text{ ATR}$ 押し目指値待ち（E1）は約定率が **`63.95%`** に激減。
-     - ボトムアップ初動で押し目を作らず急伸する最良の勝ちトレード（36%）を取りこぼす逆選択（Adverse Selection）により、**全機会総累積リターンは `+92.29%` から `+47.04%` へほぼ半減（-49.0% 損失）**。
-     - したがって、マルチタイムフレーム初動エッジにおいては **1h 確定終値での成行即時エントリー（E0）が圧倒的最適解** である。
-  3. **市場レジーム別の普遍性**:
-     - P1（Bull）では S1 により PF `1.93` $\to$ **`2.26`**（Net EV `+1.46%`, Worst `-6.50%`）。P3（Mixed）でも PF `2.34` $\to$ **`2.52`**（Net EV `+1.33%`）。
-* **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、K-038 MVC 独立86件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除、因果律厳守（未来参照ゼロ）
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/69-1m-path-and-invalidation-exit/record.md`](experiments/69-1m-path-and-invalidation-exit/record.md) (EXP-69 / [#69](https://github.com/makagi/MTF_AI_Trade/issues/69))
-* **仕様への影響**: 戦略実装仕様（`SPEC-STRAT-001`）において、エントリー執行は成行即時執行（E0）を唯一の基準とし、エグジットは動的構造ライン（S3）または固定 Safe Floor（S1）による 1m 早期無効化撤退 ＋ 72h タイムアウト決済を義務付ける。
+* **概要**: 1h 確定エッジシグナル（K-038 MVC 独立86件 ＆ Signal C Stage 2 独立15件）に 1分足全 4,320 ステップのイントラバー軌跡を完全統合し、動的不可侵ラインによる早期無効化撤退と 1m 執行精緻化を定量実証（Issue #73 監査是正完了）。
+  1. **未来参照完全排除後の動的構造ライン撤退（S3）と $k=5.0$ の優位性**:
+     - 直近確定1h足の厳格参照下で感度分析を実施。**$k=5.00$（$\text{SMA}_{34, t} - 5.0 \text{ ATR}_t$）** は、Baseline（S0）の Net EV `+1.07%` を凌駕する **Net EV `+1.13%`・PF `1.95`** を達成し、**ワーストトレード損失を $-15.86\% \to -7.35\%$ へ 54% 劇的に圧縮**、総累積リターンも **`+97.55%`（全戦略中最大）** を記録。
+     - 固定 Safe Floor（S1: $-5.79 \text{ ATR}$）でもワースト損失は **`-8.02%`**、PF **`1.88`**。
+  2. **`P2_Bear (2022)` 悪化要因の解明と Whipsaw 回避**:
+     - S1 固定ストップは下落相場の瞬間的下ヒゲで底値損切り（Whipsaw）を招き赤字（`-0.32%`）に転落するが、**動的構造ライン（S3 $k=5.0$: EV `+0.40%`、S3 $k=4.43$: EV `+0.46%`, DD `6.92%`）** や **1h 確定足終値割れ判定（S3_1hClose: EV `+0.40%`）** により Whipsaw を完全回避し、全レジームで黒字を維持可能。
+  3. **動的 Profit Ratchet（S4）による資金拘束の解除（28.5h）と元本保護**:
+     - 含み益 $+2.0 \text{ ATR}$ 到達時に建値（$p_0$）へフロアを切り上げ、$+3.5 \text{ ATR}$ でトレーリング利確を行うことで、平均保有時間を `72.0h` から **`28.5h` に大幅短縮（資金拘束を 43.5h 解除）**、PF **`1.97`**、Worst **`-6.58%`**、Max DD **`14.11%`** を達成。
+  4. **1m ミクロ構造確認（E3）でも機会損失ドラッグ（Opportunity Drag）が発生**:
+     - 1m 足の「押し目 $\to$ SMA21 奪還＆上向き転換」を確認する E3 は約定率 `97.67%` を確保するが、初動から一気に急伸する最良トレードを取りこぼすため総累積リターンは `+88.48%` となり、**成行即時執行（E0: `+92.29%`）を上回れない**。
+  5. **Signal C (Stage 2 Short, N=15) の 1m パス検証**:
+     - マクロ下降下動的サポレジ衝突ショートでも、72h 固定保有で Net EV `+1.04%`（勝率 66.7%）を確認。不可侵ライン撤退（S1）により Max DD が `13.30% \to 10.66%` へ抑制される。
+* **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、K-038 MVC 独立86件 ＆ Signal C 独立15件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除、因果律厳守（未来参照ゼロ）
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/69-1m-path-and-invalidation-exit/record.md`](experiments/69-1m-path-and-invalidation-exit/record.md) (EXP-69 / [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73))
+* **仕様への影響**: 戦略実装仕様（`SPEC-STRAT-001`）において、エントリー執行は成行即時執行（E0）を標準とし、エグジットは動的構造ライン（S3 $k=5.0$ / $k=4.43$）による 1m 早期無効化撤退 ＋ 72h タイムアウト決済を採用。高回転ポートフォリオには Profit Ratchet（S4）を選択可能とする。
 
 ---
 
@@ -571,6 +572,7 @@ graph TD
 | 2026-10-21 | 1.4.0 | EXP-68 反映、到達不可能エンベロープ則とSafe Floor早期撤退基準（K-039 登録・計39知見へ拡充） | @makagi / [#68](https://github.com/makagi/MTF_AI_Trade/issues/68) |
 | 2026-10-21 | 1.4.1 | EXP-68 監査是正反映（動的Safe Floor/トレーリング定式化、非トートロジー事後突破評価、K-038 MVC N=86完全準拠、.bfill未来参照排除） | @makagi / [#71](https://github.com/makagi/MTF_AI_Trade/issues/71) |
 | 2026-10-21 | 1.5.0 | EXP-69 反映、1m イントラバー軌跡統合による動的早期無効化撤退（S3）と執行機会損失則（E0/E1）（K-040 登録・計40知見へ拡充） | @makagi / [#69](https://github.com/makagi/MTF_AI_Trade/issues/69) |
+| 2026-10-22 | 1.5.1 | EXP-69 監査是正反映（未来参照リーク排除、S3感度分析 k=5.0、P2_Bear Whipsaw解明、E3ミクロ構造検証、Signal C Short検証） | @makagi / [#73](https://github.com/makagi/MTF_AI_Trade/issues/73) |
 
 
 
