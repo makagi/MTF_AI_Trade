@@ -1,0 +1,56 @@
+# EXP-69: 1h K-038 MVC x 1m Intra-bar Path Integration Configuration
+experiment_id: EXP-69
+issue_id: 69
+title: "1h K-038 MVC x 1m Intra-bar Path Integration: Early Invalidation Exit & 1m Execution Refinement"
+
+# Dataset and Symbols
+symbol: "BTCUSD"
+period:
+  discovery_start: "2020-01-01"
+  discovery_end: "2025-04-30"
+  p1_bull:
+    start: "2020-01-01"
+    end: "2021-12-31"
+  p2_bear:
+    start: "2022-01-01"
+    end: "2022-12-31"
+  p3_mixed:
+    start: "2023-01-01"
+    end: "2025-04-30"
+
+# K-038 MVC Trigger Definition
+mvc_setup:
+  parent_trigger: "meso_breakout_sma34_slope55_positive"
+  cooldown_bars: 24
+  trap_gate: "macro_age_ratio <= 2.0"
+  mfe_booster: "afs_order_score == 3"
+  horizon_standard_hours: 72
+  horizon_standard_bars_1m: 4320
+
+# Friction Cost (SPEC-EVAL-001)
+cost_per_trade_roundtrip: 0.0040 # 40 bps
+
+# Early Invalidation Exit Strategies
+invalidation_strategies:
+  # Strategy 1: Fixed Safe Floor
+  fixed_safe_floor_atr: 5.79
+  # Strategy 2: Time-Elapsing Safe Floor (from EXP-68 Table 1)
+  time_elapsing_safe_floor:
+    tau_12h_atr: 3.63
+    tau_24h_atr: 5.49
+    tau_72h_atr: 5.79
+  # Strategy 3: Dynamic Structural Line
+  dynamic_structural_line:
+    reference_sma: 34
+    max_penetration_atr: 4.43
+
+# Dynamic Exit & Trailing Profit Protection
+dynamic_exit:
+  trailing_pullback_limit_atr: 8.49
+  take_profit_activation_atr: 3.0 # activate trailing after reaching +3 ATR profit
+
+# Intra-bar 1m Execution Refinement
+execution_refinements:
+  execution_window_minutes: 60
+  pullback_entry_discount_atr: 0.30
+  micro_breakout_lookback_bars: 15
