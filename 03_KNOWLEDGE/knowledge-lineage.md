@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 1.6.0  
+**Version:** 1.7.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-10-24  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -73,6 +73,7 @@ graph TD
     K039["K-039: 動的不可侵エンベロープ則と階層的撤退基準<br/>(Supported: 動的Safe Floor 5.79 ATR / 非トートロジー事後評価)"]:::supported
     K040["K-040: 1mイントラバー軌跡統合と動的早期撤退・執行機会損失則<br/>(Supported: S3_k50 Net EV+1.13% Worst-7.35% / 成行即時E0必須)"]:::supported
     K041["K-041: SMAピーク動態3相幾何分離則と共鳴先行連鎖則<br/>(Supported: 3相幾何分離・共鳴オシレータ5-6h先行・S6動的利確)"]:::supported
+    K042["K-042: 1mミクロ早期利確の期待値毀損・分割執行の限界と予備探索不再現<br/>(Refuted: 1mノイズ利確のEV毀損/分割指値の無効性)"]:::refuted
 
     K017 --> K021
     K021 --> K030
@@ -92,6 +93,8 @@ graph TD
     K039 --> K040
     K038 --> K041
     K040 --> K041
+    K040 --> K042
+    K041 --> K042
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -138,6 +141,7 @@ graph TD
     EXP068["EXP-68: 68-unreachable-envelope-and-breach"] --> K039
     EXP069["EXP-69: 69-1m-path-and-invalidation-exit"] --> K040
     EXP074["EXP-74: 74-sma-peak-dynamics"] --> K041
+    EXP077["EXP-77: 77-1m-microstructure-and-rapid-exit"] --> K042
 ```
 
 ---
@@ -580,6 +584,29 @@ graph TD
 
 ---
 
+### K-042: 1分足ミクロ構造による早期利確の期待値毀損・分割執行の限界および頭上疲弊トラップの検証
+* **ステータス**: **反証・棄却 (Refuted / Negative Findings)**
+* **概要**: 1h確定エッジシグナル（K-038 MVC 独立86件）に対し、1分足（1m）ミクロ構造を用いた早期利確・分割執行・頭上疲弊トラップ排除を事前登録基準に基づき厳格検証。予備探索値の不再現と、1mノイズによる早期決済が本波の期待値を大きく毀損する構造的欠陥を客観的に実証（Issue #77 / PR #78 監査是正）：
+  1. **予備探索（O-1〜O-7）の大幅な不再現（Negative Finding）**:
+     - 探索的プロトタイプで観測された過大評価値（O-5 EV `+1.19%`, PF `4.75` / O-6 EV `+1.53%`, PF `5.81`）は、確定終値判定 $\to$ 翌足始値成行約定という未来参照ゼロの厳格因果律下で**完全に不再現**となった（O-5 実測: EV **`+0.51%`**, PF **`1.76`** / O-6 実測: EV **`+0.89%`**, PF **`2.43`**）。
+     - パラメータ感度グリッド（アーム 1.2〜2.6% $\times$ SMA 55〜377 の全25セル）においても、Net EV は `+0.25%` 〜 `+0.70%` に留まり、**例外なく全セルが S3_k50（`+1.13%`）を下回った**。
+  2. **1m SMAトレーリング利確の反証・棄却（HYP-77-3: Refuted）**:
+     - `S_Adaptive_1m` は平均保有時間を `63.6h` から `29.9h`（53.0%削減）へ短縮したものの、Net EV は `+1.13%` から **`+0.89%`（通常トレーリングでは `+0.51%`）へ 21%〜55% 毀損**。
+     - ブートストラップ（5,000回）95%CI の Net EV 下限値は **`+0.35%`** であり、事前登録判定基準（`+0.83%`）を大幅に下回った。
+     - MVC は月0.75回しか発生しないため保有短縮による資本回転効果は発現せず、総累積 Net Return は S3_k50 の **`+97.55%` から `+76.82%`（S_Trailing_144 では `+43.78%`）へと激減**した。
+  3. **分割執行の反証・限界（HYP-77-2: Fill 棄却 / Skip 保留）**:
+     - 180分成行補完（Fill）は Worst 損失が `-7.19%` から **`-7.77%` へ悪化**し棄却。
+     - 未約定スキップ（Skip）の名目 Worst **`-3.59%`** は単に建玉が半分（0.5ロット）だったことによる機械的縮小であり、**投入資本あたり Worst は `-7.19%` で完全同一**。リスク圧縮エッジは確認されず保留。
+  4. **頭上SMA×BB疲弊トラップ排除の保留（HYP-77-1: Inconclusive）**:
+     - 事前登録主評価（頭上 `SMA_89` $\le 1.0\text{ ATR}$ かつ `BB_Width >= 1.6 ATR`）は 6件 に留まり、ランダム除外ベンチマーク（1,000回）の p値は `0.323`（上位 5% 未達）。小標本のため統計的有意差は認められず保留。
+* **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、K-038 MVC 独立86件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト全額控除、因果律厳守（判定1m終値・約定翌足始値）
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/77-1m-microstructure-and-rapid-exit/record.md`](experiments/77-1m-microstructure-and-rapid-exit/record.md) (EXP-77 / [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#78](https://github.com/makagi/MTF_AI_Trade/pull/78))
+* **仕様への影響**:
+  - 1m SMA トレーリング早期利確および分割執行の採用は**不採用（見送り）**。
+  - K-038 MVC の標準エグジットは **`S3_k50`（1m 動的構造ライン撤退 ＋ 72h タイムアウト）** または **`S6`（3相幾何適応型利確）** を維持し、執行は **`E0`（成行即時執行）** を標準仕様として固定する。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -605,6 +632,9 @@ graph TD
 | 2026-10-22 | 1.5.1 | EXP-69 監査是正反映（未来参照リーク排除、S3感度分析 k=5.0、P2_Bear Whipsaw解明、E3ミクロ構造検証、Signal C Short検証） | @makagi / [#73](https://github.com/makagi/MTF_AI_Trade/issues/73) |
 | 2026-10-24 | 1.6.0 | EXP-74 反映、各期間SMAピーク動態の3相幾何分離則と共鳴パートナー先行連鎖則（K-041 登録・計41知見へ拡充） | @makagi / [#74](https://github.com/makagi/MTF_AI_Trade/issues/74) |
 | 2026-10-24 | 1.6.1 | EXP-74 監査是正反映（トートロジー排除、相互相関客観導出、接近波分岐幾何、EXP-69ベースラインS0/S3完全整合、S6適応型利確PF1.96） | @makagi / [#76](https://github.com/makagi/MTF_AI_Trade/issues/76) |
+| 2026-10-24 | 1.7.0 | EXP-77 是正反映、1分足ミクロ構造による早期利確・分割執行の限界と予備探索不再現（K-042 登録・Refuted、計42知見へ拡充） | @makagi / [#77](https://github.com/makagi/MTF_AI_Trade/issues/77) |
+
+
 
 
 

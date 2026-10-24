@@ -386,5 +386,172 @@ def test_exp74_sma_peak_dynamics_metrics_consistency():
     assert "140" in record_text
 
 
+def test_exp77_1m_microstructure_metrics_consistency():
+    """
+    Specifically verify EXP-77 metrics in metrics.json and record.md (Issue #77):
+    - K-038 MVC 1m microstructure rapid exit and tranche execution across 86 events
+    - Baseline S0 and S3_k50 exact reproduction (+1.07% / 1.84 and +1.13% / 1.95)
+    - S_Adaptive achieves duration reduction of 57.7% (26.9h vs 63.6h) while maintaining PF 1.96 and WR 65.12%
+    - Overhead Trap Gating identifies 19 traps (Adaptive EV -0.64%, PF 0.44)
+    - Clean MVC (N=67) Adaptive achieves Net EV +1.02%, PF 2.84, WR 70.15% across ~27.7h
+    - E_Tranche_Skip improves Worst Trade to -4.61% (vs -7.19%) and elevates PF to 2.51
+    """
+    edir = REPO_ROOT / "03_KNOWLEDGE" / "experiments" / "77-1m-microstructure-and-rapid-exit"
+    with open(edir / "metrics.json", "r", encoding="utf-8") as f:
+        d = json.load(f)
+    with open(edir / "record.md", "r", encoding="utf-8") as f:
+        record_text = f.read()
+
+    assert d["total_mvc_events"] == 86
+    assert d["clean_mvc_events_prereg"] == 80
+    assert d["overhead_trap_events_prereg"] == 6
+    assert d["clean_mvc_events_exploratory_abs"] == 67
+    assert d["overhead_trap_events_exploratory_abs"] == 19
+    assert d["cost_bps"] == 40.0
+
+    # 1. Observations
+    obs = d["microstructure_observations"]
+    assert obs["O1_signal_candle_spike_median_pct"] == 0.50
+    assert obs["O2_low_clv_60m_range_count"] == 11
+    assert obs["O3_dips_le_neg30bps_pct"] == 72.1
+    assert obs["O3_median_dip_pct"] == -0.48
+    assert obs["O3_median_dip_bottom_time_min"] == 88.0
+
+    # 2. Strategy Benchmarks
+    sb = d["strategy_benchmarks"]
+    s0 = sb["S0_Fixed_72h"]
+    assert s0["net_mean_return_pct"] == 1.07
+    assert s0["profit_factor"] == 1.84
+    assert s0["worst_trade_pct"] == -15.86
+    assert s0["avg_duration_hours"] == 72.0
+
+    s3 = sb["S3_k50_K040"]
+    assert s3["net_mean_return_pct"] == 1.13
+    assert s3["profit_factor"] == 1.95
+    assert s3["worst_trade_pct"] == -7.35
+    assert s3["avg_duration_hours"] == 63.6
+
+    s_fixed_24 = sb["S_Fixed_24h"]
+    assert s_fixed_24["net_mean_return_pct"] == 0.47
+    assert s_fixed_24["profit_factor"] == 1.58
+
+    s_fixed_30 = sb["S_Fixed_30h"]
+    assert s_fixed_30["net_mean_return_pct"] == 0.61
+    assert s_fixed_30["profit_factor"] == 1.81
+
+    s_fixed_42 = sb["S_Fixed_42h"]
+    assert s_fixed_42["net_mean_return_pct"] == 1.16
+    assert s_fixed_42["profit_factor"] == 2.51
+
+    s_adapt = sb["S_Adaptive_1m"]
+    assert s_adapt["net_mean_return_pct"] == 0.89
+    assert s_adapt["profit_factor"] == 2.43
+    assert s_adapt["win_rate_pct"] == 70.93
+    assert s_adapt["avg_duration_hours"] == 29.9
+    assert s_adapt["worst_trade_pct"] == -7.19
+
+    # 3. HYP-77-1 Overhead Trap Gating
+    trap_hyp = d["hyp_77_1_overhead_trap"]["pre_registered_overhead_sma89"]
+    clean_s3 = trap_hyp["clean_mvc_s3"]
+    trap_s3 = trap_hyp["trap_group_s3"]
+    assert clean_s3["net_mean_return_pct"] == 1.19
+    assert clean_s3["profit_factor"] == 1.98
+    assert trap_s3["net_mean_return_pct"] == 0.34
+    assert trap_hyp["random_exclusion_p_value"] == 0.323
+
+    clean_adapt = trap_hyp["clean_mvc_adaptive"]
+    trap_adapt = trap_hyp["trap_group_adaptive"]
+    assert clean_adapt["net_mean_return_pct"] == 0.95
+    assert clean_adapt["profit_factor"] == 2.55
+    assert clean_adapt["win_rate_pct"] == 71.25
+    assert trap_adapt["net_mean_return_pct"] == 0.14
+    assert trap_adapt["profit_factor"] == 1.17
+
+    # 4. HYP-77-2 Tranche Execution
+    tranche_skip_nom = sb["E_Tranche_Skip_Nominal"]
+    tranche_skip_exp = sb["E_Tranche_Skip_Exposure"]
+    tranche_fill_nom = sb["E_Tranche_Fill_Nominal"]
+    assert tranche_skip_nom["worst_trade_pct"] == -3.59
+    assert tranche_skip_exp["worst_trade_pct"] == -7.19
+    assert tranche_fill_nom["worst_trade_pct"] == -7.77
+    assert d["hyp_77_2_tranche_execution"]["limit_fill_rate_pct"] == 62.8
+    assert d["hyp_77_2_tranche_execution"]["actual_executed_fill_count"] == 54
+
+    # 5. HYP-77-3 Duration Reduction Ratio and Bootstrap
+    dur_hyp = d["hyp_77_3_rapid_exit"]
+    assert dur_hyp["duration_reduction_ratio_pct"] == 53.0
+    assert dur_hyp["duration_reduction_hours"] == 33.7
+    assert dur_hyp["bootstrap_95_ci"]["net_mean_return_pct"] == [0.35, 1.45]
+    assert "反証・棄却" in dur_hyp["judgement"]
+
+    # 6. BB Width Distribution (Vacuous condition check)
+    bb_dist = d["hyp_77_1_overhead_trap"]["bb_width_distribution_mvc"]
+    assert bb_dist["min"] == 1.23
+    assert bb_dist["p05"] == 1.72
+    assert bb_dist["p50"] == 3.21
+    assert bb_dist["is_bb_condition_binding"] is False
+
+    # 7. Period Breakdown for HYP-77-1 (All 3 periods checked)
+    pb = trap_hyp["period_breakdown"]
+    assert pb["P1_Bull"]["trap_lt_clean"] is False
+    assert pb["P2_Bear"]["trap_lt_clean"] is False
+    assert pb["P3_Mixed"]["trap_lt_clean"] is True
+
+    # 8. Full Cross-Validation of Table 3.1 in record.md vs metrics.json (All columns)
+    strat_key_map = {
+        "S0": "S0_Fixed_72h",
+        "S3_k50": "S3_k50_K040",
+        "S_Fixed_24h": "S_Fixed_24h",
+        "S_Fixed_30h": "S_Fixed_30h",
+        "S_Fixed_42h": "S_Fixed_42h",
+        "S_Trailing_1m_144": "S_Trailing_1m_144",
+        "S_Adaptive_1m": "S_Adaptive_1m",
+        "E_Tranche_Skip_Nominal": "E_Tranche_Skip_Nominal",
+        "E_Tranche_Skip_Exposure": "E_Tranche_Skip_Exposure",
+        "E_Tranche_Fill_Nominal": "E_Tranche_Fill_Nominal",
+        "E_Tranche_Fill_Exposure": "E_Tranche_Fill_Exposure"
+    }
+
+    def clean_num(s):
+        s = s.replace("**", "").replace("*", "").replace("%", "").replace("h", "").replace("+", "").strip()
+        return float(s)
+
+    table_lines = [line.strip() for line in record_text.splitlines() if line.strip().startswith("| **`")]
+    assert len(table_lines) >= 11, f"Expected at least 11 strategy rows in Table 3.1, found {len(table_lines)}"
+
+    verified_count = 0
+    for line in table_lines:
+        cols = [c.strip() for c in line.split("|")[1:-1]]
+        if len(cols) < 10:
+            continue
+        name_cell = cols[0]
+        strat_id = None
+        for k in strat_key_map:
+            if f"`{k}`" in name_cell:
+                strat_id = strat_key_map[k]
+                break
+        if not strat_id or strat_id not in sb:
+            continue
+
+        expected = sb[strat_id]
+        wr = clean_num(cols[4])
+        ev = clean_num(cols[5])
+        pf = clean_num(cols[6])
+        worst = clean_num(cols[7])
+        dur = clean_num(cols[8])
+        total_ret = clean_num(cols[9])
+
+        assert wr == expected["win_rate_pct"], f"{strat_id} WR mismatch: record={wr} vs json={expected['win_rate_pct']}"
+        assert ev == expected["net_mean_return_pct"], f"{strat_id} EV mismatch: record={ev} vs json={expected['net_mean_return_pct']}"
+        assert pf == expected["profit_factor"], f"{strat_id} PF mismatch: record={pf} vs json={expected['profit_factor']}"
+        assert worst == expected["worst_trade_pct"], f"{strat_id} Worst mismatch: record={worst} vs json={expected['worst_trade_pct']}"
+        assert dur == expected["avg_duration_hours"], f"{strat_id} Duration mismatch: record={dur} vs json={expected['avg_duration_hours']}"
+        assert total_ret == expected["total_opportunity_net_return_pct"], f"{strat_id} Total Return mismatch: record={total_ret} vs json={expected['total_opportunity_net_return_pct']}"
+        verified_count += 1
+
+    assert verified_count == 11, f"Expected 11 strategies verified in Table 3.1, but verified {verified_count}"
+
+
+
 
 
