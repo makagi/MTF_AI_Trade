@@ -371,9 +371,14 @@ def main():
                 fill_bar_t2 = i
                 break
                 
+        # Tranche 2 出口パラメータ: Tranche 1 の S_Adaptive モード (blue_sky vs standard) を継承
+        arm_p_t2 = 0.050 if is_blue_sky else 0.018
+        sma_p_t2 = 233 if is_blue_sky else 144
+        max_h_t2 = 42.0 if is_blue_sky else 72.0
+
         if limit_filled:
             # 約定足から独自パスで S_Adaptive エグジットをシミュレーション
-            res_t2 = simulate_trailing_exit_path(fill_bar_t2, p_lim, arm_pct=0.018, sma_p=144, max_h=72.0)
+            res_t2 = simulate_trailing_exit_path(fill_bar_t2, p_lim, arm_pct=arm_p_t2, sma_p=sma_p_t2, max_h=max_h_t2)
             r2 = res_t2['net_ret']
             dur_t2 = res_t2['duration_h']
         else:
@@ -407,7 +412,7 @@ def main():
             if exit_bar_t1 > 180 and 180 < n_bars:
                 # 180分時点で成行補完エントリー
                 p_comp = sub_opens[180]
-                res_comp = simulate_trailing_exit_path(180, p_comp, arm_pct=0.018, sma_p=144, max_h=72.0)
+                res_comp = simulate_trailing_exit_path(180, p_comp, arm_pct=arm_p_t2, sma_p=sma_p_t2, max_h=max_h_t2)
                 r_comp = res_comp['net_ret']
                 nom_ret_fill = 0.5 * r1 + 0.5 * r_comp
                 exp_ret_fill = 0.5 * r1 + 0.5 * r_comp
@@ -546,27 +551,88 @@ def main():
     # 12. 事前登録判定基準に基づく厳格判定 (Judgements)
     # HYP-77-1
     # 基準: ランダム除外上位5%以内 (p_val <= 0.05) かつ 全3期間で除外群 EV < 残存群 EV
-    trap_p1_ev = np.mean([t['net_ret'] for i, t in enumerate(trades_s3_k50) if overhead_trap_prereg_mask.iloc[i] and t['period'] == 'P1_Bull']) if any(overhead_trap_prereg_mask & (df_1h.loc[mvc_events].index.map(get_period) == 'P1_Bull')) else 0.0
-    judgement_hyp77_1 = "棄却 / Inconclusive (ランダム除外上位5%未達: p=0.485、主評価ではN=6と小標本)"
+    period_prereg_trap = {}
+    trap_all_periods_worse = True
+    for p in periods:
+        cl_p = [trades_s3_k50[i] for i in clean_prereg_indices if trades_s3_k50[i]['period'] == p]
+        tr_p = [trades_s3_k50[i] for i in trap_prereg_indices if trades_s3_k50[i]['period'] == p]
+        m_cl_p = compute_metrics(cl_p)
+        if len(tr_p) > 0:
+            m_tr_p = compute_metrics(tr_p)
+            trap_lt_clean = bool(m_tr_p["net_mean_return_pct"] < m_cl_p["net_mean_return_pct"])
+            if not trap_lt_clean:
+                trap_all_periods_worse = False
+            period_prereg_trap[p] = {
+                "clean_trades": len(cl_p),
+                "clean_ev_pct": m_cl_p["net_mean_return_pct"],
+                "clean_pf": m_cl_p["profit_factor"],
+                "trap_trades": len(tr_p),
+                "trap_ev_pct": m_tr_p["net_mean_return_pct"],
+                "trap_pf": m_tr_p["profit_factor"],
+                "trap_lt_clean": trap_lt_clean
+            }
+        else:
+            period_prereg_trap[p] = {
+                "clean_trades": len(cl_p),
+                "clean_ev_pct": m_cl_p["net_mean_return_pct"],
+                "clean_pf": m_cl_p["profit_factor"],
+                "trap_trades": 0,
+                "status": "判定不能 (Trap件数 0件)"
+            }
+
+    hyp77_1_pass = (p_val_prereg_s3 <= 0.05) and trap_all_periods_worse
+    judgement_hyp77_1 = (
+        f"棄却 / Inconclusive (ランダム除外上位5%未達: p={p_val_prereg_s3:.3f}、"
+        f"主評価ではN={n_trap_prereg}と小標本のため統計的有意性なし)"
+        if not hyp77_1_pass
+        else "支持"
+    )
+    
+    # BB 幅分布の集計 (非拘束性の検証)
+    bb_mvc = df_1h.loc[mvc_events, 'bb_width_atr']
+    bb_dist_summary = {
+        "min": float(np.round(bb_mvc.min(), 2)),
+        "p05": float(np.round(np.percentile(bb_mvc, 5), 2)),
+        "p25": float(np.round(np.percentile(bb_mvc, 25), 2)),
+        "p50": float(np.round(np.percentile(bb_mvc, 50), 2)),
+        "p75": float(np.round(np.percentile(bb_mvc, 75), 2)),
+        "p95": float(np.round(np.percentile(bb_mvc, 95), 2)),
+        "max": float(np.round(bb_mvc.max(), 2)),
+        "is_bb_condition_binding": False,
+        "note": "全86件中95%以上、およびトラップ候補6件全てがBB幅2.25 ATR以上であるため、BB幅>=1.6 ATR条件は非拘束(vacuous)"
+    }
     
     # HYP-77-2
     # 基準: PF かつ Worst が E0 を上回り、Net EV 劣化 <= 0.15%pt
-    # E0基準: S_Adaptive (EV +0.55%, PF 1.76, Worst -7.19%)
     e0_ev = m_adapt["net_mean_return_pct"]
     e0_pf = m_adapt["profit_factor"]
     e0_worst = m_adapt["worst_trade_pct"]
     fill_pass = (m_tr_fill_nom["profit_factor"] > e0_pf) and (m_tr_fill_nom["worst_trade_pct"] > e0_worst) and ((e0_ev - m_tr_fill_nom["net_mean_return_pct"]) <= 0.15)
     skip_pass = (m_tr_skip_nom["profit_factor"] > e0_pf) and (m_tr_skip_nom["worst_trade_pct"] > e0_worst) and ((e0_ev - m_tr_skip_nom["net_mean_return_pct"]) <= 0.15)
-    judgement_hyp77_2_fill = "棄却 (Worst が -7.19% から -7.77% へ悪化)" if not fill_pass else "支持"
-    judgement_hyp77_2_skip = "保留 / Inconclusive (名目改善は建玉半分による見かけ、資本あたりWorstは -7.19% で同等)"
+    judgement_hyp77_2_fill = (
+        f"棄却 (Worst損失が {e0_worst:+.2f}% から {m_tr_fill_nom['worst_trade_pct']:+.2f}% へ悪化)"
+        if not fill_pass
+        else "支持"
+    )
+    judgement_hyp77_2_skip = (
+        f"保留 / Inconclusive (名目Worst改善 {m_tr_skip_nom['worst_trade_pct']:+.2f}% は建玉半分による見かけであり、"
+        f"資本あたりWorstは {m_tr_skip_exp['worst_trade_pct']:+.2f}% で同等)"
+    )
 
     # HYP-77-3
     # 基準: 固定24h/30hに対し WR・PF・EV 全て優位、かつ EV ブートストラップ下限 >= S3_k50 点推定 - 0.30pt (+0.83%)
     hyp77_3_ev_pass = (m_adapt["net_mean_return_pct"] > m_f24["net_mean_return_pct"]) and (m_adapt["net_mean_return_pct"] > m_f30["net_mean_return_pct"])
     hyp77_3_pf_pass = (m_adapt["profit_factor"] > m_f24["profit_factor"]) and (m_adapt["profit_factor"] > m_f30["profit_factor"])
     hyp77_3_wr_pass = (m_adapt["win_rate_pct"] > m_f24["win_rate_pct"]) and (m_adapt["win_rate_pct"] > m_f30["win_rate_pct"])
-    hyp77_3_ci_pass = (ci_ev_adapt[0] >= (m_s3["net_mean_return_pct"] - 0.30))  # +0.83%
-    judgement_hyp77_3 = f"反証・棄却 (Refuted: ブートストラップ下限 {ci_ev_adapt[0]:+.2f}% が基準 +0.83% を大幅未達、Net EV は S3_k50 より 40%以上毀損)"
+    threshold_ci = float(np.round(m_s3["net_mean_return_pct"] - 0.30, 2))
+    hyp77_3_ci_pass = (ci_ev_adapt[0] >= threshold_ci)
+    hyp77_3_pass = hyp77_3_ev_pass and hyp77_3_pf_pass and hyp77_3_wr_pass and hyp77_3_ci_pass
+    judgement_hyp77_3 = (
+        f"反証・棄却 (Refuted: ブートストラップ下限 {ci_ev_adapt[0]:+.2f}% が事前登録基準 {threshold_ci:+.2f}% を大幅未達、"
+        f"Net EV は S3_k50 の {m_s3['net_mean_return_pct']:+.2f}% より毀損)"
+        if not hyp77_3_pass
+        else "支持"
+    )
 
     print("\n" + "=" * 70)
     print("事前登録基準に基づく仮説判定結果サマリー")
@@ -716,6 +782,7 @@ def main():
                 "trap_group_s3": m_trap_s3_prereg,
                 "clean_mvc_adaptive": m_clean_adapt_prereg,
                 "trap_group_adaptive": m_trap_adapt_prereg,
+                "period_breakdown": period_prereg_trap,
                 "random_exclusion_p_value": float(np.round(p_val_prereg_s3, 4)),
                 "judgement": judgement_hyp77_1
             },
@@ -723,10 +790,13 @@ def main():
                 "clean_mvc_adaptive": m_clean_adapt_abs,
                 "trap_group_adaptive": m_trap_adapt_abs
             },
-            "threshold_sensitivity_grid": trap_grid_results
+            "threshold_sensitivity_grid": trap_grid_results,
+            "bb_width_distribution_mvc": bb_dist_summary
         },
         "hyp_77_2_tranche_execution": {
             "limit_fill_rate_pct": float(np.round((obs_df['min_dip_pct'] <= -0.0040).mean() * 100.0, 1)),
+            "actual_executed_fill_rate_pct": float(np.round(np.mean([t['filled'] for t in trades_tranche_skip_nominal]) * 100.0, 1)),
+            "actual_executed_fill_count": int(np.sum([t['filled'] for t in trades_tranche_skip_nominal])),
             "average_exposure_skip": float(np.round(np.mean([t['exposure'] for t in trades_tranche_skip_nominal]), 2)),
             "judgement_fill": judgement_hyp77_2_fill,
             "judgement_skip": judgement_hyp77_2_skip

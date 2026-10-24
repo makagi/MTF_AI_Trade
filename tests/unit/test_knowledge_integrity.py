@@ -471,10 +471,11 @@ def test_exp77_1m_microstructure_metrics_consistency():
     tranche_skip_nom = sb["E_Tranche_Skip_Nominal"]
     tranche_skip_exp = sb["E_Tranche_Skip_Exposure"]
     tranche_fill_nom = sb["E_Tranche_Fill_Nominal"]
-    assert tranche_skip_nom["worst_trade_pct"] == -4.44
+    assert tranche_skip_nom["worst_trade_pct"] == -3.59
     assert tranche_skip_exp["worst_trade_pct"] == -7.19
     assert tranche_fill_nom["worst_trade_pct"] == -7.77
     assert d["hyp_77_2_tranche_execution"]["limit_fill_rate_pct"] == 62.8
+    assert d["hyp_77_2_tranche_execution"]["actual_executed_fill_count"] == 54
 
     # 5. HYP-77-3 Duration Reduction Ratio and Bootstrap
     dur_hyp = d["hyp_77_3_rapid_exit"]
@@ -483,17 +484,72 @@ def test_exp77_1m_microstructure_metrics_consistency():
     assert dur_hyp["bootstrap_95_ci"]["net_mean_return_pct"] == [0.35, 1.45]
     assert "反証・棄却" in dur_hyp["judgement"]
 
-    # 6. Verify exact numbers exist in record.md
-    assert "+1.07%" in record_text
-    assert "+1.13%" in record_text
-    assert "+0.89%" in record_text
-    assert "29.9h" in record_text
-    assert "+0.95%" in record_text
-    assert "2.55" in record_text
-    assert "71.25%" in record_text
-    assert "-4.44%" in record_text
-    assert "-7.77%" in record_text
-    assert "62.8%" in record_text
+    # 6. BB Width Distribution (Vacuous condition check)
+    bb_dist = d["hyp_77_1_overhead_trap"]["bb_width_distribution_mvc"]
+    assert bb_dist["min"] == 1.23
+    assert bb_dist["p05"] == 1.72
+    assert bb_dist["p50"] == 3.21
+    assert bb_dist["is_bb_condition_binding"] is False
+
+    # 7. Period Breakdown for HYP-77-1 (All 3 periods checked)
+    pb = trap_hyp["period_breakdown"]
+    assert pb["P1_Bull"]["trap_lt_clean"] is False
+    assert pb["P2_Bear"]["trap_lt_clean"] is False
+    assert pb["P3_Mixed"]["trap_lt_clean"] is True
+
+    # 8. Full Cross-Validation of Table 3.1 in record.md vs metrics.json (All columns)
+    strat_key_map = {
+        "S0": "S0_Fixed_72h",
+        "S3_k50": "S3_k50_K040",
+        "S_Fixed_24h": "S_Fixed_24h",
+        "S_Fixed_30h": "S_Fixed_30h",
+        "S_Fixed_42h": "S_Fixed_42h",
+        "S_Trailing_1m_144": "S_Trailing_1m_144",
+        "S_Adaptive_1m": "S_Adaptive_1m",
+        "E_Tranche_Skip_Nominal": "E_Tranche_Skip_Nominal",
+        "E_Tranche_Skip_Exposure": "E_Tranche_Skip_Exposure",
+        "E_Tranche_Fill_Nominal": "E_Tranche_Fill_Nominal",
+        "E_Tranche_Fill_Exposure": "E_Tranche_Fill_Exposure"
+    }
+
+    def clean_num(s):
+        s = s.replace("**", "").replace("*", "").replace("%", "").replace("h", "").replace("+", "").strip()
+        return float(s)
+
+    table_lines = [line.strip() for line in record_text.splitlines() if line.strip().startswith("| **`")]
+    assert len(table_lines) >= 11, f"Expected at least 11 strategy rows in Table 3.1, found {len(table_lines)}"
+
+    verified_count = 0
+    for line in table_lines:
+        cols = [c.strip() for c in line.split("|")[1:-1]]
+        if len(cols) < 10:
+            continue
+        name_cell = cols[0]
+        strat_id = None
+        for k in strat_key_map:
+            if f"`{k}`" in name_cell:
+                strat_id = strat_key_map[k]
+                break
+        if not strat_id or strat_id not in sb:
+            continue
+
+        expected = sb[strat_id]
+        wr = clean_num(cols[4])
+        ev = clean_num(cols[5])
+        pf = clean_num(cols[6])
+        worst = clean_num(cols[7])
+        dur = clean_num(cols[8])
+        total_ret = clean_num(cols[9])
+
+        assert wr == expected["win_rate_pct"], f"{strat_id} WR mismatch: record={wr} vs json={expected['win_rate_pct']}"
+        assert ev == expected["net_mean_return_pct"], f"{strat_id} EV mismatch: record={ev} vs json={expected['net_mean_return_pct']}"
+        assert pf == expected["profit_factor"], f"{strat_id} PF mismatch: record={pf} vs json={expected['profit_factor']}"
+        assert worst == expected["worst_trade_pct"], f"{strat_id} Worst mismatch: record={worst} vs json={expected['worst_trade_pct']}"
+        assert dur == expected["avg_duration_hours"], f"{strat_id} Duration mismatch: record={dur} vs json={expected['avg_duration_hours']}"
+        assert total_ret == expected["total_opportunity_net_return_pct"], f"{strat_id} Total Return mismatch: record={total_ret} vs json={expected['total_opportunity_net_return_pct']}"
+        verified_count += 1
+
+    assert verified_count == 11, f"Expected 11 strategies verified in Table 3.1, but verified {verified_count}"
 
 
 

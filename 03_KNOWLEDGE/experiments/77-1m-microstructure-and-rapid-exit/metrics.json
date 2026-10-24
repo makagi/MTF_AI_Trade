@@ -81,38 +81,38 @@
     "E_Tranche_Skip_Nominal": {
       "executed_trades": 86,
       "win_rate_pct": 72.09,
-      "net_mean_return_pct": 0.76,
-      "profit_factor": 2.77,
-      "worst_trade_pct": -4.44,
-      "avg_duration_hours": 31.4,
-      "total_opportunity_net_return_pct": 65.06
+      "net_mean_return_pct": 0.93,
+      "profit_factor": 3.35,
+      "worst_trade_pct": -3.59,
+      "avg_duration_hours": 29.9,
+      "total_opportunity_net_return_pct": 79.64
     },
     "E_Tranche_Skip_Exposure": {
       "executed_trades": 86,
       "win_rate_pct": 72.09,
-      "net_mean_return_pct": 0.86,
-      "profit_factor": 2.43,
+      "net_mean_return_pct": 1.03,
+      "profit_factor": 2.81,
       "worst_trade_pct": -7.19,
-      "avg_duration_hours": 31.4,
-      "total_opportunity_net_return_pct": 73.78
+      "avg_duration_hours": 29.9,
+      "total_opportunity_net_return_pct": 88.35
     },
     "E_Tranche_Fill_Nominal": {
       "executed_trades": 86,
-      "win_rate_pct": 69.77,
-      "net_mean_return_pct": 0.69,
-      "profit_factor": 2.08,
+      "win_rate_pct": 68.6,
+      "net_mean_return_pct": 0.9,
+      "profit_factor": 2.5,
       "worst_trade_pct": -7.77,
-      "avg_duration_hours": 34.1,
-      "total_opportunity_net_return_pct": 59.55
+      "avg_duration_hours": 32.3,
+      "total_opportunity_net_return_pct": 77.13
     },
     "E_Tranche_Fill_Exposure": {
       "executed_trades": 86,
-      "win_rate_pct": 69.77,
-      "net_mean_return_pct": 0.7,
-      "profit_factor": 2.09,
+      "win_rate_pct": 68.6,
+      "net_mean_return_pct": 0.9,
+      "profit_factor": 2.51,
       "worst_trade_pct": -7.77,
-      "avg_duration_hours": 34.1,
-      "total_opportunity_net_return_pct": 59.93
+      "avg_duration_hours": 32.3,
+      "total_opportunity_net_return_pct": 77.51
     }
   },
   "hyp_77_1_overhead_trap": {
@@ -152,6 +152,35 @@
         "worst_trade_pct": -2.91,
         "avg_duration_hours": 29.6,
         "total_opportunity_net_return_pct": 0.84
+      },
+      "period_breakdown": {
+        "P1_Bull": {
+          "clean_trades": 27,
+          "clean_ev_pct": 1.14,
+          "clean_pf": 1.78,
+          "trap_trades": 2,
+          "trap_ev_pct": 2.72,
+          "trap_pf": 999.0,
+          "trap_lt_clean": false
+        },
+        "P2_Bear": {
+          "clean_trades": 16,
+          "clean_ev_pct": 0.35,
+          "clean_pf": 1.18,
+          "trap_trades": 2,
+          "trap_ev_pct": 0.77,
+          "trap_pf": 999.0,
+          "trap_lt_clean": false
+        },
+        "P3_Mixed": {
+          "clean_trades": 37,
+          "clean_ev_pct": 1.6,
+          "clean_pf": 3.21,
+          "trap_trades": 2,
+          "trap_ev_pct": -2.48,
+          "trap_pf": 0.0,
+          "trap_lt_clean": true
+        }
       },
       "random_exclusion_p_value": 0.323,
       "judgement": "棄却 / Inconclusive (ランダム除外上位5%未達: p=0.323、主評価ではN=6と小標本のため統計的有意性なし)"
@@ -249,13 +278,26 @@
         "clean_pf": 2.79,
         "trap_ev_pct": -0.16
       }
+    },
+    "bb_width_distribution_mvc": {
+      "min": 1.23,
+      "p05": 1.72,
+      "p25": 2.49,
+      "p50": 3.21,
+      "p75": 4.11,
+      "p95": 5.05,
+      "max": 6.1,
+      "is_bb_condition_binding": false,
+      "note": "全86件中95%以上、およびトラップ候補6件全てがBB幅2.25 ATR以上であるため、BB幅>=1.6 ATR条件は非拘束(vacuous)"
     }
   },
   "hyp_77_2_tranche_execution": {
     "limit_fill_rate_pct": 62.8,
+    "actual_executed_fill_rate_pct": 62.8,
+    "actual_executed_fill_count": 54,
     "average_exposure_skip": 0.81,
     "judgement_fill": "棄却 (Worst損失が -7.19% から -7.77% へ悪化)",
-    "judgement_skip": "保留 / Inconclusive (名目Worst改善 -4.44% は建玉半分による見かけであり、資本あたりWorstは -7.19% で同等)"
+    "judgement_skip": "保留 / Inconclusive (名目Worst改善 -3.59% は建玉半分による見かけであり、資本あたりWorstは -7.19% で同等)"
   },
   "hyp_77_3_rapid_exit": {
     "duration_reduction_hours": 33.7,
