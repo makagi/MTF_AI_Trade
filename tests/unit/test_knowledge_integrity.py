@@ -386,5 +386,93 @@ def test_exp74_sma_peak_dynamics_metrics_consistency():
     assert "140" in record_text
 
 
+def test_exp77_1m_microstructure_metrics_consistency():
+    """
+    Specifically verify EXP-77 metrics in metrics.json and record.md (Issue #77):
+    - K-038 MVC 1m microstructure rapid exit and tranche execution across 86 events
+    - Baseline S0 and S3_k50 exact reproduction (+1.07% / 1.84 and +1.13% / 1.95)
+    - S_Adaptive achieves duration reduction of 57.7% (26.9h vs 63.6h) while maintaining PF 1.96 and WR 65.12%
+    - Overhead Trap Gating identifies 19 traps (Adaptive EV -0.64%, PF 0.44)
+    - Clean MVC (N=67) Adaptive achieves Net EV +1.02%, PF 2.84, WR 70.15% across ~27.7h
+    - E_Tranche_Skip improves Worst Trade to -4.61% (vs -7.19%) and elevates PF to 2.51
+    """
+    edir = REPO_ROOT / "03_KNOWLEDGE" / "experiments" / "77-1m-microstructure-and-rapid-exit"
+    with open(edir / "metrics.json", "r", encoding="utf-8") as f:
+        d = json.load(f)
+    with open(edir / "record.md", "r", encoding="utf-8") as f:
+        record_text = f.read()
+
+    assert d["total_mvc_events"] == 86
+    assert d["clean_mvc_events"] == 67
+    assert d["overhead_trap_events"] == 19
+    assert d["cost_bps"] == 40.0
+
+    # 1. Observations
+    obs = d["microstructure_observations"]
+    assert obs["O1_signal_candle_spike_median_pct"] == 0.50
+    assert obs["O3_dips_le_neg30bps_pct"] == 72.1
+
+    # 2. Strategy Benchmarks
+    sb = d["strategy_benchmarks"]
+    s0 = sb["S0_Fixed_72h"]
+    assert s0["net_mean_return_pct"] == 1.07
+    assert s0["profit_factor"] == 1.84
+    assert s0["worst_trade_pct"] == -15.86
+    assert s0["avg_duration_hours"] == 72.0
+
+    s3 = sb["S3_k50_K040"]
+    assert s3["net_mean_return_pct"] == 1.13
+    assert s3["profit_factor"] == 1.95
+    assert s3["worst_trade_pct"] == -7.35
+    assert s3["avg_duration_hours"] == 63.6
+
+    s_adapt = sb["S_Adaptive_1m"]
+    assert s_adapt["net_mean_return_pct"] == 0.66
+    assert s_adapt["profit_factor"] == 1.96
+    assert s_adapt["win_rate_pct"] == 65.12
+    assert s_adapt["avg_duration_hours"] == 26.9
+    assert s_adapt["worst_trade_pct"] == -7.19
+
+    # 3. HYP-77-1 Overhead Trap Gating
+    trap_hyp = d["hyp_77_1_overhead_trap"]
+    clean_s3 = trap_hyp["clean_mvc_s3"]
+    trap_s3 = trap_hyp["trap_group_s3"]
+    assert clean_s3["net_mean_return_pct"] == 1.30
+    assert clean_s3["profit_factor"] == 2.11
+    assert trap_s3["net_mean_return_pct"] == 0.55
+
+    clean_adapt = trap_hyp["clean_mvc_adaptive"]
+    trap_adapt = trap_hyp["trap_group_adaptive"]
+    assert clean_adapt["net_mean_return_pct"] == 1.02
+    assert clean_adapt["profit_factor"] == 2.84
+    assert clean_adapt["win_rate_pct"] == 70.15
+    assert trap_adapt["net_mean_return_pct"] == -0.64
+    assert trap_adapt["profit_factor"] == 0.44
+
+    # 4. HYP-77-2 Tranche Execution
+    tranche_skip = sb["E_Tranche_Skip"]
+    assert tranche_skip["net_mean_return_pct"] == 0.71
+    assert tranche_skip["profit_factor"] == 2.51
+    assert tranche_skip["worst_trade_pct"] == -4.61
+    assert tranche_skip["win_rate_pct"] == 67.44
+
+    # 5. HYP-77-3 Duration Reduction Ratio
+    dur_hyp = d["hyp_77_3_rapid_exit"]
+    assert dur_hyp["duration_reduction_ratio_pct"] == 57.7
+    assert dur_hyp["duration_reduction_hours"] == 36.7
+
+    # 6. Verify exact numbers exist in record.md
+    assert "+1.07%" in record_text
+    assert "+1.13%" in record_text
+    assert "+0.66%" in record_text
+    assert "26.9h" in record_text
+    assert "+1.02%" in record_text
+    assert "2.84" in record_text
+    assert "70.15%" in record_text
+    assert "-4.61%" in record_text
+    assert "2.51" in record_text
+
+
+
 
 
