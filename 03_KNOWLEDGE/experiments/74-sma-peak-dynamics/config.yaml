@@ -1,0 +1,32 @@
+experiment_id: EXP-74
+title: 各期間のSMAのピーク（高さ・タイミング）を決定づける7要素の相互作用解明と見極め特徴量の定式化
+issue: 74
+date: "2026-10-24"
+
+data:
+  symbol: BTCUSD
+  timeframe: 1h
+  start_date: "2020-01-01"
+  end_date: "2025-04-30"
+
+periods:
+  P1_Bull:
+    start: "2020-01-01"
+    end: "2021-12-31"
+  P2_Bear:
+    start: "2022-01-01"
+    end: "2022-12-31"
+  P3_Mixed:
+    start: "2023-01-01"
+    end: "2025-04-30"
+
+analysis_params:
+  target_sma_periods: [21, 34, 55, 89]
+  short_sma_candidates: [8, 13, 21, 34]
+  long_sma_candidates: [89, 144, 233, 377]
+  stoch_periods: [7, 8, 9, 11, 13, 14, 21, 34, 55]
+  afs_periods: [7, 9, 11, 13, 21]
+  bb_periods: [20, 34, 55, 89, 233]
+  bb_num_std: 2.0
+  min_peak_prominence_atr: 0.35
+  friction_cost: 0.0040  # 40 bps roundtrip

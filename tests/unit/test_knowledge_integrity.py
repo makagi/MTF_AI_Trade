@@ -52,6 +52,7 @@ def test_experiment_metrics_integrity():
         "65-composite-feature-gating",
         "68-unreachable-envelope-and-breach",
         "69-1m-path-and-invalidation-exit",
+        "74-sma-peak-dynamics",
     ]
 
     for exp_id in exp_ids:
@@ -256,5 +257,97 @@ def test_no_intra_hour_lookahead_in_exp69():
             violations.append(f"Line {idx}: {stripped}")
 
     assert not violations, f"Found potential intra-hour lookahead in EXP-69:\n" + "\n".join(violations)
+
+
+def test_exp74_sma_peak_dynamics_metrics_consistency():
+    """
+    Ensure EXP-74 metrics.json strictly reflects the 3-phase geometry separation,
+    phase lead sequence pairings, and Application A/B trade metrics with record.md consistency.
+    """
+    exp_dir = REPO_ROOT / "03_KNOWLEDGE" / "experiments" / "74-sma-peak-dynamics"
+    metrics_file = exp_dir / "metrics.json"
+    record_file = exp_dir / "record.md"
+
+    with open(metrics_file, "r", encoding="utf-8") as f:
+        d = json.load(f)
+    record_text = record_file.read_text(encoding="utf-8")
+
+    # 1. Total swing peaks evaluated
+    peaks = d["total_peaks_evaluated"]
+    assert peaks["SMA_21"] == 1128
+    assert peaks["SMA_34"] == 822
+    assert peaks["SMA_55"] == 569
+    assert peaks["SMA_89"] == 429
+
+    # 2. HYP-SMA-PEAK-2 Phase lead resonant pairings
+    pairs = d["resonant_partner_pairs"]
+    assert pairs["SMA_21"]["best_short_sma"] == "SMA_8"
+    assert pairs["SMA_34"]["best_short_sma"] == "SMA_13"
+    assert pairs["SMA_55"]["best_short_sma"] == "SMA_21"
+    assert pairs["SMA_89"]["best_short_sma"] == "SMA_34"
+
+    # Stoch_D leads for SMA 34
+    stoch_lead = d["phase_lead_stats"]["SMA_34"]["stoch_d"]["Stoch_D_8"]
+    assert stoch_lead["lead_rate_pct"] == 100.0
+    assert stoch_lead["median_bars"] == 5.0
+
+    # Short SMA leads for SMA 34
+    short_lead = d["phase_lead_stats"]["SMA_34"]["short_smas"]["SMA_13"]
+    assert short_lead["lead_rate_pct"] == 96.6
+    assert short_lead["median_bars"] == 6.0
+
+    # 3. HYP-SMA-PEAK-1 3-Phase Geometry
+    geom = d["three_phase_geometry_stats"]
+    p1 = geom["1_Approach_Peak"]
+    p2 = geom["2_Straddle_Peak"]
+    p3 = geom["3_Expansion_Peak"]
+
+    assert p1["total_count"] == 239
+    assert p1["delta_h_median"] == -3.23
+    assert p1["slope_breakdown"]["Steep_Down"]["delta_h_median"] == -5.48
+    assert p1["slope_breakdown"]["Steep_Down"]["delta_h_p90"] == -1.73
+
+    assert p2["total_count"] == 73
+    assert p2["delta_h_median"] == 0.98
+    assert p2["slope_breakdown"]["Flat_Gentle"]["delta_h_median"] == 0.98
+    assert p2["slope_breakdown"]["Flat_Gentle"]["delta_h_p90"] == 2.78
+
+    assert p3["total_count"] == 507
+    assert p3["delta_h_median"] == 5.74
+    assert p3["slope_breakdown"]["Steep_Up"]["delta_h_median"] == 8.16
+    assert p3["slope_breakdown"]["Steep_Up"]["delta_h_p90"] == 13.68
+
+    # 4. Trading Application A (MVC Exit S6 vs S0)
+    app_a = d["trading_application_a_mvc_exit"]
+    s0 = app_a["S0_Baseline_Fixed_72h"]
+    s6 = app_a["S6_Peak_Proximity_Dynamic_Exit"]
+
+    assert s0["Full"]["executed_trades"] == 86
+    assert s0["Full"]["net_mean_return_pct"] == 0.99
+    assert s0["Full"]["worst_trade_pct"] == -15.02
+    assert s0["Full"]["avg_duration_hours"] == 72.0
+
+    assert s6["Full"]["executed_trades"] == 86
+    assert s6["Full"]["net_mean_return_pct"] == 0.93
+    assert s6["Full"]["profit_factor"] == 1.80
+    assert s6["Full"]["worst_trade_pct"] == -7.35
+    assert s6["Full"]["avg_duration_hours"] == 59.3
+    # S6 improves P2 Bear EV substantially
+    assert s6["P2_Bear"]["net_mean_return_pct"] == 0.62
+    assert s6["P2_Bear"]["net_mean_return_pct"] > s0["P2_Bear"]["net_mean_return_pct"]
+
+    # 5. Trading Application B (Reversal Short)
+    app_b = d["trading_application_b_reversal_short"]
+    assert app_b["total_signals"] == 46
+    assert round(app_b["multi_horizon"]["24"]["net_mean_return"] * 100, 2) == -0.09
+    assert round(app_b["multi_horizon"]["72"]["net_mean_return"] * 100, 2) == -1.71
+
+    # 6. Verify key numbers exist in record.md
+    assert "-5.48" in record_text
+    assert "8.16" in record_text
+    assert "59.3h" in record_text
+    assert "0.93%" in record_text
+    assert "0.62%" in record_text
+
 
 
