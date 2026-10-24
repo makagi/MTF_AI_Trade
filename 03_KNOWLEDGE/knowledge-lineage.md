@@ -5,7 +5,7 @@
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-10-24  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -556,22 +556,27 @@ graph TD
 
 ### K-041: SMAピーク動態の3相幾何分離則と共鳴パートナー先行連鎖則
 * **ステータス**: 支持 (Supported: 普遍幾何学則・動的利確仕様)
-* **概要**: 各周期の移動平均線 $\text{SMA}_P$（$P \in \{21, 34, 55, 89\}$）が山（ピーク）を形成する際、その「高さ（到達限界）」と「タイミング（反転先行時間）」を決定づける7要素の相互作用を定量解明した：
+* **概要**: 各周期の移動平均線 $\text{SMA}_P$（$P \in \{21, 34, 55, 89\}$）が山（ピーク）および谷（トラフ）を形成する際、その「高さ（到達限界）」と「タイミング（反転先行時間）」を決定づける7要素の相互作用を定量解明した（Issue #76 監査是正完了）：
   1. **長期SMA幾何関係による3相ピーク高さ完全分離（HYP-SMA-PEAK-1）**:
-     - $\text{SMA}_{34}$ の全スイングピーク（819件）を幾何関係で分類した結果、ピーク高さ $\Delta H_{\text{peak}} = (\text{SMA}_{34} - \text{SMA}_{233}) / \text{ATR}_{24}$ は明確に3相へ完全分離した：
-       - **Phase 1 (接近ピーク / Approach Peak, $N=239$)**: 長期SMA下側での急下降時（Steep Down, $n=78$）、ピーク高さの中央値は **`-5.48 ATR`（P90 `-1.73 ATR`, Max `-0.61 ATR`）** であり、統計的に長期SMAを超えることが一度もなく手前で折れる。
-       - **Phase 2 (またぎピーク / Straddle Peak, $N=73$)**: 下から長期SMAを跨ぐ場合、中央値 **`+0.98 ATR`（P90 `+2.78 ATR`）** とわずかに $+1.0 \sim +2.5 \text{ ATR}$ 顔を出したところで力尽きる（オーバーシュートトラップ）。
-       - **Phase 3 (順行伸長ピーク / Expansion Peak, $N=507$)**: 長期SMA上側での急上昇時（Steep Up, $n=208$）、中央値 **`+8.16 ATR`（P90 `+13.68 ATR`, Max `+23.01 ATR`）** へと爆発的に伸長する。
-  2. **共鳴パートナー先行連鎖則（HYP-SMA-PEAK-2）**:
-     - 対象SMAが折れる前に、対応する「共鳴オシレータ（Stoch_D）」が **100% の確率で 5〜6 時間先行**し、「短期先行SMA」が **96.6%〜99.7% の確率で 5〜7 時間先行**してピークアウトする。
-     - 共鳴ペア: $\text{SMA}_{21} \leftrightarrow \text{Stoch\_D}_7 / \text{AFS}_7$, $\text{SMA}_{34} \leftrightarrow \text{Stoch\_D}_8 / \text{AFS}_9$, $\text{SMA}_{55} \leftrightarrow \text{Stoch\_D}_{14} / \text{AFS}_{13}$, $\text{SMA}_{89} \leftrightarrow \text{Stoch\_D}_{21} / \text{AFS}_{21}$。
-  3. **K-038 MVC 動的利確（S6）による資本効率向上とベア相場耐性**:
-     - 100%因果律ピーク近接スコアに基づく動的利確（S6）により、固定 72h 保有（S0）と比較して平均保有時間を **`72.0h` から `59.3h`（約 13 時間短縮）** に圧縮しながら、**Net EV `+0.93%`・PF `1.80`・Worst `-7.35%`** を達成。特にベア相場（P2）では Net EV が `+0.25%` から **`+0.62%`（2.5倍向上）** へ大幅改善。
-  4. **接近・またぎ領域での反転ショート（Application B）の限界確認**:
-     - 長期SMAへの接近・またぎ領域での反転ショート（$N=46$）は、24h ホライズンで一時的に Net EV `-0.09%`, PF `0.92` を記録するが、72h では Net EV `-1.71%`, PF `0.37` と悪化。長期下落トレンド中であっても「短期モメンタムの押し目買い反発」に踏み上げられるリスクが高く、ショート単体でのエッジ成立には多重壁フィルターが不可欠であることを確認。
-* **実験条件**: BTCUSD 1h（46,728行）、スイングピーク総数 2,948件（SMA 21: 1,128件, SMA 34: 822件, SMA 55: 569件, SMA 89: 429件）、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト全額控除、因果律厳守（リアルタイム確定バーのみ使用）
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/74-sma-peak-dynamics/record.md`](experiments/74-sma-peak-dynamics/record.md) (EXP-74 / [#74](https://github.com/makagi/MTF_AI_Trade/issues/74))
-* **仕様への影響**: 特徴量仕様（`SPEC-FEAT-001`）へ `sma_peak_phase_regime`（3相幾何分類）および `causal_peak_proximity_score`（先行反転スコア）を新設候補として追加。エグジット仕様へ S6 ピーク近接動的利確を追加。
+     - $\text{SMA}_{34}$ の全スイングピーク（269件、ウォームアップ除外後）において、ピーク高さ $\Delta H_{\text{peak}} = (\text{SMA}_{34} - \text{SMA}_{233}) / \text{ATR}_{24}$ は長期構造線 $\text{SMA}_{233}$ との幾何関係によって3相へ完全分離した：
+       - **Phase 1 (接近ピーク / Approach Peak, $N=79$)**: 長期SMA下側での急下降時（Steep Down, $n=25$）、ピーク高さの中央値は **`-4.58 ATR`（P90 `-0.89 ATR`）** であり、統計的に長期SMAを超えることが一度もなく手前で折れる。
+       - **Phase 2 (またぎピーク / Straddle Peak, $N=41$)**: 下から長期SMAを跨ぐ場合、中央値 **`+1.23 ATR`（P90 `+2.82 ATR`）** とわずかに $+1.0 \sim +2.8 \text{ ATR}$ 顔を出したところで力尽きる（オーバーシュートトラップ）。
+       - **Phase 3 (順行伸長ピーク / Expansion Peak, $N=149$)**: 長期SMA上側での急上昇時（Steep Up, $n=55$）、中央値 **`+8.04 ATR`（P90 `+14.57 ATR`）** へと爆発的に伸長する。
+  2. **トートロジーを排除した客観的共鳴パートナー先行連鎖則（HYP-SMA-PEAK-2）**:
+     - 1対1 ピークマッチングおよび傾き相互相関により、各対象 $\text{SMA}_P$ の真の共鳴パートナー三つ組（Triad）を特定：
+       - $\text{SMA}_{21} \leftrightarrow \text{SMA}_{13}$（先行 6.0h, F1 0.501, $r=0.835$）$\times \text{Stoch\_D}_{34}$（先行 6.0h, F1 0.323, $r=0.845$）$\times \text{AFS}_{21}$（先行 9.0h, F1 0.370）
+       - $\text{SMA}_{34} \leftrightarrow \text{SMA}_{21}$（先行 9.5h, F1 0.403, $r=0.791$）$\times \text{Stoch\_D}_{55}$（先行 6.0h, F1 0.181, $r=0.831$）$\times \text{AFS}_{34}$（先行 11.0h, F1 0.235）
+       - $\text{SMA}_{55} \leftrightarrow \text{SMA}_{34}$（先行 18.0h, F1 0.252, $r=0.794$）$\times \text{Stoch\_D}_{55}$（先行 7.0h, F1 0.083, $r=0.801$）$\times \text{AFS}_{55}$（先行 10.0h, F1 0.114）
+       - $\text{SMA}_{89} \leftrightarrow \text{SMA}_{55}$（先行 3.0h, F1 0.068, $r=0.762$）$\times \text{Stoch\_D}_{55}$（先行 7.0h, F1 0.024, $r=0.587$）
+  3. **接近波（Approach Wave, $N=140$）の3相分岐と谷（Trough）の鏡像対称性**:
+     - 接近進入時、急下降（Steep Down）下では手前反落・頭打ちが **73.4%** を占め、特に「急下降 $\times$ BB縮小」のトラップ条件（$N=7$）では **85.7% が頭打ち（Expansion はわずか 14.3%）** となる一方、「緩傾き $\times$ BB拡大」（$N=72$）では Expansion 突破率が **55.6%** に達する。
+     - 谷（Trough）の深さ中央値は急下降時 **`-8.42 ATR`**、急上昇時 **`+4.50 ATR`** となり、ピークと完全な鏡像対称性を形成。
+  4. **K-038 MVC 3相適応型動的利確（S6）による資本効率とPF最大化**:
+     - `EXP-69` の確定ベースライン（S0 Net EV `+1.07%`, PF `1.84`, Worst `-15.86%`、S3_k50 Net EV `+1.13%`, PF `1.95`, Worst `-7.35%`）を完全再現。
+     - 3相適応型動的利確（S6）により、平均保有時間を `72.0h` から **`54.8h`（17.2時間短縮）** に圧縮しながら、**Net EV `+1.05%`・PF `1.96`（全戦略中最上位）・Worst `-7.35%`** を達成。
+* **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、K-038 MVC 独立86件、スイングピーク総数 970件（SMA 21: 532件, SMA 34: 270件, SMA 55: 121件, SMA 89: 47件）、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト全額控除、因果律厳守
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/74-sma-peak-dynamics/record.md`](experiments/74-sma-peak-dynamics/record.md) (EXP-74 / [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76))
+* **仕様への影響**: 特徴量仕様（`SPEC-FEAT-001`）へ `sma_peak_phase_regime`（3相幾何分類）および `unified_peak_proximity_score`（7要素統合先行反転スコア）を新設候補として追加。エグジット仕様へ S6 3相適応型動的利確を追加。
 
 ---
 
@@ -599,6 +604,7 @@ graph TD
 | 2026-10-21 | 1.5.0 | EXP-69 反映、1m イントラバー軌跡統合による動的早期無効化撤退（S3）と執行機会損失則（E0/E1）（K-040 登録・計40知見へ拡充） | @makagi / [#69](https://github.com/makagi/MTF_AI_Trade/issues/69) |
 | 2026-10-22 | 1.5.1 | EXP-69 監査是正反映（未来参照リーク排除、S3感度分析 k=5.0、P2_Bear Whipsaw解明、E3ミクロ構造検証、Signal C Short検証） | @makagi / [#73](https://github.com/makagi/MTF_AI_Trade/issues/73) |
 | 2026-10-24 | 1.6.0 | EXP-74 反映、各期間SMAピーク動態の3相幾何分離則と共鳴パートナー先行連鎖則（K-041 登録・計41知見へ拡充） | @makagi / [#74](https://github.com/makagi/MTF_AI_Trade/issues/74) |
+| 2026-10-24 | 1.6.1 | EXP-74 監査是正反映（トートロジー排除、相互相関客観導出、接近波分岐幾何、EXP-69ベースラインS0/S3完全整合、S6適応型利確PF1.96） | @makagi / [#76](https://github.com/makagi/MTF_AI_Trade/issues/76) |
 
 
 
