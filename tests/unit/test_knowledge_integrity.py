@@ -403,14 +403,19 @@ def test_exp77_1m_microstructure_metrics_consistency():
         record_text = f.read()
 
     assert d["total_mvc_events"] == 86
-    assert d["clean_mvc_events"] == 67
-    assert d["overhead_trap_events"] == 19
+    assert d["clean_mvc_events_prereg"] == 80
+    assert d["overhead_trap_events_prereg"] == 6
+    assert d["clean_mvc_events_exploratory_abs"] == 67
+    assert d["overhead_trap_events_exploratory_abs"] == 19
     assert d["cost_bps"] == 40.0
 
     # 1. Observations
     obs = d["microstructure_observations"]
     assert obs["O1_signal_candle_spike_median_pct"] == 0.50
+    assert obs["O2_low_clv_60m_range_count"] == 11
     assert obs["O3_dips_le_neg30bps_pct"] == 72.1
+    assert obs["O3_median_dip_pct"] == -0.48
+    assert obs["O3_median_dip_bottom_time_min"] == 88.0
 
     # 2. Strategy Benchmarks
     sb = d["strategy_benchmarks"]
@@ -426,51 +431,69 @@ def test_exp77_1m_microstructure_metrics_consistency():
     assert s3["worst_trade_pct"] == -7.35
     assert s3["avg_duration_hours"] == 63.6
 
+    s_fixed_24 = sb["S_Fixed_24h"]
+    assert s_fixed_24["net_mean_return_pct"] == 0.47
+    assert s_fixed_24["profit_factor"] == 1.58
+
+    s_fixed_30 = sb["S_Fixed_30h"]
+    assert s_fixed_30["net_mean_return_pct"] == 0.61
+    assert s_fixed_30["profit_factor"] == 1.81
+
+    s_fixed_42 = sb["S_Fixed_42h"]
+    assert s_fixed_42["net_mean_return_pct"] == 1.16
+    assert s_fixed_42["profit_factor"] == 2.51
+
     s_adapt = sb["S_Adaptive_1m"]
-    assert s_adapt["net_mean_return_pct"] == 0.66
-    assert s_adapt["profit_factor"] == 1.96
-    assert s_adapt["win_rate_pct"] == 65.12
-    assert s_adapt["avg_duration_hours"] == 26.9
+    assert s_adapt["net_mean_return_pct"] == 0.89
+    assert s_adapt["profit_factor"] == 2.43
+    assert s_adapt["win_rate_pct"] == 70.93
+    assert s_adapt["avg_duration_hours"] == 29.9
     assert s_adapt["worst_trade_pct"] == -7.19
 
     # 3. HYP-77-1 Overhead Trap Gating
-    trap_hyp = d["hyp_77_1_overhead_trap"]
+    trap_hyp = d["hyp_77_1_overhead_trap"]["pre_registered_overhead_sma89"]
     clean_s3 = trap_hyp["clean_mvc_s3"]
     trap_s3 = trap_hyp["trap_group_s3"]
-    assert clean_s3["net_mean_return_pct"] == 1.30
-    assert clean_s3["profit_factor"] == 2.11
-    assert trap_s3["net_mean_return_pct"] == 0.55
+    assert clean_s3["net_mean_return_pct"] == 1.19
+    assert clean_s3["profit_factor"] == 1.98
+    assert trap_s3["net_mean_return_pct"] == 0.34
+    assert trap_hyp["random_exclusion_p_value"] == 0.323
 
     clean_adapt = trap_hyp["clean_mvc_adaptive"]
     trap_adapt = trap_hyp["trap_group_adaptive"]
-    assert clean_adapt["net_mean_return_pct"] == 1.02
-    assert clean_adapt["profit_factor"] == 2.84
-    assert clean_adapt["win_rate_pct"] == 70.15
-    assert trap_adapt["net_mean_return_pct"] == -0.64
-    assert trap_adapt["profit_factor"] == 0.44
+    assert clean_adapt["net_mean_return_pct"] == 0.95
+    assert clean_adapt["profit_factor"] == 2.55
+    assert clean_adapt["win_rate_pct"] == 71.25
+    assert trap_adapt["net_mean_return_pct"] == 0.14
+    assert trap_adapt["profit_factor"] == 1.17
 
     # 4. HYP-77-2 Tranche Execution
-    tranche_skip = sb["E_Tranche_Skip"]
-    assert tranche_skip["net_mean_return_pct"] == 0.71
-    assert tranche_skip["profit_factor"] == 2.51
-    assert tranche_skip["worst_trade_pct"] == -4.61
-    assert tranche_skip["win_rate_pct"] == 67.44
+    tranche_skip_nom = sb["E_Tranche_Skip_Nominal"]
+    tranche_skip_exp = sb["E_Tranche_Skip_Exposure"]
+    tranche_fill_nom = sb["E_Tranche_Fill_Nominal"]
+    assert tranche_skip_nom["worst_trade_pct"] == -4.44
+    assert tranche_skip_exp["worst_trade_pct"] == -7.19
+    assert tranche_fill_nom["worst_trade_pct"] == -7.77
+    assert d["hyp_77_2_tranche_execution"]["limit_fill_rate_pct"] == 62.8
 
-    # 5. HYP-77-3 Duration Reduction Ratio
+    # 5. HYP-77-3 Duration Reduction Ratio and Bootstrap
     dur_hyp = d["hyp_77_3_rapid_exit"]
-    assert dur_hyp["duration_reduction_ratio_pct"] == 57.7
-    assert dur_hyp["duration_reduction_hours"] == 36.7
+    assert dur_hyp["duration_reduction_ratio_pct"] == 53.0
+    assert dur_hyp["duration_reduction_hours"] == 33.7
+    assert dur_hyp["bootstrap_95_ci"]["net_mean_return_pct"] == [0.35, 1.45]
+    assert "反証・棄却" in dur_hyp["judgement"]
 
     # 6. Verify exact numbers exist in record.md
     assert "+1.07%" in record_text
     assert "+1.13%" in record_text
-    assert "+0.66%" in record_text
-    assert "26.9h" in record_text
-    assert "+1.02%" in record_text
-    assert "2.84" in record_text
-    assert "70.15%" in record_text
-    assert "-4.61%" in record_text
-    assert "2.51" in record_text
+    assert "+0.89%" in record_text
+    assert "29.9h" in record_text
+    assert "+0.95%" in record_text
+    assert "2.55" in record_text
+    assert "71.25%" in record_text
+    assert "-4.44%" in record_text
+    assert "-7.77%" in record_text
+    assert "62.8%" in record_text
 
 
 
