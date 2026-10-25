@@ -16,4 +16,6 @@ Closes #
 - [ ] 文書の配置・重複が documentation-architecture に従っている（SSOT）
 - [ ] 未検証の内容を事実・仕様として記述していない
 - [ ] 方針・仕様・評価基準に関わる判断を Decision Log に記録した（該当する場合）
+- [ ] Missed Opportunity Review (MOR) を実施し review/observations.yaml に記録した（Analysis PR の場合）
 - [ ] 作業中に見つけた別の課題を Issue 化した（該当する場合）
+
