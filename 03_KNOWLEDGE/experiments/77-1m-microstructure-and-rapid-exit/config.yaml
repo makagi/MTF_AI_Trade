@@ -1,0 +1,47 @@
+experiment_id: EXP-77
+issue_id: 77
+title: "1分足ミクロ構造によるMVCロングの保有時間半減・利確早期化と分割執行の検証"
+status: Draft
+
+dataset:
+  symbol: BTCUSD
+  timeframes:
+    - 1h
+    - 1m
+  discovery_start: "2020-01-01"
+  discovery_end: "2025-04-30"
+  holdout_start: "2025-05-01"
+
+evaluation:
+  cost_bps: 40.0
+  cooldown_bars: 24
+
+hypotheses:
+  hyp_77_1: "頭上SMA×BB疲弊トラップの事前排除 (Overhead SMA 89 distance <= 1.0 ATR and BB_Width >= 1.6 ATR)"
+  hyp_77_2: "1m ミクロ押し目を活用した分割執行 (E_Tranche: 50% market + 50% limit -0.40% within 180m)"
+  hyp_77_3: "1m SMAトレーリングによる短期ピーク収穫 (Gross +1.8% arm -> 1m SMA_144 trailing & Adaptive harvest)"
+
+pre_registered_params:
+  overhead_trap:
+    overhead_sma: 89
+    max_distance_atr: 1.0
+    min_bb_width_atr: 1.6
+  trailing_exit:
+    arm_profit_pct: 0.018
+    sma_period: 144
+  adaptive_exit:
+    min_headroom_atr: 1.5
+    min_afs_comp: 100.0
+    arm_profit_pct: 0.050
+    sma_period: 233
+    max_hold_hours: 42
+  tranche_entry:
+    market_ratio: 0.50
+    limit_dip_pct: -0.0040
+    limit_window_minutes: 180
+
+robustness:
+  grid_arm_pcts: [0.012, 0.015, 0.018, 0.022, 0.026]
+  grid_sma_periods: [55, 89, 144, 233, 377]
+  random_bench_iterations: 1000
+  bootstrap_iterations: 5000
