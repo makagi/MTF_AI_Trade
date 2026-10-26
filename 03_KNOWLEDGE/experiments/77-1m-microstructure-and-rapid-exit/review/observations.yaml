@@ -3,66 +3,66 @@ experiment: EXP-77
 date: '2026-10-25'
 reviewer: '@makagi'
 cases:
-  - case_id: 1
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: C1     # 開示後の正解ラベル
-  - case_id: 2
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: M1     # 開示後の正解ラベル
-  - case_id: 3
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: C1     # 開示後の正解ラベル
-  - case_id: 4
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: M1     # 開示後の正解ラベル
-  - case_id: 5
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: C1     # 開示後の正解ラベル
-  - case_id: 6
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: M1     # 開示後の正解ラベル
-  - case_id: 7
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: C2     # 開示後の正解ラベル
-  - case_id: 8
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: C2     # 開示後の正解ラベル
-  - case_id: 9
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: M1     # 開示後の正解ラベル
-  - case_id: 10
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: M1     # 開示後の正解ラベル
+- case_id: 1
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 2
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 3
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 4
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 5
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 6
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 7
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 8
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 9
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 10
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
 summary:
-  stage_a_accuracy_score: null  # 正答率 (M1=long, C1/C2=skip)
-  candidate_hypotheses: []       # 次期 Analysis Issue で事前登録する仮説候補
+  stage_a_accuracy_score: null
+  candidate_hypotheses: []

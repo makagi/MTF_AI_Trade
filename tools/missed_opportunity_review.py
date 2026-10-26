@@ -15,6 +15,7 @@ import json
 import argparse
 import random
 from pathlib import Path
+import yaml
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -386,19 +387,39 @@ def render_case_charts(df_1h, df_1m, case, out_dir):
     fig_b.savefig(path_stage_b, dpi=180)
     plt.close(fig_b)
 
+    last_1h = sub_1h_past.iloc[-1]
     return {
         'case_id': case_id,
         'type': case['type'],
         'timestamp': t0.isoformat(),
+        'timestamp_utc': t0.strftime('%Y-%m-%d %H:%M UTC'),
+        'timestamp_jst': t0.tz_convert('Asia/Tokyo').strftime('%Y-%m-%d %H:%M JST'),
+        'open': float(np.round(last_1h['open'], 2)),
+        'high': float(np.round(last_1h['high'], 2)),
+        'low': float(np.round(last_1h['low'], 2)),
+        'close': float(np.round(last_1h['close'], 2)),
         'entry_price': float(np.round(entry_p, 2)),
         'atr_24': float(np.round(atr_val, 2)),
         'mfe_72h_atr': float(np.round(mfe_atr_val, 2)),
         'mfe_72h_pct': float(np.round(mfe_pct_val, 2)),
         'net_ret_72h_pct': float(np.round(net_ret, 2)),
-        'bb_width_atr': float(np.round(sub_1h_past['bb_width_atr'].iloc[-1], 2)),
-        'macro_age_ratio': float(np.round(sub_1h_past['macro_age_ratio'].iloc[-1], 2)),
-        'afs_compression': float(np.round(sub_1h_past['afs_compression'].iloc[-1], 2)),
-        'afs_order_score': int(sub_1h_past['afs_order_score'].iloc[-1])
+        'bb_upper': float(np.round(last_1h['bb_upper'], 2)),
+        'bb_mid': float(np.round(last_1h['bb_mid'], 2)),
+        'bb_lower': float(np.round(last_1h['bb_lower'], 2)),
+        'bb_width_atr': float(np.round(last_1h['bb_width_atr'], 2)),
+        'macro_age_ratio': float(np.round(last_1h['macro_age_ratio'], 2)),
+        'afs_compression': float(np.round(last_1h['afs_compression'], 2)),
+        'afs_order_score': int(last_1h['afs_order_score']),
+        'range_24h_high': float(np.round(sub_1h_past['high'].iloc[-24:].max(), 2)),
+        'range_24h_low': float(np.round(sub_1h_past['low'].iloc[-24:].min(), 2)),
+        'range_120h_high': float(np.round(sub_1h_past['high'].max(), 2)),
+        'range_120h_low': float(np.round(sub_1h_past['low'].min(), 2)),
+        'sma_21': float(np.round(last_1h['sma_21'], 2)),
+        'sma_34': float(np.round(last_1h['sma_34'], 2)),
+        'sma_55': float(np.round(last_1h['sma_55'], 2)),
+        'sma_89': float(np.round(last_1h['sma_89'], 2)),
+        'sma_144': float(np.round(last_1h['sma_144'], 2)),
+        'sma_233': float(np.round(last_1h['sma_233'], 2)),
     }
 
 
@@ -440,12 +461,13 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
         "",
         "### 回答ルール",
         "1. 各ケースの **Stage A チャート（判断時点 $t$ までの過去 120時間ローソク足および指標）** を観察してください（未来の情報は一切含まれていません）。",
-        "2. あなた自身がこの瞬間にチャートの前に立っていたとして、以下の3択から直感・判断を選択してください：",
+        "2. **個別回答（1件ずつ）に対応**: 全10件を一度に回答する必要はありません。多角的に分析するため外部ツール等を参照しながら、1ケースずつ判断を進めることができます。",
+        "3. あなた自身がこの瞬間にチャートの前に立っていたとして、以下の3択から直感・判断を選択してください：",
         "   - **`long`**: 買いでエントリーしたい（上値余地があり、勢い・構造が良好）",
         "   - **`skip`**: 見送り・見送るべき（頭上抵抗がある、ダマシっぽい、勢いが鈍い）",
         "   - **`unsure`**: 迷う・どちらとも言えない",
-        "3. **判断の根拠（何を見てそう感じたか）** を簡潔に記入してください（例：「SMA 34 の下値支持が強固」「頭上 SMA 89 に抑え込まれそう」「直前で急伸しすぎていて過熱感」など）。",
-        "4. 全 10 ケースの回答完了後、エージェントが Stage B（72時間の結末チャートと正解ラベル）を開示します。",
+        "4. **判断の根拠（何を見てそう感じたか）** を簡潔に記入してください（例：「SMA 34 の下値支持が強固」「頭上 SMA 89 に抑え込まれそう」「直前で急伸しすぎていて過熱感」など）。",
+        "5. 回答完了後、エージェントが Stage B（72時間の結末チャートと正解ラベル）を開示します（ケースごとの即時開示も可能です）。",
         "",
         "---",
         "",
@@ -458,8 +480,11 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
         doc_a.append(f"### Case {cid}")
         doc_a.append(f"![Case {cid} Stage A](case_{cid}_stageA.png)")
         doc_a.append("")
-        doc_a.append(f"- **観測時刻**: `{c['timestamp']}`")
-        doc_a.append(f"- **客観状況**: 価格 `${c['entry_price']:,.1f}` | ATR `${c['atr_24']:,.1f}` | BB 幅 `{c['bb_width_atr']:.2f} ATR` | Macro Age Ratio `{c['macro_age_ratio']:.2f}` | AFS Comp `{c['afs_compression']:.1f}` (Score `{c['afs_order_score']}`)")
+        doc_a.append(f"- **日時**: `{c.get('timestamp_utc', c['timestamp'])}` / `{c.get('timestamp_jst', '')}` (BTC/USDT 1h足確定)")
+        doc_a.append(f"- **価格・OHLC**: Open: `${c.get('open', c['entry_price']):,.1f}` | High: `${c.get('high', 0.0):,.1f}` | Low: `${c.get('low', 0.0):,.1f}` | Close: `${c.get('close', c['entry_price']):,.1f}`")
+        doc_a.append(f"- **価格レンジ**: 過去24h: `${c.get('range_24h_low', 0.0):,.1f}` 〜 `${c.get('range_24h_high', 0.0):,.1f}` | 過去120h: `${c.get('range_120h_low', 0.0):,.1f}` 〜 `${c.get('range_120h_high', 0.0):,.1f}`")
+        doc_a.append(f"- **テクニカル指標**: ATR(24): `${c['atr_24']:,.1f}` | BB 幅: `{c['bb_width_atr']:.2f} ATR` | Macro Age Ratio: `{c['macro_age_ratio']:.2f}` | AFS Comp: `{c['afs_compression']:.1f}` (Score: `{c['afs_order_score']}`)")
+        doc_a.append(f"- **主要 SMA**: SMA 21: `${c.get('sma_21', 0.0):,.1f}` | SMA 34: `${c.get('sma_34', 0.0):,.1f}` | SMA 55: `${c.get('sma_55', 0.0):,.1f}` | SMA 89: `${c.get('sma_89', 0.0):,.1f}` | SMA 144: `${c.get('sma_144', 0.0):,.1f}` | SMA 233: `${c.get('sma_233', 0.0):,.1f}`")
         doc_a.append("")
         doc_a.append(f"#### 【あなたの判断】")
         doc_a.append(f"- [ ] **`long`**（エントリー推奨）")
@@ -531,7 +556,7 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
                 'stage_a_rationale': "",
                 'stage_b_comment': "",
                 'tags': [],
-                'revealed_label': c['type']
+                'revealed_label': ""
             } for c in cases_meta
         ],
         'summary': {
@@ -556,7 +581,7 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
             "    stage_a_rationale: ''   # 判断の根拠",
             "    stage_b_comment: ''     # 結末開示後の所見",
             "    tags: []                # 例: [overhead_resistance, squeeze_release]",
-            f"    revealed_label: {c['type']}     # 開示後の正解ラベル"
+            "    revealed_label: ''      # 開示後に自動付与"
         ])
     lines_yaml.extend([
         "summary:",
@@ -568,12 +593,89 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
         f.write("\n".join(lines_yaml))
 
 
+def update_case_in_observations(review_dir, case_id, call=None, rationale="", comment="", tags=None, reveal=False):
+    """
+    review/observations.yaml の個別ケースを更新し、必要に応じて結末開示・正答率を再計算する。
+    """
+    obs_file = review_dir / "observations.yaml"
+    answer_key_file = review_dir / "answer_key.json"
+
+    if not obs_file.exists():
+        raise FileNotFoundError(f"observations.yaml not found in {review_dir}")
+
+    with open(obs_file, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+
+    answer_key = {}
+    if answer_key_file.exists():
+        with open(answer_key_file, "r", encoding="utf-8") as f:
+            answer_key = json.load(f)
+
+    target_case = None
+    for c in data.get("cases", []):
+        if int(c["case_id"]) == int(case_id):
+            target_case = c
+            break
+
+    if target_case is None:
+        raise ValueError(f"Case {case_id} not found in {obs_file}")
+
+    if call:
+        target_case["stage_a_call"] = call
+    if rationale:
+        target_case["stage_a_rationale"] = rationale
+    if comment:
+        target_case["stage_b_comment"] = comment
+    if tags:
+        target_case["tags"] = [t.strip() for t in tags.split(",") if t.strip()]
+
+    case_key = f"case_{int(case_id):02d}"
+    true_label = answer_key.get(case_key, {}).get("type", "")
+    if reveal:
+        target_case["revealed_label"] = true_label
+
+    # 正答率の再計算 (回答済みのもののみ)
+    correct = 0
+    total = 0
+    for c in data.get("cases", []):
+        c_call = c.get("stage_a_call")
+        c_key = f"case_{int(c['case_id']):02d}"
+        c_true = answer_key.get(c_key, {}).get("type", "")
+        if c_call in ["long", "skip"]:
+            total += 1
+            if c_true == "M1" and c_call == "long":
+                correct += 1
+            elif c_true in ["C1", "C2"] and c_call == "skip":
+                correct += 1
+
+    if total > 0:
+        data["summary"]["stage_a_accuracy_score"] = float(np.round(correct / total, 4))
+
+    with open(obs_file, "w", encoding="utf-8") as f:
+        yaml.dump(data, f, allow_unicode=True, sort_keys=False)
+
+    print(f"Updated Case {case_id} in {obs_file}:")
+    print(f"  Call: {target_case.get('stage_a_call')}")
+    print(f"  Rationale: {target_case.get('stage_a_rationale')}")
+    if reveal:
+        print(f"  Revealed Label: {true_label}")
+    if total > 0:
+        print(f"  Progress: {total}/10 answered | Cumulative Accuracy: {correct}/{total} ({correct/total*100:.1f}%)")
+    return target_case
+
+
 def main():
     parser = argparse.ArgumentParser(description="Missed Opportunity Review (MOR) Extraction & Chart Generation Tool")
     parser.add_argument("--experiment", type=str, default="77", help="Experiment ID number (e.g. 77)")
     parser.add_argument("--signal", type=str, default="k038_mvc", help="Signal type (default: k038_mvc)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for repeatable sampling (default: 42)")
     parser.add_argument("--mfe-threshold", type=float, default=4.0, help="M1 MFE threshold in ATR (default: 4.0)")
+    parser.add_argument("--update-case", type=int, default=None, help="Update a specific case in observations.yaml (1-10)")
+    parser.add_argument("--call", type=str, choices=["long", "skip", "unsure"], help="Reviewer call for the case")
+    parser.add_argument("--rationale", type=str, default="", help="Rationale for Stage A call")
+    parser.add_argument("--comment", type=str, default="", help="Stage B observation comment")
+    parser.add_argument("--tags", type=str, default="", help="Comma-separated tags")
+    parser.add_argument("--reveal", action="store_true", help="Reveal true label for this case in observations.yaml")
     args = parser.parse_args()
 
     print("=" * 70)
@@ -590,6 +692,19 @@ def main():
     review_dir = exp_dir / "review"
     review_dir.mkdir(parents=True, exist_ok=True)
     print(f"Target Review Directory: {review_dir}")
+
+    # 個別ケース更新モード
+    if args.update_case is not None:
+        update_case_in_observations(
+            review_dir=review_dir,
+            case_id=args.update_case,
+            call=args.call,
+            rationale=args.rationale,
+            comment=args.comment,
+            tags=args.tags,
+            reveal=args.reveal
+        )
+        return
 
     # 1. データ読み込み (Holdout ガード厳守)
     print("\n--- Step 1: Loading Data (Discovery Only) ---")

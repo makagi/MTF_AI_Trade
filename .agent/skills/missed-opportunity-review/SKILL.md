@@ -54,24 +54,37 @@ uv run python tools/missed_opportunity_review.py --experiment <N> --signal <sign
 - `review/cases.json` (特徴量スナップショット)
 - `review/observations.yaml` (回答記録テンプレート)
 
-### ステップ 2: Stage A ブラインド提示と回答収集
-1. エージェントはユーザーに `gallery_stageA.md` の閲覧を案内するか、チャット上に Case 01 〜 10 の判断時点チャートを提示する。
-2. ユーザーに対して各ケース以下の2点を質問する：
-   - **判断**: `long`（入る）/ `skip`（見送る）/ `unsure`（判断不能）
-   - **根拠**: 何を見てそう判断したか（インジケータ、移動平均線、直近高安、ボラティリティなど）
-3. **厳格な制約**: ユーザーが全ケース（または回答対象ケース）の判断を終えるまで、正解ラベル（M1/C1/C2）や未来のチャート・価格推移を開示・示唆してはならない。
+### ステップ 2: Stage A ブラインド提示と回答収集（一括・個別の両対応）
+1. エージェントはユーザーに `gallery_stageA.md` の閲覧を案内するか、チャット上に Case 01 〜 10 の判断時点チャートおよび詳細指標を提示する。
+   - **外部ツール照合の支援**: レビュアーが TradingView 等の外部ツールで詳細を検証しやすいよう、各ケースには以下の多角的な客観情報を明記する：
+     - 日時（`UTC` および `JST`、1h足確定時刻）
+     - OHLCV 数値（始値・高値・安値・終値・出来高）
+     - 価格レンジ（過去 24h レンジ、過去 120h レンジ）
+     - テクニカル指標（ATR 24、BB 幅/バンド位置、AFS Compression / Order Score）
+     - 主要 SMA（21, 34, 55, 89, 144, 233）の確定値
+2. **個別回答（1ケースずつ）の進行**:
+   - レビュアーは全10ケースを一度に回答する必要はなく、**1ケースずつ任意の順序で回答を進めることができる**。
+   - ユーザーから回答（`long` / `skip` / `unsure`）と根拠を受領した時点で、エージェントは直ちに `observations.yaml` にそのケースを保存する：
+     ```bash
+     uv run python tools/missed_opportunity_review.py --experiment <N> --update-case <ID> --call <long|skip|unsure> --rationale "..."
+     ```
+3. **厳格な制約**: 対象ケースの回答完了前に、そのケースの正解ラベル（M1/C1/C2）や未来のチャート・価格推移を開示・示唆してはならない。
 
 ### ステップ 3: Stage B 結末開示と所見収集
-1. ユーザーの Stage A 回答を受領後、Stage B チャートおよび `answer_key.json` の真の分類（M1 / C1 / C2）を開示する。
-2. 各ケースについて以下を確認する：
+1. ケースごとの回答受領後、レビュアーの希望に応じて即座にそのケースの Stage B（結末チャート、MFE 到達点、真のラベル）を開示するか、あるいは複数ケース回答後にまとめて開示する：
+   ```bash
+   uv run python tools/missed_opportunity_review.py --experiment <N> --update-case <ID> --reveal --comment "..."
+   ```
+2. 各ケースについて以下を確認・記録する：
    - 予想と結末のギャップ（なぜ伸びたのか / なぜ失速したのか）
    - M1 と C1 を見分ける手がかりとなりそうな視点
 
 ### ステップ 4: 記録と正答率の算出
-1. `review/observations.yaml` に回答・根拠・所見・正解ラベルを記録する。
-2. レビュアーの Stage A 識別能力（正答率）を算出・記録する：
-   $$\text{Accuracy} = \frac{\text{True M1 identified as } long + \text{True Controls (C1/C2) identified as } skip}{\text{Total Evaluated Cases}}$$
-3. `summary.candidate_hypotheses` に、次期実験で検証可能な事前登録仮説候補を整理する。
+1. `review/observations.yaml` に回答・根拠・所見・正解ラベルを逐次記録する。
+2. 回答済みケースに基づき Stage A 識別能力（正答率）を算出・記録する：
+   $$\text{Accuracy} = \frac{\text{True M1 identified as } long + \text{True Controls (C1/C2) identified as } skip}{\text{Total Answered Cases}}$$
+3. 未回答のケース数と進捗（例: `3/10 完了`）を提示し、いつでも中断・再開できるようにする。
+4. 全件（または回答対象）のレビュー完了後、`summary.candidate_hypotheses` に次期事前登録仮説候補を整理する。
 
 ### ステップ 5: 課題化
 得られた仮説候補のうち有望なものを、次期 Analysis Issue のドラフトとして提案する。
