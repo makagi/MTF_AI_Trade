@@ -45,5 +45,5 @@
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | 初版作成（Issue連動実験記録規約） | @makagi / [#20](https://github.com/makagi/MTF_AI_Trade/pull/20) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータヘッダー規約統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
-| 2026-10-25 | 0.3.0 | Missed Opportunity Review (MOR) スイート（review/）の必須構成追加 | @makagi / [#79](https://github.com/makagi/MTF_AI_Trade/pull/79) |
+| 2026-10-25 | 0.3.0 | Missed Opportunity Review (MOR) スイート（review/）の必須構成追加 | @makagi / [#80](https://github.com/makagi/MTF_AI_Trade/pull/80) |
 

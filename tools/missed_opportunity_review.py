@@ -76,9 +76,13 @@ def calculate_features_1h(df_1h):
     df_1h['bb_lower'] = bb_lower
     df_1h['bb_width_atr'] = (bb_upper - bb_lower) / atr_24
 
-    _, order_score, compression = calculate_afs(df_1h, periods=[7, 9, 11, 13])
+    afs_df, order_score, compression = calculate_afs(df_1h, periods=[7, 9, 11, 13])
     df_1h['afs_order_score'] = order_score
     df_1h['afs_compression'] = compression
+    df_1h['afs_7'] = afs_df['AFS_7']
+    df_1h['afs_9'] = afs_df['AFS_9']
+    df_1h['afs_11'] = afs_df['AFS_11']
+    df_1h['afs_13'] = afs_df['AFS_13']
 
     regime_df = calculate_regime_age(df_1h)
     df_1h['macro_age_ratio'] = regime_df['macro_age_ratio']
@@ -101,30 +105,41 @@ def detect_k038_mvc(df_1h):
 
 def extract_mor_candidates(df_1h, mvc_mask, seed=42, mfe_th=4.0):
     """
-    M1 (見逃し), C1 (伸びなかった対照群), C2 (MVC 負けトレード) を抽出する。
+    M1 (見逃し初動), C1 (伸びなかった対照群), C2 (MVC 負けトレード) を抽出する。
+    M1 は急騰の 72h 前の無関係な下落ではなく、短中期（24h以内）に実際にモメンタムが始動した初動足にアンカリングする。
     """
     # Holdout ガード
     assert df_1h.index[-1] < HOLDOUT_START, f"Holdout period accessed: {df_1h.index[-1]} >= {HOLDOUT_START}"
 
     n = len(df_1h)
     highs = df_1h['high'].values
+    lows = df_1h['low'].values
     opens = df_1h['open'].values
     closes = df_1h['close'].values
     atrs = df_1h['atr_24'].values
 
-    # MFE 72h の計算
-    mfes = np.full(n, np.nan)
+    # MFE / MAE 72h および 24h の計算
+    mfes_72h = np.full(n, np.nan)
+    mfes_24h = np.full(n, np.nan)
+    maes_24h = np.full(n, np.nan)
     rets_72h = np.full(n, np.nan)
+
     for i in range(120, n - 73):
         entry_p = opens[i + 1]
-        max_h = np.max(highs[i + 1 : i + 73])
+        max_h_72 = np.max(highs[i + 1 : i + 73])
+        max_h_24 = np.max(highs[i + 1 : i + 25])
+        min_l_24 = np.min(lows[i + 1 : i + 25])
         exit_p = closes[i + 72]
         a = atrs[i]
         if a > 0:
-            mfes[i] = (max_h - entry_p) / a
+            mfes_72h[i] = (max_h_72 - entry_p) / a
+            mfes_24h[i] = (max_h_24 - entry_p) / a
+            maes_24h[i] = (entry_p - min_l_24) / a
             rets_72h[i] = (exit_p - entry_p) / entry_p - 0.0040  # 40bps摩擦コスト後
 
-    df_1h['mfe_72h_atr'] = mfes
+    df_1h['mfe_72h_atr'] = mfes_72h
+    df_1h['mfe_24h_atr'] = mfes_24h
+    df_1h['mae_24h_atr'] = maes_24h
     df_1h['net_ret_72h'] = rets_72h
 
     mvc_events = set(df_1h.index[mvc_mask])
@@ -136,13 +151,36 @@ def extract_mor_candidates(df_1h, mvc_mask, seed=42, mfe_th=4.0):
         mask_win = (times >= t_mvc - pd.Timedelta(hours=24)) & (times <= t_mvc + pd.Timedelta(hours=12))
         near_mvc = near_mvc | mask_win
 
-    # 1. M1: 見逃しエントリー (MFE >= 4.0 ATR & MVC近傍外 & 72hデクラスタ)
-    m1_raw = (df_1h['mfe_72h_atr'] >= mfe_th) & (~near_mvc)
+    # 1. M1: 見逃し初動エントリー
+    # - 72h MFE >= mfe_th (4.0 ATR)
+    # - 24h MFE >= 2.0 ATR (24h 以内に上昇初動が立ち上がること)
+    # - 24h MAE <= 1.5 ATR (直後に暴落する足を除外)
+    # - 72h Net Return > 0 (最終的に勝っている上昇波)
+    # - 判断足が陽線 (close >= open)
+    # - MVC 近傍外
+    # - 72h クールダウンでデクラスタ
+    m1_raw = (
+        (df_1h['mfe_72h_atr'] >= mfe_th) &
+        (df_1h['mfe_24h_atr'] >= 2.0) &
+        (df_1h['mae_24h_atr'] <= 1.5) &
+        (df_1h['net_ret_72h'] > 0.0) &
+        (df_1h['close'] >= df_1h['open']) &
+        (~near_mvc)
+    )
     m1_decl = decluster_events(m1_raw, cooldown_bars=72)
     m1_pool = df_1h.index[m1_decl]
 
-    # 2. C1: 似ているのに伸びなかった場面 (MFE < 1.0 ATR & MVC近傍外 & 72hデクラスタ)
-    c1_raw = (df_1h['mfe_72h_atr'] < 1.0) & (df_1h['mfe_72h_atr'] >= 0.0) & (~near_mvc)
+    # 2. C1: 似ているのに伸びなかった場面 (対照群)
+    # - 72h MFE < 1.0 ATR & MFE >= 0
+    # - 判断足が陽線 (close >= open: M1と同様にエントリー候補足に見える)
+    # - MVC 近傍外
+    # - 72h クールダウンでデクラスタ
+    c1_raw = (
+        (df_1h['mfe_72h_atr'] < 1.0) &
+        (df_1h['mfe_72h_atr'] >= 0.0) &
+        (df_1h['close'] >= df_1h['open']) &
+        (~near_mvc)
+    )
     c1_decl = decluster_events(c1_raw, cooldown_bars=72)
     c1_pool = df_1h.index[c1_decl]
 
@@ -168,10 +206,12 @@ def extract_mor_candidates(df_1h, mvc_mask, seed=42, mfe_th=4.0):
     rng = np.random.RandomState(seed)
 
     # M1 から 5件
-    m1_selected = list(rng.choice(m1_pool, size=5, replace=False))
+    m1_k = min(5, len(m1_pool))
+    m1_selected = list(rng.choice(m1_pool, size=m1_k, replace=False))
 
     # C1 から 3件 (M1 のうち先頭3件の最近傍マッチング)
     c1_selected = []
+    c1_matched_m1 = {}  # c1_timestamp -> m1_timestamp
     chosen_so_far = list(m1_selected)
     for m1_t in m1_selected[:3]:
         vec = feat_scaled.loc[m1_t].values
@@ -181,37 +221,46 @@ def extract_mor_candidates(df_1h, mvc_mask, seed=42, mfe_th=4.0):
             cand_t = c1_pool[idx]
             if cand_t not in chosen_so_far and all(abs((cand_t - ex).total_seconds()) >= 72 * 3600 for ex in chosen_so_far):
                 c1_selected.append(cand_t)
+                c1_matched_m1[cand_t] = m1_t
                 chosen_so_far.append(cand_t)
                 break
 
     # C2 から 2件 (MVC 負けトレード)
     c2_eligible = [t for t in c2_pool if t not in chosen_so_far and all(abs((t - ex).total_seconds()) >= 72 * 3600 for ex in chosen_so_far)]
-    c2_selected = list(rng.choice(c2_eligible, size=2, replace=False))
+    c2_k = min(2, len(c2_eligible))
+    c2_selected = list(rng.choice(c2_eligible, size=c2_k, replace=False))
 
     # 合計 10件のリスト
     all_cases = []
     for t in m1_selected:
-        all_cases.append({'type': 'M1', 'timestamp': t})
+        all_cases.append({'type': 'M1', 'timestamp': t, 'matched_m1_t': None})
     for t in c1_selected:
-        all_cases.append({'type': 'C1', 'timestamp': t})
+        all_cases.append({'type': 'C1', 'timestamp': t, 'matched_m1_t': c1_matched_m1.get(t)})
     for t in c2_selected:
-        all_cases.append({'type': 'C2', 'timestamp': t})
+        all_cases.append({'type': 'C2', 'timestamp': t, 'matched_m1_t': None})
 
     # シードでシャッフル
     rng.shuffle(all_cases)
 
-    # Case 01 〜 Case 10 を付与
-    cases_final = []
-    for i, c in enumerate(all_cases):
-        case_id = f"{i+1:02d}"
-        c_copy = dict(c)
-        c_copy['case_id'] = case_id
-        cases_final.append(c_copy)
+    # ケース番号を付与
+    t_to_cid = {}
+    for i, c in enumerate(all_cases, 1):
+        cid = f"{i:02d}"
+        c['case_id'] = cid
+        t_to_cid[c['timestamp']] = cid
 
-    return cases_final
+    # C1 の matched_m1_case_id を解決
+    for c in all_cases:
+        m1_t = c.get('matched_m1_t')
+        if m1_t and m1_t in t_to_cid:
+            c['matched_m1_case_id'] = t_to_cid[m1_t]
+        else:
+            c['matched_m1_case_id'] = None
+
+    return all_cases
 
 
-def render_case_charts(df_1h, df_1m, case, out_dir):
+def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
     """
     各ケースの Stage A (判断時点) および Stage B (結末) チャートを描画・保存する。
     """
@@ -223,8 +272,8 @@ def render_case_charts(df_1h, df_1m, case, out_dir):
     sub_1h_past = df_1h.iloc[loc0 - 120 : loc0 + 1].copy()
     sub_1h_full = df_1h.iloc[loc0 - 120 : loc0 + 73].copy()
     
-    # 1m データスライス (直近 60分)
-    sub_1m_past = df_1m.loc[t0 - pd.Timedelta(minutes=59) : t0].copy()
+    # 1m データスライス (判断対象となる 1h 足の内部 60分間: t0 〜 t0+59m)
+    sub_1m_past = df_1m.loc[t0 : t0 + pd.Timedelta(minutes=59)].copy()
 
     # --- 1. Stage A (判断時点: t0 以降は一切描画しない) ---
     fig_a = plt.figure(figsize=(15, 8.5))
@@ -251,29 +300,40 @@ def render_case_charts(df_1h, df_1m, case, out_dir):
 
     # 判断時点マーク (右端)
     ax_main_a.axvline(x_past[-1], color='#333333', ls=':', lw=2.0)
-    ax_main_a.text(x_past[-1], ax_main_a.get_ylim()[1], '  Judgement Point $t$', color='#333333', fontweight='bold', va='top')
+    ax_main_a.text(x_past[-1], ax_main_a.get_ylim()[1], '  Judgement Point t', color='#333333', fontweight='bold', va='top')
 
+    # タイトルの $ をエスケープして MathText 誤爆・斜体崩れを防ぐ
+    p_close = sub_1h_past['close'].iloc[-1]
+    p_atr = sub_1h_past['atr_24'].iloc[-1]
     ax_main_a.set_title(f"Case {case_id}: Stage A (Judgement Point: {t0.strftime('%Y-%m-%d %H:00')} UTC)\n"
-                        f"Price: ${sub_1h_past['close'].iloc[-1]:,.1f} | ATR: ${sub_1h_past['atr_24'].iloc[-1]:,.1f} | "
+                        f"Price: \\${p_close:,.1f} | ATR: \\${p_atr:,.1f} | "
                         f"BB Width: {sub_1h_past['bb_width_atr'].iloc[-1]:.2f} ATR | Macro Age Ratio: {sub_1h_past['macro_age_ratio'].iloc[-1]:.2f}",
                         fontsize=12, fontweight='bold', pad=10)
     ax_main_a.set_ylabel("BTC/USD Price ($)")
-    ax_main_a.legend(loc='upper left', ncol=4, framealpha=0.9, fontsize=8)
+    # 左下配置で左上インセットとの重なりを回避
+    ax_main_a.legend(loc='lower left', ncol=4, framealpha=0.9, fontsize=8)
 
-    # 1m インセット描画 (左上または右上に配置)
+    # 1m インセット描画 (左上に明瞭に配置)
     if len(sub_1m_past) > 0:
-        ax_inset_a = ax_main_a.inset_axes([0.02, 0.48, 0.28, 0.35])
+        ax_inset_a = ax_main_a.inset_axes([0.02, 0.52, 0.26, 0.38])
+        ax_inset_a.set_facecolor('#fafafa')
         plot_candlesticks(ax_inset_a, sub_1m_past['open'].values, sub_1m_past['high'].values, sub_1m_past['low'].values, sub_1m_past['close'].values, width=0.7)
-        ax_inset_a.set_title(f"1m Intrabar (Past 60m)", fontsize=8, fontweight='bold')
-        ax_inset_a.tick_params(labelsize=7)
+        t_start_m = sub_1m_past.index[0].strftime('%H:%M')
+        t_end_m = sub_1m_past.index[-1].strftime('%H:%M')
+        ax_inset_a.set_title(f"1m Intrabar ({t_start_m}-{t_end_m} UTC)", fontsize=8, fontweight='bold')
+        ax_inset_a.tick_params(labelsize=6.5)
         ax_inset_a.grid(True, alpha=0.3)
 
-    # AFS サブパネル
-    ax_afs_a.plot(x_past, sub_1h_past['afs_compression'], color='#2196f3', lw=1.3, label='AFS Compression')
-    ax_afs_a.axhline(50, color='gray', ls=':', lw=0.8)
-    ax_afs_a.axhline(100, color='orange', ls=':', lw=0.8)
-    ax_afs_a.set_ylabel("AFS Comp")
-    ax_afs_a.legend(loc='upper left', fontsize=8)
+    # AFS サブパネル (Stoch_D 4本: 7, 9, 11, 13 と 20/80 基準線)
+    ax_afs_a.plot(x_past, sub_1h_past['afs_7'], label='AFS 7', color='#00bcd4', lw=0.9, alpha=0.8)
+    ax_afs_a.plot(x_past, sub_1h_past['afs_9'], label='AFS 9', color='#ff9800', lw=0.9, alpha=0.8)
+    ax_afs_a.plot(x_past, sub_1h_past['afs_11'], label='AFS 11', color='#4caf50', lw=0.9, alpha=0.8)
+    ax_afs_a.plot(x_past, sub_1h_past['afs_13'], label='AFS 13', color='#9c27b0', lw=1.1, alpha=0.9)
+    ax_afs_a.axhline(20, color='gray', ls=':', lw=0.8)
+    ax_afs_a.axhline(80, color='gray', ls=':', lw=0.8)
+    ax_afs_a.set_ylim(-5, 105)
+    ax_afs_a.set_ylabel("AFS (Stoch_D)")
+    ax_afs_a.legend(loc='upper left', ncol=4, fontsize=7)
 
     ax_afs_twin = ax_afs_a.twinx()
     ax_afs_twin.step(x_past, sub_1h_past['afs_order_score'], where='mid', color='#e91e63', lw=1.2, ls='--', label='Order Score (0..3)')
@@ -322,6 +382,16 @@ def render_case_charts(df_1h, df_1m, case, out_dir):
     ax_main_b.plot(x_full, sub_1h_full['bb_lower'], color='#9e9e9e', ls='--', lw=1.0)
     ax_main_b.fill_between(x_full, sub_1h_full['bb_lower'], sub_1h_full['bb_upper'], color='#eeeeee', alpha=0.3)
 
+    # 近傍 MVC シグナルのプロット
+    if mvc_mask is not None:
+        sub_mvc = mvc_mask.iloc[loc0 - 120 : loc0 + 73]
+        mvc_indices = np.where(sub_mvc.values)[0]
+        for mi, m_idx in enumerate(mvc_indices):
+            ax_main_b.axvline(m_idx, color='purple', ls=':', lw=1.2, alpha=0.7)
+            ax_main_b.scatter([m_idx], [sub_1h_full['low'].iloc[m_idx] * 0.997],
+                              marker='^', color='purple', s=70, zorder=5,
+                              label='K-038 MVC Signal' if mi == 0 else "")
+
     # 判断時点の縦境界線
     ax_main_b.axvline(split_idx, color='red', ls='-', lw=2.0)
     ax_main_b.axvspan(split_idx, len(x_full)-1, color='yellow', alpha=0.08, label='Outcome Window (+72h)')
@@ -345,24 +415,31 @@ def render_case_charts(df_1h, df_1m, case, out_dir):
                        fontweight='bold', fontsize=9)
 
     # 実際のラベルに応じたタイトル表示
+    pair_info = f" [Matched M1: Case {case['matched_m1_case_id']}]" if case.get('matched_m1_case_id') else ""
     label_text = {
-        'M1': 'M1 (見逃しエントリー: 4+ ATR 大幅順行)',
-        'C1': 'C1 (対照群: 似ているのに伸びなかったダマシ/失速)',
+        'M1': 'M1 (見逃しエントリー: 4+ ATR 大幅順行初動)',
+        'C1': f'C1 (対照群: 似ているのに伸びなかったダマシ/失速{pair_info})',
         'C2': 'C2 (対照群: K-038 MVC シグナル発生 → 負けトレード)'
     }.get(case['type'], case['type'])
 
-    net_ret = sub_1h_full['net_ret_72h'].iloc[split_idx] * 100.0
+    net_ret = (sub_1h_full['net_ret_72h'].iloc[split_idx] * 100.0) if 'net_ret_72h' in sub_1h_full else 0.0
 
     ax_main_b.set_title(f"Case {case_id}: Stage B (Outcome & Revelation: {label_text})\n"
-                        f"Entry @ ${entry_p:,.1f} | MFE: +{mfe_atr_val:.2f} ATR | 72h Net Ret: {net_ret:+.2f}%",
+                        f"Entry @ \\${entry_p:,.1f} | MFE: +{mfe_atr_val:.2f} ATR | 72h Net Ret: {net_ret:+.2f}%",
                         fontsize=12, fontweight='bold', color='darkred' if case['type'] == 'C2' else ('darkgreen' if case['type'] == 'M1' else 'navy'), pad=10)
     ax_main_b.set_ylabel("BTC/USD Price ($)")
     ax_main_b.legend(loc='upper left', ncol=3, framealpha=0.9, fontsize=8)
 
-    # AFS サブパネル
-    ax_afs_b.plot(x_full, sub_1h_full['afs_compression'], color='#2196f3', lw=1.3)
+    # AFS サブパネル (Stoch_D 4本)
+    ax_afs_b.plot(x_full, sub_1h_full['afs_7'], color='#00bcd4', lw=0.9, alpha=0.8)
+    ax_afs_b.plot(x_full, sub_1h_full['afs_9'], color='#ff9800', lw=0.9, alpha=0.8)
+    ax_afs_b.plot(x_full, sub_1h_full['afs_11'], color='#4caf50', lw=0.9, alpha=0.8)
+    ax_afs_b.plot(x_full, sub_1h_full['afs_13'], color='#9c27b0', lw=1.1, alpha=0.9)
+    ax_afs_b.axhline(20, color='gray', ls=':', lw=0.8)
+    ax_afs_b.axhline(80, color='gray', ls=':', lw=0.8)
     ax_afs_b.axvline(split_idx, color='red', ls='-', lw=1.5)
-    ax_afs_b.set_ylabel("AFS Comp")
+    ax_afs_b.set_ylim(-5, 105)
+    ax_afs_b.set_ylabel("AFS (Stoch_D)")
 
     ax_afs_twin_b = ax_afs_b.twinx()
     ax_afs_twin_b.step(x_full, sub_1h_full['afs_order_score'], where='mid', color='#e91e63', lw=1.2, ls='--')
@@ -391,6 +468,7 @@ def render_case_charts(df_1h, df_1m, case, out_dir):
     return {
         'case_id': case_id,
         'type': case['type'],
+        'matched_m1_case_id': case.get('matched_m1_case_id'),
         'timestamp': t0.isoformat(),
         'timestamp_utc': t0.strftime('%Y-%m-%d %H:%M UTC'),
         'timestamp_jst': t0.tz_convert('Asia/Tokyo').strftime('%Y-%m-%d %H:%M JST'),
@@ -402,6 +480,8 @@ def render_case_charts(df_1h, df_1m, case, out_dir):
         'atr_24': float(np.round(atr_val, 2)),
         'mfe_72h_atr': float(np.round(mfe_atr_val, 2)),
         'mfe_72h_pct': float(np.round(mfe_pct_val, 2)),
+        'mfe_24h_atr': float(np.round(sub_1h_full['mfe_24h_atr'].iloc[split_idx], 2)) if 'mfe_24h_atr' in sub_1h_full else None,
+        'mae_24h_atr': float(np.round(sub_1h_full['mae_24h_atr'].iloc[split_idx], 2)) if 'mae_24h_atr' in sub_1h_full else None,
         'net_ret_72h_pct': float(np.round(net_ret, 2)),
         'bb_upper': float(np.round(last_1h['bb_upper'], 2)),
         'bb_mid': float(np.round(last_1h['bb_mid'], 2)),
@@ -410,6 +490,10 @@ def render_case_charts(df_1h, df_1m, case, out_dir):
         'macro_age_ratio': float(np.round(last_1h['macro_age_ratio'], 2)),
         'afs_compression': float(np.round(last_1h['afs_compression'], 2)),
         'afs_order_score': int(last_1h['afs_order_score']),
+        'afs_7': float(np.round(last_1h['afs_7'], 1)),
+        'afs_9': float(np.round(last_1h['afs_9'], 1)),
+        'afs_11': float(np.round(last_1h['afs_11'], 1)),
+        'afs_13': float(np.round(last_1h['afs_13'], 1)),
         'range_24h_high': float(np.round(sub_1h_past['high'].iloc[-24:].max(), 2)),
         'range_24h_low': float(np.round(sub_1h_past['low'].iloc[-24:].min(), 2)),
         'range_120h_high': float(np.round(sub_1h_past['high'].max(), 2)),
@@ -433,8 +517,11 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
         answer_key[f"case_{c['case_id']}"] = {
             'case_id': c['case_id'],
             'type': c['type'],
+            'matched_m1_case_id': c.get('matched_m1_case_id'),
             'timestamp': c['timestamp'],
             'mfe_72h_atr': c['mfe_72h_atr'],
+            'mfe_24h_atr': c.get('mfe_24h_atr'),
+            'mae_24h_atr': c.get('mae_24h_atr'),
             'net_ret_72h_pct': c['net_ret_72h_pct']
         }
     with open(review_dir / "answer_key.json", "w", encoding="utf-8") as f:
@@ -483,7 +570,7 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
         doc_a.append(f"- **日時**: `{c.get('timestamp_utc', c['timestamp'])}` / `{c.get('timestamp_jst', '')}` (BTC/USDT 1h足確定)")
         doc_a.append(f"- **価格・OHLC**: Open: `${c.get('open', c['entry_price']):,.1f}` | High: `${c.get('high', 0.0):,.1f}` | Low: `${c.get('low', 0.0):,.1f}` | Close: `${c.get('close', c['entry_price']):,.1f}`")
         doc_a.append(f"- **価格レンジ**: 過去24h: `${c.get('range_24h_low', 0.0):,.1f}` 〜 `${c.get('range_24h_high', 0.0):,.1f}` | 過去120h: `${c.get('range_120h_low', 0.0):,.1f}` 〜 `${c.get('range_120h_high', 0.0):,.1f}`")
-        doc_a.append(f"- **テクニカル指標**: ATR(24): `${c['atr_24']:,.1f}` | BB 幅: `{c['bb_width_atr']:.2f} ATR` | Macro Age Ratio: `{c['macro_age_ratio']:.2f}` | AFS Comp: `{c['afs_compression']:.1f}` (Score: `{c['afs_order_score']}`)")
+        doc_a.append(f"- **テクニカル指標**: ATR(24): `${c['atr_24']:,.1f}` | BB 幅: `{c['bb_width_atr']:.2f} ATR` | Macro Age Ratio: `{c['macro_age_ratio']:.2f}` | AFS (7/9/11/13): `{c.get('afs_7')}/{c.get('afs_9')}/{c.get('afs_11')}/{c.get('afs_13')}` (Score: `{c['afs_order_score']}`)")
         doc_a.append(f"- **主要 SMA**: SMA 21: `${c.get('sma_21', 0.0):,.1f}` | SMA 34: `${c.get('sma_34', 0.0):,.1f}` | SMA 55: `${c.get('sma_55', 0.0):,.1f}` | SMA 89: `${c.get('sma_89', 0.0):,.1f}` | SMA 144: `${c.get('sma_144', 0.0):,.1f}` | SMA 233: `${c.get('sma_233', 0.0):,.1f}`")
         doc_a.append("")
         doc_a.append(f"#### 【あなたの判断】")
@@ -515,9 +602,10 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
 
     for c in cases_meta:
         cid = c['case_id']
+        pair_suffix = f" [Matched M1: Case {c['matched_m1_case_id']}]" if c.get('matched_m1_case_id') else ""
         label_desc = {
-            'M1': '★ M1 (見逃しエントリー: 4+ ATR 大幅急伸)',
-            'C1': '✕ C1 (対照群: 似ているのに伸びなかった失速・ダマシ)',
+            'M1': '★ M1 (見逃しエントリー: 4+ ATR 大幅急伸初動)',
+            'C1': f'✕ C1 (対照群: 似ているのに伸びなかった失速・ダマシ{pair_suffix})',
             'C2': '▲ C2 (対照群: K-038 MVC シグナル発生 → 負けトレード)'
         }.get(c['type'], c['type'])
 
@@ -525,15 +613,20 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
         doc_b.append(f"![Case {cid} Stage B](case_{cid}_stageB.png)")
         doc_b.append("")
         doc_b.append(f"- **真のラベル**: **`{c['type']}`**")
+        if c.get('matched_m1_case_id'):
+            doc_b.append(f"- **対照マッチング元**: **Case {c['matched_m1_case_id']} (M1)** と判断時点の指標群が最近傍")
         doc_b.append(f"- **判定時点価格**: `${c['entry_price']:,.1f}`")
         doc_b.append(f"- **72h 最大順行幅 (MFE)**: **`+{c['mfe_72h_atr']:.2f} ATR`** (`+{c['mfe_72h_pct']:.2f}%`)")
+        if c.get('mfe_24h_atr') is not None:
+            doc_b.append(f"- **24h 順行幅 (MFE) / 逆行幅 (MAE)**: MFE `+{c['mfe_24h_atr']:.2f} ATR` / MAE `-{c['mae_24h_atr']:.2f} ATR`")
         doc_b.append(f"- **72h 最終 Net リターン**: **`{c['net_ret_72h_pct']:+.2f}%`**")
         doc_b.append("")
         doc_b.append(f"#### 結末の解説・考察")
         if c['type'] == 'M1':
-            doc_b.append(f"> **見逃しの実態**: 判断時点以降、価格は勢いを増して急騰し、72時間以内に最大 `+{c['mfe_72h_atr']:.2f} ATR`（`+{c['mfe_72h_pct']:.2f}%`）に達しました。シグナル条件（AFS整流や傾き、ブレイクアウト定義）のどの要素がこの波を遮断してしまったのかを検証する重要な材料です。")
+            doc_b.append(f"> **見逃しの実態**: 判断時点以降、短時間で初動が立ち上がり、72時間以内に最大 `+{c['mfe_72h_atr']:.2f} ATR`（`+{c['mfe_72h_pct']:.2f}%`）に達しました。シグナル条件（AFS整流や傾き、ブレイクアウト定義）のどの要素がこの波を遮断してしまったのかを検証する重要な材料です。")
         elif c['type'] == 'C1':
-            doc_b.append(f"> **失速・ダマシの実態**: 判断時点での指標の並びは M1 に酷似していましたが、その後は伸び悩み、MFE はわずか `+{c['mfe_72h_atr']:.2f} ATR` に留まりました。M1 との間で何が決定的に異なっていたのか（上位足の環境、直前の戻り方、出来高など）を比較観察してください。")
+            matched_str = f"（Case {c.get('matched_m1_case_id')} の M1 と類似した指標配置）" if c.get('matched_m1_case_id') else ""
+            doc_b.append(f"> **失速・ダマシの実態**: 判断時点での指標の並びは M1 に酷似していましたが{matched_str}、その後は伸び悩み、MFE はわずか `+{c['mfe_72h_atr']:.2f} ATR` に留まりました。M1 との間で何が決定的に異なっていたのか（上位足の環境、直前の戻り方、下位足プライスアクションなど）を比較観察してください。")
         else:
             doc_b.append(f"> **シグナル負けの実態**: K-038 MVC の基準を完全に満たしてエントリーしたものの、72時間の最終リターンは `{c['net_ret_72h_pct']:+.2f}%` と損失に終わりました。S3 動的不可侵撤退の作動有無や、エントリー直後の逆行兆候を確認してください。")
         doc_b.append("")
@@ -738,7 +831,7 @@ def main():
         cid = c['case_id']
         t_str = c['timestamp'].strftime('%Y-%m-%d %H:00')
         print(f"  Rendering Case {cid}: {t_str} (Type: {c['type']})...")
-        meta = render_case_charts(df_1h, df_1m, c, review_dir)
+        meta = render_case_charts(df_1h, df_1m, c, review_dir, mvc_mask=mvc_mask)
         cases_meta.append(meta)
 
     # 6. ドキュメント出力
