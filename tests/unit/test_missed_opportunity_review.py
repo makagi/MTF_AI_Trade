@@ -32,9 +32,16 @@ def _create_mock_df_1h(end_date="2025-04-30 23:00:00", n_bars=2500):
     low = close - 50.0
     open_ = close.copy()
 
-    # Spaced out M1 at regular intervals
+    # Spaced out M1 at regular intervals:
+    # 72h MFE >= 4.0, 24h MFE >= 2.0, 24h MAE <= 1.5, 72h net_ret > 0, close >= open
     for idx in range(100, n_bars - 80, 150):
-        high[idx + 1:idx + 50] = 50000.0 + 1500.0  # MFE = 1500 / 200 = 7.5 ATR (M1)
+        close[idx] = open_[idx] + 20.0
+        # 24h impulse
+        high[idx + 1:idx + 25] = 50000.0 + 600.0   # MFE 24h = 600 / 200 = 3.0 ATR >= 2.0
+        low[idx + 1:idx + 25] = 50000.0 - 50.0    # MAE 24h = 50 / 200 = 0.25 ATR <= 1.5
+        # 72h surge & winning net return
+        high[idx + 25:idx + 73] = 50000.0 + 1500.0  # MFE 72h = 1500 / 200 = 7.5 ATR >= 4.0
+        close[idx + 72] = 51000.0                   # net_ret_72h > 0
 
     # C2 losers (MVC signals that end lower)
     for idx in [200, 400, 600, 800, 1200, 1400, 1600, 1800, 2000]:
@@ -69,7 +76,14 @@ def _create_mock_df_1h(end_date="2025-04-30 23:00:00", n_bars=2500):
         "bb_width_atr": np.full(n_bars, 2.0),
         "afs_order_score": np.full(n_bars, 3),
         "afs_compression": np.full(n_bars, 0.5),
+        "afs_7": np.full(n_bars, 60.0),
+        "afs_9": np.full(n_bars, 50.0),
+        "afs_11": np.full(n_bars, 40.0),
+        "afs_13": np.full(n_bars, 30.0),
         "macro_age_ratio": np.full(n_bars, 1.0),
+        "net_ret_72h": np.zeros(n_bars),
+        "mfe_24h_atr": np.zeros(n_bars),
+        "mae_24h_atr": np.zeros(n_bars),
     }, index=times)
     return df
 
@@ -84,7 +98,7 @@ def test_holdout_guard_rejection():
 
 
 def test_candidate_sampling_and_reproducibility():
-    """Verify candidate extraction produces 5 M1, 3 C1, 2 C2 and is perfectly reproducible with same seed."""
+    """Verify candidate extraction produces 5 M1, 3 C1, 2 C2, paired C1 metadata, and repeatable results."""
     df = _create_mock_df_1h(end_date="2025-04-30 23:00:00", n_bars=2500)
 
     # Inject MVC signals
@@ -105,6 +119,14 @@ def test_candidate_sampling_and_reproducibility():
     for c1, c2 in zip(cases_1, cases_2):
         assert c1["type"] == c2["type"]
         assert c1["timestamp"] == c2["timestamp"]
+        assert c1["case_id"] == c2["case_id"]
+        assert c1.get("matched_m1_case_id") == c2.get("matched_m1_case_id")
+
+    # C1 pairing check: all C1 cases must be paired with an M1 case
+    m1_cids = {c["case_id"] for c in cases_1 if c["type"] == "M1"}
+    for c in cases_1:
+        if c["type"] == "C1":
+            assert c.get("matched_m1_case_id") in m1_cids, f"C1 case {c['case_id']} missing valid M1 pair"
 
     # All timestamps must be strictly before holdout start
     for c in cases_1:
@@ -112,16 +134,39 @@ def test_candidate_sampling_and_reproducibility():
         assert c["timestamp"] + pd.Timedelta(hours=72) <= HOLDOUT_START
 
 
-def test_stage_a_temporal_cutoff_guard():
-    """Ensure Stage A chart generation logic only receives and plots data <= t (no future leak)."""
+def test_stage_a_temporal_cutoff_guard(tmp_path):
+    """Ensure Stage A chart generation strictly uses data up to t (and intrabar within [t, t+59m]), with zero lookahead."""
     df_1h = _create_mock_df_1h(end_date="2025-04-30 23:00:00", n_bars=500)
-    t = df_1h.index[250]
-    loc0 = df_1h.index.get_loc(t)
+    t0 = df_1h.index[250]
+    loc0 = df_1h.index.get_loc(t0)
 
-    # Subslice past 120h up to t
+    # 1h slice inspection
     sub_1h = df_1h.iloc[loc0 - 120 : loc0 + 1]
-    assert sub_1h.index[-1] == t, "Stage A must end exactly at t"
-    assert (sub_1h.index <= t).all(), "Stage A must contain no future timestamps"
+    assert sub_1h.index[-1] == t0, "1h slice must terminate exactly at t0"
+    assert (sub_1h.index <= t0).all(), "1h slice must contain no future timestamps"
+
+    # 1m slice inspection
+    times_1m = pd.date_range(start=t0 - pd.Timedelta(hours=2), end=t0 + pd.Timedelta(hours=2), freq="1min", tz="UTC")
+    df_1m = pd.DataFrame({
+        "open": np.full(len(times_1m), 50000.0),
+        "high": np.full(len(times_1m), 50050.0),
+        "low": np.full(len(times_1m), 49950.0),
+        "close": np.full(len(times_1m), 50000.0),
+    }, index=times_1m)
+
+    # Correct 1m intrabar slice: t0 to t0 + 59m
+    sub_1m = df_1m.loc[t0 : t0 + pd.Timedelta(minutes=59)]
+    assert len(sub_1m) == 60, "1m slice must contain exactly 60 bars for the hour"
+    assert sub_1m.index[0] == t0, "1m slice must start at t0"
+    assert sub_1m.index[-1] == t0 + pd.Timedelta(minutes=59), "1m slice must end at t0+59m"
+    assert (sub_1m.index < t0 + pd.Timedelta(hours=1)).all(), "1m slice must not include any data from next hour"
+
+    # Verify render_case_charts executes without error and respects slicing
+    case = {'case_id': '01', 'type': 'M1', 'timestamp': t0, 'matched_m1_case_id': None}
+    meta = render_case_charts(df_1h, df_1m, case, tmp_path)
+    assert (tmp_path / "case_01_stageA.png").exists()
+    assert (tmp_path / "case_01_stageB.png").exists()
+    assert meta['timestamp_utc'] == t0.strftime('%Y-%m-%d %H:%M UTC')
 
 
 def test_stage_a_gallery_blindness():
@@ -168,6 +213,9 @@ def test_review_suite_files_integrity():
     assert types.count("M1") == 5
     assert types.count("C1") == 3
     assert types.count("C2") == 2
+    for v in ak.values():
+        if v["type"] == "C1":
+            assert v.get("matched_m1_case_id") is not None
 
     # Cases metadata snapshot
     cases_path = review_dir / "cases.json"
@@ -175,6 +223,9 @@ def test_review_suite_files_integrity():
     with open(cases_path, "r", encoding="utf-8") as f:
         cases = json.load(f)
     assert len(cases) == 10
+    for c in cases:
+        if c["type"] == "C1":
+            assert c.get("matched_m1_case_id") is not None
 
     # Observations YAML
     obs_path = review_dir / "observations.yaml"
