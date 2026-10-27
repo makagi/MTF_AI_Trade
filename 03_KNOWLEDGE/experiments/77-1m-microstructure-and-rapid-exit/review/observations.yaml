@@ -1,0 +1,68 @@
+review_id: MOR-77-01
+experiment: EXP-77
+date: '2026-10-25'
+reviewer: '@makagi'
+cases:
+- case_id: 1
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 2
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 3
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 4
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 5
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 6
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 7
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 8
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 9
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+- case_id: 10
+  stage_a_call: ''
+  stage_a_rationale: ''
+  stage_b_comment: ''
+  tags: []
+  revealed_label: ''
+summary:
+  stage_a_accuracy_score: null
+  candidate_hypotheses: []

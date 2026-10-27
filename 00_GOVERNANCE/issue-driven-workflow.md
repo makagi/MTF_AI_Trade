@@ -1,11 +1,11 @@
 # MTFシステムトレード Issue-Driven Workflow
 
 **Doc ID:** GOV-WFL-001  
-**Version:** 0.2.0  
+**Version:** 0.3.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-13  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#11](https://github.com/makagi/MTF_AI_Trade/issues/11)  
+**Last Updated:** 2026-10-25  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#11](https://github.com/makagi/MTF_AI_Trade/issues/11), [#79](https://github.com/makagi/MTF_AI_Trade/issues/79)  
 **Related Docs:** [principles.md](principles.md), [documentation-architecture.md](documentation-architecture.md), [../99_HISTORY/decision-log.md](../99_HISTORY/decision-log.md), [../04_IMPLEMENTATION/agent-rules.md](../04_IMPLEMENTATION/agent-rules.md)  
 
 ---
@@ -109,18 +109,42 @@ Done (PR マージで自動 Close)
 
 ---
 
-## 7. Definition of Done
+## 7. Missed Opportunity Review (MOR)
+
+Analysis 実験の完了時（PR 作成前）に、シグナルが出なかったのに大きく動いた場面（見逃しエントリー：M1）と対照群（C1/C2）のチャートを提示し、人間の視点を仮説生成の入力として取り込むレビュー工程を実施する。
+
+### 7.1 目的
+バックテスト数値だけの過剰適合を抑止し、チャート上の文脈や見落としパターンを抽出して次期事前登録仮説のシードとする（`principles.md` 10.2）。
+
+### 7.2 手順
+1. `tools/missed_opportunity_review.py` を実行し、ブラインド画像（Stage A）と結末画像（Stage B）を生成する。
+2. Stage A（判断時点 $t$ 以前のみ描画）を提示し、レビュアーの判断（`long` / `skip` / `unsure`）と根拠を記録する。
+3. Stage B（結末と真の分類）を開示し、所見を収集する。
+4. 正答率および仮説候補を `review/observations.yaml` に記録する。
+
+### 7.3 バイアス対策
+- **Holdout ガード**: Discovery 期間（`< 2025-05-01`）のみから抽出する。
+- **2段階ブラインド**: Stage A 回答完了まで結末や正解ラベルを伏せる。
+- **対照群混在**: 見逃し5件に対し、類似不発例（C1）や負けトレード（C2）計5件をシャッフル混在させる。
+- **仮説と知見の厳格分離**: レビュアーの所見は仮説候補に留め、単独で知見（K-xxx）に登録してはならない。必ず事前登録と検証を経る。
+
+### 7.4 記録先
+各実験ディレクトリの `03_KNOWLEDGE/experiments/<N>-<slug>/review/observations.yaml` に保存する。
+
+---
+
+## 8. Definition of Done
 
 | Type | 完了条件 |
 |---|---|
 | 共通 | Issue の完了条件を満たす / 関連文書のリンク切れがない / 新たに見つかった課題は別 Issue 化済み |
 | Document | 文書の配置が [documentation-architecture.md](documentation-architecture.md) に従っている / 重複定義を作っていない（SSOT） |
-| Analysis | 事前に定めた評価基準で判定済み / 再現情報（データ期間・コード・パラメータ）を記録 / 支持・棄却に関わらず結論を記録 |
+| Analysis | 事前に定めた評価基準で判定済み / 再現情報（データ期間・コード・パラメータ）を記録 / 支持・棄却に関わらず結論を記録 / MOR を実施し `observations.yaml` を記録済み（ユーザーが明示的にスキップした場合は理由を記録） |
 | Development | 実行手順が記載されている / 既存の分析・ツールを壊していない |
 
 ---
 
-## 8. AI Agent の参加ルール
+## 9. AI Agent の参加ルール
 
 1. AI Agent への作業依頼は **Issue 番号を指定** して行う。
 2. AI Agent は Issue の範囲外の変更を行わない。範囲外の問題を見つけた場合は Issue 起票を提案する。
@@ -130,7 +154,7 @@ Done (PR マージで自動 Close)
 
 ---
 
-## 9. Legacy Assets
+## 10. Legacy Assets
 
 [90_LEGACY/](../90_LEGACY/README.md) の旧資産は参照専用とする。
 
@@ -139,9 +163,11 @@ Done (PR マージで自動 Close)
 
 ---
 
-## 10. Change History
+## 11. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
 |---|---|---|---|
 | 2026-10-09 | 0.1.0 | 初版作成（Issue駆動ワークフロー、ラベル体系、PRルール策定） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータヘッダー規約統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-10-25 | 0.3.0 | Missed Opportunity Review (MOR) 節の新設、Analysis DoD に MOR 実施条件を追加 | @makagi / [#79](https://github.com/makagi/MTF_AI_Trade/pull/79) |
+
