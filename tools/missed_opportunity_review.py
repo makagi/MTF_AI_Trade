@@ -154,17 +154,18 @@ def extract_mor_candidates(df_1h, mvc_mask, seed=42, mfe_th=4.0):
     # 1. M1: 見逃し初動エントリー
     # - 72h MFE >= mfe_th (4.0 ATR)
     # - 24h MFE >= 2.0 ATR (24h 以内に上昇初動が立ち上がること)
-    # - 24h MAE <= 1.5 ATR (直後に暴落する足を除外)
+    # - 24h MAE <= 1.0 ATR (直後に大きく逆行・下落する足を除外)
     # - 72h Net Return > 0 (最終的に勝っている上昇波)
-    # - 判断足が陽線 (close >= open)
+    # - 判断足が陽線 (close >= open) かつ短期 SMA 21 以上で初動転換を確認 (close >= sma_21)
     # - MVC 近傍外
     # - 72h クールダウンでデクラスタ
     m1_raw = (
         (df_1h['mfe_72h_atr'] >= mfe_th) &
         (df_1h['mfe_24h_atr'] >= 2.0) &
-        (df_1h['mae_24h_atr'] <= 1.5) &
+        (df_1h['mae_24h_atr'] <= 1.0) &
         (df_1h['net_ret_72h'] > 0.0) &
         (df_1h['close'] >= df_1h['open']) &
+        (df_1h['close'] >= df_1h['sma_21']) &
         (~near_mvc)
     )
     m1_decl = decluster_events(m1_raw, cooldown_bars=72)
@@ -172,13 +173,14 @@ def extract_mor_candidates(df_1h, mvc_mask, seed=42, mfe_th=4.0):
 
     # 2. C1: 似ているのに伸びなかった場面 (対照群)
     # - 72h MFE < 1.0 ATR & MFE >= 0
-    # - 判断足が陽線 (close >= open: M1と同様にエントリー候補足に見える)
+    # - 判断足が陽線 (close >= open) かつ SMA 21 以上 (M1と同様に上向き初動候補に見える足)
     # - MVC 近傍外
     # - 72h クールダウンでデクラスタ
     c1_raw = (
         (df_1h['mfe_72h_atr'] < 1.0) &
         (df_1h['mfe_72h_atr'] >= 0.0) &
         (df_1h['close'] >= df_1h['open']) &
+        (df_1h['close'] >= df_1h['sma_21']) &
         (~near_mvc)
     )
     c1_decl = decluster_events(c1_raw, cooldown_bars=72)
@@ -302,20 +304,31 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
     ax_main_a.axvline(x_past[-1], color='#333333', ls=':', lw=2.0)
     ax_main_a.text(x_past[-1], ax_main_a.get_ylim()[1], '  Judgement Point t', color='#333333', fontweight='bold', va='top')
 
-    # タイトルの $ をエスケープして MathText 誤爆・斜体崩れを防ぐ
+    # タイトルの $ をエスケープして MathText 誤爆・斜体崩れを防ぐ (確定時刻 t0+1h も明記)
+    t_close = t0 + pd.Timedelta(hours=1)
     p_close = sub_1h_past['close'].iloc[-1]
     p_atr = sub_1h_past['atr_24'].iloc[-1]
-    ax_main_a.set_title(f"Case {case_id}: Stage A (Judgement Point: {t0.strftime('%Y-%m-%d %H:00')} UTC)\n"
+    ax_main_a.set_title(f"Case {case_id}: Stage A (Bar: {t0.strftime('%Y-%m-%d %H:00')} UTC | Confirmed: {t_close.strftime('%H:00')} UTC)\n"
                         f"Price: \\${p_close:,.1f} | ATR: \\${p_atr:,.1f} | "
                         f"BB Width: {sub_1h_past['bb_width_atr'].iloc[-1]:.2f} ATR | Macro Age Ratio: {sub_1h_past['macro_age_ratio'].iloc[-1]:.2f}",
                         fontsize=12, fontweight='bold', pad=10)
     ax_main_a.set_ylabel("BTC/USD Price ($)")
-    # 左下配置で左上インセットとの重なりを回避
-    ax_main_a.legend(loc='lower left', ncol=4, framealpha=0.9, fontsize=8)
 
-    # 1m インセット描画 (左上に明瞭に配置)
+    # 左側 40 本の価格位置に応じて 1m インセットと凡例を上下振り分け（重なり防止）
+    y_min, y_max = ax_main_a.get_ylim()
+    left_mid = 0.5 * (sub_1h_past['high'].iloc[:40].max() + sub_1h_past['low'].iloc[:40].min())
+    if left_mid > 0.5 * (y_min + y_max):
+        inset_bounds = [0.06, 0.08, 0.25, 0.38]
+        legend_loc = 'upper left'
+    else:
+        inset_bounds = [0.06, 0.54, 0.25, 0.38]
+        legend_loc = 'lower left'
+
+    ax_main_a.legend(loc=legend_loc, ncol=4, framealpha=0.9, fontsize=8)
+
+    # 1m インセット描画 (Y軸ラベルが外枠と重ならないよう x=0.06 から配置)
     if len(sub_1m_past) > 0:
-        ax_inset_a = ax_main_a.inset_axes([0.02, 0.52, 0.26, 0.38])
+        ax_inset_a = ax_main_a.inset_axes(inset_bounds)
         ax_inset_a.set_facecolor('#fafafa')
         plot_candlesticks(ax_inset_a, sub_1m_past['open'].values, sub_1m_past['high'].values, sub_1m_past['low'].values, sub_1m_past['close'].values, width=0.7)
         t_start_m = sub_1m_past.index[0].strftime('%H:%M')
@@ -331,7 +344,7 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
     ax_afs_a.plot(x_past, sub_1h_past['afs_13'], label='AFS 13', color='#9c27b0', lw=1.1, alpha=0.9)
     ax_afs_a.axhline(20, color='gray', ls=':', lw=0.8)
     ax_afs_a.axhline(80, color='gray', ls=':', lw=0.8)
-    ax_afs_a.set_ylim(-5, 105)
+    ax_afs_a.set_ylim(-5, 118)
     ax_afs_a.set_ylabel("AFS (Stoch_D)")
     ax_afs_a.legend(loc='upper left', ncol=4, fontsize=7)
 
@@ -438,7 +451,7 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
     ax_afs_b.axhline(20, color='gray', ls=':', lw=0.8)
     ax_afs_b.axhline(80, color='gray', ls=':', lw=0.8)
     ax_afs_b.axvline(split_idx, color='red', ls='-', lw=1.5)
-    ax_afs_b.set_ylim(-5, 105)
+    ax_afs_b.set_ylim(-5, 118)
     ax_afs_b.set_ylabel("AFS (Stoch_D)")
 
     ax_afs_twin_b = ax_afs_b.twinx()
@@ -465,6 +478,7 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
     plt.close(fig_b)
 
     last_1h = sub_1h_past.iloc[-1]
+    t_close = t0 + pd.Timedelta(hours=1)
     return {
         'case_id': case_id,
         'type': case['type'],
@@ -472,10 +486,13 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
         'timestamp': t0.isoformat(),
         'timestamp_utc': t0.strftime('%Y-%m-%d %H:%M UTC'),
         'timestamp_jst': t0.tz_convert('Asia/Tokyo').strftime('%Y-%m-%d %H:%M JST'),
+        'close_timestamp_utc': t_close.strftime('%Y-%m-%d %H:%M UTC'),
+        'close_timestamp_jst': t_close.tz_convert('Asia/Tokyo').strftime('%Y-%m-%d %H:%M JST'),
         'open': float(np.round(last_1h['open'], 2)),
         'high': float(np.round(last_1h['high'], 2)),
         'low': float(np.round(last_1h['low'], 2)),
         'close': float(np.round(last_1h['close'], 2)),
+        'volume': float(np.round(last_1h['volume'], 2)) if 'volume' in last_1h else 0.0,
         'entry_price': float(np.round(entry_p, 2)),
         'atr_24': float(np.round(atr_val, 2)),
         'mfe_72h_atr': float(np.round(mfe_atr_val, 2)),
@@ -567,8 +584,8 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
         doc_a.append(f"### Case {cid}")
         doc_a.append(f"![Case {cid} Stage A](case_{cid}_stageA.png)")
         doc_a.append("")
-        doc_a.append(f"- **日時**: `{c.get('timestamp_utc', c['timestamp'])}` / `{c.get('timestamp_jst', '')}` (BTC/USDT 1h足確定)")
-        doc_a.append(f"- **価格・OHLC**: Open: `${c.get('open', c['entry_price']):,.1f}` | High: `${c.get('high', 0.0):,.1f}` | Low: `${c.get('low', 0.0):,.1f}` | Close: `${c.get('close', c['entry_price']):,.1f}`")
+        doc_a.append(f"- **日時**: 始値 `{c.get('timestamp_utc', c['timestamp'])}` → 確定 `{c.get('close_timestamp_utc', '')}` (`{c.get('close_timestamp_jst', '')}` BTC/USDT 1h足確定)")
+        doc_a.append(f"- **価格・OHLCV**: Open: `${c.get('open', c['entry_price']):,.1f}` | High: `${c.get('high', 0.0):,.1f}` | Low: `${c.get('low', 0.0):,.1f}` | Close: `${c.get('close', c['entry_price']):,.1f}` | Volume: `{c.get('volume', 0.0):,.1f}`")
         doc_a.append(f"- **価格レンジ**: 過去24h: `${c.get('range_24h_low', 0.0):,.1f}` 〜 `${c.get('range_24h_high', 0.0):,.1f}` | 過去120h: `${c.get('range_120h_low', 0.0):,.1f}` 〜 `${c.get('range_120h_high', 0.0):,.1f}`")
         doc_a.append(f"- **テクニカル指標**: ATR(24): `${c['atr_24']:,.1f}` | BB 幅: `{c['bb_width_atr']:.2f} ATR` | Macro Age Ratio: `{c['macro_age_ratio']:.2f}` | AFS (7/9/11/13): `{c.get('afs_7')}/{c.get('afs_9')}/{c.get('afs_11')}/{c.get('afs_13')}` (Score: `{c['afs_order_score']}`)")
         doc_a.append(f"- **主要 SMA**: SMA 21: `${c.get('sma_21', 0.0):,.1f}` | SMA 34: `${c.get('sma_34', 0.0):,.1f}` | SMA 55: `${c.get('sma_55', 0.0):,.1f}` | SMA 89: `${c.get('sma_89', 0.0):,.1f}` | SMA 144: `${c.get('sma_144', 0.0):,.1f}` | SMA 233: `${c.get('sma_233', 0.0):,.1f}`")
