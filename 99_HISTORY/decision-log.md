@@ -1,11 +1,11 @@
 # 意思決定ログ (Decision Log / ADR)
 
 **Doc ID:** HIST-ADR-001  
-**Version:** 0.2.0  
+**Version:** 0.3.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-13  
-**Related Issues:** [#2](https://github.com/makagi/MTF_AI_Trade/issues/2), [#3](https://github.com/makagi/MTF_AI_Trade/issues/3), [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#7](https://github.com/makagi/MTF_AI_Trade/issues/7), [#8](https://github.com/makagi/MTF_AI_Trade/issues/8), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#10](https://github.com/makagi/MTF_AI_Trade/issues/10), [#11](https://github.com/makagi/MTF_AI_Trade/issues/11), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13), [#14](https://github.com/makagi/MTF_AI_Trade/issues/14), [#27](https://github.com/makagi/MTF_AI_Trade/issues/27)  
+**Last Updated:** 2026-10-29  
+**Related Issues:** [#2](https://github.com/makagi/MTF_AI_Trade/issues/2), [#3](https://github.com/makagi/MTF_AI_Trade/issues/3), [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#7](https://github.com/makagi/MTF_AI_Trade/issues/7), [#8](https://github.com/makagi/MTF_AI_Trade/issues/8), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#10](https://github.com/makagi/MTF_AI_Trade/issues/10), [#11](https://github.com/makagi/MTF_AI_Trade/issues/11), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13), [#14](https://github.com/makagi/MTF_AI_Trade/issues/14), [#27](https://github.com/makagi/MTF_AI_Trade/issues/27), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84)  
 **Related Docs:** [../00_GOVERNANCE/documentation-architecture.md](../00_GOVERNANCE/documentation-architecture.md), [../00_GOVERNANCE/issue-driven-workflow.md](../00_GOVERNANCE/issue-driven-workflow.md)  
 
 ---
@@ -415,9 +415,22 @@
 - **結果・影響**:
   - `90_LEGACY/` 内の全資産の取り扱い方針が明確化され、Milestone 1（ガバナンス・文書基盤）の全タスクが完了。次期マイルストーン（M2/M3）への移行ロードマップが確定した。
 
+---
 
-
-
-
-
-
+### D019: 判断に迷いがある場合の条件付き上位階層参照（Hierarchical Escalation on Ambiguity）原則と MOR ブラインド先行試行方式の採択
+- **日付**: 2026-10-29
+- **ステータス**: 採択 (Accepted)
+- **関連Issue**: [#84](https://github.com/makagi/MTF_AI_Trade/issues/84)
+- **文脈・課題**:
+  - MTF・階層的SMA分析において、特定の期間（例: `233` や `377`, `610` 等）を固定的な上限や全トレード一律の必須条件としてハードコードすると、主軸階層で既に明確な局面に対して過剰制約となる一方、主軸階層だけで判断がつかないグレーゾーンでは上位の引力や抵抗を見落とす課題があった。
+  - また、Missed Opportunity Review (MOR) において、人間が毎回ゼロから全10ケースの Stage A を回答する負荷を下げつつ、この「迷ったら上位階層を確認する」意思決定プロセス自体の有効性を客観的に検証する仕組みが求められた。
+- **検討した選択肢**:
+  1. 特定の長期パラメータ（`377`, `610` 等）を常時すべてのシグナル・チャートに固定条件として追加する
+  2. 特定の数値に依存せず、「主軸階層（スケール $k$）で判断が明確な場合はそこで完結させ、判断に迷い・矛盾がある場合（`unsure`）にのみ、1〜2段階上の階層（$k+1, k+2$）を参照して決着をつける」というスケール不変（Scale-Invariant）の条件付きエスカレーション原則を採択し、MOR のブラインド・サブエージェント先行試行にも同2段階方式を組み込む
+- **決定内容**:
+  - 選択肢 2 を採用。
+  - `00_GOVERNANCE/principles.md`（§3.4）および `01_CONCEPTS/mtf-framework.md`（§4.3）に条件付き上位階層参照（Hierarchical Escalation on Ambiguity）を明文化。
+  - `.agent/skills/missed-opportunity-review/SKILL.md` に Stage A1（主軸階層判定）$\rightarrow$ Stage A2（迷いケースの上位階層参照）の2段階ブラインド判定プロセスと、独立コンテキストのサブエージェントによる先行試行テンプレートを策定。
+- **結果・影響**:
+  - 特定パラメータへの過剰適合を防ぎつつ、迷いが生じる境界局面でのみ解像度を引き上げる汎用的な MTF 意思決定構造が確立された。
+  - MOR においてサブエージェントが先行してブラインド判定・エスカレーションを実行し、人間は難問ケースや差分レビューに集中できる高効率なワークフローが可能となった。

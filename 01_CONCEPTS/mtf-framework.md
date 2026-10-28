@@ -1,11 +1,11 @@
 # MTFシステムトレード MTF Framework (多時間軸概念モデル)
 
 **Doc ID:** CONC-MTF-001  
-**Version:** 0.3.0  
+**Version:** 0.4.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-19  
-**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57)  
+**Last Updated:** 2026-10-29  
+**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [market-structure.md](market-structure.md), [volatility.md](volatility.md)  
 
 ---
@@ -72,7 +72,17 @@
 
 したがって、単一の静的な「相場状態（Regime）」というラベルは存在せず、**各時間階層の相対的関係性（例: マクロ下降下のメソ強気スイング）として複眼的に状態を把握すること**が不可欠である。
 
-※ これらのスコア算出式や正規化パラメータは仕様（[02_SPECIFICATIONS/](../02_SPECIFICATIONS/)）で規定し、本Conceptでは「階層間の連続的同調を評価する」という認識モデルを定義する。
+### 4.3 条件付き上位階層エスカレーション（スケール不変の迷い解消モデル）
+階層的市場認識において、特定の長期パラメータ（特定の移動平均線期間や特定の時間足）をすべての局面に固定的な必須条件として当てはめると、局所的に明確な好機を過剰制約で逃すか、逆に見ていた階層の上限を抜けた瞬間に盲目となる。  
+そのため本フレームワークでは、[00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md) §3.4 に基づき、**「主軸としている階層（スケール $k$）で判断が明確な場合はそこで完結させ、判断に迷い・矛盾がある場合（Ambiguity / Unsure）にのみ、1〜2段階上の階層（$k+1, k+2$）へ視点を引き上げて決着をつける」** という条件付きエスカレーション構造を採用する。
+
+| 主軸階層（スケール $k$）での「迷い」の代表類型 | 1〜2段階上の階層（$k+1, k+2$）で確認する要素 | 上位階層による迷いの解消（解釈モデル） |
+| :--- | :--- | :--- |
+| **① 頭上の抵抗帯・親ライン（$k$）を跨げるか反落するか迷う**<br>（例: $k$ の傾きが横ばい、または直前で揉み合っている） | 上位階層（$k+1, k+2$）の**傾きと支持/抵抗の向き** | ・上位が上向き、または下から支持している $\rightarrow$ **突破（跨ぎ）を支持**<br>・上位も頭上で下向きに垂れ下がり密集している $\rightarrow$ **反落・失速リスク大（見送りまたは到達即撤退）** |
+| **② 主軸階層（$\le k$）をすべて上抜けたが、まだ伸びるか高値掴みか迷う**<br>（主軸階層の中に上値目標や抵抗が見当たらない状態） | さらに上（$k+1, k+2$）の**頭上親ラインの有無と乖離度** | ・すぐ上に未突破の親ライン（$k+1, k+2$）が控えている $\rightarrow$ **そこへ近づく・跨ごうとする引力が働く（ただしその傾きが下向きなら到達後の反落に警戒）**<br>・上位ラインからもすでに極端に上方乖離している $\rightarrow$ **過伸長（Over-extension）による高値掴み警戒** |
+| **③ 主軸階層（$k$）を割り込んだが、押し目かトレンド崩壊か迷う** | 1〜2段階上の階層（$k+1, k+2$）の**下値支持の有無** | ・すぐ下の $k+1, k+2$ が上向きで支えている $\rightarrow$ **上位上昇トレンド中の深い押し目**<br>・上位も下向きまたは頭上に位置している $\rightarrow$ **構造的な下落局面** |
+
+※ これらのスコア算出式や正規化パラメータは仕様（[02_SPECIFICATIONS/](../02_SPECIFICATIONS/)）で規定し、本Conceptでは「階層間の連続的同調および迷い発生時の上位階層エスカレーションを評価する」という認識モデルを定義する。
 
 ---
 
@@ -113,3 +123,4 @@
 | 2026-10-12 | 0.2.0 | 仕様記述分離、作業仮説表現への純化 | @makagi / [#24](https://github.com/makagi/MTF_AI_Trade/pull/24) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 | 2026-10-19 | 0.3.0 | 時間階層の視点（Timeframe Scales）と相場認識の相対性（§4.2）を追加 | @makagi / [#58](https://github.com/makagi/MTF_AI_Trade/pull/58) |
+| 2026-10-29 | 0.4.0 | 条件付き上位階層エスカレーション（スケール不変の迷い解消モデル §4.3）を追加 | @makagi / [#84](https://github.com/makagi/MTF_AI_Trade/issues/84) |
