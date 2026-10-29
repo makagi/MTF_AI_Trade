@@ -1,11 +1,11 @@
 # MTFシステムトレード Principles (行動原則)
 
 **Doc ID:** GOV-PRN-001  
-**Version:** 0.3.0  
+**Version:** 0.4.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-19  
-**Related Issues:** [#7](https://github.com/makagi/MTF_AI_Trade/issues/7), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13)  
+**Last Updated:** 2026-10-29  
+**Related Issues:** [#7](https://github.com/makagi/MTF_AI_Trade/issues/7), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84)  
 **Related Docs:** [00_GOVERNANCE/vision.md](vision.md), [00_GOVERNANCE/issue-driven-workflow.md](issue-driven-workflow.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [04_IMPLEMENTATION/agent-rules.md](../04_IMPLEMENTATION/agent-rules.md)  
 
 ---
@@ -76,6 +76,10 @@ Decision (意思決定: 仕様への昇格、戦略採択、または棄却)
 
 ### 3.3 動的構造としての認識
 サポレジやトレンドラインは静的な幾何学線ではなく、市場参加者の流動性とテスト回数・経過時間によって強度が変化する動的構造として扱う。
+
+### 3.4 判断に迷いがある場合の条件付き上位階層参照と利益余地の対称評価 (Hierarchical Escalation & Profit-Room Symmetry)
+特定の長期パラメータ（特定の移動平均期間や特定の時間足）をすべての局面に一律のハードフィルタとして強制してはならない。また、「上位が下向きだから」「直前に大陽線が出たから」といった表層的な減点法（リスク回避偏重）だけで好機を即座に切り捨ててはならない。  
+現在観測している主軸階層（スケール $k$）だけで方向性・**利益を取れる余地（Profit Room / 空白地帯）**・リスク境界が明確に判断できる場合はその階層で意思決定を完結させ、**主軸階層において判断に迷いや矛盾が生じる場合（例: 頭上抵抗を跨げるか反落するか微妙な局面、上位抵抗までの空白地帯を狙う回帰初動、主軸ラインをすべて抜けて上値目標が見えない／過伸長か迷う局面、主軸ライン割れが押し目かトレンド崩壊か判別しづらい局面）にのみ、1〜2段階上の階層（$k+1, k+2$）を参照して決着をつける**というスケール不変（Scale-Invariant）の条件付きエスカレーション原則を採用する。
 
 ---
 
@@ -195,3 +199,4 @@ AIエージェントが出力した「もっともらしい考察」を、定量
 | 2026-10-12 | 0.2.0 | Risk First 原則、8段階証拠連鎖、継続的改善フライホイール確立 | @makagi / [#23](https://github.com/makagi/MTF_AI_Trade/pull/23) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 | 2026-10-19 | 0.3.0 | 境界条件の特定と双方向差分分析（成立・非成立の類似状況再現性）の原則（2.4）を追加 | @makagi / [#57](https://github.com/makagi/MTF_AI_Trade/pull/57) |
+| 2026-10-29 | 0.4.0 | 判断に迷いがある場合の条件付き上位階層参照（Hierarchical Escalation on Ambiguity）の原則（3.4）を追加 | @makagi / [#84](https://github.com/makagi/MTF_AI_Trade/issues/84) |
