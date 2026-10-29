@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 1.7.0  
+**Version:** 1.8.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-24  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77)  
+**Last Updated:** 2026-10-29  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -74,6 +74,9 @@ graph TD
     K040["K-040: 1mイントラバー軌跡統合と動的早期撤退・執行機会損失則<br/>(Supported: S3_k50 Net EV+1.13% Worst-7.35% / 成行即時E0必須)"]:::supported
     K041["K-041: SMAピーク動態3相幾何分離則と共鳴先行連鎖則<br/>(Supported: 3相幾何分離・共鳴オシレータ5-6h先行・S6動的利確)"]:::supported
     K042["K-042: 1mミクロ早期利確の期待値毀損・分割執行の限界と予備探索不再現<br/>(Refuted: 1mノイズ利確のEV毀損/分割指値の無効性)"]:::refuted
+    K043["K-043: 上位親ラインSMA610/987上向き半値押し目救出とK-038統合<br/>(Supported in Composite N=104: EV+1.27% PF2.03 / 単独N=22 Borderline)"]:::supported
+    K044["K-044: 頭上長期SMA下での空白地帯回帰ラリーのレジーム脆弱性<br/>(Refuted: P1/P2で戻り売り大敗・通期EV+0.01% PF1.00)"]:::refuted
+    K045["K-045: 高値圏空中浮遊一律除外の機会損失と極小スクイーズ単独救出の限界<br/>(Refuted: 除外群EV+1.14%黒字・スクイーズ単独EV-0.34%)"]:::refuted
 
     K017 --> K021
     K021 --> K030
@@ -95,6 +98,10 @@ graph TD
     K040 --> K041
     K040 --> K042
     K041 --> K042
+    K038 --> K043
+    K040 --> K043
+    K041 --> K044
+    K038 --> K045
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -142,6 +149,9 @@ graph TD
     EXP069["EXP-69: 69-1m-path-and-invalidation-exit"] --> K040
     EXP074["EXP-74: 74-sma-peak-dynamics"] --> K041
     EXP077["EXP-77: 77-1m-microstructure-and-rapid-exit"] --> K042
+    EXP086["EXP-86: 86-hierarchical-vacuum-pullback"] --> K043
+    EXP086 --> K044
+    EXP086 --> K045
 ```
 
 ---
@@ -607,6 +617,45 @@ graph TD
 
 ---
 
+### K-043: 条件付き上位階層エスカレーションによる親ライン（SMA 610/987）半値押し目救出と K-038 MVC 統合ポートフォリオ
+* **ステータス**: **支持 (Supported in Composite Portfolio $N=104$ / 単独 $N=22$ は CI Borderline 保留)**
+* **概要**: `MOR-77-01`（[#81](https://github.com/makagi/MTF_AI_Trade/issues/81)）および判断に迷いがある場合の条件付き上位階層参照原則（[#84](https://github.com/makagi/MTF_AI_Trade/issues/84)）から導出された「主軸階層（`SMA 34/233`）割れ時の上位親ライン（`SMA 610/987`）上向き・30日レンジ半値押し目救出（`HYP-86-3: M_HigherOrder_Pullback`）」を Discovery 全期間で定量検証：
+  1. **`HYP-86-3` 単独のパフォーマンスと統計的境界（Partially Supported / CI Borderline）**:
+     - 主軸調整（`close < sma_34` $\land$ `close < sma_233`）下において、1〜2段上の親ライン `SMA 610`・`SMA 987` がともに上向き（`slope > 0`）で価格が `SMA 987` 上かつ 720h（30日）レンジの `35%〜65%`（半値押し圏）に位置する際の陽線 `SMA 21` 上抜け＋`AFS_Order == 3` は、独立 **22件** で **Net Mean EV `+2.03%`**（ベースライン `+1.13%` の 1.8倍）、**PF `2.58`**、**Worst `-3.95%`**、総累積 Net **`+44.56%`** を記録。
+     - ただし単独ではサンプル数 $N=22$ の小標本性によりブートストラップ 95% CI が **`[-0.10%, +4.17%]`** となり、事前登録基準（CI 下限 `> 0.0%`）に `0.10%pt` 届かないため、単独シグナルとしては「条件付き支持 / 保留（CI Borderline）」と厳格判定。
+     - 720h レンジ帯の感度分析において、`[0.35, 0.65]`（EV `+2.03%`, PF `2.58`, Worst `-3.95%`）および `[0.40, 0.60]`（EV `+1.98%`, PF `2.52`, Worst `-3.54%`）で安定した高期待値プラトーを確認（`[0.30, 0.70]` に広げると Worst が `-10.32%` に悪化）。
+  2. **K-038 MVC との厳選統合ポートフォリオ（$N=104$）における `SPEC-EVAL-001` 完全達成**:
+     - ベースライン `K-038 MVC`（86件）と `HYP-86-3`（22件）を 24h デクラスタリング統合したポートフォリオは、独立取引件数が **`104件`（`SPEC-EVAL-001` の必須基準 $N \ge 100$ を突破）** に到達。
+     - 往復 40 bps 控除・`S3_k50` エグジット下で **Net Mean EV `+1.27%`**（`+0.14%pt` 向上）、**PF `2.03`**（`1.95` から向上）、**Worst `-7.35%`**（悪化ゼロ）、**総累積 Net Return `+131.92%`**（ベースライン `+97.55%` 比 **`+34.37%pt` 改善**、事前登録採択基準 `+15%pt` の 2.3倍）、**95% CI `[+0.39%, +2.17%]`** を達成。
+     - **全3期間プラス一貫性**: `P1_Bull`（36件: EV `+1.69%`, PF `2.31`）、**`P2_Bear`（19件: EV `+0.23%`, PF `1.13`）**、`P3_Mixed`（49件: EV `+1.37%`, PF `2.41`）と全レジームで正の期待値を維持。
+* **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除、`S3_k50` 執行
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/86-hierarchical-vacuum-pullback/record.md`](experiments/86-hierarchical-vacuum-pullback/record.md) (EXP-86 / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88))
+* **仕様への影響**: `K-038 MVC` の上位階層押し目補完モジュールとして統合採択候補に昇格（独立イベント数 $N=104 \ge 100$ を達成）。
+
+---
+
+### K-044: 頭上長期SMA下での空白地帯（Vacuum）回帰ラリーのレジーム脆弱性と反証
+* **ステータス**: **反証・棄却 (Refuted / Negative Findings)**
+* **概要**: `SMA 144 / 233` が頭上にある逆境下で、直上の `SMA 89` と長期 `SMA 144/233` の間に `2.5 ATR` 以上の「空白地帯（Vacuum）」が開いている局面での `SMA 21` 奪還ロング（`HYP-86-1: M_Vacuum`, 独立57件）を検証：
+  - `P3_Mixed`（2023-2025, 29件）では Net EV `+1.96%`・PF `3.49` と機能したものの、**`P1_Bull`（14件: EV `-1.45%`, PF `0.59`, Worst `-16.63%`）および `P2_Bear`（14件: EV `-2.58%`, PF `0.12`）で大敗**し、通期では **Net Mean EV `+0.01%`・PF `1.00`**（`SMA 144` 到達利確では EV `-0.69%`, PF `0.58`）で完全に不成立となった。
+  - Vacuum 幅閾値を `2.0〜3.0 ATR` で動かしてもプラトーは形成されず（`3.0 ATR` で EV `-1.15%`）、上位親ライン（`SMA 610/987`）の上向き支持を伴わない「長期SMA下での空白地帯逆張り」は、実は急激な下落モメンタムによる長期線からの乖離を拾ってしまい戻り売りに圧殺されることが実証された。
+* **実験条件**: BTCUSD 1h & 1m、独立57件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/86-hierarchical-vacuum-pullback/record.md`](experiments/86-hierarchical-vacuum-pullback/record.md) (EXP-86 / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88))
+* **仕様への影響**: 頭上長期SMAへの空白地帯回帰ラリー（`M_Vacuum`）のエントリー採用は**棄却（不採用）**。
+
+---
+
+### K-045: 上位高値圏・空中浮遊の一律除外による機会損失および極小スクイーズ全突破単独救出の限界
+* **ステータス**: **反証・棄却 (Refuted / Negative Findings)**
+* **概要**: `K-038 MVC` に対する「720hレンジ高値圏（$\ge 88\%$）× 48h未押し目（空中浮遊）× 120h高値手前のトラップ除外（`HYP-86-2a`）」および「`Slope_55 <= 0` で漏れた極小スクイーズ全突破・48h押し目リセットの救出（`HYP-86-2b`）」を検証：
+  1. **高値圏トラップ除外の反証（`HYP-86-2a`）**: 除外された 9件の Net Mean EV は **`+1.14%`（PF `2.28`）** とベースライン全体平均（`+1.13%`）並みの黒字であり、ランダム除外ベンチマーク $p = 0.5010$ で改善効果は皆無。強気相場では30日高値圏で深い押し目を作らず青天井へ踏み上げる本波が存在するため、高値圏位置による一律除外は重大な機会損失を招く。
+  2. **極小スクイーズ全突破救出の反証（`HYP-86-2b`）**: 救出された 9件は勝率 `22.22%`・**Net Mean EV `-0.34%`（PF `0.72`）** と赤字化。ボラティリティ極小収縮時に `Slope_55 > 0` の中期モメンタム確認を免除すると、レンジ内のノイズ上ヒゲ・ダマシを高確率（77.8%）で掴むことが判明した。
+* **実験条件**: BTCUSD 1h & 1m、K-038 MVC 86件中除外9件 ＆ 救出候補9件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/86-hierarchical-vacuum-pullback/record.md`](experiments/86-hierarchical-vacuum-pullback/record.md) (EXP-86 / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88))
+* **仕様への影響**: `K-038 MVC` における `Slope_55 > 0` 必須条件を維持し、30日高値圏の一律ハードフィルタ導入は見送る。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -633,6 +682,7 @@ graph TD
 | 2026-10-24 | 1.6.0 | EXP-74 反映、各期間SMAピーク動態の3相幾何分離則と共鳴パートナー先行連鎖則（K-041 登録・計41知見へ拡充） | @makagi / [#74](https://github.com/makagi/MTF_AI_Trade/issues/74) |
 | 2026-10-24 | 1.6.1 | EXP-74 監査是正反映（トートロジー排除、相互相関客観導出、接近波分岐幾何、EXP-69ベースラインS0/S3完全整合、S6適応型利確PF1.96） | @makagi / [#76](https://github.com/makagi/MTF_AI_Trade/issues/76) |
 | 2026-10-24 | 1.7.0 | EXP-77 是正反映、1分足ミクロ構造による早期利確・分割執行の限界と予備探索不再現（K-042 登録・Refuted、計42知見へ拡充） | @makagi / [#77](https://github.com/makagi/MTF_AI_Trade/issues/77) |
+| 2026-10-29 | 1.8.0 | EXP-86 反映、条件付き上位階層エスカレーションによる親ライン半値押し目救出とK-038統合（N=104）、空白地帯回帰・高値圏一律除外の反証（K-043〜K-045 登録・計45知見へ拡充） | @makagi / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88) |
 
 
 
