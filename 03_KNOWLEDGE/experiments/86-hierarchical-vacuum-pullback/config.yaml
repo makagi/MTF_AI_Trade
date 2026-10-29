@@ -1,0 +1,52 @@
+experiment_id: EXP-86
+issue_id: 86
+title: "MOR-77-01 抽出仮説（空白地帯回帰ラリー・48h押し目リセット×高値突破・上位階層押し目）による K-038 MVC 見逃し初動救出と高値圏トラップ排除の検証"
+status: Draft
+
+dataset:
+  symbol: BTCUSD
+  timeframes:
+    - 1h
+    - 1m
+  discovery_start: "2020-01-01"
+  discovery_end: "2025-04-30"
+  holdout_start: "2025-05-01"
+
+evaluation:
+  cost_bps: 40.0
+  cooldown_bars: 24
+
+hypotheses:
+  hyp_86_1: "頭上長期SMAへの「空白地帯（Vacuum）回帰ラリー」シグナル (M_Vacuum: min(144, 233) - max(close, 89) >= 2.5 ATR)"
+  hyp_86_2a: "上位高値圏・空中浮遊トラップおよびモメンタム消失コマ足の排除 (Filter_StageA2_Trap)"
+  hyp_86_2b: "極小スクイーズ全突破＆48h押し目リセット初動の救出 (Rescue_Squeeze_Reset)"
+  hyp_86_3: "主軸SMA 233割れ時の上位親ライン（SMA 610/987）上向き・半値押し目救出 (M_HigherOrder_Pullback)"
+
+pre_registered_params:
+  vacuum:
+    min_space_atr: 2.5
+    max_risk_atr: 1.2
+    min_afs_order_score: 2
+  trap_2a:
+    range_pos_720h_min: 0.88
+    floating_min_atr: 1.5
+    overhead_headroom_max_atr: 1.5
+    doji_body_max_atr: 0.35
+    doji_slope_34_max: 0.02
+  rescue_2b:
+    squeeze_width_max_atr: 1.2
+    macro_age_max: 0.5
+    reset_lookback_hours: 48
+  pullback_86_3:
+    range_pos_720h_min: 0.35
+    range_pos_720h_max: 0.65
+    min_afs_order_score: 3
+
+robustness:
+  grid_vacuum_spaces: [2.0, 2.25, 2.5, 2.75, 3.0]
+  grid_range_pos: [0.84, 0.86, 0.88, 0.90, 0.92]
+  grid_doji_body: [0.25, 0.30, 0.35, 0.40]
+  grid_doji_slope: [0.015, 0.020, 0.030, 0.040]
+  grid_pullback_range: [[0.30, 0.70], [0.35, 0.65], [0.40, 0.60]]
+  random_bench_iterations: 1000
+  bootstrap_iterations: 5000
