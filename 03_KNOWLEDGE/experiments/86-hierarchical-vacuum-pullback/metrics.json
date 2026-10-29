@@ -1,6 +1,6 @@
 {
   "experiment_id": "EXP-86",
-  "timestamp": "2026-10-29T10:20:55.690308+00:00",
+  "timestamp": "2026-10-29T13:39:00.207765+00:00",
   "baseline_mvc": {
     "metrics": {
       "executed_trades": 86,
@@ -122,7 +122,48 @@
       -0.1,
       4.17
     ],
-    "supported": true
+    "periods": {
+      "P1_Bull": {
+        "executed_trades": 10,
+        "win_rate_pct": 70.0,
+        "net_mean_return_pct": 3.75,
+        "profit_factor": 6.32,
+        "worst_trade_pct": -3.95,
+        "avg_duration_hours": 71.9,
+        "total_opportunity_net_return_pct": 37.47
+      },
+      "P2_Bear": {
+        "executed_trades": 1,
+        "win_rate_pct": 0.0,
+        "net_mean_return_pct": -2.83,
+        "profit_factor": 0.0,
+        "worst_trade_pct": -2.83,
+        "avg_duration_hours": 72.0,
+        "total_opportunity_net_return_pct": -2.83
+      },
+      "P3_Mixed": {
+        "executed_trades": 11,
+        "win_rate_pct": 45.45,
+        "net_mean_return_pct": 0.9,
+        "profit_factor": 1.54,
+        "worst_trade_pct": -3.83,
+        "avg_duration_hours": 41.6,
+        "total_opportunity_net_return_pct": 9.92
+      }
+    },
+    "pre_registered_criteria": {
+      "min_net_mean_ev": 0.6,
+      "min_profit_factor": 1.6,
+      "min_bootstrap_ci_lower": 0.0
+    },
+    "actual_metrics": {
+      "net_mean_ev": 2.03,
+      "profit_factor": 2.58,
+      "bootstrap_ci_lower": -0.1
+    },
+    "ci_met": false,
+    "supported": false,
+    "status": "partially_supported_ci_borderline"
   },
   "combined_portfolio_all_in": {
     "metrics": {
@@ -284,6 +325,35 @@
         "worst_trade_pct": -7.35,
         "avg_duration_hours": 63.7,
         "total_opportunity_net_return_pct": 85.98
+      }
+    },
+    "pullback_range": {
+      "0.30_0.70": {
+        "executed_trades": 33,
+        "win_rate_pct": 54.55,
+        "net_mean_return_pct": 1.57,
+        "profit_factor": 1.96,
+        "worst_trade_pct": -10.32,
+        "avg_duration_hours": 57.4,
+        "total_opportunity_net_return_pct": 51.86
+      },
+      "0.35_0.65": {
+        "executed_trades": 22,
+        "win_rate_pct": 54.55,
+        "net_mean_return_pct": 2.03,
+        "profit_factor": 2.58,
+        "worst_trade_pct": -3.95,
+        "avg_duration_hours": 56.7,
+        "total_opportunity_net_return_pct": 44.56
+      },
+      "0.40_0.60": {
+        "executed_trades": 13,
+        "win_rate_pct": 53.85,
+        "net_mean_return_pct": 1.98,
+        "profit_factor": 2.52,
+        "worst_trade_pct": -3.54,
+        "avg_duration_hours": 56.5,
+        "total_opportunity_net_return_pct": 25.73
       }
     }
   }

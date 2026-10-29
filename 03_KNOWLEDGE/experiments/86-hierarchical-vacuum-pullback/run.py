@@ -1,7 +1,13 @@
 """
 EXP-86: MOR-77-01 抽出仮説（空白地帯回帰ラリー・48h押し目リセット×高値突破・上位階層押し目）による
         K-038 MVC 見逃し初動救出と高値圏トラップ排除の検証
-Issue #86 完全準拠スクリプト (厳選統合ポートフォリオ追記版)
+Issue #86 完全準拠スクリプト (監査是正版)
+
+監査是正項目:
+  1. 事前登録基準の事後変更を撤回し、HYP-86-3 の CI 判定基準を事前登録通り「> 0.0%」に厳格復元
+  2. HYP-86-3 の 3期間別（P1, P2, P3）成績の計算と metrics.json への出力
+  3. config.yaml で事前登録された Pullback レンジ幅感度グリッド（[0.30, 0.70], [0.35, 0.65], [0.40, 0.60]）の実装と出力
+  4. 重複 review/ ディレクトリのクリーンアップ
 """
 
 import os
@@ -151,7 +157,7 @@ def simulate_1m_path(events, df_1h, df_1m, mode="s3_k50", tp_sma=None):
 
 def main():
     print("=" * 80)
-    print("EXP-86: MOR-77-01 抽出仮説による K-038 MVC 見逃し初動救出と高値圏トラップ排除の検証")
+    print("EXP-86: MOR-77-01 抽出仮説による K-038 MVC 見逃し初動救出と高値圏トラップ排除の検証 (監査是正版)")
     print("=" * 80)
     t_start = time.time()
     
@@ -337,6 +343,13 @@ def main():
     m_pb = compute_metrics(trades_pb)
     ci_pb = bootstrap_ci(trades_pb)
     print(f"  HigherOrder Pullback (N={m_pb['executed_trades']}): Net Mean EV = {m_pb['net_mean_return_pct']:+.2f}%, PF = {m_pb['profit_factor']:.2f}, Cumulative = {m_pb['total_opportunity_net_return_pct']:+.2f}%, 95% CI = [{ci_pb[0]:+.2f}%, {ci_pb[1]:+.2f}%]")
+    
+    # 期間別検証 (HYP-86-3 Pullback)
+    pb_periods = {}
+    for p_name in ["P1_Bull", "P2_Bear", "P3_Mixed"]:
+        p_trades = [t for t in trades_pb if t['period'] == p_name]
+        pb_periods[p_name] = compute_metrics(p_trades)
+        print(f"    Pullback {p_name}: N={pb_periods[p_name]['executed_trades']}, Net EV = {pb_periods[p_name]['net_mean_return_pct']:+.2f}%, PF = {pb_periods[p_name]['profit_factor']:.2f}")
 
     # --- Step 8: Integrated Portfolio Evaluations ---
     print("\n--- Step 8: Evaluating Integrated Portfolios ---")
@@ -391,6 +404,14 @@ def main():
         cl_evs = [t for t in mvc_events if not t_msk.loc[t]]
         tr = simulate_1m_path(cl_evs, df_1h, df_1m, mode="s3_k50")
         grid_trap_results[f"{rp_thresh:.2f}"] = compute_metrics(tr)
+
+    # Grid 3: Pullback 720h Range Band ([0.30, 0.70], [0.35, 0.65], [0.40, 0.60])
+    grid_pb_results = {}
+    for r_min, r_max in [[0.30, 0.70], [0.35, 0.65], [0.40, 0.60]]:
+        pb_r = cond_pb_adj & cond_pb_higher & (df_1h['range_pos_720h'] >= r_min) & (df_1h['range_pos_720h'] <= r_max) & cond_pb_trigger & cond_pb_afs
+        pb_evs = df_1h.index[decluster_events(pb_r, cooldown_bars=24)]
+        tr = simulate_1m_path(pb_evs, df_1h, df_1m, mode="s3_k50")
+        grid_pb_results[f"{r_min:.2f}_{r_max:.2f}"] = compute_metrics(tr)
 
     # --- Step 10: Plotting and Artifacts ---
     print("\n--- Step 10: Generating Visualizations ---")
@@ -463,15 +484,16 @@ def main():
     plt.close(fig)
     print("Saved: plots/module_performance_breakdown.png")
 
-    # Plot 4: Sensitivity Grid Heatmap
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4.5))
+    # Plot 4: Sensitivity Grid Heatmaps (3 subplots)
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16, 4.5))
+    
     vac_x = [float(k) for k in grid_vac_results.keys()]
     vac_y_ev = [grid_vac_results[k]['net_mean_return_pct'] for k in grid_vac_results.keys()]
     vac_y_pf = [grid_vac_results[k]['profit_factor'] for k in grid_vac_results.keys()]
     ax1.plot(vac_x, vac_y_ev, marker='o', color='#1f77b4', label='Net Mean EV (%)', linewidth=2)
     ax1_r = ax1.twinx()
     ax1_r.plot(vac_x, vac_y_pf, marker='s', color='#ff7f0e', linestyle='--', label='Profit Factor', linewidth=2)
-    ax1.set_title("HYP-86-1: Vacuum Space 閾値感度 (2.0~3.0 ATR)", fontsize=11, fontweight='bold')
+    ax1.set_title("HYP-86-1: Vacuum Space (2.0~3.0 ATR)", fontsize=11, fontweight='bold')
     ax1.set_xlabel("Vacuum Space 閾値 (ATR)")
     ax1.set_ylabel("Net Mean EV (%)")
     ax1_r.set_ylabel("Profit Factor")
@@ -483,17 +505,34 @@ def main():
     ax2.plot(trap_x, trap_y_ev, marker='o', color='#2ca02c', label='Clean MVC Net EV (%)', linewidth=2)
     ax2_r = ax2.twinx()
     ax2_r.plot(trap_x, trap_y_pf, marker='s', color='#9467bd', linestyle='--', label='Clean MVC PF', linewidth=2)
-    ax2.set_title("HYP-86-2a: 720h Range Pos 閾値感度 (0.84~0.92)", fontsize=11, fontweight='bold')
+    ax2.set_title("HYP-86-2a: 720h Range Pos (0.84~0.92)", fontsize=11, fontweight='bold')
     ax2.set_xlabel("Range Pos 720h 閾値")
     ax2.set_ylabel("Clean MVC Net Mean EV (%)")
     ax2_r.set_ylabel("Profit Factor")
     ax2.axvline(0.88, color='red', linestyle=':', label='Pre-reg: 0.88')
+
+    pb_x = [k for k in grid_pb_results.keys()]
+    pb_y_ev = [grid_pb_results[k]['net_mean_return_pct'] for k in grid_pb_results.keys()]
+    pb_y_pf = [grid_pb_results[k]['profit_factor'] for k in grid_pb_results.keys()]
+    ax3.plot(pb_x, pb_y_ev, marker='o', color='#9467bd', label='Pullback Net EV (%)', linewidth=2)
+    ax3_r = ax3.twinx()
+    ax3_r.plot(pb_x, pb_y_pf, marker='s', color='#d62728', linestyle='--', label='Pullback PF', linewidth=2)
+    ax3.set_title("HYP-86-3: 720h Range Band 幅感度", fontsize=11, fontweight='bold')
+    ax3.set_xlabel("Range Band")
+    ax3.set_ylabel("Pullback Net Mean EV (%)")
+    ax3_r.set_ylabel("Profit Factor")
+    
     plt.tight_layout()
     fig.savefig(PLOTS_DIR / "sensitivity_grid_heatmaps.png", dpi=150)
     plt.close(fig)
     print("Saved: plots/sensitivity_grid_heatmaps.png")
 
     # --- Step 11: Export metrics.json ---
+    # 事前登録基準に厳格に準拠した判定 (Goalpost Shifting の完全排除)
+    ci_pb_lower = ci_pb[0]
+    hyp_86_3_ci_met = bool(ci_pb_lower > 0.0) # 事前登録基準: > 0.0%
+    hyp_86_3_supported = bool(m_pb['executed_trades'] >= 10 and m_pb['net_mean_return_pct'] >= 0.60 and m_pb['profit_factor'] >= 1.60 and hyp_86_3_ci_met)
+
     metrics_data = {
         "experiment_id": "EXP-86",
         "timestamp": pd.Timestamp.now(tz="UTC").isoformat(),
@@ -522,7 +561,20 @@ def main():
         "hyp_86_3_pullback": {
             "metrics": m_pb,
             "bootstrap_ci_95": ci_pb,
-            "supported": bool(m_pb['executed_trades'] >= 10 and m_pb['net_mean_return_pct'] >= 0.60 and m_pb['profit_factor'] >= 1.60 and ci_pb[0] > -0.20)
+            "periods": pb_periods,
+            "pre_registered_criteria": {
+                "min_net_mean_ev": 0.60,
+                "min_profit_factor": 1.60,
+                "min_bootstrap_ci_lower": 0.0
+            },
+            "actual_metrics": {
+                "net_mean_ev": m_pb['net_mean_return_pct'],
+                "profit_factor": m_pb['profit_factor'],
+                "bootstrap_ci_lower": ci_pb_lower
+            },
+            "ci_met": hyp_86_3_ci_met,
+            "supported": hyp_86_3_supported,
+            "status": "partially_supported_ci_borderline" if not hyp_86_3_supported and m_pb['net_mean_return_pct'] >= 0.60 and m_pb['profit_factor'] >= 1.60 else ("supported" if hyp_86_3_supported else "refuted")
         },
         "combined_portfolio_all_in": {
             "metrics": m_combined,
@@ -536,11 +588,12 @@ def main():
             "bootstrap_ci_95": ci_selective,
             "periods": selective_periods,
             "delta_net_return_pct": float(np.round(m_selective['total_opportunity_net_return_pct'] - m_mvc['total_opportunity_net_return_pct'], 2)),
-            "supported": bool(m_selective['total_opportunity_net_return_pct'] >= m_mvc['total_opportunity_net_return_pct'] + 15.0 and m_selective['profit_factor'] >= 1.95 and m_selective['worst_trade_pct'] >= -7.35)
+            "supported": bool(m_selective['total_opportunity_net_return_pct'] >= m_mvc['total_opportunity_net_return_pct'] + 15.0 and m_selective['profit_factor'] >= 1.95 and m_selective['worst_trade_pct'] >= -7.35 and ci_selective[0] > 0.0)
         },
         "robustness_grids": {
             "vacuum_space": grid_vac_results,
-            "range_pos_trap": grid_trap_results
+            "range_pos_trap": grid_trap_results,
+            "pullback_range": grid_pb_results
         }
     }
     
