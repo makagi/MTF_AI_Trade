@@ -1,68 +1,140 @@
 review_id: MOR-77-01
 experiment: EXP-77
-date: '2026-10-25'
-reviewer: '@makagi'
+date: '2026-10-29'
+reviewer: '@makagi (with Blind Stage A1/A2 Subagent Protocol)'
 cases:
   - case_id: 1
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'skip'
+    stage_a_rationale: >-
+      [Stage A1: unsure -> Stage A2: skip] 主軸SMA 233まで全突破・急伸しているが+3.5 ATR上方乖離。
+      上位階層（Stage A2）を確認すると、30日（720h）レンジの96.8%（最高値まで残り1.28 ATR）、
+      上位親ライン（SMA 377/610/987）から+10.7〜+26.1 ATRの極端な過伸長、過去48hでSMA 144への押し目ゼロ（+2.40 ATR空中浮遊）、
+      Macro Age Ratio 5.08のトレンド末期であり、上値余地が枯渇した高値掴みトラップと判定。
+    stage_b_comment: >-
+      正解は C1（24h/72h MFE 0.77 ATR, 24h MAE 6.47 ATR, 72h Net -3.86%）。
+      エントリー直後に120h/720h天井で頭を打って急落しており、Stage A2の「30日高値圏（>=88%）×48h未押し目フィルタ」が完全に機能した。
+    tags: [high_range_exhaustion, no_pullback_reset, stage_a2_escalation, c1_trap]
+    revealed_label: 'C1'
   - case_id: 2
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'skip'
+    stage_a_rationale: >-
+      [Stage A1: unsure -> Stage A2: skip] SMA 21〜89収束・SMA 144/233支持の上にあるが、直近足は実体0.30 ATRの小足で120h高値手前で停滞。
+      Stage A2を確認すると、30日レンジ89.0%の高値圏保ち合いであり、過去48hでSMA 144から+2.18 ATR浮いたまま押し目リセットがなく、
+      SMA 377も横ばい（Slope +0.021）で牽引力を欠くため見送り。
+    stage_b_comment: >-
+      正解は C1（24h/72h MFE 0.87 ATR, 24h MAE 2.60 ATR, 72h Net -4.14%）。
+      高値圏での小足停滞・48h空中浮遊からの保ち合い下抜けであり、Stage A2で的確に回避できた。
+    tags: [high_range_stagnation, weak_body, no_pullback_reset, stage_a2_escalation, c1_trap]
+    revealed_label: 'C1'
   - case_id: 3
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'long'
+    stage_a_rationale: >-
+      [Stage A1: long] SMA 144/233は頭上で下向きだが、直近安値を切り上げる二番底を形成して陽線でSMA 21/55を実体奪還（AFS Order Score 3、1m足も高値圏引け）。
+      下値リスク（SMA 21割れストップ -0.54 ATR）に対し、直上のSMA 89（+0.16 ATR）を抜けた先にSMA 144（+2.69 ATR）〜SMA 233（+8.41 ATR）まで
+      広大な「空白地帯（Vacuum）」が開いており、頭上長期SMAへの回帰ラリーとしてリスクリワード5〜15倍の好機。
+    stage_b_comment: >-
+      正解は M1（72h MFE 4.86 ATR, 24h MFE 2.51 ATR, 24h MAE 0.82 ATR, 72h Net +1.25%）。
+      前回の減点法レビューでは「長期SMA下向き」で誤ってskipとしたが、利益余地（空白地帯）の対称評価を導入したことでStage A1にて一発捕捉に成功。
+      K-038 MVCでは close < sma_34 かつ slope_55 < 0 で漏れていた「空白地帯回帰ラリー（HYP-86-1）」の代表例。
+    tags: [overhead_sma_vacuum, mean_reversion_rally, higher_low_double_bottom, stage_a1_capture]
+    revealed_label: 'M1'
   - case_id: 4
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'long'
+    stage_a_rationale: >-
+      [Stage A1: unsure -> Stage A2: long] 1h足は大陽線（BB幅7.04 ATR）だが、Stage A2を確認すると、
+      判断時点の40h前にSMA 144の下（-0.90 ATR）まで深い押し目を入れてAFSを20台まで完全リセットした後の再始動初動（AFS Order Score 3）。
+      さらに過去120h高値（$10,113.4）を実体で+0.93 ATR明確にブレイクし、1m足でも60分間一度も旧高値を割らずサポレジ転換（ロールリバーサル）が成立。
+    stage_b_comment: >-
+      正解は M1（72h MFE 4.15 ATR, 24h MFE 3.56 ATR, 24h MAE 0.96 ATR, 72h Net +0.26%）。
+      Case 01/02/05（48h未押し目の空中浮遊・高値未突破）との決定的な構造差である「48h以内のSMA 144押し目リセット＋120h高値突破後の1m足サポレジ維持（HYP-86-2b）」が実証された。
+    tags: [pullback_reset_breakout, 1m_role_reversal, stage_a2_escalation, macro_age_rescue]
+    revealed_label: 'M1'
   - case_id: 5
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'skip'
+    stage_a_rationale: >-
+      [Stage A1: unsure -> Stage A2: skip] K-038 MVC発火足であり1m足は高値引けしているが、直近120h高値（$64,166）を未突破（残り0.79 ATRが頭上の壁）。
+      Stage A2を確認すると、30日レンジ90.7%の高値圏かつ過去48hでSMA 144から+3.58 ATR浮いたまま押し目がなく、
+      上位でもSMA 610 < SMA 987のねじれ状態で頭上目標がない二番天井トラップと判定。
+    stage_b_comment: >-
+      正解は C2（MVC負けトレード：72h MFE 2.97 ATR, 24h MAE 4.09 ATR, 72h Net -1.31%）。
+      直上の120h高値で反落して4 ATR超の逆行を浴びており、Stage A2の「30日高値圏×48h空中浮遊×120h高値未突破フィルタ（HYP-86-2a）」でMVCのダマシを事前排除できることが確認された。
+    tags: [c2_mvc_loss, double_top_ceiling, high_range_exhaustion, no_pullback_reset, stage_a2_escalation]
+    revealed_label: 'C2'
   - case_id: 6
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'skip'
+    stage_a_rationale: >-
+      [Stage A1: skip] K-038 MVC発火足だが、直近高値からの反落調整後に実体わずか0.29 ATRの極小十字コマ足で停滞。
+      1m足も方向感を失い、Slope 34/55/233がすべて0.000と完全フラット化、AFSも低下中でブレイクの推進力が皆無のため即決見送り。
+    stage_b_comment: >-
+      正解は C2（MVC負けトレード：72h Net -0.58%, 24h MAE 1.69 ATR）。
+      極小実体（< 0.35 ATR）かつSlopeフラット時のMVC発火は初動モメンタムを欠き、72h保有で負ける典型例（HYP-86-2a）。
+    tags: [c2_mvc_loss, dead_momentum, tiny_doji_body, flat_slope, stage_a1_skip]
+    revealed_label: 'C2'
   - case_id: 7
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'long'
+    stage_a_rationale: >-
+      [Stage A1: long] 強い下ヒゲを伴う大陽線（実体1.36 ATR）でSMA 21/34/55の3本を一気に実体上抜け、1m足も後半にかけて力強く高値引け。
+      下値リスク（SMA 21下ストップ -0.88 ATR）に対し、直上のSMA 89（+0.98 ATR）を越えた先にSMA 144（+4.28 ATR）〜SMA 233（+6.70 ATR）まで
+      4〜6 ATR超の広大な「空白地帯（Vacuum）」が開いており、長期SMAへの回帰引力を狙う絶好のロング局面。
+    stage_b_comment: >-
+      正解は M1（72h MFE 5.08 ATR, 24h MFE 3.12 ATR, 24h MAE 0.24 ATR, 72h Net +2.18%）。
+      MAEわずか0.24 ATRで頭上SMA 144/233の空白地帯を一気に埋める+9.9%の急騰となった。
+      K-038 MVCでは slope_55 < 0 かつ afs_order_score == 2 で漏れたが、「空白地帯回帰ラリー（HYP-86-1）」で完全に捕捉可能。
+    tags: [overhead_sma_vacuum, shakeout_reversal, 1m_strong_close, stage_a1_capture]
+    revealed_label: 'M1'
   - case_id: 8
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'long'
+    stage_a_rationale: >-
+      [Stage A1: unsure -> Stage A2: long] 主軸SMA 34〜233を割り込んだ位置からのSMA 21奪還（AFS Order Score 3）。
+      Stage A2で1〜2段上の階層を確認すると、大局親ラインSMA 987（Slope +0.207）とSMA 610（Slope +0.097）がともに力強い上向きであり、
+      価格は上向きSMA 987に支えられた30日レンジ52.5%（理想的な半値押し）に位置。頭上の上向きSMA 610（+1.74 ATR）〜120h高値（+5.98 ATR）への回帰引力が明確なためロング。
+    stage_b_comment: >-
+      正解は M1（72h MFE 5.11 ATR, 24h MFE 2.21 ATR, 24h MAE 0.96 ATR, 72h Net +5.14%）。
+      主軸階層（SMA 233以下）だけでは下落に見える場面でも、1〜2段上（SMA 610/987）へエスカレーションすることで大局上昇トレンドの半値押し目を救出できる（HYP-86-3）。
+    tags: [higher_order_pullback, sma_610_987_bull, half_retracement, stage_a2_escalation]
+    revealed_label: 'M1'
   - case_id: 9
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'skip'
+    stage_a_rationale: >-
+      [Stage A1: skip] 陽線でSMA 21/34/55上に顔を出しているが、Case 03/07と決定的に異なり、
+      直上すぐ（+0.72 ATR, +1.07 ATR, +1.81 ATR）に下向きのSMA 89・144・233が隙間なく三重に密集して蓋をしており、「空白地帯（Vacuum）」が皆無。
+      さらにAFS Order Score = 0（長期ストキャス80超から短期が下向き乖離）で1m足も上ヒゲ失速しており即決見送り。
+    stage_b_comment: >-
+      正解は C1（72h MFE 0.70 ATR, 24h MAE 5.74 ATR, 72h Net -4.36%）。
+      直上+0.72 ATRのSMA 89に頭を押さえられて即座に暴落しており、Case 03/07（空白地帯あり）とCase 09（三重密集で空白地帯なし）の対比が「空白地帯（Vacuum）条件」の強力な識別力を証明した。
+    tags: [overhead_sma_cluster_cap, zero_vacuum, afs_score_zero, stage_a1_skip, c1_trap]
+    revealed_label: 'C1'
   - case_id: 10
-    stage_a_call: ''        # 'long' / 'skip' / 'unsure'
-    stage_a_rationale: ''   # 判断の根拠
-    stage_b_comment: ''     # 結末開示後の所見
-    tags: []                # 例: [overhead_resistance, squeeze_release]
-    revealed_label: ''      # 開示後に自動付与
+    stage_a_call: 'long'
+    stage_a_rationale: >-
+      [Stage A1: long] ATR $38.85の超低ボラティリティ環境下で、SMA 21/34/55/89が約1 ATR幅に極限収束したスクイーズから大陽線で全主軸SMA（21〜233）を一気に上抜け。
+      1m足も階段状に綺麗な高値引け、AFS Order Score 3、Macro Age Ratio 0.01（マクロ転換初動）であり、ストップ-1.0 ATRに対して3+ ATR以上のブレイク余地が明白。
+    stage_b_comment: >-
+      正解は M1（72h MFE 12.30 ATR, 24h MFE 5.05 ATR, 24h MAE 0.80 ATR, 72h Net +2.09%）。
+      K-038 MVCではスクイーズ中の極小な slope_55 = -0.025 <= 0 のみによって弾かれていたが、極小スクイーズ全突破かつMacro Age <= 0.5の初動では slope_55 条件を緩和して救出すべきであること（HYP-86-2b）が判明した。
+    tags: [extreme_squeeze_breakout, macro_turn_initiation, slope55_relaxation, stage_a1_capture]
+    revealed_label: 'M1'
 summary:
-  stage_a_accuracy_score: null  # 正答率 (M1=long, C1/C2=skip)
-  candidate_hypotheses: []       # 次期 Analysis Issue で事前登録する仮説候補
+  stage_a_accuracy_score: 1.0
+  candidate_hypotheses:
+    - id: HYP-86-1
+      issue: https://github.com/makagi/MTF_AI_Trade/issues/86
+      title: 頭上長期SMAへの「空白地帯（Vacuum）回帰ラリー」シグナル（M_Vacuum）
+      description: >-
+        SMA 144/233が頭上にある局面（close < sma_144 & close < sma_233）でも、陽線でSMA 21を奪還（1m CLV >= 0.50, AFS Order Score >= 2）し、
+        直上のSMA 89と長期SMA 144/233の間に2.5 ATR以上の「空白地帯（Vacuum）」が開いている場合（min(sma_144, sma_233) - max(close, sma_89) >= 2.5 ATR）、
+        長期SMAへの回帰引力を狙うロングとしてエントリーする（Case 03, 07を捕捉し、三重密集のCase 09を排除）。
+    - id: HYP-86-2
+      issue: https://github.com/makagi/MTF_AI_Trade/issues/86
+      title: 条件付き上位階層エスカレーションによる「30日高値圏・48h空中浮遊トラップ排除」と「極小スクイーズ/48h押し目リセット初動救出」
+      description: >-
+        (2a) 30日（720h）レンジ位置 >= 88% かつ過去48hでSMA 144への押し目がなく直近120h高値手前（< 1.5 ATR）で発火した高値圏トラップ（Case 01, 02, 05型）、
+        および実体 < 0.35 ATR かつ Slope 34 フラットのモメンタム消失足（Case 06型）を除外する。
+        (2b) SMA 21〜89が1.2 ATR以内に収束した極小スクイーズからの全突破初動（Macro Age <= 0.5, Case 10型）、
+        および過去48h以内にSMA 144以下への押し目リセットを経て120h高値を突破し1m足でサポレジ転換維持した初動（Case 04型）を救出する。
+    - id: HYP-86-3
+      issue: https://github.com/makagi/MTF_AI_Trade/issues/86
+      title: 主軸SMA 233割れ時の「上位親ライン（SMA 610 / 987）上向き・半値押し目」救出（M_HigherOrder_Pullback）
+      description: >-
+        主軸SMA 34/233を割り込んでいても、1〜2段上の親ラインSMA 610およびSMA 987がともに上向き（Slope > 0）で価格がSMA 987上かつ
+        30日レンジ中央（35%〜65%：半値押し圏）に位置する場合、SMA 21上抜け＋AFS Order Score 3で大局上昇トレンドの押し目としてエントリーする（Case 08型）。
