@@ -65,7 +65,7 @@ def calculate_features_1h(df_1h):
     atr_24 = calculate_atr(df_1h, 24)
     df_1h['atr_24'] = atr_24
 
-    for p in [21, 34, 55, 89, 144, 233, 377]:
+    for p in [21, 34, 55, 89, 144, 233, 377, 610, 987]:
         df_1h[f'sma_{p}'] = calculate_sma(close, p)
         df_1h[f'slope_{p}'] = (df_1h[f'sma_{p}'] - df_1h[f'sma_{p}'].shift(3)) / (3 * atr_24)
         df_1h[f'sma_diff_{p}'] = (close - df_1h[f'sma_{p}']) / atr_24
@@ -87,6 +87,10 @@ def calculate_features_1h(df_1h):
     regime_df = calculate_regime_age(df_1h)
     df_1h['macro_age_ratio'] = regime_df['macro_age_ratio']
 
+    df_1h['roll_high_720h'] = df_1h['high'].rolling(720).max()
+    df_1h['roll_low_720h'] = df_1h['low'].rolling(720).min()
+    df_1h['range_pos_720h'] = (close - df_1h['roll_low_720h']) / (df_1h['roll_high_720h'] - df_1h['roll_low_720h'])
+
     return df_1h
 
 
@@ -101,6 +105,34 @@ def detect_k038_mvc(df_1h):
     gate_booster = (df_1h['afs_order_score'] == 3)
     mvc_mask = meso_decl & gate_trap & gate_booster
     return mvc_mask
+
+
+def detect_k043_selective(df_1h):
+    """
+    K-043 選択的統合シグナル（K-038 MVC 86件 + K-043 Pullback 22件の論理和・24hデクラスタ後104件）を特定する。
+    """
+    close = df_1h['close']
+    open_p = df_1h['open']
+
+    # 1. K-038 MVC
+    meso_raw = (close > df_1h['sma_34']) & (close.shift(1) <= df_1h['sma_34'].shift(1)) & (df_1h['slope_55'] > 0)
+    meso_decl = decluster_events(meso_raw, cooldown_bars=24)
+    gate_trap = ~(df_1h['macro_age_ratio'] > 2.0)
+    gate_booster = (df_1h['afs_order_score'] == 3)
+    mvc = meso_decl & gate_trap & gate_booster
+
+    # 2. HYP-86-3 Pullback
+    cond_pb_adj = (close < df_1h['sma_34']) & (close < df_1h['sma_233'])
+    cond_pb_higher = (df_1h['slope_610'] > 0) & (df_1h['slope_987'] > 0) & (close > df_1h['sma_987'])
+    cond_pb_range = (df_1h['range_pos_720h'] >= 0.35) & (df_1h['range_pos_720h'] <= 0.65)
+    cond_pb_trigger = (close > open_p) & (close > df_1h['sma_21']) & (close.shift(1) <= df_1h['sma_21'].shift(1))
+    cond_pb_afs = df_1h['afs_order_score'] == 3
+    pb_raw = cond_pb_adj & cond_pb_higher & cond_pb_range & cond_pb_trigger & cond_pb_afs
+
+    # 3. 選択的統合（論理和 + 24hクールダウンデクラスタリング）
+    selective_raw = mvc | pb_raw
+    selective_mask = decluster_events(selective_raw, cooldown_bars=24)
+    return selective_mask
 
 
 def extract_mor_candidates(df_1h, mvc_mask, seed=42, mfe_th=4.0):
@@ -262,7 +294,7 @@ def extract_mor_candidates(df_1h, mvc_mask, seed=42, mfe_th=4.0):
     return all_cases
 
 
-def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
+def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None, signal_label="K-038 MVC"):
     """
     各ケースの Stage A (判断時点) および Stage B (結末) チャートを描画・保存する。
     """
@@ -395,7 +427,7 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
     ax_main_b.plot(x_full, sub_1h_full['bb_lower'], color='#9e9e9e', ls='--', lw=1.0)
     ax_main_b.fill_between(x_full, sub_1h_full['bb_lower'], sub_1h_full['bb_upper'], color='#eeeeee', alpha=0.3)
 
-    # 近傍 MVC シグナルのプロット
+    # 近傍 シグナルのプロット
     if mvc_mask is not None:
         sub_mvc = mvc_mask.iloc[loc0 - 120 : loc0 + 73]
         mvc_indices = np.where(sub_mvc.values)[0]
@@ -403,7 +435,7 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
             ax_main_b.axvline(m_idx, color='purple', ls=':', lw=1.2, alpha=0.7)
             ax_main_b.scatter([m_idx], [sub_1h_full['low'].iloc[m_idx] * 0.997],
                               marker='^', color='purple', s=70, zorder=5,
-                              label='K-038 MVC Signal' if mi == 0 else "")
+                              label=f'{signal_label} Signal' if mi == 0 else "")
 
     # 判断時点の縦境界線
     ax_main_b.axvline(split_idx, color='red', ls='-', lw=2.0)
@@ -432,7 +464,7 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
     label_text = {
         'M1': 'M1 (見逃しエントリー: 4+ ATR 大幅順行初動)',
         'C1': f'C1 (対照群: 似ているのに伸びなかったダマシ/失速{pair_info})',
-        'C2': 'C2 (対照群: K-038 MVC シグナル発生 → 負けトレード)'
+        'C2': f'C2 (対照群: {signal_label} シグナル発生 → 負けトレード)'
     }.get(case['type'], case['type'])
 
     net_ret = (sub_1h_full['net_ret_72h'].iloc[split_idx] * 100.0) if 'net_ret_72h' in sub_1h_full else 0.0
@@ -521,10 +553,16 @@ def render_case_charts(df_1h, df_1m, case, out_dir, mvc_mask=None):
         'sma_89': float(np.round(last_1h['sma_89'], 2)),
         'sma_144': float(np.round(last_1h['sma_144'], 2)),
         'sma_233': float(np.round(last_1h['sma_233'], 2)),
+        'sma_377': float(np.round(last_1h.get('sma_377', 0.0), 2)),
+        'sma_610': float(np.round(last_1h.get('sma_610', 0.0), 2)),
+        'sma_987': float(np.round(last_1h.get('sma_987', 0.0), 2)),
+        'range_pos_720h': float(np.round(last_1h.get('range_pos_720h', 0.0), 4)),
+        'slope_610': float(np.round(last_1h.get('slope_610', 0.0), 4)),
+        'slope_987': float(np.round(last_1h.get('slope_987', 0.0), 4)),
     }
 
 
-def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
+def generate_review_documents(cases_meta, review_dir, experiment_id="77", signal_label="K-038 MVC"):
     """
     gallery_stageA.md, gallery_stageB.md, answer_key.json, cases.json, observations.yaml を出力する。
     """
@@ -552,9 +590,9 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
     doc_a = [
         f"# Missed Opportunity Review: Stage A (判断質問票 - EXP-{experiment_id})",
         "",
-        "**Review ID:** `MOR-77-01`  ",
-        "**Experiment:** EXP-77 (K-038 MVC)  ",
-        "**実施日:** 2026-10-25  ",
+        f"**Review ID:** `MOR-{experiment_id}-01`  ",
+        f"**Experiment:** EXP-{experiment_id} ({signal_label})  ",
+        "**実施日:** 2026-10-30  ",
         "**レビュアー:** @makagi  ",
         "",
         "---",
@@ -607,9 +645,9 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
     doc_b = [
         f"# Missed Opportunity Review: Stage B (結末開示ギャラリー - EXP-{experiment_id})",
         "",
-        "**Review ID:** `MOR-77-01`  ",
-        "**Experiment:** EXP-77 (K-038 MVC)  ",
-        "**開示日時:** 2026-10-25  ",
+        f"**Review ID:** `MOR-{experiment_id}-01`  ",
+        f"**Experiment:** EXP-{experiment_id} ({signal_label})  ",
+        "**開示日時:** 2026-10-30  ",
         "",
         "---",
         "",
@@ -623,7 +661,7 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
         label_desc = {
             'M1': '★ M1 (見逃しエントリー: 4+ ATR 大幅急伸初動)',
             'C1': f'✕ C1 (対照群: 似ているのに伸びなかった失速・ダマシ{pair_suffix})',
-            'C2': '▲ C2 (対照群: K-038 MVC シグナル発生 → 負けトレード)'
+            'C2': f'▲ C2 (対照群: {signal_label} シグナル発生 → 負けトレード)'
         }.get(c['type'], c['type'])
 
         doc_b.append(f"### Case {cid}: {label_desc}")
@@ -645,7 +683,7 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
             matched_str = f"（Case {c.get('matched_m1_case_id')} の M1 と類似した指標配置）" if c.get('matched_m1_case_id') else ""
             doc_b.append(f"> **失速・ダマシの実態**: 判断時点での指標の並びは M1 に酷似していましたが{matched_str}、その後は伸び悩み、MFE はわずか `+{c['mfe_72h_atr']:.2f} ATR` に留まりました。M1 との間で何が決定的に異なっていたのか（上位足の環境、直前の戻り方、下位足プライスアクションなど）を比較観察してください。")
         else:
-            doc_b.append(f"> **シグナル負けの実態**: K-038 MVC の基準を完全に満たしてエントリーしたものの、72時間の最終リターンは `{c['net_ret_72h_pct']:+.2f}%` と損失に終わりました。S3 動的不可侵撤退の作動有無や、エントリー直後の逆行兆候を確認してください。")
+            doc_b.append(f"> **シグナル負けの実態**: {signal_label} の基準を完全に満たしてエントリーしたものの、72時間の最終リターンは `{c['net_ret_72h_pct']:+.2f}%` と損失に終わりました。S3 動的不可侵撤退の作動有無や、エントリー直後の逆行兆候を確認してください。")
         doc_b.append("")
         doc_b.append("---")
         doc_b.append("")
@@ -657,7 +695,7 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
     obs_template = {
         'review_id': f"MOR-{experiment_id}-01",
         'experiment': f"EXP-{experiment_id}",
-        'date': "2026-10-25",
+        'date': "2026-10-30",
         'reviewer': "@makagi",
         'cases': [
             {
@@ -679,7 +717,7 @@ def generate_review_documents(cases_meta, review_dir, experiment_id="77"):
     lines_yaml = [
         f"review_id: MOR-{experiment_id}-01",
         f"experiment: EXP-{experiment_id}",
-        "date: '2026-10-25'",
+        "date: '2026-10-30'",
         "reviewer: '@makagi'",
         "cases:"
     ]
@@ -832,7 +870,13 @@ def main():
     print(f"\n--- Step 3: Detecting Base Signal ({args.signal}) ---")
     if args.signal.lower() == "k038_mvc":
         mvc_mask = detect_k038_mvc(df_1h)
+        signal_label = "K-038 MVC"
         print(f"Identified {mvc_mask.sum()} K-038 MVC events.")
+    elif args.signal.lower() in ["k043_selective", "k043"]:
+        mvc_mask = detect_k043_selective(df_1h)
+        signal_label = "K-043 Selective (K-038 MVC + K-043 Pullback)"
+        print(f"Identified {mvc_mask.sum()} K-043 Selective events (Expected 104).")
+        assert mvc_mask.sum() == 104, f"Expected 104 events, got {mvc_mask.sum()}"
     else:
         raise NotImplementedError(f"Signal {args.signal} is not yet implemented.")
 
@@ -848,12 +892,12 @@ def main():
         cid = c['case_id']
         t_str = c['timestamp'].strftime('%Y-%m-%d %H:00')
         print(f"  Rendering Case {cid}: {t_str} (Type: {c['type']})...")
-        meta = render_case_charts(df_1h, df_1m, c, review_dir, mvc_mask=mvc_mask)
+        meta = render_case_charts(df_1h, df_1m, c, review_dir, mvc_mask=mvc_mask, signal_label=signal_label)
         cases_meta.append(meta)
 
     # 6. ドキュメント出力
     print("\n--- Step 6: Exporting Galleries and Documents ---")
-    generate_review_documents(cases_meta, review_dir, experiment_id=args.experiment)
+    generate_review_documents(cases_meta, review_dir, experiment_id=args.experiment, signal_label=signal_label)
     print(f"  Exported: {review_dir / 'gallery_stageA.md'}")
     print(f"  Exported: {review_dir / 'gallery_stageB.md'}")
     print(f"  Exported: {review_dir / 'answer_key.json'}")

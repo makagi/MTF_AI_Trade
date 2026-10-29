@@ -16,6 +16,8 @@ import numpy as np
 
 from tools.missed_opportunity_review import (
     extract_mor_candidates,
+    detect_k043_selective,
+    detect_k038_mvc,
     HOLDOUT_START,
     DISCOVERY_START,
     render_case_charts,
@@ -62,9 +64,14 @@ def _create_mock_df_1h(end_date="2025-04-30 23:00:00", n_bars=2500):
         "sma_144": close,
         "sma_233": close,
         "sma_377": close,
+        "sma_610": close,
+        "sma_987": close,
         "slope_34": np.zeros(n_bars),
         "slope_55": np.zeros(n_bars),
         "slope_233": np.zeros(n_bars),
+        "slope_610": np.zeros(n_bars),
+        "slope_987": np.zeros(n_bars),
+        "range_pos_720h": np.full(n_bars, 0.5),
         "sma_diff_21": np.zeros(n_bars),
         "sma_diff_34": np.zeros(n_bars),
         "sma_diff_55": np.zeros(n_bars),
@@ -233,3 +240,29 @@ def test_review_suite_files_integrity():
     obs_text = obs_path.read_text(encoding="utf-8")
     assert "review_id: MOR-77-01" in obs_text
     assert "experiment: EXP-77" in obs_text
+
+
+def test_detect_k043_selective_mask():
+    """Verify that detect_k043_selective outputs boolean series and includes both MVC and Pullback."""
+    df = _create_mock_df_1h(end_date="2025-04-30 23:00:00", n_bars=500)
+    # Inject Pullback condition at bar 100:
+    # close < sma_34, close < sma_233, slope_610 > 0, slope_987 > 0, close > sma_987,
+    # range_pos between 0.35 and 0.65, close > open, close > sma_21, close.shift(1) <= sma_21.shift(1), afs_score == 3
+    df.iloc[100, df.columns.get_loc("close")] = 50050.0
+    df.iloc[100, df.columns.get_loc("open")] = 50000.0
+    df.iloc[100, df.columns.get_loc("sma_21")] = 50020.0
+    df.iloc[99, df.columns.get_loc("close")] = 50010.0
+    df.iloc[99, df.columns.get_loc("sma_21")] = 50020.0
+    df.iloc[100, df.columns.get_loc("sma_34")] = 50200.0
+    df.iloc[100, df.columns.get_loc("sma_233")] = 50500.0
+    df.iloc[100, df.columns.get_loc("sma_987")] = 49500.0
+    df.iloc[100, df.columns.get_loc("slope_610")] = 0.05
+    df.iloc[100, df.columns.get_loc("slope_987")] = 0.05
+    df.iloc[100, df.columns.get_loc("range_pos_720h")] = 0.50
+    df.iloc[100, df.columns.get_loc("afs_order_score")] = 3
+
+    mask = detect_k043_selective(df)
+    assert isinstance(mask, pd.Series)
+    assert mask.dtype == bool
+    assert mask.iloc[100] == True, "Pullback signal at bar 100 must be detected by detect_k043_selective"
+

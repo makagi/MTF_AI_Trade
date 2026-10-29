@@ -1,0 +1,104 @@
+review_id: MOR-86-01
+experiment: EXP-86
+date: '2026-10-30'
+reviewer: '@makagi'
+target_model: 'K-038 MVC + K-043 HigherOrder Pullback (104 trades)'
+
+cases:
+  - case_id: 1
+    stage_a_call: 'skip'
+    stage_a_rationale: '直上に SMA 89/233 が密集し上値を蓋。負のモメンタムとボラティリティ枯渇で上値余地が狭く R:R 不良と判断。'
+    stage_b_comment: '判定は skip（不的中/False Negative）。実際には直後に大爆発し 72h MFE +15.94 ATR（Net Ret +1.66%）の大順行。下降 SMA 89/233 を一気に貫通する強烈な真空ブレイクであった。'
+    tags: [vacuum_overhead, false_negative, high_mfe_breakout]
+    revealed_label: 'M1'
+
+  - case_id: 2
+    stage_a_call: 'long'
+    stage_a_rationale: '上昇 SMA 233 上で全中間SMA（21〜144）が極小スクイーズ（BB幅 1.98 ATR）後に大陽線で実体ブレイク。1m足も高値引けで R:R 7.6:1 と極めて優秀。'
+    stage_b_comment: '判定は long（的中/True Positive）。エントリー後 72h MFE +22.17 ATR、Net Ret +3.63% と大順行。クロス条件の制約で見逃されていた極小スクイーズ上抜け初動を的確に捕捉した。'
+    tags: [multi_sma_squeeze, true_positive, high_mfe_breakout]
+    revealed_label: 'M1'
+
+  - case_id: 3
+    stage_a_call: 'long'
+    stage_a_rationale: '上昇 SMA 233 上で SMA 21〜144 を土台とした押し目完了。1m足が終盤で強烈に高値引けしたため青天井ブレイクと判断。'
+    stage_b_comment: '判定は long（不的中/False Positive）。実際には 72h MFE +0.84 ATR に留まり、Net Ret -4.99%（MAE -2.79 ATR）と急反落。30日レンジ 90%超の高値圏で直前高値（2017年バブル高値近傍）での利確売りに押された対照群 C1 の罠。'
+    tags: [overhead_resistance_trap, false_positive, high_range_stall]
+    revealed_label: 'C1'
+
+  - case_id: 4
+    stage_a_call: 'skip'
+    stage_a_rationale: '下降する SMA 233 が頭上 0.68 ATR に迫り上値余地なし。短期GCに釣られた買いが頭上の壁に激突する典型罠とみて見送り。'
+    stage_b_comment: '判定は skip（的中/True Negative）。72h MFE はわずか +0.24 ATR、Net Ret -3.31%（MAE -4.76 ATR）と大きく崩壊。K-044 鉄則（長期下降SMA直下での買い禁止）通り、戻り売り壁による失速を完璧に回避。'
+    tags: [overhead_resistance, true_negative, k044_avoidance]
+    revealed_label: 'C1'
+
+  - case_id: 5
+    stage_a_call: 'long'
+    stage_a_rationale: '主軸 SMA 233/144 急上昇下の SMA 89 順張り押し目。1h足大陽線＋1m足天井張り付きで R:R 3.86:1 と極めて優秀。'
+    stage_b_comment: '判定は long（的中/True Positive）。エントリー後 24h 以内に急騰し、72h MFE +17.11 ATR、Net Ret +15.46% の記録的メガトレンド（テスラBTC購入公表相場）。SMA 34 単純クロスバーの縛りで見逃されていた強力押し目を捕捉。'
+    tags: [trend_continuation_pullback, true_positive, mega_trend]
+    revealed_label: 'M1'
+
+  - case_id: 6
+    stage_a_call: 'skip'
+    stage_a_rationale: '4日間の天井圏揉み合い、高値切り下げ。Macro Age 1.50 と成熟し、1m足も上ヒゲ失速。SMA 89 反発に見せかけたダマシとみて見送り。'
+    stage_b_comment: '判定は skip（的中/True Negative）。72h MFE +0.94 ATR に留まり、Net Ret -5.78%（MAE -8.44 ATR）と深掘り下落。成熟トレンド終盤のダマシ押し目を完全回避。'
+    tags: [macro_age_fatigue, true_negative, false_pullback]
+    revealed_label: 'C1'
+
+  - case_id: 7
+    stage_a_call: 'long'
+    stage_a_rationale: 'SMA 89/144/233 支持帯からの超強力なV字反発大陽線。1m足も終始買い優勢で R:R 3.6〜5.4:1 と評価。'
+    stage_b_comment: '判定は long（不的中/False Positive）。【重要知見】統合モデル（K-043 Pullback）が実際に点灯した C2 負けトレード（Net Ret -7.96%）。しかしエントリー直後は 24h 以内に +4.05 ATR まで急伸していた！SEC ETF承認直後の事実売り急落に巻き込まれたものであり、方向は的中していたが利確・トレール防衛ルール（MFE Lock）がないために大敗となった。'
+    tags: [mfe_reversal_c2, trailing_stop_needed, profit_take_absence]
+    revealed_label: 'C2'
+
+  - case_id: 8
+    stage_a_call: 'skip'
+    stage_a_rationale: '4.28 ATR の真空はあるが、Stage A2 データにより SMA 377/610/987 が急降下する完全な構造的ベア相場と判明。K-044 鉄則に基づき見送り。'
+    stage_b_comment: '判定は skip（不的中/False Negative）。72h MFE +5.08 ATR、Net Ret +2.18% と短期自律反発。ただし大局ベアの中の反発であり、長期統計では勝率の低い逆張り領域。'
+    tags: [bear_market_bounce, false_negative, k044_strict]
+    revealed_label: 'M1'
+
+  - case_id: 9
+    stage_a_call: 'skip'
+    stage_a_rationale: '直前の巨大上ヒゲ失速（$31,061 rejection）のしこり。全SMA膠着、AFS全期間 50 未満のため見送り。'
+    stage_b_comment: '判定は skip（不的中/False Negative）。実際には 72h MFE +7.81 ATR、Net Ret +2.14% まで伸長。上ヒゲの戻り売りをブレイクして上昇継続した。'
+    tags: [upper_wick_rejection, false_negative, continuation]
+    revealed_label: 'M1'
+
+  - case_id: 10
+    stage_a_call: 'long'
+    stage_a_rationale: '極小スクイーズ＆AFSスコア3。価格直下に上向き SMA 987 支持線があり、SMA 610 も上向き。上位潮流に後押しされた Vacuum Pullback と判断。'
+    stage_b_comment: '判定は long（不的中/False Positive）。【重要知見】統合モデル（K-043 Pullback）が点灯した C2 負けトレード（Net Ret -0.51%）。エントリー後 24h で一度も +0.10 ATR 以上伸びず失速（mfe_24h_atr = 0.10）。初動不発時に早期撤退するルールがあれば損失を皆無に抑えられた典型例。'
+    tags: [stall_c2, rapid_exit_needed, early_invalidation]
+    revealed_label: 'C2'
+
+summary:
+  stage_a_accuracy_score: 0.40  # 4/10 的中 (M1=long: 2/5, C1/C2=skip: 2/5)
+  positive_discoveries:
+    - 'M1 的中ケース（Case 02, Case 05）はともに MFE +17〜+22 ATR の超弩級トレンドであり、極小スクイーズ上抜けおよび上位SMA急勾配下の順張り押し目は極めて高いエッジを持つ。'
+    - 'C1 見送り的中ケース（Case 04, Case 06）では、K-044（下降長期SMA直下での買い禁止）および成熟トレンド終盤のダマシ押し目回避が完璧に機能した。'
+  critical_remedies:
+    - 'C2 負けトレード（Case 07）の解剖により、MFE +4.05 ATR まで大順行しながら利確・トレーリングストップが存在しないために -7.96% の全戻し大損となった構造的欠陥が判明。'
+    - 'C2 負けトレード（Case 10）の解剖により、エントリー後 24h で MFE がわずか +0.10 ATR に留まり全くモメンタムが立ち上がらない「失速負け」の早期撤退シグナルが特定された。'
+
+candidate_hypotheses:
+  - id: 'HYP-89-1'
+    name: 'Rapid Stall Exit (初動不発・早期失速動的撤退)'
+    target_problem: 'Case 10 のようにエントリー後 12〜24時間経過してもほとんど順行せず（24h MFE < 0.75 ATR）、短期 SMA 21/34 を実体で再陥落する負けトレードの早期手仕舞い。'
+    specification: 'エントリー後 24h 以内に 1h 足の終値が SMA 21 を下回り、かつそれまでの累積 MFE が +0.75 ATR 未満の場合、72h タイムアウトを待たずに即時成行決済する。'
+    expected_impact: '負けトレードの損失幅を抑制し、Worst ドローダウンと資本拘束時間を劇的に圧縮する。'
+
+  - id: 'HYP-89-2'
+    name: 'MFE Preservation Trailing / Partial Take-Profit (急伸利確・利益防衛トレーリング)'
+    target_problem: 'Case 07 のように +4.05 ATR まで順行しながら、急反落（事実売り・急反転）に巻き込まれて -7.96% の壊滅的大敗に転落する全戻し損失の防止。'
+    specification: 'エントリー後の 1m 高値が +3.0 ATR（または +4.0 ATR）に到達した時点で、ストップラインをエントリー価格 +1.0 ATR（手数料カバー・利益確定水準）へ動的に引き上げる（または 50% ポジションを部分利確する）。'
+    expected_impact: 'Case 07 のような大勝ちから大負けへの転落をゼロ化し、勝率およびプロフィットファクターを構造的に引き上げる。'
+
+  - id: 'HYP-89-3'
+    name: 'Multi-SMA Squeeze Breakout Rescue (中間SMA極小収縮からの再加速救出)'
+    target_problem: 'Case 02 (+22.17 ATR) や Case 05 (+17.11 ATR) のように、主軸 SMA 233 上で中間SMA（21〜144）が極小収縮（BB幅 < 2.0 ATR）した後の大陽線ブレイクが、単純な close > sma_34 クロス制約によって見逃される機会損失の解消。'
+    specification: 'SMA 21〜144 の最大・最小スプレッドが 1.5 ATR 以下の極小スクイーズ状態から、1h 足終値が全中間SMAを上抜け、かつ 1m 足の終値が高値 20% 圏で引けた場合、クロスバー制約を免除してエントリーを許可する。'
+    expected_impact: 'K-043 統合モデルに年間 5〜10件の超弩級トレンド（15+ ATR）を追加救出し、累積リターンを大幅にブーストする。'
