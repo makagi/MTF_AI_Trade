@@ -1,11 +1,11 @@
 # MTFシステムトレード Principles (行動原則)
 
 **Doc ID:** GOV-PRN-001  
-**Version:** 0.4.0  
+**Version:** 0.5.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-29  
-**Related Issues:** [#7](https://github.com/makagi/MTF_AI_Trade/issues/7), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84)  
+**Last Updated:** 2026-10-31  
+**Related Issues:** [#7](https://github.com/makagi/MTF_AI_Trade/issues/7), [#13](https://github.com/makagi/MTF_AI_Trade/issues/13), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89)  
 **Related Docs:** [00_GOVERNANCE/vision.md](vision.md), [00_GOVERNANCE/issue-driven-workflow.md](issue-driven-workflow.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [04_IMPLEMENTATION/agent-rules.md](../04_IMPLEMENTATION/agent-rules.md)  
 
 ---
@@ -80,6 +80,10 @@ Decision (意思決定: 仕様への昇格、戦略採択、または棄却)
 ### 3.4 判断に迷いがある場合の条件付き上位階層参照と利益余地の対称評価 (Hierarchical Escalation & Profit-Room Symmetry)
 特定の長期パラメータ（特定の移動平均期間や特定の時間足）をすべての局面に一律のハードフィルタとして強制してはならない。また、「上位が下向きだから」「直前に大陽線が出たから」といった表層的な減点法（リスク回避偏重）だけで好機を即座に切り捨ててはならない。  
 現在観測している主軸階層（スケール $k$）だけで方向性・**利益を取れる余地（Profit Room / 空白地帯）**・リスク境界が明確に判断できる場合はその階層で意思決定を完結させ、**主軸階層において判断に迷いや矛盾が生じる場合（例: 頭上抵抗を跨げるか反落するか微妙な局面、上位抵抗までの空白地帯を狙う回帰初動、主軸ラインをすべて抜けて上値目標が見えない／過伸長か迷う局面、主軸ライン割れが押し目かトレンド崩壊か判別しづらい局面）にのみ、1〜2段階上の階層（$k+1, k+2$）を参照して決着をつける**というスケール不変（Scale-Invariant）の条件付きエスカレーション原則を採用する。
+
+### 3.5 階層の相対性と特定パラメータ固定観念の禁止 (Scale Relativity & Anti-Dogma Principle)
+「短期・中期・長期」とは、特定の移動平均期間（特定の数値群）や特定の時間足に紐づいた絶対的な固定ラベルではなく、**任意の観測基準における相対的な階層関係（$\text{Scale}_{k-1} < \text{Scale}_{k} < \text{Scale}_{k+1}$）**を指す。  
+上位階層の転換近傍・並行時に下位階層で発生する往復振動や、下位階層の限界点から中位・上位階層へと波及する特徴量伝播の力学は、どのスケールを切り取ってもフラクタルに成立する普遍構造である。したがって、「長期とは特定の期間数値である」といった固定観念（ドグマ）に陥ることを厳に戒め、常に相対的な階層間の関係性としてモデル化・検証を行わなければならない。
 
 ---
 
@@ -200,3 +204,4 @@ AIエージェントが出力した「もっともらしい考察」を、定量
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 | 2026-10-19 | 0.3.0 | 境界条件の特定と双方向差分分析（成立・非成立の類似状況再現性）の原則（2.4）を追加 | @makagi / [#57](https://github.com/makagi/MTF_AI_Trade/pull/57) |
 | 2026-10-29 | 0.4.0 | 判断に迷いがある場合の条件付き上位階層参照（Hierarchical Escalation on Ambiguity）の原則（3.4）を追加 | @makagi / [#84](https://github.com/makagi/MTF_AI_Trade/issues/84) |
+| 2026-10-31 | 0.5.0 | 階層の相対性と特定パラメータ固定観念の禁止原則（3.5）を追加 | @makagi / [#89](https://github.com/makagi/MTF_AI_Trade/issues/89) |
