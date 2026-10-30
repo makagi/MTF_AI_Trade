@@ -652,7 +652,36 @@ graph TD
   2. **極小スクイーズ全突破救出の反証（`HYP-86-2b`）**: 救出された 9件は勝率 `22.22%`・**Net Mean EV `-0.34%`（PF `0.72`）** と赤字化。ボラティリティ極小収縮時に `Slope_55 > 0` の中期モメンタム確認を免除すると、レンジ内のノイズ上ヒゲ・ダマシを高確率（77.8%）で掴むことが判明した。
 * **実験条件**: BTCUSD 1h & 1m、K-038 MVC 86件中除外9件 ＆ 救出候補9件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/86-hierarchical-vacuum-pullback/record.md`](experiments/86-hierarchical-vacuum-pullback/record.md) (EXP-86 / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88))
-* **仕様への影響**: `K-038 MVC` における `Slope_55 > 0` 必須条件を維持し、30日高値圏の一律ハードフィルタ導入は見送る。
+### K-046: 相対的時間スケールにおける長期並行チャネリングと方向確定の幾何分離則
+* **ステータス**: **支持 (Supported across Multiple Relative Scales)**
+* **概要**: ハードコードされた固定の移動平均線期間に依存せず、任意の時間スケール組 $(S, M, L)$（Fast: 89/144, Standard: 233/377, Slow: 610/987）において、長期ペア $(L_1, L_2)$ の並行度（$|\text{Slope}_{L_1} - \text{Slope}_{L_2}| \le 0.015 \text{ ATR/h}$ かつ双方の傾き絶対値 $\le 0.020 \text{ ATR/h}$）と方向確定（同符号かつ双方が閾値を超えて発散）の市場動態を検証（EXP-91）：
+  - 長期ペアが並行している「チャネリング状態（Parallel）」では、相場エネルギーが往復振動に消費され、将来 72h MFE は平均 4.67〜5.25 ATR に強く頭打ちされる。
+  - 一方、長期ペアが方向確定（Lock-In Bull）すると、上値余地が平均 6.27〜6.62 ATR（+19%〜+42%）へ大幅伸長し、MFE 10+ ATR の大トレンド発生確率は **1.65〜1.83倍** に跳ね上がる。
+* **実験条件**: BTCUSD 1h、Discovery全期間（2020-01〜2025-04、46,728行）、3つの相対スケール組比較
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
+* **仕様への影響**: 上位長期ペアの並行チャネリング状態下での無条件トレンド順張りを禁止。並行時は往復振幅端利確、方向確定時はトレンド追従とするレジーム適応の基礎として採用。
+
+---
+
+### K-047: AFS全ペア多数決スコアリング則と安易な多特徴量線形合算の反証
+* **ステータス**: **多数決支持 (Supported in Voting) / 線形合算反証 (Refuted in Linear Sum)**
+* **概要**: AFS（7/9/11/13）の構造分解と多次元統合コンテキストスコアを検証（EXP-91）：
+  - 隣接3ペアのみを評価する従来の単純和（`afs_order_score`: 0〜3）は、ミクロな一時的交差で誤脱落する脆弱性があった。これに対し全6ペアの順列を評価する **`Majority Voting Score`（0〜6）は、24h Net Return に対する情報係数が IC `+0.0096` と従来の 2.1倍に向上** し、優れた識別力を示した。
+  - 一方、オシレーター、SMA収縮幅、BB幅を固定比率で単純合算した多次元スコア（`S_MFC`）は IC が `-0.0013` とマイナス化し、異なる次元の特徴量を安易に線形合算することはノイズを増幅させることが実証された。
+* **実験条件**: BTCUSD 1h、K-038 セットアップ候補バー条件付き評価、Discovery全期間
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
+* **仕様への影響**: AFS の整流判定において `Majority Voting Score` を採用。多次元特徴量の安易な線形結合スコアの導入を禁止。
+
+---
+
+### K-048: MFE +3.5 ATR 利益防衛トレーリング則と早期撤退過剰介入の弊害
+* **ステータス**: **防衛支持 (Supported in Trailing) / 過剰早期撤退反証 (Refuted in Rapid Stall)**
+* **概要**: `MOR-86-01` の C2 負けトレード解剖（Case 07: +4.05 ATR からの -7.96% 全戻し、Case 10: 24h MFE 0.10 ATR の不発失速）から導出された2つの動的エグジットルールを 1分足パスで検証（EXP-91）：
+  1. **利益防衛トレーリングの有効性**: エントリー後 1分足パスで **MFE $\ge +3.5 \text{ ATR}$ に到達した時点で、ストップを Entry + 1.0 ATR に動的ロック** するルールは、ベースライン `K-043`（104件）の **Profit Factor を `2.03` $\rightarrow$ `2.31` へ跳ね上げ**、Case 07 型の急反落大敗を完全遮断した。
+  2. **過剰な早期撤退介入の有害性**: 「24h 以内で MFE < 0.75 ATR かつ SMA 21 割れで即時撤退（Rapid Stall Exit）」ルールは、一時的な押し目から 24h 以降に大きく伸びる本波（Whipsaw）を多数誤損切りし、累積リターンを `+131.92%` $\rightarrow$ `+72.78%` へ半減させた。
+* **実験条件**: BTCUSD 1h & 1m、K-043 統合モデル 104件、Discovery全期間、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
+* **仕様への影響**: エグジット仕様（SPEC-STRAT）において、`S3_k50` に「MFE $\ge +3.5 \text{ ATR}$ 到達時の Entry + 1.0 ATR ロック」トレーリング防衛を正式採択。値幅・時間のみに基づく安易な早期撤退介入（Rapid Stall Exit）の導入を禁止。
 
 ---
 
@@ -683,6 +712,8 @@ graph TD
 | 2026-10-24 | 1.6.1 | EXP-74 監査是正反映（トートロジー排除、相互相関客観導出、接近波分岐幾何、EXP-69ベースラインS0/S3完全整合、S6適応型利確PF1.96） | @makagi / [#76](https://github.com/makagi/MTF_AI_Trade/issues/76) |
 | 2026-10-24 | 1.7.0 | EXP-77 是正反映、1分足ミクロ構造による早期利確・分割執行の限界と予備探索不再現（K-042 登録・Refuted、計42知見へ拡充） | @makagi / [#77](https://github.com/makagi/MTF_AI_Trade/issues/77) |
 | 2026-10-29 | 1.8.0 | EXP-86 反映、条件付き上位階層エスカレーションによる親ライン半値押し目救出とK-038統合（N=104）、空白地帯回帰・高値圏一律除外の反証（K-043〜K-045 登録・計45知見へ拡充） | @makagi / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88) |
+| 2026-10-31 | 1.9.0 | EXP-91 反映、相対スケール長期並行チャネリング分離則（K-046）、AFS多数決スコアリング則（K-047）、MFE+3.5ATR利益防衛トレーリング則（K-048 登録・計48知見へ拡充） | @makagi / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91) |
+
 
 
 
