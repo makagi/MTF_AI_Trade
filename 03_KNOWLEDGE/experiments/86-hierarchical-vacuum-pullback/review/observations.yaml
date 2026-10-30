@@ -1,0 +1,104 @@
+review_id: MOR-86-01
+experiment: EXP-86
+date: '2026-10-30'
+reviewer: '@makagi'
+target_model: 'K-038 MVC + K-043 HigherOrder Pullback (104 trades)'
+
+cases:
+  - case_id: 1
+    stage_a_call: 'skip'
+    stage_a_rationale: '直上に SMA 89/233 が密集し上値を蓋。負のモメンタムとボラティリティ枯渇で上値余地が狭く R:R 不良と判断。'
+    stage_b_comment: '判定は skip（不的中/False Negative）。実際には直後に大爆発し 72h MFE +15.94 ATR（Net Ret +1.66%）の大順行。下降 SMA 89/233 を一気に貫通する強烈な真空ブレイクであった。'
+    tags: [vacuum_overhead, false_negative, high_mfe_breakout]
+    revealed_label: 'M1'
+
+  - case_id: 2
+    stage_a_call: 'long'
+    stage_a_rationale: '上昇 SMA 233 上で全中間SMA（21〜144）が極小スクイーズ（BB幅 1.98 ATR）後に大陽線で実体ブレイク。1m足も高値引けで R:R 7.6:1 と極めて優秀。'
+    stage_b_comment: '判定は long（的中/True Positive）。エントリー後 72h MFE +22.17 ATR、Net Ret +3.63% と大順行。クロス条件の制約で見逃されていた極小スクイーズ上抜け初動を的確に捕捉した。'
+    tags: [multi_sma_squeeze, true_positive, high_mfe_breakout]
+    revealed_label: 'M1'
+
+  - case_id: 3
+    stage_a_call: 'long'
+    stage_a_rationale: '上昇 SMA 233 上で SMA 21〜144 を土台とした押し目完了。1m足が終盤で強烈に高値引けしたため青天井ブレイクと判断。'
+    stage_b_comment: '判定は long（不的中/False Positive）。実際には 72h MFE +0.84 ATR に留まり、Net Ret -4.99%（MAE -2.79 ATR）と急反落。30日レンジ 90%超の高値圏で直前高値（2017年バブル高値近傍）での利確売りに押された対照群 C1 の罠。'
+    tags: [overhead_resistance_trap, false_positive, high_range_stall]
+    revealed_label: 'C1'
+
+  - case_id: 4
+    stage_a_call: 'skip'
+    stage_a_rationale: '下降する SMA 233 が頭上 0.68 ATR に迫り上値余地なし。短期GCに釣られた買いが頭上の壁に激突する典型罠とみて見送り。'
+    stage_b_comment: '判定は skip（的中/True Negative）。72h MFE はわずか +0.24 ATR、Net Ret -3.31%（MAE -4.76 ATR）と大きく崩壊。K-044 鉄則（長期下降SMA直下での買い禁止）通り、戻り売り壁による失速を完璧に回避。'
+    tags: [overhead_resistance, true_negative, k044_avoidance]
+    revealed_label: 'C1'
+
+  - case_id: 5
+    stage_a_call: 'long'
+    stage_a_rationale: '主軸 SMA 233/144 急上昇下の SMA 89 順張り押し目。1h足大陽線＋1m足天井張り付きで R:R 3.86:1 と極めて優秀。'
+    stage_b_comment: '判定は long（的中/True Positive）。エントリー後 24h 以内に急騰し、72h MFE +17.11 ATR、Net Ret +15.46% の記録的メガトレンド（テスラBTC購入公表相場）。SMA 34 単純クロスバーの縛りで見逃されていた強力押し目を捕捉。'
+    tags: [trend_continuation_pullback, true_positive, mega_trend]
+    revealed_label: 'M1'
+
+  - case_id: 6
+    stage_a_call: 'skip'
+    stage_a_rationale: '4日間の天井圏揉み合い、高値切り下げ。Macro Age 1.50 と成熟し、1m足も上ヒゲ失速。SMA 89 反発に見せかけたダマシとみて見送り。'
+    stage_b_comment: '判定は skip（的中/True Negative）。72h MFE +0.94 ATR に留まり、Net Ret -5.78%（MAE -8.44 ATR）と深掘り下落。成熟トレンド終盤のダマシ押し目を完全回避。'
+    tags: [macro_age_fatigue, true_negative, false_pullback]
+    revealed_label: 'C1'
+
+  - case_id: 7
+    stage_a_call: 'long'
+    stage_a_rationale: 'SMA 89/144/233 支持帯からの超強力なV字反発大陽線。1m足も終始買い優勢で R:R 3.6〜5.4:1 と評価。'
+    stage_b_comment: '判定は long（不的中/False Positive）。【重要知見】統合モデル（K-043 Pullback）が実際に点灯した C2 負けトレード（Net Ret -7.96%）。しかしエントリー直後は 24h 以内に +4.05 ATR まで急伸していた！SEC ETF承認直後の事実売り急落に巻き込まれたものであり、方向は的中していたが利確・トレール防衛ルール（MFE Lock）がないために大敗となった。'
+    tags: [mfe_reversal_c2, trailing_stop_needed, profit_take_absence]
+    revealed_label: 'C2'
+
+  - case_id: 8
+    stage_a_call: 'skip'
+    stage_a_rationale: '4.28 ATR の真空はあるが、Stage A2 データにより SMA 377/610/987 が急降下する完全な構造的ベア相場と判明。K-044 鉄則に基づき見送り。'
+    stage_b_comment: '判定は skip（不的中/False Negative）。72h MFE +5.08 ATR、Net Ret +2.18% と短期自律反発。ただし大局ベアの中の反発であり、長期統計では勝率の低い逆張り領域。'
+    tags: [bear_market_bounce, false_negative, k044_strict]
+    revealed_label: 'M1'
+
+  - case_id: 9
+    stage_a_call: 'skip'
+    stage_a_rationale: '直前の巨大上ヒゲ失速（$31,061 rejection）のしこり。全SMA膠着、AFS全期間 50 未満のため見送り。'
+    stage_b_comment: '判定は skip（不的中/False Negative）。実際には 72h MFE +7.81 ATR、Net Ret +2.14% まで伸長。上ヒゲの戻り売りをブレイクして上昇継続した。'
+    tags: [upper_wick_rejection, false_negative, continuation]
+    revealed_label: 'M1'
+
+  - case_id: 10
+    stage_a_call: 'long'
+    stage_a_rationale: '極小スクイーズ＆AFSスコア3。価格直下に上向き SMA 987 支持線があり、SMA 610 も上向き。上位潮流に後押しされた Vacuum Pullback と判断。'
+    stage_b_comment: '判定は long（不的中/False Positive）。【重要知見】統合モデル（K-043 Pullback）が点灯した C2 負けトレード（Net Ret -0.51%）。エントリー後 24h で一度も +0.10 ATR 以上伸びず失速（mfe_24h_atr = 0.10）。初動不発時に早期撤退するルールがあれば損失を皆無に抑えられた典型例。'
+    tags: [stall_c2, rapid_exit_needed, early_invalidation]
+    revealed_label: 'C2'
+
+summary:
+  stage_a_accuracy_score: 0.40  # 4/10 的中 (M1=long: 2/5, C1/C2=skip: 2/5)
+  positive_discoveries:
+    - 'M1 的中ケース（Case 02, Case 05）はともに MFE +17〜+22 ATR の超弩級トレンドであり、極小スクイーズ上抜けおよび上位SMA急勾配下の順張り押し目は極めて高いエッジを持つ。'
+    - 'C1 見送り的中ケース（Case 04, Case 06）では、K-044（下降長期SMA直下での買い禁止）および成熟トレンド終盤のダマシ押し目回避が完璧に機能した。'
+  critical_remedies:
+    - 'C2 負けトレード（Case 07, Case 10）の解剖により、相対的な上位階層が転換点近傍または並行（平行・水平化）している局面では、下位階層でその上下を往復する「振動（行って来い・失速）」が発生しやすく、上位の方向性が固まって初めて本格的な急上昇・急降下になるという構造的メカニズムが判明。'
+    - 'M1 取り逃し（Case 01, 02, 05）の解剖により、現状の AFS 単純整列（afs_order_score == 3）では硬直的であり、AFS の重み付け・多数決や SMA・BB との統合評価、さらに「短期として下がりようがない場面で短期上昇を仮説 → 中期特徴量を計算して中期を判断 → 中期を仮説して長期の動きを見極める」ボトムアップ仮説伝播の必要性が特定された。'
+
+candidate_hypotheses:
+  - id: 'HYP-89-1'
+    name: 'Scale-Relative Parallel Oscillation vs. Directional Lock-In (上位並行時の下位往復振動と方向確定後の本格急伸/急落の識別)'
+    target_problem: '特定の固定期間（233/377/610/987等）の固定観念に囚われず、任意の相対階層（短期 k-1・中期 k・長期 k+1）において、長期転換近傍・長期SMA並行時に発生する短期の上下往復振動（Case 07 の行って来い大敗や Case 10 の微振動失速）と、長期の方向性が固まった後の本格急上昇（Case 02, 05）を構造的に見分ける。'
+    specification: '複数の相対スケール組 (S, M, L) において、上位 L の並行度（傾きの平坦さ・隣接ライン間の平行性）と下位 S/M の往復交差・振幅特性を定量化し、「上位並行＝上下往復振動モード（見送りまたは片道振幅での早期利確）」と「上位方向確定（傾き同調・発散開始）＝本格急伸モード（トレンド伸長）」の2レジーム識別モデルを検証する。'
+    expected_impact: '上位が並行・方向未確定な場面でのダマシ往復振動による大敗を構造的に排除しつつ、方向確定後の大相場（15+ ATR）の利益を最大化する。'
+
+  - id: 'HYP-89-2'
+    name: 'AFS Deep Structure & Multi-Feature Weighted Scoring (AFS構造の深掘りと重み付け・多数決・SMA/BB統合スコアリング)'
+    target_problem: '現状の afs_order_score のような単純な等重み完全整列（7 > 9 > 11 > 13）では、特徴量間の微細な変化や他指標（SMA・BB）との文脈を捉えきれず、初動の好機（Case 01 等）を逃したり形だけの整列（Case 10 等）で誤進入する。'
+    specification: 'AFS 各ペアの差分・傾きに対する重み付けおよび多数決スコアリングを設計し、さらに各相対階層の SMA（傾き・収束度・支持）および BB（バンド幅スクイーズ・相対位置）の状況を組み合わせた複合状態スコアの有効性を検証する。'
+    expected_impact: '単一指標の硬直的な閾値による取り逃しとダマシを減らし、階層内のモメンタム・構造認識の解像度を大幅に高める。'
+
+  - id: 'HYP-89-3'
+    name: 'Bottom-Up Hypothesis Propagation (短期「下がりようがない場面」からの短期→中期→長期の特徴量前方計算モデル)'
+    target_problem: '中期・長期の特徴量が遅行して整列し切るのを待つと初動の大幅な値幅を取り逃し、逆に短期だけを見て入ると中期・長期の壁に跳ね返される。'
+    specification: '相対的な短期（k-1）として下がりようがない場面（下値限界・BB/SMA支持・安全床）において、短期上昇（ΔP_short）を仮説として置き、その仮説下で中期（k）の特徴量（AFS・SMA・BB）を計算して中期の好転・発火を判断し、さらに中期上昇（ΔP_med）を仮説して長期（k+1）の特徴量応答と本格上昇への波及を見極める「仮説伝播（Forward Hypothesis Propagation）」アルゴリズムを構築・検証する。'
+    expected_impact: '特徴量間の数理的な伝播関係を活用することで、遅行なしに「短期の底から中期・長期の本格急伸へと連鎖する臨界点」を捉える。'
