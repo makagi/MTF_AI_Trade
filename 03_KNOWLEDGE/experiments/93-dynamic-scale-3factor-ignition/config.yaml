@@ -1,0 +1,41 @@
+experiment_id: EXP-93
+title: "動的支配スケール(k*, k*+1)と反転時期の3要素連動（空間サポレジ/真空地帯 × 時間振動周期 × ATR/BB極限収縮）による全スケール汎用・反転点火モデルの検証"
+date: "2026-10-31"
+status: in_progress
+issue: 93
+author: "@makagi"
+
+dataset:
+  symbol: "BTCUSD"
+  timeframe_primary: "1h"
+  timeframe_execution: "1m"
+  discovery_start: "2020-01-01 00:00:00+00:00"
+  discovery_end: "2025-04-30 23:59:00+00:00"
+  holdout_start: "2025-05-01 00:00:00+00:00"
+  cost_bps: 40  # 往復 0.40%
+
+scale_series:
+  scales: [21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  bands:
+    fast: [21, 34, 55]
+    standard: [89, 144, 233]
+    slow: [377, 610, 987]
+    super_macro: [1597, 2584, 4181, 6765, 10946]
+
+parameters:
+  origin_contact_atr: 1.25
+  vacuum_threshold_atr: 2.0
+  cycle_phase_window: [0.70, 1.30]
+  squeeze_bb_percentile: 0.25
+  ignition_majority_afs: 5
+  exit_mode: "scale_relative_adaptive"
+  trailing_tp_atr: 3.5
+  trailing_lock_atr: 1.0
+
+hypotheses:
+  hyp_93_1:
+    description: "空間要素: 由来スケール k* と親スケール k*+1 の真空地帯幅による将来 MFE および回帰到達率の有意差"
+  hyp_93_2:
+    description: "時間×ボラティリティ同期則: 支配スケール k* の周期終盤領域 (tau in [0.70, 1.30]) における ATR/BB極限収縮および平行束化の統計的同期"
+  hyp_93_3:
+    description: "売買統合検証: Gate A 平行膠着遮断 ＋ Trigger B 3要素点火捕捉による PF >= 2.00, Net EV >= +1.15% 達成"
