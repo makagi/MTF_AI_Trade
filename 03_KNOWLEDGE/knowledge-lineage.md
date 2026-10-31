@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 1.8.0  
+**Version:** 1.9.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-29  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86)  
+**Last Updated:** 2026-10-31  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -77,6 +77,9 @@ graph TD
     K043["K-043: 上位親ラインSMA610/987上向き半値押し目救出とK-038統合<br/>(Supported in Composite N=104: EV+1.27% PF2.03 / 単独N=22 Borderline)"]:::supported
     K044["K-044: 頭上長期SMA下での空白地帯回帰ラリーのレジーム脆弱性<br/>(Refuted: P1/P2で戻り売り大敗・通期EV+0.01% PF1.00)"]:::refuted
     K045["K-045: 高値圏空中浮遊一律除外の機会損失と極小スクイーズ単独救出の限界<br/>(Refuted: 除外群EV+1.14%黒字・スクイーズ単独EV-0.34%)"]:::refuted
+    K046["K-046: 相対スケール長期並行チャネリングと方向確定の幾何分離則<br/>(Supported: 3スケール共通でLock-In時MFE+19〜42%拡大・10+ATR確率1.7倍)"]:::supported
+    K047["K-047: AFS全6ペア多数決スコアリング則と多特徴量線形合算の反証<br/>(Supported in Voting IC 2.1x / Refuted in Linear Sum)"]:::supported
+    K048["K-048: スケール相対的適応型利益防衛エグジットとボトムアップ仮説伝播<br/>(Supported: 適応型エグジット×Fast伝播統合 N=151 累積+158.2%)"]:::supported
 
     K017 --> K021
     K021 --> K030
@@ -102,6 +105,11 @@ graph TD
     K040 --> K043
     K041 --> K044
     K038 --> K045
+    K041 --> K046
+    K038 --> K047
+    K043 --> K048
+    K046 --> K048
+    K047 --> K048
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -152,6 +160,9 @@ graph TD
     EXP086["EXP-86: 86-hierarchical-vacuum-pullback"] --> K043
     EXP086 --> K044
     EXP086 --> K045
+    EXP091["EXP-91: 91-scale-relative-oscillation-and-hypothesis-propagation"] --> K046
+    EXP091 --> K047
+    EXP091 --> K048
 ```
 
 ---
