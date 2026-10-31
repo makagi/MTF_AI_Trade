@@ -674,14 +674,15 @@ graph TD
 
 ---
 
-### K-048: MFE +3.5 ATR 利益防衛トレーリング則と早期撤退過剰介入の弊害
-* **ステータス**: **防衛支持 (Supported in Trailing) / 過剰早期撤退反証 (Refuted in Rapid Stall)**
-* **概要**: `MOR-86-01` の C2 負けトレード解剖（Case 07: +4.05 ATR からの -7.96% 全戻し、Case 10: 24h MFE 0.10 ATR の不発失速）から導出された2つの動的エグジットルールを 1分足パスで検証（EXP-91）：
-  1. **利益防衛トレーリングの有効性**: エントリー後 1分足パスで **MFE $\ge +3.5 \text{ ATR}$ に到達した時点で、ストップを Entry + 1.0 ATR に動的ロック** するルールは、ベースライン `K-043`（104件）の **Profit Factor を `2.03` $\rightarrow$ `2.31` へ跳ね上げ**、Case 07 型の急反落大敗を完全遮断した。
-  2. **過剰な早期撤退介入の有害性**: 「24h 以内で MFE < 0.75 ATR かつ SMA 21 割れで即時撤退（Rapid Stall Exit）」ルールは、一時的な押し目から 24h 以降に大きく伸びる本波（Whipsaw）を多数誤損切りし、累積リターンを `+131.92%` $\rightarrow$ `+72.78%` へ半減させた。
-* **実験条件**: BTCUSD 1h & 1m、K-043 統合モデル 104件、Discovery全期間、往復 40 bps 摩擦コスト控除
+### K-048: スケール相対的適応型利益防衛エグジット則と過剰早期撤退の弊害
+* **ステータス**: **適応型防衛支持 (Supported in Adaptive Trailing) / 無条件一律＆早期撤退過剰介入の反証**
+* **概要**: `MOR-86-01` の C2 負けトレード解剖（Case 07: +4.05 ATR からの -7.96% 全戻し、Case 10: 24h MFE 0.10 ATR の不発失速）から導出された動的エグジットルールを 1分足パスで検証（EXP-91）：
+  1. **無条件一律トレールの副作用**: 全トレード一律に「MFE $\ge +3.5 \text{ ATR}$ 到達時に Entry + 1.0 ATR ロック」を適用すると、PF は `2.03` $\rightarrow$ `2.31` に向上するものの、上位階層が方向確定（Lock-In Bull）して大伸長する本波の途中で浅い押し目に引っかかり、総累積リターンを `+131.92%` $\rightarrow$ `+124.03%` へ削ってしまう。
+  2. **スケール相対的適応型エグジット（`Scale-Relative Adaptive Exit`）の優位性**: 上位階層が方向確定（Lock-In Bull）している時は早期ロックせず大トレンドを伸ばし、**上位階層が並行・非Lock-In（往復振動モード）の時のみ MFE $\ge +3.5 \text{ ATR}$ で Entry + 1.0 ATR ロックを適用する適応型ルール** により、Case 07 型の全戻し大損をピンポイントで遮断しつつ、大トレンドの利益削れを防止（累積 `+158.21%`、PF `1.92` を達成）。
+  3. **過剰な早期撤退介入の有害性**: 「24h 以内で MFE < 0.75 ATR かつ SMA 21 割れで即時撤退（Rapid Stall Exit）」ルールは、一時的な押し目から 24h 以降に大きく伸びる本波（Whipsaw）を多数誤損切りし、累積リターンを `+131.92%` $\rightarrow$ `+72.78%` へ半減させた。
+* **実験条件**: BTCUSD 1h & 1m、K-043 統合モデル 104件および Master 統合 151件、Discovery全期間、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
-* **仕様への影響**: エグジット仕様（SPEC-STRAT）において、`S3_k50` に「MFE $\ge +3.5 \text{ ATR}$ 到達時の Entry + 1.0 ATR ロック」トレーリング防衛を正式採択。値幅・時間のみに基づく安易な早期撤退介入（Rapid Stall Exit）の導入を禁止。
+* **仕様への影響**: エグジット仕様（SPEC-STRAT）において、`S3_k50` に「上位階層が並行・非Lock-In時の MFE $\ge +3.5 \text{ ATR}$ 到達時 Entry + 1.0 ATR ロック」適応型トレーリング防衛を正式採択。値幅・時間のみに基づく安易な早期撤退介入（Rapid Stall Exit）の導入を禁止。
 
 ---
 
