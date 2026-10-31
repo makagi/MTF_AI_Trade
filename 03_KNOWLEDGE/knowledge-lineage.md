@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 1.8.0  
+**Version:** 1.9.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-29  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86)  
+**Last Updated:** 2026-10-31  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -77,6 +77,9 @@ graph TD
     K043["K-043: 上位親ラインSMA610/987上向き半値押し目救出とK-038統合<br/>(Supported in Composite N=104: EV+1.27% PF2.03 / 単独N=22 Borderline)"]:::supported
     K044["K-044: 頭上長期SMA下での空白地帯回帰ラリーのレジーム脆弱性<br/>(Refuted: P1/P2で戻り売り大敗・通期EV+0.01% PF1.00)"]:::refuted
     K045["K-045: 高値圏空中浮遊一律除外の機会損失と極小スクイーズ単独救出の限界<br/>(Refuted: 除外群EV+1.14%黒字・スクイーズ単独EV-0.34%)"]:::refuted
+    K046["K-046: 相対スケール長期並行チャネリングと方向確定の幾何分離則<br/>(Supported: 3スケール共通でLock-In時MFE+19〜42%拡大・10+ATR確率1.7倍)"]:::supported
+    K047["K-047: AFS全6ペア多数決スコアリング則と多特徴量線形合算の反証<br/>(Supported in Voting IC 2.1x / Refuted in Linear Sum)"]:::supported
+    K048["K-048: スケール相対的適応型利益防衛エグジットとボトムアップ仮説伝播<br/>(Supported: 適応型エグジット×Fast伝播統合 N=151 累積+158.2%)"]:::supported
 
     K017 --> K021
     K021 --> K030
@@ -102,6 +105,11 @@ graph TD
     K040 --> K043
     K041 --> K044
     K038 --> K045
+    K041 --> K046
+    K038 --> K047
+    K043 --> K048
+    K046 --> K048
+    K047 --> K048
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -152,6 +160,9 @@ graph TD
     EXP086["EXP-86: 86-hierarchical-vacuum-pullback"] --> K043
     EXP086 --> K044
     EXP086 --> K045
+    EXP091["EXP-91: 91-scale-relative-oscillation-and-hypothesis-propagation"] --> K046
+    EXP091 --> K047
+    EXP091 --> K048
 ```
 
 ---
@@ -652,7 +663,37 @@ graph TD
   2. **極小スクイーズ全突破救出の反証（`HYP-86-2b`）**: 救出された 9件は勝率 `22.22%`・**Net Mean EV `-0.34%`（PF `0.72`）** と赤字化。ボラティリティ極小収縮時に `Slope_55 > 0` の中期モメンタム確認を免除すると、レンジ内のノイズ上ヒゲ・ダマシを高確率（77.8%）で掴むことが判明した。
 * **実験条件**: BTCUSD 1h & 1m、K-038 MVC 86件中除外9件 ＆ 救出候補9件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/86-hierarchical-vacuum-pullback/record.md`](experiments/86-hierarchical-vacuum-pullback/record.md) (EXP-86 / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88))
-* **仕様への影響**: `K-038 MVC` における `Slope_55 > 0` 必須条件を維持し、30日高値圏の一律ハードフィルタ導入は見送る。
+### K-046: 相対的時間スケールにおける長期並行チャネリングと方向確定の幾何分離則
+* **ステータス**: **支持 (Supported across Multiple Relative Scales)**
+* **概要**: ハードコードされた固定の移動平均線期間に依存せず、任意の時間スケール組 $(S, M, L)$（Fast: 89/144, Standard: 233/377, Slow: 610/987）において、長期ペア $(L_1, L_2)$ の並行度（$|\text{Slope}_{L_1} - \text{Slope}_{L_2}| \le 0.015 \text{ ATR/h}$ かつ双方の傾き絶対値 $\le 0.020 \text{ ATR/h}$）と方向確定（同符号かつ双方が閾値を超えて発散）の市場動態を検証（EXP-91）：
+  - 長期ペアが並行している「チャネリング状態（Parallel）」では、相場エネルギーが往復振動に消費され、将来 72h MFE は平均 4.67〜5.25 ATR に強く頭打ちされる。
+  - 一方、長期ペアが方向確定（Lock-In Bull）すると、上値余地が平均 6.27〜6.62 ATR（+19%〜+42%）へ大幅伸長し、MFE 10+ ATR の大トレンド発生確率は **1.65〜1.83倍** に跳ね上がる。
+* **実験条件**: BTCUSD 1h、Discovery全期間（2020-01〜2025-04、46,728行）、3つの相対スケール組比較
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
+* **仕様への影響**: 上位長期ペアの並行チャネリング状態下での無条件トレンド順張りを禁止。並行時は往復振幅端利確、方向確定時はトレンド追従とするレジーム適応の基礎として採用。
+
+---
+
+### K-047: AFS全ペア多数決スコアリング則と安易な多特徴量線形合算の反証
+* **ステータス**: **多数決支持 (Supported in Voting) / 線形合算反証 (Refuted in Linear Sum)**
+* **概要**: AFS（7/9/11/13）の構造分解と多次元統合コンテキストスコアを検証（EXP-91）：
+  - 隣接3ペアのみを評価する従来の単純和（`afs_order_score`: 0〜3）は、ミクロな一時的交差で誤脱落する脆弱性があった。これに対し全6ペアの順列を評価する **`Majority Voting Score`（0〜6）は、24h Net Return に対する情報係数が IC `+0.0096` と従来の 2.1倍に向上** し、優れた識別力を示した。
+  - 一方、オシレーター、SMA収縮幅、BB幅を固定比率で単純合算した多次元スコア（`S_MFC`）は IC が `-0.0013` とマイナス化し、異なる次元の特徴量を安易に線形合算することはノイズを増幅させることが実証された。
+* **実験条件**: BTCUSD 1h、K-038 セットアップ候補バー条件付き評価、Discovery全期間
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
+* **仕様への影響**: AFS の整流判定において `Majority Voting Score` を採用。多次元特徴量の安易な線形結合スコアの導入を禁止。
+
+---
+
+### K-048: スケール相対的適応型利益防衛エグジット則と過剰早期撤退の弊害
+* **ステータス**: **適応型防衛支持 (Supported in Adaptive Trailing) / 無条件一律＆早期撤退過剰介入の反証**
+* **概要**: `MOR-86-01` の C2 負けトレード解剖（Case 07: +4.05 ATR からの -7.96% 全戻し、Case 10: 24h MFE 0.10 ATR の不発失速）から導出された動的エグジットルールを 1分足パスで検証（EXP-91）：
+  1. **無条件一律トレールの副作用**: 全トレード一律に「MFE $\ge +3.5 \text{ ATR}$ 到達時に Entry + 1.0 ATR ロック」を適用すると、PF は `2.03` $\rightarrow$ `2.31` に向上するものの、上位階層が方向確定（Lock-In Bull）して大伸長する本波の途中で浅い押し目に引っかかり、総累積リターンを `+131.92%` $\rightarrow$ `+124.03%` へ削ってしまう。
+  2. **スケール相対的適応型エグジット（`Scale-Relative Adaptive Exit`）の優位性**: 上位階層が方向確定（Lock-In Bull）している時は早期ロックせず大トレンドを伸ばし、**上位階層が並行・非Lock-In（往復振動モード）の時のみ MFE $\ge +3.5 \text{ ATR}$ で Entry + 1.0 ATR ロックを適用する適応型ルール** により、Case 07 型の全戻し大損をピンポイントで遮断しつつ、大トレンドの利益削れを防止（累積 `+158.21%`、PF `1.92` を達成）。
+  3. **過剰な早期撤退介入の有害性**: 「24h 以内で MFE < 0.75 ATR かつ SMA 21 割れで即時撤退（Rapid Stall Exit）」ルールは、一時的な押し目から 24h 以降に大きく伸びる本波（Whipsaw）を多数誤損切りし、累積リターンを `+131.92%` $\rightarrow$ `+72.78%` へ半減させた。
+* **実験条件**: BTCUSD 1h & 1m、K-043 統合モデル 104件および Master 統合 151件、Discovery全期間、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
+* **仕様への影響**: エグジット仕様（SPEC-STRAT）において、`S3_k50` に「上位階層が並行・非Lock-In時の MFE $\ge +3.5 \text{ ATR}$ 到達時 Entry + 1.0 ATR ロック」適応型トレーリング防衛を正式採択。値幅・時間のみに基づく安易な早期撤退介入（Rapid Stall Exit）の導入を禁止。
 
 ---
 
@@ -683,6 +724,8 @@ graph TD
 | 2026-10-24 | 1.6.1 | EXP-74 監査是正反映（トートロジー排除、相互相関客観導出、接近波分岐幾何、EXP-69ベースラインS0/S3完全整合、S6適応型利確PF1.96） | @makagi / [#76](https://github.com/makagi/MTF_AI_Trade/issues/76) |
 | 2026-10-24 | 1.7.0 | EXP-77 是正反映、1分足ミクロ構造による早期利確・分割執行の限界と予備探索不再現（K-042 登録・Refuted、計42知見へ拡充） | @makagi / [#77](https://github.com/makagi/MTF_AI_Trade/issues/77) |
 | 2026-10-29 | 1.8.0 | EXP-86 反映、条件付き上位階層エスカレーションによる親ライン半値押し目救出とK-038統合（N=104）、空白地帯回帰・高値圏一律除外の反証（K-043〜K-045 登録・計45知見へ拡充） | @makagi / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88) |
+| 2026-10-31 | 1.9.0 | EXP-91 反映、相対スケール長期並行チャネリング分離則（K-046）、AFS多数決スコアリング則（K-047）、MFE+3.5ATR利益防衛トレーリング則（K-048 登録・計48知見へ拡充） | @makagi / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91) |
+
 
 
 

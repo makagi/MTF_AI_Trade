@@ -1,0 +1,61 @@
+experiment_id: EXP-91
+issue_id: 91
+title: "相対的時間スケールにおける長期並行往復振動・AFS深層分解・ボトムアップ仮説伝播（短期下がりようがない場面→中期特徴量前方計算→長期動態見極め）の定量実証"
+status: Draft
+
+dataset:
+  symbol: BTCUSD
+  timeframes:
+    - 1h
+    - 1m
+  discovery_start: "2020-01-01"
+  discovery_end: "2025-04-30"
+  holdout_start: "2025-05-01"
+
+evaluation:
+  cost_bps: 40.0
+  cooldown_bars: 24
+
+scale_groups:
+  group_1_fast:
+    name: "Fast / Intra-day"
+    short_sma: 21
+    mid_sma: 55
+    long_pair: [89, 144]
+  group_2_standard:
+    name: "Standard / Swing"
+    short_sma: 55
+    mid_sma: 144
+    long_pair: [233, 377]
+  group_3_slow:
+    name: "Slow / Macro"
+    short_sma: 144
+    mid_sma: 377
+    long_pair: [610, 987]
+
+hypotheses:
+  hyp_91_1: "相対的長期SMAペアの並行チャネリング度（Parallelism）と方向確定（Lock-In）による往復振動 vs トレンド伸長の幾何分離"
+  hyp_91_2: "AFS深層構造分解（差分・加速度・水準別多数決重み付け）およびSMA/BB統合多次元状態スコアリング"
+  hyp_91_3: "ボトムアップ仮説伝播モデル（相対的短期の安全床検知 → 短期上昇仮説注入による中期特徴量前方計算 → 中期仮説注入による長期動態見極め）"
+
+pre_registered_params:
+  parallelism:
+    slope_diff_thresh: 0.015  # ATR/h
+    slope_max_thresh: 0.020   # ATR/h
+    lockin_slope_min: 0.025   # ATR/h
+  afs_decomposition:
+    level_neutral_min: 20.0
+    level_neutral_max: 75.0
+    majority_threshold: 3     # 5要素中3以上
+  hypothesis_propagation:
+    safe_floor_dist_atr: 1.0
+    min_lower_wick_ratio: 0.35
+    hypo_step1_horizon_bars: 3
+    hypo_step1_rise_atr: 1.0
+    hypo_step2_horizon_bars: 12
+    hypo_step2_rise_atr: 2.5
+
+robustness:
+  grid_parallel_slope_diff: [0.010, 0.015, 0.020, 0.025]
+  grid_hypo_step1_rise: [0.75, 1.00, 1.25, 1.50]
+  bootstrap_iterations: 5000
