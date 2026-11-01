@@ -110,6 +110,9 @@ graph TD
     K043 --> K048
     K046 --> K048
     K047 --> K048
+    K044 --> K049
+    K046 --> K049
+    K048 --> K049
 
     LEG_ANL1["90_LEGACY: ANL-20260922-001"] --> K001
     LEG_STATE["90_LEGACY: STATE.md (Phase 3-4.7)"] --> K002
@@ -163,6 +166,7 @@ graph TD
     EXP091["EXP-91: 91-scale-relative-oscillation-and-hypothesis-propagation"] --> K046
     EXP091 --> K047
     EXP091 --> K048
+    EXP093["EXP-93: 93-dynamic-scale-3factor-ignition"] --> K049
 ```
 
 ---
@@ -697,6 +701,17 @@ graph TD
 
 ---
 
+### K-049: 上位下支えなき真空点火ブレイクのレジーム脆弱性と多重スケール境界則
+* **ステータス**: **反証・制約確定 (Refuted in Unconditional / Constrained in Upward Trend)**
+* **概要**: 動的支配スケール $(k^*, k^*+1)$ と3要素連動（空間サポレジ/真空地帯 × 時間振動周期 × ATR/BB極限収縮）による反転点火モデルを検証（EXP-93）：
+  1. **マクロ頭上真空空間の引力（HYP-93-1）**: 超長期マクロ階層（SMA 1597〜10946）において、頭上の親ライン $k^*+1$ との間に $2.0 \text{ ATR}$ 以上の真空地帯が開いている局面は、狭小局面に対して将来 72h MFE が **`3.95 ATR` $\rightarrow$ `8.88 ATR`（+124.8%）へ劇的に拡大** する（非トートロジー支持）。
+  2. **時間とボラティリティの普遍的同期（HYP-93-2）**: 過去確定履歴のローリング極値間隔から算出した固有半周期終盤（$\tau_{\text{phase}} \in [0.75, 1.35]$）において、振幅減衰に伴い極限スクイーズ（BB幅下位25%）が発生する確率は全4スケール帯すべてで一貫して有意に上昇（+3.5%pt 〜 +15.7%pt）する（支持）。
+  3. **単独ブレイク点火の限界と下支え必須則（HYP-93-3）**: 3要素が揃っていても、下位〜中位の局所的ブレイク点火単独（Trigger B: N=22）はダマシ反落に遭い **Net Mean EV `-1.44%`、PF `0.29`** で棄却。是正により親ライン急落遮断を組み込んだことで 2022年弱気相場の損失は `-4.02%`（PF 0.92）へ劇的に抑制されたが、統合マスターを希釈するため不採用。真空点火は **「上位長期ペアが上向き支持または方向確定（Lock-In Bull / 水平下支え）している局面（`K-044` / `K-048`）」に厳格に限定** されなければならない。
+* **実験条件**: BTCUSD 1h & 1m、全スケール系列 $\mathcal{S}$（21〜17711）、Discovery全期間、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/93-dynamic-scale-3factor-ignition/record.md`](experiments/93-dynamic-scale-3factor-ignition/record.md) (EXP-93 / [#93](https://github.com/makagi/MTF_AI_Trade/issues/93))
+* **仕様への影響**: 戦略仕様（SPEC-STRAT）において、上位階層が下落トレンド中の真空逆張りブレイク（無条件 Trigger B）の採用を禁止。真空目標は上位方向確定時の順張り目標値としてのみ採用。EXP-91 統合マスターポートフォリオ（N=151, PF 1.92）を確定ベースラインとして維持。
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -725,10 +740,4 @@ graph TD
 | 2026-10-24 | 1.7.0 | EXP-77 是正反映、1分足ミクロ構造による早期利確・分割執行の限界と予備探索不再現（K-042 登録・Refuted、計42知見へ拡充） | @makagi / [#77](https://github.com/makagi/MTF_AI_Trade/issues/77) |
 | 2026-10-29 | 1.8.0 | EXP-86 反映、条件付き上位階層エスカレーションによる親ライン半値押し目救出とK-038統合（N=104）、空白地帯回帰・高値圏一律除外の反証（K-043〜K-045 登録・計45知見へ拡充） | @makagi / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88) |
 | 2026-10-31 | 1.9.0 | EXP-91 反映、相対スケール長期並行チャネリング分離則（K-046）、AFS多数決スコアリング則（K-047）、MFE+3.5ATR利益防衛トレーリング則（K-048 登録・計48知見へ拡充） | @makagi / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91) |
-
-
-
-
-
-
-
+| 2026-10-31 | 2.0.0 | EXP-93 反映、上位下支えなき真空点火ブレイクのレジーム脆弱性と多重スケール境界則（K-049 登録・Refuted/Constrained、計49知見へ拡充） | @makagi / [#93](https://github.com/makagi/MTF_AI_Trade/issues/93) |
