@@ -36,12 +36,8 @@ DISCOVERY_START = pd.Timestamp("2020-01-01", tz="UTC")
 
 SCALES = [21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
 
-# 各スケール固有の理論・実測半周期中央値 (時間換算)
-SCALE_T_HALF = {
-    21: 12.0, 34: 18.0, 55: 25.0, 89: 45.0, 144: 71.0, 233: 110.0,
-    377: 180.0, 610: 320.0, 987: 610.0, 1597: 1000.0, 2584: 1640.0,
-    4181: 2700.0, 6765: 4900.0, 10946: 11900.0, 17711: 20000.0
-}
+# 各スケール帯の定義 (Fast, Standard, Slow, Super-Macro)
+# ※ 固定周期辞書は完全撤廃し、過去確定履歴からの因果的ローリング推定 (Causal Rolling Cycle Estimation) を採用
 
 SCALE_BANDS = {
     "Band 1 (Fast)": [21, 34, 55],
@@ -365,6 +361,50 @@ def main():
     # 上位長期ペア (SMA 610, 987) の Lock-In Bull 判定 (K-048 準拠)
     is_lockin_bull_higher = (df_1h['slope_610'] > 0.015) & (df_1h['slope_987'] > 0.015) & (df_1h['sma_610'] > df_1h['sma_987'])
     df_1h['is_lockin_bull_higher'] = is_lockin_bull_higher
+
+    # --- Causal Dynamic Rolling Cycle Estimation (HYP-93-2 必須是正) ---
+    print("Calculating Causal Dynamic Rolling Cycles for all scales...")
+    n_len = len(df_1h)
+    tau_phases = {}
+    t_half_causal_all = {}
+    
+    for k in SCALES:
+        roll_max = df_1h['high'].rolling(k, min_periods=max(5, k // 3)).max()
+        roll_min = df_1h['low'].rolling(k, min_periods=max(5, k // 3)).min()
+        is_swing = (df_1h['high'] == roll_max) | (df_1h['low'] == roll_min)
+        ext_idx = np.where(is_swing)[0]
+        if len(ext_idx) < 10:
+            continue
+        filt_idx = [ext_idx[0]]
+        for x in ext_idx[1:]:
+            if x - filt_idx[-1] >= max(3, k // 4):
+                filt_idx.append(x)
+        intervals = np.diff(filt_idx)
+        if len(intervals) < 5:
+            continue
+            
+        roll_w = 10
+        roll_med = np.zeros(len(intervals))
+        for j in range(len(intervals)):
+            s_j = max(0, j - roll_w + 1)
+            roll_med[j] = np.median(intervals[s_j : j + 1])
+            
+        t_half_causal = np.full(n_len, np.nan)
+        for j in range(len(filt_idx) - 1):
+            t_half_causal[filt_idx[j] : filt_idx[j+1]] = roll_med[j]
+        t_half_causal_all[k] = t_half_causal
+        
+        bars_since_ext = np.full(n_len, np.nan)
+        last_e = -999999
+        is_ext_s = pd.Series(False, index=df_1h.index)
+        is_ext_s.iloc[filt_idx] = True
+        for i in range(n_len):
+            if is_ext_s.iloc[i]:
+                last_e = i
+            if last_e >= 0:
+                bars_since_ext[i] = i - last_e
+        tau_phases[k] = bars_since_ext / (t_half_causal + 1e-8)
+    df_1h['is_lockin_bull_higher'] = is_lockin_bull_higher
     
     # --- Step 3: Reproducing Baseline Master Portfolio (EXP-91: N=151) ---
     print("\n--- Step 3: Reproducing Baseline Master Portfolio (EXP-91: N=151) ---")
@@ -418,11 +458,12 @@ def main():
             
             sma_k = df_1h[f'sma_{k}']
             sma_parent = df_1h[f'sma_{k_parent}']
-            vacuum_atr = (sma_parent - sma_k).abs() / atr_1h
             
             # 直近サポレジ接触: |close - sma_k| <= 1.25 ATR からの反転初動 (SMA_21 奪還)
             contact_reversal = (abs(close_1h - sma_k) / atr_1h <= 1.25) & (close_1h > df_1h['sma_21']) & (close_1h.shift(1) <= df_1h['sma_21'].shift(1))
-            cand_indices = np.where(contact_reversal)[0]
+            # トートロジー完全排除: 親ラインが現在価格の頭上に厳密に存在する状態 (Overhead Vacuum) に限定
+            overhead_mask = contact_reversal & (sma_parent > close_1h)
+            cand_indices = np.where(overhead_mask)[0]
             
             for idx in cand_indices:
                 if idx < 200 or idx >= n_len - 73:
@@ -432,18 +473,18 @@ def main():
                 if a_cur <= 0:
                     continue
                     
-                v_cur = vacuum_atr.iloc[idx]
+                v_cur = (sma_parent.iloc[idx] - p_enter) / a_cur
                 h_max = np.max(high_vals[idx+1 : idx+73])
                 mfe = (h_max - p_enter) / a_cur
                 
-                # 親ライン到達判定 (72h 以内に High が親 SMA 水準にタッチしたか)
+                # 親ライン到達判定 (72h 以内に High が頭上の親 SMA 水準に実際に到達したか)
                 parent_val = sma_parent.iloc[idx]
                 hit_p = 1.0 if h_max >= parent_val else 0.0
                 
                 if v_cur >= 2.0:
                     band_stats["vacuum_open"]["mfes"].append(mfe)
                     band_stats["vacuum_open"]["hit_parent"].append(hit_p)
-                elif v_cur < 1.0:
+                elif v_cur <= 1.0 and v_cur > 0.0:
                     band_stats["vacuum_narrow"]["mfes"].append(mfe)
                     band_stats["vacuum_narrow"]["hit_parent"].append(hit_p)
                     
@@ -470,7 +511,6 @@ def main():
     # BB幅パーセンタイル <= 25% (極限スクイーズ) および 平行束化率の比較
     hyp_93_2_results = {}
     
-    # 各スケール k に対する直近サポレジ接触からの経過時間 (バー数) を計算
     for band_name, band_scales in SCALE_BANDS.items():
         late_phase_squeezes = []
         mid_phase_squeezes = []
@@ -478,38 +518,21 @@ def main():
         mid_phase_parallels = []
         
         for k in band_scales:
+            if k not in tau_phases:
+                continue
             idx_k = SCALES.index(k)
             if idx_k >= len(SCALES) - 1:
                 continue
             k_parent = SCALES[idx_k + 1]
             
-            t_half = SCALE_T_HALF[k]
-            is_contact = (abs(close_1h - df_1h[f'sma_{k}']) / atr_1h) <= 1.25
-            
-            # 直近接触からの経過バー数を前方累積
-            contact_idx = np.where(is_contact)[0]
-            if len(contact_idx) == 0:
-                continue
-                
-            # 簡易計算: 接触後の各バーにおける経過時間率
-            bars_since = np.full(n_len, np.nan)
-            last_c = -999999
-            for i in range(n_len):
-                if is_contact.iloc[i]:
-                    last_c = i
-                if last_c >= 0:
-                    bars_since[i] = i - last_c
-                    
-            phase = bars_since / t_half
-            
-            # 並行度 (SMA_k と SMA_parent の傾き差)
-            slope_diff = (df_1h[f'slope_{k}'] - df_1h[f'slope_{k_parent}']).abs()
-            is_parallel = slope_diff <= 0.015
-            is_squeeze = df_1h['bb_pctile_720h'] <= 0.25
+            phase = tau_phases[k]
+            spread_atr = (df_1h[f'sma_{k_parent}'] - df_1h[f'sma_{k}']).abs() / atr_1h
+            is_parallel = (spread_atr <= 1.25)
+            is_squeeze = (df_1h['bb_pctile_720h'] <= 0.25)
             
             valid_mask = ~np.isnan(phase)
-            mask_late = valid_mask & (phase >= 0.70) & (phase <= 1.30)
-            mask_mid = valid_mask & (phase >= 0.10) & (phase < 0.60)
+            mask_late = valid_mask & (phase >= 0.75) & (phase <= 1.35)
+            mask_mid = valid_mask & (phase >= 0.15) & (phase <= 0.60)
             
             if mask_late.sum() > 0:
                 late_phase_squeezes.append(is_squeeze[mask_late].mean())
@@ -549,23 +572,38 @@ def main():
     veto_gate_a = is_parallel_bundle & is_squeeze_now & is_unbroken
     print(f"Gate A (Premature Parallel Veto) Active Bars: {int(veto_gate_a.sum())} ({veto_gate_a.mean()*100:.2f}%)")
     
-    # 2. Trigger B: 3要素同期・真空回帰点火シグナル (3-Factor Vacuum Ignition)
-    # ① 空間: 中長期ペア (144/233, 233/377, 377/610) のいずれかに Vacuum >= 2.0 ATR が存在
-    has_vacuum_space = (
-        ((df_1h['sma_233'] - df_1h['sma_144']).abs() / atr_1h >= 2.0) |
-        ((df_1h['sma_377'] - df_1h['sma_233']).abs() / atr_1h >= 2.0) |
-        ((df_1h['sma_610'] - df_1h['sma_377']).abs() / atr_1h >= 2.0) |
-        ((df_1h['sma_987'] - df_1h['sma_610']).abs() / atr_1h >= 2.0)
-    )
-    # ② 時間 & ボラ収縮: 直近 48h 以内に極限スクイーズ (BB幅パーセンタイル <= 25%) を通過
-    had_squeeze_recent = is_squeeze_now.rolling(48).max().astype(bool)
+    # 2. Trigger B: 3要素同期・真空回帰点火シグナル (3-Factor Vacuum Ignition 厳密是正)
+    # 候補由来スケール k* in [34, 55, 89, 144, 233, 377, 610]
+    candidate_k = [34, 55, 89, 144, 233, 377, 610]
+    matched_any_k = pd.Series(False, index=df_1h.index)
     
-    # ③ 点火ブレイク: 価格が平行束上限を明確に上抜け、かつ Majority Voting AFS >= 5 (整流点火)
+    for k in candidate_k:
+        if k not in tau_phases:
+            continue
+        idx_k = SCALES.index(k)
+        k_parent = SCALES[idx_k + 1]
+        sma_p = df_1h[f'sma_{k_parent}']
+        slope_p_atr = (df_1h[f'slope_{k_parent}'] / atr_1h)
+        
+        # 要素①: 空間（頭上親ラインへの真空幅 >= 1.5 ATR、かつ親ライン急落遮断 or Lock-In Bull）
+        overhead_vac = (sma_p - close_1h) / atr_1h
+        has_vac = (overhead_vac >= 1.5) & ((slope_p_atr >= -0.015) | is_lockin_bull_higher)
+        
+        # 要素②: 時間（由来スケール k* の固有周期終盤 [0.70, 1.40] に到達）
+        tau_s = pd.Series(tau_phases[k], index=df_1h.index)
+        has_phase = (tau_s >= 0.70) & (tau_s <= 1.40)
+        
+        matched_any_k = matched_any_k | (has_vac & has_phase)
+        
+    # 要素③: ボラティリティ（直近極限スクイーズ + 平行束上限ブレイク + AFS整流 + マクロ乖離制限）
+    had_squeeze_recent = is_squeeze_now.rolling(48).max().astype(bool)
+    breakout_cond = (close_1h > bundle_max) & (close_1h.shift(1) <= bundle_max.shift(1))
+    
     ignition_trigger_b = (
-        has_vacuum_space &
+        matched_any_k &
+        is_parallel_bundle &
         had_squeeze_recent &
-        (close_1h > bundle_max + 0.10 * atr_1h) &
-        (close_1h.shift(1) <= bundle_max.shift(1) + 0.10 * atr_1h.shift(1)) &
+        breakout_cond &
         (df_1h['maj_score'] >= 5) &
         (df_1h['macro_age_ratio'] <= 2.0)
     )
@@ -729,24 +767,36 @@ def main():
     fig3.savefig(PLOTS_DIR / "multi_scale_ignition_case_study.png", dpi=180)
     plt.close(fig3)
 
-    # Figure 4: ポートフォリオ累積リターン比較
-    fig4, ax4 = plt.subplots(figsize=(14, 6.5))
+    # Figure 4: ポートフォリオ累積リターン ＆ ドローダウン比較 (2パネル)
+    fig4, (ax4_1, ax4_2) = plt.subplots(2, 1, figsize=(14, 9), sharex=True, height_ratios=[2.2, 1.0])
     trade_sets = [
         (f"Baseline Master (EXP-91) (N={len(trades_master_base)})", trades_master_base, '#757575', '--'),
         (f"Master + Gate A (N={len(trades_model2)})", trades_model2, '#1976d2', '-.'),
         (f"Trigger B Standalone (N={len(trades_trigger_b)})", trades_trigger_b, '#ff9800', ':'),
-        (f"★ Full Integrated Master (N={len(trades_full)})", trades_full, '#d32f2f', '-')
+        (f"Full Integrated Master (N={len(trades_full)})", trades_full, '#d32f2f', '-')
     ]
     for label, tr_list, col, ls in trade_sets:
+        if not tr_list:
+            continue
         sorted_tr = sorted(tr_list, key=lambda x: x['entry_time'])
         times = [t['entry_time'] for t in sorted_tr]
         cum_rets = np.cumsum([t['net_ret'] * 100.0 for t in sorted_tr])
-        ax4.plot(times, cum_rets, label=f"{label} [Net = {cum_rets[-1]:+.1f}%]", color=col, ls=ls, lw=2.2)
+        ax4_1.plot(times, cum_rets, label=f"{label} [Net = {cum_rets[-1]:+.1f}%]", color=col, ls=ls, lw=2.0)
         
-    ax4.set_ylabel("Cumulative Opportunity Net Return (%)", fontweight='bold')
-    ax4.set_title("EXP-93: 3要素連動モデル（膠着遮断 Gate A ＋ 真空点火 Trigger B）による累積リターン向上 (HYP-93-3)", fontsize=13, fontweight='bold')
-    ax4.legend(loc='upper left', framealpha=0.9, fontsize=10)
-    ax4.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+        # Drawdown calculation
+        peak = np.maximum.accumulate(cum_rets)
+        dd = cum_rets - peak
+        ax4_2.plot(times, dd, label=label, color=col, ls=ls, lw=1.6)
+        
+    ax4_1.set_ylabel("Cumulative Net Return (%)", fontweight='bold')
+    ax4_1.set_title("EXP-93: 3要素連動モデル（膠着遮断 Gate A ＋ 真空点火 Trigger B 是正後）エクイティ＆ドローダウン推移", fontsize=12, fontweight='bold')
+    ax4_1.legend(loc='upper left', framealpha=0.9, fontsize=9.5)
+    
+    ax4_2.set_ylabel("Drawdown (%)", fontweight='bold')
+    ax4_2.set_xlabel("Date (UTC)", fontweight='bold')
+    ax4_2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    ax4_2.legend(loc='lower left', framealpha=0.9, fontsize=8.5)
+    
     fig4.tight_layout()
     fig4.savefig(PLOTS_DIR / "portfolio_cumulative_comparison.png", dpi=180)
     plt.close(fig4)
@@ -760,13 +810,20 @@ def main():
     for r_i, v_th in enumerate(vac_grid):
         for c_j, sq_th in enumerate(sq_grid):
             # 簡易感度テスト
-            cond_vac_g = (
-                ((df_1h['sma_233'] - df_1h['sma_144']).abs() / atr_1h >= v_th) |
-                ((df_1h['sma_377'] - df_1h['sma_233']).abs() / atr_1h >= v_th) |
-                ((df_1h['sma_610'] - df_1h['sma_377']).abs() / atr_1h >= v_th)
-            )
+            matched_g = pd.Series(False, index=df_1h.index)
+            for k in [55, 89, 144, 233, 377]:
+                if k not in tau_phases:
+                    continue
+                k_p = SCALES[SCALES.index(k) + 1]
+                s_p = df_1h[f'sma_{k_p}']
+                sl_p = df_1h[f'slope_{k_p}'] / atr_1h
+                vac_g = (s_p - close_1h) / atr_1h
+                c_vac = (vac_g >= v_th) & ((sl_p >= -0.015) | is_lockin_bull_higher)
+                c_ph = (pd.Series(tau_phases[k], index=df_1h.index) >= 0.70) & (pd.Series(tau_phases[k], index=df_1h.index) <= 1.40)
+                matched_g = matched_g | (c_vac & c_ph)
+                
             sq_recent_g = (df_1h['bb_pctile_720h'] <= sq_th).rolling(48).max().astype(bool)
-            ign_g = cond_vac_g & sq_recent_g & (close_1h > bundle_max) & (df_1h['maj_score'] >= 5) & (df_1h['macro_age_ratio'] <= 2.0)
+            ign_g = matched_g & is_parallel_bundle & sq_recent_g & (close_1h > bundle_max) & (df_1h['maj_score'] >= 5) & (df_1h['macro_age_ratio'] <= 2.0)
             g_raw = master_vetoed_mask | ign_g
             g_decl = decluster_events(g_raw, cooldown_bars=24)
             tr_g = simulate_1m_path(df_1h.index[g_decl], df_1h, df_1m, mode="adaptive_trail", is_lockin_bull_series=is_lockin_bull_higher)
