@@ -1,0 +1,64 @@
+experiment_id: EXP-95
+title: "ショート側の取りこぼし回収（下降親ライン戻り売り反落 × 下方向確定急降下 × 短期上値限界からの下落仮説伝播）とロング・ショート双方向統合ポートフォリオの検証"
+date: "2026-11-02"
+status: completed
+issue: 95
+author: "@makagi"
+
+dataset:
+  symbol: "BTCUSD"
+  timeframe_primary: "1h"
+  timeframe_execution: "1m"
+  discovery_start: "2020-01-01 00:00:00+00:00"
+  discovery_end: "2025-04-30 23:59:00+00:00"
+  holdout_start: "2025-05-01 00:00:00+00:00"
+  cost_bps: 40  # 往復 0.40%
+
+scale_series:
+  scales: [21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  bands:
+    fast: [21, 34, 55]
+    standard: [89, 144, 233]
+    slow: [377, 610, 987]
+    super_macro: [1597, 2584, 4181, 6765, 10946]
+
+parameters:
+  short_pullback:
+    macro_slopes_negative: ["slope_610", "slope_987"]
+    overhead_sma_guard: "sma_987"
+    rebound_window_lower: "sma_34"
+    rebound_window_mid: "sma_233"
+    rebound_window_upper: "sma_377"
+    range_pos_window: [0.35, 0.65]
+    trigger_break_sma: "sma_21"
+    min_bearish_afs_maj: 4
+  short_hypothesis_propagation:
+    trios:
+      - name: "Trio 1 Bear (Fast)"
+        scales: [21, 55, 89, 144]
+        tau: [3, 8]
+        drop_atr: [1.0, 2.0]
+      - name: "Trio 2 Bear (Standard)"
+        scales: [34, 89, 144, 233]
+        tau: [5, 13]
+        drop_atr: [1.2, 2.5]
+      - name: "Trio 3 Bear (Slow)"
+        scales: [55, 144, 233, 377]
+        tau: [8, 21]
+        drop_atr: [1.5, 3.5]
+  adaptive_exit:
+    sl_sma: "sma_34"
+    sl_atr_mult: 5.0
+    timeout_hours: 72
+    trailing_tp_atr: 3.5
+    trailing_lock_atr_normal: 2.0
+    trailing_lock_atr_lockin: 2.5
+    macro_bull_squeeze_guard: true
+
+hypotheses:
+  hyp_95_1:
+    description: "上位下降親ライン抵抗での戻り売り反落と下方空白地帯（Downside Vacuum）への急落捕捉（K-043/K-044/K-049 対称則）"
+  hyp_95_2:
+    description: "弱気AFS 6ペア多数決スコア（0〜6）の識別力向上とボトムアップ下落仮説伝播（Short-Side What-If Forward Feature Calculation）"
+  hyp_95_3:
+    description: "ショート適応型エグジット（Short S3_k50 + Adaptive Lock-In Trail + Macro Bull Squeeze Guard）とロング・ショート双方向統合マスターポートフォリオの構築"

@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 1.9.0  
+**Version:** 2.1.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-31  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91)  
+**Last Updated:** 2026-11-02  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -80,6 +80,9 @@ graph TD
     K046["K-046: 相対スケール長期並行チャネリングと方向確定の幾何分離則<br/>(Supported: 3スケール共通でLock-In時MFE+19〜42%拡大・10+ATR確率1.7倍)"]:::supported
     K047["K-047: AFS全6ペア多数決スコアリング則と多特徴量線形合算の反証<br/>(Supported in Voting IC 2.1x / Refuted in Linear Sum)"]:::supported
     K048["K-048: スケール相対的適応型利益防衛エグジットとボトムアップ仮説伝播<br/>(Supported: 適応型エグジット×Fast伝播統合 N=151 累積+158.2%)"]:::supported
+    K049["K-049: 上位下支えなき真空点火ブレイクのレジーム脆弱性と多重スケール境界則<br/>(Refuted in Unconditional / Constrained in Upward Trend)"]:::refuted
+    K050["K-050: 下降親ライン戻り売り反落とスケール非対称性（中長期拘束則）<br/>(Supported: Pullback Rejection勝率88.9%/Trio2-3崩壊伝播PF10.7)"]:::supported
+    K051["K-051: ロング・ショート双方向統合マスターポートフォリオとレジーム平滑化<br/>(Supported: N=184 累積+218.5% 全6年全期黒字化・2022年弱気相場約3倍増)"]:::supported
 
     K017 --> K021
     K021 --> K030
@@ -166,7 +169,16 @@ graph TD
     EXP091["EXP-91: 91-scale-relative-oscillation-and-hypothesis-propagation"] --> K046
     EXP091 --> K047
     EXP091 --> K048
+    K043 --> K050
+    K044 --> K050
+    K046 --> K050
+    K047 --> K050
+    K048 --> K050
+    K048 --> K051
+    K050 --> K051
     EXP093["EXP-93: 93-dynamic-scale-3factor-ignition"] --> K049
+    EXP095["EXP-95: 95-short-symmetry-and-bidirectional-portfolio"] --> K050
+    EXP095 --> K051
 ```
 
 ---
@@ -220,13 +232,13 @@ graph TD
 
 ### K-006: フィボナッチ時間足間等価性と特徴量別MTF利用規律
 * **ステータス**: 観測・支持 (Observed / Supported)
-* **概要**: 4年間（2021-2024年、約210万分・3.5万時間）の実データ分析（EXP-43-001）において、1分足の超長期フィボナッチ項（$F_{1m} \in [610 \sim 6765]$）と1時間足の近接フィボナッチ項（$F_{1h} \in [8 \sim 144]$）の関係性を網羅的に検証した結果、特徴量の性質により以下の決定的な挙動差が実証された：
-  1. **価格追随系（SMA、ローリング最高値HH / 最安値LL）**: 相関 $r > 0.999$、誤差 $< 0.8\%$、比率 $\approx 1.000$ であり**完全代替可能**。下位足での巨大計算を上位足へ代用できる。
-  2. **正規化幅系（BB Width / Squeeze Index）**: 相関 $r \approx 0.94$ と波形は同期するが、サンプリング頻度差により約11〜15%の系統的スケール差が存在。パーセンタイル正規化による利用が必須。
+* **概要**: 4年間（2021-2024年、約210万分・3.5万時間）の実データ分析（EXP-43-001）において、1分足の超長期フィボナッチ項（$\\rightarrow$F_{1m} \in [610 \sim 6765]$\\rightarrow$）と1時間足の近接フィボナッチ項（$\\rightarrow$F_{1h} \in [8 \sim 144]$\\rightarrow$）の関係性を網羅的に検証した結果、特徴量の性質により以下の決定的な挙動差が実証された：
+  1. **価格追随系（SMA、ローリング最高値HH / 最安値LL）**: 相関 $\\rightarrow$r > 0.999$\\rightarrow$、誤差 $\\rightarrow$< 0.8\%$\\rightarrow$、比率 $\\rightarrow$\approx 1.000$\\rightarrow$ であり**完全代替可能**。下位足での巨大計算を上位足へ代用できる。
+  2. **正規化幅系（BB Width / Squeeze Index）**: 相関 $\\rightarrow$r \approx 0.94$\\rightarrow$ と波形は同期するが、サンプリング頻度差により約11〜15%の系統的スケール差が存在。パーセンタイル正規化による利用が必須。
   3. **オシレーター系（Stochastics %K / AFS）**: 長期オシレーターは相関するが、短期（610 vs 8）ではノイズにより MAE 16.9pt と激しく乖離。短期オシレーターの時間足間代用は禁止（平滑化AFS必須）。
-  4. **値幅・ボラティリティ系（ATR）**: 波形相関は $r > 0.98$ と極大だが、絶対値は $\frac{1}{\sqrt{60}}$ 則（約1/10）に従い次元が異なるため、時間スケール補正が不可欠。
+  4. **値幅・ボラティリティ系（ATR）**: 波形相関は $\\rightarrow$r > 0.98$\\rightarrow$ と極大だが、絶対値は $\\rightarrow$\frac{1}{\sqrt{60}}$\\rightarrow$ 則（約1/10）に従い次元が異なるため、時間スケール補正が不可欠。
   5. **間引き（Downsampling）**: 1h足でマクロ・メソのセットアップ（Armed）を監視することで、下位1m足の計算・監視データ量を **約 96.1% 間引くアーキテクチャ** の成立を確認。
-* **実験条件**: BTCUSD 1h & 1m、4年間、フィボナッチ項 $F_1 \sim F_{21}$ の全特徴量比較分析
+* **実験条件**: BTCUSD 1h & 1m、4年間、フィボナッチ項 $\\rightarrow$F_1 \sim F_{21}$\\rightarrow$ の全特徴量比較分析
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/43-fib-mtf-context/record.md`](experiments/43-fib-mtf-context/record.md) (EXP-43-001 / [#43](https://github.com/makagi/MTF_AI_Trade/issues/43))
 * **仕様への影響**: MTF特徴量仕様（SPEC-FEAT-001）および状況把握モデルの利用前規律として採用。特徴量の性質（価格追随型・正規化型・オシレーター型・値幅型）に応じた時間足代用・スケーリング補正ルールを義務化。
 
@@ -312,7 +324,7 @@ graph TD
 
 ### K-015: フィボナッチ線間「真空地帯（The Void）」通過速度仮説の反証
 * **ステータス**: 反証・棄却 (Refuted)
-* **概要**: フィボナッチSMA（89と233）の間隔が広いゾーン（Void: $\ge 1.5$ ATR）において価格通過速度が加速しトレンド順行性が高まるという仮説を定量検証（EXP-51-001）した結果、通過速度は Void 空間で 0.479 ATR/h、Dense 空間で 0.476 ATR/h と**速度比 1.01 倍（差はわずか 0.6%）** に留まり、速度加速は確認されなかった。またトレンド順行ロングの期待値も全期間で **Net EV -0.427%（N=1,806）** と摩擦コスト負けした。
+* **概要**: フィボナッチSMA（89と233）の間隔が広いゾーン（Void: $\\rightarrow$\ge 1.5$\\rightarrow$ ATR）において価格通過速度が加速しトレンド順行性が高まるという仮説を定量検証（EXP-51-001）した結果、通過速度は Void 空間で 0.479 ATR/h、Dense 空間で 0.476 ATR/h と**速度比 1.01 倍（差はわずか 0.6%）** に留まり、速度加速は確認されなかった。またトレンド順行ロングの期待値も全期間で **Net EV -0.427%（N=1,806）** と摩擦コスト負けした。
 * **実験条件**: BTCUSD 1h、全1,806件、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/51-fibonacci-mtf-space/record.md`](experiments/51-fibonacci-mtf-space/record.md) (EXP-51-001 / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51))
 * **仕様への影響**: 「線間の広狭（Void）」単独に基づく加速追随ロジックの採用を棄却。
@@ -321,7 +333,7 @@ graph TD
 
 ### K-016: マクロ重力場（SMA 377）の傾斜と押し目深度特性
 * **ステータス**: 観測 (Observed as Weak Edge)
-* **概要**: マクロSMA 377 の傾きが上向き（$> 0.02$ ATR/bar）の強トレンド時において短期SMA 55 を割り込む押し目買いは、全期間で **Net EV +0.083%（N=545）**、PF 1.082、勝率 51.74% を記録した。P1（強気相場）では Net +0.319% とプラス化するが、P2（弱気相場）の一時的な偽の上昇マクロ局面では Net -0.740% とマイナス。エッジとしては薄く単独売買ルールには不適である。
+* **概要**: マクロSMA 377 の傾きが上向き（$\\rightarrow$> 0.02$\\rightarrow$ ATR/bar）の強トレンド時において短期SMA 55 を割り込む押し目買いは、全期間で **Net EV +0.083%（N=545）**、PF 1.082、勝率 51.74% を記録した。P1（強気相場）では Net +0.319% とプラス化するが、P2（弱気相場）の一時的な偽の上昇マクロ局面では Net -0.740% とマイナス。エッジとしては薄く単独売買ルールには不適である。
 * **実験条件**: BTCUSD 1h、全545件、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/51-fibonacci-mtf-space/record.md`](experiments/51-fibonacci-mtf-space/record.md) (EXP-51-001 / [#51](https://github.com/makagi/MTF_AI_Trade/issues/51))
 * **仕様への影響**: 単独エントリーとしては不採用。上位足トレンドフィルターとしての補助的文脈に留める。
@@ -371,7 +383,7 @@ graph TD
 
 ### K-021: 3階層フィボナッチトリプレット全同期の強力な順行エッジ
 * **ステータス**: 支持 (Supported)
-* **概要**: ミクロ(8-13-21)・メソ(34-55-89)・マクロ(233-377-610)の3階層全9本が、同時に完全順行配列（$A>B>C$）かつ全傾き正（$\text{Slope}>0$）となった初動状態を検証（EXP-53-001）した結果、全期間で **Net EV +0.344%（N=2,870）、PF 1.308、MFE +3.03% vs MAE -2.46%** と強固な摩擦耐性を実証。特に P3（直近回復相場, N=1,292）では **Net EV +0.551%、PF 1.645** と極めて高い再現性を示した。
+* **概要**: ミクロ(8-13-21)・メソ(34-55-89)・マクロ(233-377-610)の3階層全9本が、同時に完全順行配列（$\\rightarrow$A>B>C$\\rightarrow$）かつ全傾き正（$\\rightarrow$\text{Slope}>0$\\rightarrow$）となった初動状態を検証（EXP-53-001）した結果、全期間で **Net EV +0.344%（N=2,870）、PF 1.308、MFE +3.03% vs MAE -2.46%** と強固な摩擦耐性を実証。特に P3（直近回復相場, N=1,292）では **Net EV +0.551%、PF 1.645** と極めて高い再現性を示した。
 * **実験条件**: BTCUSD 1h、全2,870件、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/53-fibonacci-adjacent-triplets/record.md`](experiments/53-fibonacci-adjacent-triplets/record.md) (EXP-53-001 / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53))
 * **仕様への影響**: トレンド順張り戦略における最上位のエントリー認可条件（Triple Triplet Full Alignment）として仕様化。
@@ -380,7 +392,7 @@ graph TD
 
 ### K-022: メソ隣接線間ボトルネック反発の時代依存性
 * **ステータス**: 観測・時代依存 (Observed / Regime Dependent)
-* **概要**: メソトリプレット (34-55-89) において、34と55の間隔が外側（55と89）の 25% 以下に圧縮されたボトルネック（$\text{Curvature Ratio} < 0.25$）からの反発買いは、全期間で Net EV +0.156%（N=245）、MAE -1.84% と逆行リスクが小さい。P1（バブル期, N=104）では **Net EV +0.843%、勝率 63.5%、PF 2.057** と極大化したが、P3 では Net -0.439% とマイナスに転落した。
+* **概要**: メソトリプレット (34-55-89) において、34と55の間隔が外側（55と89）の 25% 以下に圧縮されたボトルネック（$\\rightarrow$\text{Curvature Ratio} < 0.25$\\rightarrow$）からの反発買いは、全期間で Net EV +0.156%（N=245）、MAE -1.84% と逆行リスクが小さい。P1（バブル期, N=104）では **Net EV +0.843%、勝率 63.5%、PF 2.057** と極大化したが、P3 では Net -0.439% とマイナスに転落した。
 * **実験条件**: BTCUSD 1h、全245件、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/53-fibonacci-adjacent-triplets/record.md`](experiments/53-fibonacci-adjacent-triplets/record.md) (EXP-53-001 / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53))
 * **仕様への影響**: 単独売買ルールではなく、強気レジーム限定の押し目リスク抑制フィルターとして位置づける。
@@ -398,7 +410,7 @@ graph TD
 
 ### K-024: 外側ボトルネック過熱逆張りショートの破綻
 * **ステータス**: 反証・棄却 (Refuted: Trend Flaw)
-* **概要**: メソ (55-89) が凝縮しているのに 34 だけが急拡大して突出した過熱状態（$\text{Curvature Ratio} > 2.5$）からの反落ショートは、全期間で **Net EV -0.538%（N=1,417）**、PF 0.586、勝率 38.88% と惨敗。全3期間（P1: -0.76%, P2: -0.26%, P3: -0.49%）すべてで大幅なマイナスを記録し、幾何学的過熱を理由とする逆張り売りは踏み上げリスクが極めて高い。
+* **概要**: メソ (55-89) が凝縮しているのに 34 だけが急拡大して突出した過熱状態（$\\rightarrow$\text{Curvature Ratio} > 2.5$\\rightarrow$）からの反落ショートは、全期間で **Net EV -0.538%（N=1,417）**、PF 0.586、勝率 38.88% と惨敗。全3期間（P1: -0.76%, P2: -0.26%, P3: -0.49%）すべてで大幅なマイナスを記録し、幾何学的過熱を理由とする逆張り売りは踏み上げリスクが極めて高い。
 * **実験条件**: BTCUSD 1h、全1,417件、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/53-fibonacci-adjacent-triplets/record.md`](experiments/53-fibonacci-adjacent-triplets/record.md) (EXP-53-001 / [#53](https://github.com/makagi/MTF_AI_Trade/issues/53))
 * **仕様への影響**: 線間乖離過熱を理由とする逆張りショートシグナルを全面禁止。
@@ -425,7 +437,7 @@ graph TD
 
 ### K-027: 各時間階層レジーム持続時間のフラクタルスケーリング則
 * **ステータス**: 支持 (Supported as Fractal Architecture)
-* **概要**: マクロ（233-377-610）、メソ（34-55-89）、ミクロ（8-13-21）の各レジーム（Bull/Bear/Range）の1回あたり持続時間を計測（EXP-55-001）した結果、中央値は **マクロ 78.5時間（約3.3日）、メソ 21.0時間（約0.9日）、ミクロ 5.0時間** となり、階層間スケーリング比率は **Meso/Micro = 4.20倍、Macro/Meso = 3.74倍** を記録。フィボナッチ項比（$55/13 \approx 4.23$、$377/89 \approx 4.24$）に極めて近い幾何学的自己相似性が実証された。
+* **概要**: マクロ（233-377-610）、メソ（34-55-89）、ミクロ（8-13-21）の各レジーム（Bull/Bear/Range）の1回あたり持続時間を計測（EXP-55-001）した結果、中央値は **マクロ 78.5時間（約3.3日）、メソ 21.0時間（約0.9日）、ミクロ 5.0時間** となり、階層間スケーリング比率は **Meso/Micro = 4.20倍、Macro/Meso = 3.74倍** を記録。フィボナッチ項比（$\\rightarrow$55/13 \approx 4.23$\\rightarrow$、$\\rightarrow$377/89 \approx 4.24$\\rightarrow$）に極めて近い幾何学的自己相似性が実証された。
 * **実験条件**: BTCUSD 1h、全46,728時間、3階層状態遷移解析
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/55-multi-scale-mtf-states/record.md`](experiments/55-multi-scale-mtf-states/record.md) (EXP-55-001 / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55))
 * **仕様への影響**: 時間階層間のシグナル寿命・クールダウン期間および状態遷移判定の時間窓の数学的根拠として採用。
@@ -452,7 +464,7 @@ graph TD
 
 ### K-030: 多時間軸統合客観スコア総合モデルと戦略昇格基準
 * **ステータス**: 支持 (Supported as Milestone 4 Architecture)
-* **概要**: マクロ(+2.0)、メソ(+1.5)、ミクロ(+1.0)の幾何学的レジームを統合した多時間軸客観スコア（Composite Alignment Score $\in [-4.5, +4.5]$）を検証（EXP-55-001）した結果、方向性が衝突・交差する **中立領域（|Score| <= 1.0, N=793）は全期間 Net EV -0.382%** と一貫してマイナスであり、完全取引停止領域（No-Trade Filter）として機能することが実証された。また強気同期（Score >= 3.5）をベースに K-021（全9本の完全順行＋全傾き正）を組み合わせることで、Net EV +0.344%、PF 1.308（P3 PF 1.645）の高摩擦耐性エッジが確立される。
+* **概要**: マクロ(+2.0)、メソ(+1.5)、ミクロ(+1.0)の幾何学的レジームを統合した多時間軸客観スコア（Composite Alignment Score $\\rightarrow$\in [-4.5, +4.5]$\\rightarrow$）を検証（EXP-55-001）した結果、方向性が衝突・交差する **中立領域（|Score| <= 1.0, N=793）は全期間 Net EV -0.382%** と一貫してマイナスであり、完全取引停止領域（No-Trade Filter）として機能することが実証された。また強気同期（Score >= 3.5）をベースに K-021（全9本の完全順行＋全傾き正）を組み合わせることで、Net EV +0.344%、PF 1.308（P3 PF 1.645）の高摩擦耐性エッジが確立される。
 * **実験条件**: BTCUSD 1h、全46,728時間、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/55-multi-scale-mtf-states/record.md`](experiments/55-multi-scale-mtf-states/record.md) (EXP-55-001 / [#55](https://github.com/makagi/MTF_AI_Trade/issues/55))
 * **仕様への影響**: Milestone 4 における多時間軸戦略（MTF Strategy Engine）の統制アーキテクチャ（共通ゲートウェイ）として正式採用。
@@ -470,7 +482,7 @@ graph TD
 
 ### K-032: マクロ重力壁への突入速度と突破・反落分岐点
 * **ステータス**: 支持 (Supported as Hard Negative Trap)
-* **概要**: マクロ下降トレンド（233-377-610下降）下での戻りがマクロ重力線（SMA233）に衝突した際、デクラスタリング後の独立123イベントを検証。発火時点の断面 `meso_slope` 単体の有意差は消失（$p = 0.8876$）したが、メソ加速中突入（`slope_34 > 0.035` または Squeeze > 0.35）の複合トラップ条件におけるショートは、P1（Net EV -0.395%）、P2（Net EV -1.077%）、P3（Net EV -0.855%）と全期間一貫してE-Ratio < 1.0（0.73〜0.90）の激しい損失（負のエッジ）を完全に再現した。
+* **概要**: マクロ下降トレンド（233-377-610下降）下での戻りがマクロ重力線（SMA233）に衝突した際、デクラスタリング後の独立123イベントを検証。発火時点の断面 `meso_slope` 単体の有意差は消失（$\\rightarrow$p = 0.8876$\\rightarrow$）したが、メソ加速中突入（`slope_34 > 0.035` または Squeeze > 0.35）の複合トラップ条件におけるショートは、P1（Net EV -0.395%）、P2（Net EV -1.077%）、P3（Net EV -0.855%）と全期間一貫してE-Ratio < 1.0（0.73〜0.90）の激しい損失（負のエッジ）を完全に再現した。
 * **実験条件**: BTCUSD 1h、独立123件（24hクールダウン適用）、Discovery全期間、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/58-differential-and-negative-robustness/record.md`](experiments/58-differential-and-negative-robustness/record.md) (EXP-58 / [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#60](https://github.com/makagi/MTF_AI_Trade/issues/60))
 * **仕様への影響**: 上位足抵抗帯逆張りショートにおいて、下位足モメンタム加速中（`slope_34 > 0.035` または Squeeze > 0.35）のエントリーを完全禁止するハードネガティブゲートとして仕様化。
@@ -497,7 +509,7 @@ graph TD
 
 ### K-035: 動的サポレジ・アタック回数境界モデル
 * **ステータス**: 保留・途上 (Inconclusive as Independent Trigger / Supported as Invalidation Gate)
-* **概要**: 上位足動的サポレジ水準（SMA 233/610等）への到達において、最小離脱期間（`min_departure_bars=3`）を適用した累積接触回数（`Level_Test_Count`）が成否（反発 vs 貫通）を決定的に分岐する。独立120件の検証において、**1〜2回目の接触（Fresh Wall: n=60）は3回目以降（Exhausted Wall: n=60）比で 24h Net EV が +0.70%（-0.23% vs -0.93%）、勝率が +15.0%（48.3% vs 33.3%）、PF が 0.84 vs 0.39、E-Ratio が 1.02 vs 0.73 優位** である。3回目以降の接触は流動性消費による貫通（ブレイク）が支配的であり、取引禁止ゲートとして支持。ただし単独でのプラス期待値達成には至らず、$N=60 < 100$ であるため独立トリガーとしては保留（Inconclusive）。
+* **概要**: 上位足動的サポレジ水準（SMA 233/610等）への到達において、最小離脱期間（`min_departure_bars=3`）を適用した累積接触回数（`Level_Test_Count`）が成否（反発 vs 貫通）を決定的に分岐する。独立120件の検証において、**1〜2回目の接触（Fresh Wall: n=60）は3回目以降（Exhausted Wall: n=60）比で 24h Net EV が +0.70%（-0.23% vs -0.93%）、勝率が +15.0%（48.3% vs 33.3%）、PF が 0.84 vs 0.39、E-Ratio が 1.02 vs 0.73 優位** である。3回目以降の接触は流動性消費による貫通（ブレイク）が支配的であり、取引禁止ゲートとして支持。ただし単独でのプラス期待値達成には至らず、$\\rightarrow$N=60 < 100$\\rightarrow$ であるため独立トリガーとしては保留（Inconclusive）。
 * **実験条件**: BTCUSD 1h、独立120件（分割前デクラスタリング適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#63](https://github.com/makagi/MTF_AI_Trade/issues/63))
 * **仕様への影響**: SPEC-FEAT-001 §4.8（Level Test Count）および CONC-STR-001 §2 の定量的境界として確立。サポレジ到達時の3回目以降（Exhausted Wall）を取引禁止ゲート（Trap Gate）として採用。
@@ -506,7 +518,7 @@ graph TD
 
 ### K-036: レジーム成熟度による高乖離ブレイクの二面性
 * **ステータス**: 保留・途上 (Inconclusive as Directional Signal / Supported as 24h Trap Gate)
-* **概要**: Signal A 高乖離ブレイク（独立335件）において、レジーム持続時間中央値（78.5時間: K-027）に対する経過比率 `Macro_Age_Ratio` を検証。**Mid-Stage（`1.2 < Age <= 2.0`, n=45）では 12h Net EV +0.23%、PF 1.36、24h E-Ratio 1.37、72h Net EV +0.48% (E-Ratio 1.29)** と順行が逆行を凌駕する一方、**中央値の2倍を超えた老朽期（`Age > 2.0`, n=194）では 24h E-Ratio が 0.88 へ低下し（24h Net EV -0.39%）、特に弱気相場（P2）では 24h Net EV -1.21%、72h Net EV -3.69%（E-Ratio 0.25）と大敗**を招く。72h ホライズン全体では成功群・失敗群間の成熟度比率に有意差はない（$d = 0.038, p = 0.7322$）ため、72h 方向予測としては保留とするが、24h 老朽過熱トラップ遮断ゲート（Trap Gate）として支持。
+* **概要**: Signal A 高乖離ブレイク（独立335件）において、レジーム持続時間中央値（78.5時間: K-027）に対する経過比率 `Macro_Age_Ratio` を検証。**Mid-Stage（`1.2 < Age <= 2.0`, n=45）では 12h Net EV +0.23%、PF 1.36、24h E-Ratio 1.37、72h Net EV +0.48% (E-Ratio 1.29)** と順行が逆行を凌駕する一方、**中央値の2倍を超えた老朽期（`Age > 2.0`, n=194）では 24h E-Ratio が 0.88 へ低下し（24h Net EV -0.39%）、特に弱気相場（P2）では 24h Net EV -1.21%、72h Net EV -3.69%（E-Ratio 0.25）と大敗**を招く。72h ホライズン全体では成功群・失敗群間の成熟度比率に有意差はない（$\\rightarrow$d = 0.038, p = 0.7322$\\rightarrow$）ため、72h 方向予測としては保留とするが、24h 老朽過熱トラップ遮断ゲート（Trap Gate）として支持。
 * **実験条件**: BTCUSD 1h、独立335件（分割前デクラスタリング適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#63](https://github.com/makagi/MTF_AI_Trade/issues/63))
 * **仕様への影響**: SPEC-FEAT-001 §4.7（Regime Age Ratio）の境界値として確立。順張りブレイクにおいて `Macro_Age_Ratio > 2.0` は過熱トラップ遮断ゲート（Trap Gate）として採用。
@@ -515,10 +527,10 @@ graph TD
 
 ### K-037: MTFコア特徴量の機能役割分離体系
 * **ステータス**: 支持 (Supported: 戦略設計アーキテクチャ)
-* **概要**: MTF特徴量を単一の「売買トリガー」として一律評価するのではなく、4h/12h/24h/72hのマルチホライズン評価と相対変化量（$\Delta$）基準により、以下の機能役割として客観分離・配置するアーキテクチャを確立した：
-  1. **MFE Booster**: `AFS_Order_Score == 3`（$\Delta\text{Net}_{24h} = +0.23\%$, $\Delta\text{ER} = +0.131$, $\Delta\text{MFE} = +0.44\%$）。
-  2. **MAE Damper (Risk Filter)**: `AFS_Compression < Q25`（$\Delta\text{Net}_{24h} = +0.10\%$, $\Delta\text{ER} = +0.103$, $\Delta\text{MAE} = -0.37\%$）、`Macro_Age_Ratio <= 1.0`（$\Delta\text{Net}_{24h} = +0.18\%$, $\Delta\text{MAE} = -0.24\%$）。
-  3. **Trap Gate (Invalidation Filter)**: `Macro_Age_Ratio > 2.0`（$\Delta\text{Net}_{24h} = -0.40\%$, $\Delta\text{ER} = -0.205$, $\Delta\text{MAE} = +0.47\%$）。
+* **概要**: MTF特徴量を単一の「売買トリガー」として一律評価するのではなく、4h/12h/24h/72hのマルチホライズン評価と相対変化量（$\\rightarrow$\Delta$\\rightarrow$）基準により、以下の機能役割として客観分離・配置するアーキテクチャを確立した：
+  1. **MFE Booster**: `AFS_Order_Score == 3`（$\\rightarrow$\Delta\text{Net}_{24h} = +0.23\%$\\rightarrow$, $\\rightarrow$\Delta\text{ER} = +0.131$\\rightarrow$, $\\rightarrow$\Delta\text{MFE} = +0.44\%$\\rightarrow$）。
+  2. **MAE Damper (Risk Filter)**: `AFS_Compression < Q25`（$\\rightarrow$\Delta\text{Net}_{24h} = +0.10\%$\\rightarrow$, $\\rightarrow$\Delta\text{ER} = +0.103$\\rightarrow$, $\\rightarrow$\Delta\text{MAE} = -0.37\%$\\rightarrow$）、`Macro_Age_Ratio <= 1.0`（$\\rightarrow$\Delta\text{Net}_{24h} = +0.18\%$\\rightarrow$, $\\rightarrow$\Delta\text{MAE} = -0.24\%$\\rightarrow$）。
+  3. **Trap Gate (Invalidation Filter)**: `Macro_Age_Ratio > 2.0`（$\\rightarrow$\Delta\text{Net}_{24h} = -0.40\%$\\rightarrow$, $\\rightarrow$\Delta\text{ER} = -0.205$\\rightarrow$, $\\rightarrow$\Delta\text{MAE} = +0.47\%$\\rightarrow$）。
   4. **Neutral / Context-Dependent**: `Sandwich_Ratio`、`The Void Filter`、`Fanout_Velocity` 等（単体での一律効果は限定的であり、上位コンテキストとの複合条件として扱う）。
 * **実験条件**: BTCUSD 1h、独立525件、Discovery全期間（2020-01〜2025-04）、SPEC-FEAT-001全コア特徴量
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/61-multidimensional-context/record.md`](experiments/61-multidimensional-context/record.md) (EXP-61 / [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#63](https://github.com/makagi/MTF_AI_Trade/issues/63))
@@ -529,11 +541,11 @@ graph TD
 ### K-038: 複合ロール統合（Sequential Role Gating）とミニマル・コンポジット
 * **ステータス**: 支持 (Supported: 戦略複合アーキテクチャ)
 * **概要**: 単一特徴量では突破できない 40 bps 摩擦コストを、直交する機能ロールの段階的統合により克服可能であることを実証した。特に、過剰フィルタリング（Over-filtering）を回避した **「Trap Gate (`Macro_Age_Ratio <= 2.0`)」×「MFE Booster (`AFS_Order == 3`)」の2層結合（Minimal Viable Composite: MVC, 独立86件）** は、サンプル枯渇を起こさずに以下の卓越した成績を達成した：
-  - **24h Net EV**: **`+0.42%`**（40 bps 控除後、**PF `1.50`**, ER `1.30`, $t=1.40, p=0.1643$）
-  - **72h Net EV**: **`+1.08%`**（**PF `1.85`**, **ER `1.62`**, **$t=2.10, p=0.0391$ (有意)**）
-  - **全時代プラス再現（Robustness）**: P1 Bull (`+1.31%`, $n=29$)、**P2 Bear (`+0.27%`, $n=18$)**、P3 Mixed (`+1.29%`, $n=39$) と全期間で安定プラスを維持。
-  - **レジーム層別分解（実態の解明）**: MVC の 65.1%（56/86件）は `Macro Range` ($n=35$, 72h `+1.19%`) および `Macro Bear` ($n=21$, 72h `+2.16%`) 下での発火であり、下位足から先行して強気転換する「ボトムアップ転換初動」が弱気相場耐性の源泉である（`Macro Bull` では $n=30$, 72h `+0.20%`）。
-  - **実運用規律（Trigger Cooldown）**: 親トリガーに対するクールダウン（初回のクリーンなブレイク限定）で 72h Net `+1.08%` ($p=0.0391$) と有意になるのに対し、ゲート通過後のクールダウン（ウィップソー再交差を許容）では 72h Net `+0.57%` ($p=0.1661$) に半減する。初回のクリーンブレイク限定条件が必須要件となる。
+  - **24h Net EV**: **`+0.42%`**（40 bps 控除後、**PF `1.50`**, ER `1.30`, $\\rightarrow$t=1.40, p=0.1643$\\rightarrow$）
+  - **72h Net EV**: **`+1.08%`**（**PF `1.85`**, **ER `1.62`**, **$\\rightarrow$t=2.10, p=0.0391$\\rightarrow$ (有意)**）
+  - **全時代プラス再現（Robustness）**: P1 Bull (`+1.31%`, $\\rightarrow$n=29$\\rightarrow$)、**P2 Bear (`+0.27%`, $\\rightarrow$n=18$\\rightarrow$)**、P3 Mixed (`+1.29%`, $\\rightarrow$n=39$\\rightarrow$) と全期間で安定プラスを維持。
+  - **レジーム層別分解（実態の解明）**: MVC の 65.1%（56/86件）は `Macro Range` ($\\rightarrow$n=35$\\rightarrow$, 72h `+1.19%`) および `Macro Bear` ($\\rightarrow$n=21$\\rightarrow$, 72h `+2.16%`) 下での発火であり、下位足から先行して強気転換する「ボトムアップ転換初動」が弱気相場耐性の源泉である（`Macro Bull` では $\\rightarrow$n=30$\\rightarrow$, 72h `+0.20%`）。
+  - **実運用規律（Trigger Cooldown）**: 親トリガーに対するクールダウン（初回のクリーンなブレイク限定）で 72h Net `+1.08%` ($\\rightarrow$p=0.0391$\\rightarrow$) と有意になるのに対し、ゲート通過後のクールダウン（ウィップソー再交差を許容）では 72h Net `+0.57%` ($\\rightarrow$p=0.1661$\\rightarrow$) に半減する。初回のクリーンブレイク限定条件が必須要件となる。
 * **実験条件**: BTCUSD 1h、独立525件母集団（分割前デクラスタリング適用）、Discovery全期間（2020-01〜2025-04）、往復摩擦コスト0.40%控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/65-composite-feature-gating/record.md`](experiments/65-composite-feature-gating/record.md) (EXP-65 / [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#67](https://github.com/makagi/MTF_AI_Trade/issues/67))
 * **仕様への影響**: 戦略設計規範（CONC-STR-001）において、単体特徴量トリガーを禁止し、Trap Gate × MFE Booster の複合設計および初回クリーンブレイク限定規律を必須要件として採用。
@@ -542,63 +554,63 @@ graph TD
 
 ### K-039: 動的不可侵エンベロープ則と階層的撤退基準
 * **ステータス**: 支持 (Supported: 普遍幾何学則・動的リスク管理仕様)
-* **概要**: 「価格がどこまで伸びるか（点予測）」の限界を克服し、「時間 $\tau$ 以内に統計的・構造的に行くはずがない領域（到達確率 $< 5\%$）」を定量化する **動的不可侵エンベロープ（Dynamic Unreachable Envelope）** を確立した：
+* **概要**: 「価格がどこまで伸びるか（点予測）」の限界を克服し、「時間 $\\rightarrow$\tau$\\rightarrow$ 以内に統計的・構造的に行くはずがない領域（到達確率 $\\rightarrow$< 5\%$\\rightarrow$）」を定量化する **動的不可侵エンベロープ（Dynamic Unreachable Envelope）** を確立した：
   1. **フラクタル・スケーリング則（Fractal Scaling Power-Law）**:
-     - 15分（0.25h）から 72時間までの全 8 ホライズンにおいて、95% 到達限界 $B_{95}(\tau)$ は決定係数 **$R^2 = 1.000$** で普遍的べき乗則 $B_{95}(\tau) = 0.0137 \cdot \tau^{0.5169}$ に完全合致した（1m 240m と 1h 4h はともに `+2.81%` で完全一致）。
-     - 構造要塞下では上位足スケーリング指数が **$\alpha = 0.3804$** へと急激に劣拡散化（Sub-diffusion）し、時間経過に伴う上方伸長が頭打ち（ロック）される。
+     - 15分（0.25h）から 72時間までの全 8 ホライズンにおいて、95% 到達限界 $\\rightarrow$B_{95}(\tau)$\\rightarrow$ は決定係数 **$\\rightarrow$R^2 = 1.000$\\rightarrow$** で普遍的べき乗則 $\\rightarrow$B_{95}(\tau) = 0.0137 \cdot \tau^{0.5169}$\\rightarrow$ に完全合致した（1m 240m と 1h 4h はともに `+2.81%` で完全一致）。
+     - 構造要塞下では上位足スケーリング指数が **$\\rightarrow$\alpha = 0.3804$\\rightarrow$** へと急激に劣拡散化（Sub-diffusion）し、時間経過に伴う上方伸長が頭打ち（ロック）される。
   2. **K-038 MVC における「時間経過に伴う動的不可侵ライン（Dynamic Safe Floor）」**:
-     - 正規 K-038 MVC（独立 86件: 勝ち 53件, 負け 33件）において、経過時間 $\Delta t$ に伴う下方逆行境界を解剖：
-       - **エントリーからの最大逆行（Drawdown from Entry 95th）**: $\Delta t = 4\text{h}$ で `2.68 ATR`、$\Delta t = 12\text{h}$ で `3.63 ATR`、$\Delta t = 24\text{h}$ で `5.49 ATR`、$\Delta t = 72\text{h}$ で **`5.79 ATR`**（約 $-2.05\%$）。負けトレードは 72h で **`20.15 ATR`** まで沈む。
-       - **動的構造線（$\text{SMA}_{34, t}$）からの最悪下方乖離（5th Percentile）**: 勝ちトレードは時間経過で $\text{SMA}_{34}$ が切り上がり、全期間を通じて一度も **`SMA_34 - 4.43 ATR`** を下回らない（負けトレードは `-8.99 ATR` まで脱落）。
+     - 正規 K-038 MVC（独立 86件: 勝ち 53件, 負け 33件）において、経過時間 $\\rightarrow$\Delta t$\\rightarrow$ に伴う下方逆行境界を解剖：
+       - **エントリーからの最大逆行（Drawdown from Entry 95th）**: $\\rightarrow$\Delta t = 4\text{h}$\\rightarrow$ で `2.68 ATR`、$\\rightarrow$\Delta t = 12\text{h}$\\rightarrow$ で `3.63 ATR`、$\\rightarrow$\Delta t = 24\text{h}$\\rightarrow$ で `5.49 ATR`、$\\rightarrow$\Delta t = 72\text{h}$\\rightarrow$ で **`5.79 ATR`**（約 $\\rightarrow$-2.05\%$\\rightarrow$）。負けトレードは 72h で **`20.15 ATR`** まで沈む。
+       - **動的構造線（$\\rightarrow$\text{SMA}_{34, t}$\\rightarrow$）からの最悪下方乖離（5th Percentile）**: 勝ちトレードは時間経過で $\\rightarrow$\text{SMA}_{34}$\\rightarrow$ が切り上がり、全期間を通じて一度も **`SMA_34 - 4.43 ATR`** を下回らない（負けトレードは `-8.99 ATR` まで脱落）。
        - **含み益到達ピークからの最大トレーリングプルバック（Peak Pullback 95th）**: 勝ちトレードの 95% はピークから **`8.49 ATR`** 以内の押し目に収まる（負けトレードは `15.23 ATR` 崩壊）。
   3. **境界突破（Boundary Breach）の非トートロジー事後動態**:
-     - 24h 高値ブレイク（独立 742件）を突破時点 $t_{\text{breach}}$ として検出し、事後ホライズン $\tau_{\text{post}} \in \{4\text{h}, 12\text{h}, 24\text{h}\}$ の動態を追跡。
-     - $+24\text{h}$ 事後推移において Cascade 46.63%（346件）vs Sweep 52.43%（389件）となり、Cascade の 60.12% がマクロ順行（`Slope_233 > 0`）であるのに対し、Sweep はマクロ逆行（`Slope_233 <= 0`）が 45.24% を占める。
+     - 24h 高値ブレイク（独立 742件）を突破時点 $\\rightarrow$t_{\text{breach}}$\\rightarrow$ として検出し、事後ホライズン $\\rightarrow$\tau_{\text{post}} \in \{4\text{h}, 12\text{h}, 24\text{h}\}$\\rightarrow$ の動態を追跡。
+     - $\\rightarrow$+24\text{h}$\\rightarrow$ 事後推移において Cascade 46.63%（346件）vs Sweep 52.43%（389件）となり、Cascade の 60.12% がマクロ順行（`Slope_233 > 0`）であるのに対し、Sweep はマクロ逆行（`Slope_233 <= 0`）が 45.24% を占める。
   4. **1m スケールにおける独立不可侵境界（60m クールダウン適用）**:
      - 1m Fortress Cap（独立 10,730件）では 15m 95th が `7.11 ATR`（Base `7.76 ATR` から圧縮）。
      - 1m Bullish Alignment（独立 12,240件）では 15m 95th が **`9.99 ATR`**、60m **`22.41 ATR`**、240m **`47.26 ATR`** へ爆発的伸長。
 * **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、Discovery全期間（2020-01〜2025-04）、P1/P2/P3 時代別安定性検証
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/68-unreachable-envelope-and-breach/record.md`](experiments/68-unreachable-envelope-and-breach/record.md) (EXP-68 / [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71))
-* **仕様への影響**: リスク管理仕様およびエグジット仕様において、固定時間保有を廃止し、経過時間型 Safe Floor（12h: `-3.63 ATR`, 24h: `-5.49 ATR`, 72h: `-5.79 ATR`）、動的構造ライン割れ（$\text{SMA}_{34} - 4.43 \text{ ATR}$）、およびトレーリングプルバック（ピークから `-8.49 ATR`）による3重複合動的エグジットを採用。
+* **仕様への影響**: リスク管理仕様およびエグジット仕様において、固定時間保有を廃止し、経過時間型 Safe Floor（12h: `-3.63 ATR`, 24h: `-5.49 ATR`, 72h: `-5.79 ATR`）、動的構造ライン割れ（$\\rightarrow$\text{SMA}_{34} - 4.43 \text{ ATR}$\\rightarrow$）、およびトレーリングプルバック（ピークから `-8.49 ATR`）による3重複合動的エグジットを採用。
 
 ---
 
 ### K-040: 1m イントラバー軌跡統合と動的早期撤退・執行機会損失則
 * **ステータス**: 支持 (Supported)
 * **概要**: 1h 確定エッジシグナル（K-038 MVC 独立86件 ＆ Signal C Stage 2 独立15件）に 1分足全 4,320 ステップのイントラバー軌跡を完全統合し、動的不可侵ラインによる早期無効化撤退と 1m 執行精緻化を定量実証（Issue #73 監査是正完了）。
-  1. **未来参照完全排除後の動的構造ライン撤退（S3）と $k=5.0$ の優位性**:
-     - 直近確定1h足の厳格参照下で感度分析を実施。**$k=5.00$（$\text{SMA}_{34, t} - 5.0 \text{ ATR}_t$）** は、Baseline（S0）の Net EV `+1.07%` を凌駕する **Net EV `+1.13%`・PF `1.95`** を達成し、**ワーストトレード損失を $-15.86\% \to -7.35\%$ へ 54% 劇的に圧縮**、総累積リターンも **`+97.55%`（全戦略中最大）** を記録。
-     - 固定 Safe Floor（S1: $-5.79 \text{ ATR}$）でもワースト損失は **`-8.02%`**、PF **`1.88`**。
+  1. **未来参照完全排除後の動的構造ライン撤退（S3）と $\\rightarrow$k=5.0$\\rightarrow$ の優位性**:
+     - 直近確定1h足の厳格参照下で感度分析を実施。**$\\rightarrow$k=5.00$\\rightarrow$（$\\rightarrow$\text{SMA}_{34, t} - 5.0 \text{ ATR}_t$\\rightarrow$）** は、Baseline（S0）の Net EV `+1.07%` を凌駕する **Net EV `+1.13%`・PF `1.95`** を達成し、**ワーストトレード損失を $\\rightarrow$-15.86\% \to -7.35\%$\\rightarrow$ へ 54% 劇的に圧縮**、総累積リターンも **`+97.55%`（全戦略中最大）** を記録。
+     - 固定 Safe Floor（S1: $\\rightarrow$-5.79 \text{ ATR}$\\rightarrow$）でもワースト損失は **`-8.02%`**、PF **`1.88`**。
   2. **`P2_Bear (2022)` 悪化要因の解明と Whipsaw 回避**:
-     - S1 固定ストップは下落相場の瞬間的下ヒゲで底値損切り（Whipsaw）を招き赤字（`-0.32%`）に転落するが、**動的構造ライン（S3 $k=5.0$: EV `+0.40%`、S3 $k=4.43$: EV `+0.46%`, DD `6.92%`）** や **1h 確定足終値割れ判定（S3_1hClose: EV `+0.40%`）** により Whipsaw を完全回避し、全レジームで黒字を維持可能。
+     - S1 固定ストップは下落相場の瞬間的下ヒゲで底値損切り（Whipsaw）を招き赤字（`-0.32%`）に転落するが、**動的構造ライン（S3 $\\rightarrow$k=5.0$\\rightarrow$: EV `+0.40%`、S3 $\\rightarrow$k=4.43$\\rightarrow$: EV `+0.46%`, DD `6.92%`）** や **1h 確定足終値割れ判定（S3_1hClose: EV `+0.40%`）** により Whipsaw を完全回避し、全レジームで黒字を維持可能。
   3. **動的 Profit Ratchet（S4）による資金拘束の解除（28.5h）と元本保護**:
-     - 含み益 $+2.0 \text{ ATR}$ 到達時に建値（$p_0$）へフロアを切り上げ、$+3.5 \text{ ATR}$ でトレーリング利確を行うことで、平均保有時間を `72.0h` から **`28.5h` に大幅短縮（資金拘束を 43.5h 解除）**、PF **`1.97`**、Worst **`-6.58%`**、Max DD **`14.11%`** を達成。
+     - 含み益 $\\rightarrow$+2.0 \text{ ATR}$\\rightarrow$ 到達時に建値（$\\rightarrow$p_0$\\rightarrow$）へフロアを切り上げ、$\\rightarrow$+3.5 \text{ ATR}$\\rightarrow$ でトレーリング利確を行うことで、平均保有時間を `72.0h` から **`28.5h` に大幅短縮（資金拘束を 43.5h 解除）**、PF **`1.97`**、Worst **`-6.58%`**、Max DD **`14.11%`** を達成。
   4. **1m ミクロ構造確認（E3）でも機会損失ドラッグ（Opportunity Drag）が発生**:
-     - 1m 足の「押し目 $\to$ SMA21 奪還＆上向き転換」を確認する E3 は約定率 `97.67%` を確保するが、初動から一気に急伸する最良トレードを取りこぼすため総累積リターンは `+88.48%` となり、**成行即時執行（E0: `+92.29%`）を上回れない**。
+     - 1m 足の「押し目 $\\rightarrow$\to$\\rightarrow$ SMA21 奪還＆上向き転換」を確認する E3 は約定率 `97.67%` を確保するが、初動から一気に急伸する最良トレードを取りこぼすため総累積リターンは `+88.48%` となり、**成行即時執行（E0: `+92.29%`）を上回れない**。
   5. **Signal C (Stage 2 Short, N=15) の 1m パス検証**:
       - マクロ下降下動的サポレジ衝突ショートでも、72h 固定保有で Net EV `+1.04%`（勝率 66.7%）を確認。不可侵ライン撤退（S1）により Max DD が `13.30% \to 10.66%` へ抑制される。
 * **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、K-038 MVC 独立86件 ＆ Signal C 独立15件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除、因果律厳守（未来参照ゼロ）
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/69-1m-path-and-invalidation-exit/record.md`](experiments/69-1m-path-and-invalidation-exit/record.md) (EXP-69 / [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73))
-* **仕様への影響**: 戦略実装仕様（`SPEC-STRAT-001`）において、エントリー執行は成行即時執行（E0）を標準とし、エグジットは動的構造ライン（S3 $k=5.0$ / $k=4.43$）による 1m 早期無効化撤退 ＋ 72h タイムアウト決済を採用。高回転ポートフォリオには Profit Ratchet（S4）を選択可能とする。
+* **仕様への影響**: 戦略実装仕様（`SPEC-STRAT-001`）において、エントリー執行は成行即時執行（E0）を標準とし、エグジットは動的構造ライン（S3 $\\rightarrow$k=5.0$\\rightarrow$ / $\\rightarrow$k=4.43$\\rightarrow$）による 1m 早期無効化撤退 ＋ 72h タイムアウト決済を採用。高回転ポートフォリオには Profit Ratchet（S4）を選択可能とする。
 
 ---
 
 ### K-041: SMAピーク動態の3相幾何分離則と共鳴パートナー先行連鎖則
 * **ステータス**: 支持 (Supported: 普遍幾何学則・動的利確仕様)
-* **概要**: 各周期の移動平均線 $\text{SMA}_P$（$P \in \{21, 34, 55, 89\}$）が山（ピーク）および谷（トラフ）を形成する際、その「高さ（到達限界）」と「タイミング（反転先行時間）」を決定づける7要素の相互作用を定量解明した（Issue #76 監査是正完了）：
+* **概要**: 各周期の移動平均線 $\\rightarrow$\text{SMA}_P$\\rightarrow$（$\\rightarrow$P \in \{21, 34, 55, 89\}$\\rightarrow$）が山（ピーク）および谷（トラフ）を形成する際、その「高さ（到達限界）」と「タイミング（反転先行時間）」を決定づける7要素の相互作用を定量解明した（Issue #76 監査是正完了）：
   1. **長期SMA幾何関係による3相ピーク高さ完全分離（HYP-SMA-PEAK-1）**:
-     - $\text{SMA}_{34}$ の全スイングピーク（269件、ウォームアップ除外後）において、ピーク高さ $\Delta H_{\text{peak}} = (\text{SMA}_{34} - \text{SMA}_{233}) / \text{ATR}_{24}$ は長期構造線 $\text{SMA}_{233}$ との幾何関係によって3相へ完全分離した：
-       - **Phase 1 (接近ピーク / Approach Peak, $N=79$)**: 長期SMA下側での急下降時（Steep Down, $n=25$）、ピーク高さの中央値は **`-4.58 ATR`（P90 `-0.89 ATR`）** であり、統計的に長期SMAを超えることが一度もなく手前で折れる。
-       - **Phase 2 (またぎピーク / Straddle Peak, $N=41$)**: 下から長期SMAを跨ぐ場合、中央値 **`+1.23 ATR`（P90 `+2.82 ATR`）** とわずかに $+1.0 \sim +2.8 \text{ ATR}$ 顔を出したところで力尽きる（オーバーシュートトラップ）。
-       - **Phase 3 (順行伸長ピーク / Expansion Peak, $N=149$)**: 長期SMA上側での急上昇時（Steep Up, $n=55$）、中央値 **`+8.04 ATR`（P90 `+14.57 ATR`）** へと爆発的に伸長する。
+     - $\\rightarrow$\text{SMA}_{34}$\\rightarrow$ の全スイングピーク（269件、ウォームアップ除外後）において、ピーク高さ $\\rightarrow$\Delta H_{\text{peak}} = (\text{SMA}_{34} - \text{SMA}_{233}) / \text{ATR}_{24}$\\rightarrow$ は長期構造線 $\\rightarrow$\text{SMA}_{233}$\\rightarrow$ との幾何関係によって3相へ完全分離した：
+       - **Phase 1 (接近ピーク / Approach Peak, $\\rightarrow$N=79$\\rightarrow$)**: 長期SMA下側での急下降時（Steep Down, $\\rightarrow$n=25$\\rightarrow$）、ピーク高さの中央値は **`-4.58 ATR`（P90 `-0.89 ATR`）** であり、統計的に長期SMAを超えることが一度もなく手前で折れる。
+       - **Phase 2 (またぎピーク / Straddle Peak, $\\rightarrow$N=41$\\rightarrow$)**: 下から長期SMAを跨ぐ場合、中央値 **`+1.23 ATR`（P90 `+2.82 ATR`）** とわずかに $\\rightarrow$+1.0 \sim +2.8 \text{ ATR}$\\rightarrow$ 顔を出したところで力尽きる（オーバーシュートトラップ）。
+       - **Phase 3 (順行伸長ピーク / Expansion Peak, $\\rightarrow$N=149$\\rightarrow$)**: 長期SMA上側での急上昇時（Steep Up, $\\rightarrow$n=55$\\rightarrow$）、中央値 **`+8.04 ATR`（P90 `+14.57 ATR`）** へと爆発的に伸長する。
   2. **トートロジーを排除した客観的共鳴パートナー先行連鎖則（HYP-SMA-PEAK-2）**:
-     - 1対1 ピークマッチングおよび傾き相互相関により、各対象 $\text{SMA}_P$ の真の共鳴パートナー三つ組（Triad）を特定：
-       - $\text{SMA}_{21} \leftrightarrow \text{SMA}_{13}$（先行 6.0h, F1 0.501, $r=0.835$）$\times \text{Stoch\_D}_{34}$（先行 6.0h, F1 0.323, $r=0.845$）$\times \text{AFS}_{21}$（先行 9.0h, F1 0.370）
-       - $\text{SMA}_{34} \leftrightarrow \text{SMA}_{21}$（先行 9.5h, F1 0.403, $r=0.791$）$\times \text{Stoch\_D}_{55}$（先行 6.0h, F1 0.181, $r=0.831$）$\times \text{AFS}_{34}$（先行 11.0h, F1 0.235）
-       - $\text{SMA}_{55} \leftrightarrow \text{SMA}_{34}$（先行 18.0h, F1 0.252, $r=0.794$）$\times \text{Stoch\_D}_{55}$（先行 7.0h, F1 0.083, $r=0.801$）$\times \text{AFS}_{55}$（先行 10.0h, F1 0.114）
-       - $\text{SMA}_{89} \leftrightarrow \text{SMA}_{55}$（先行 3.0h, F1 0.068, $r=0.762$）$\times \text{Stoch\_D}_{55}$（先行 7.0h, F1 0.024, $r=0.587$）
-  3. **接近波（Approach Wave, $N=140$）の3相分岐と谷（Trough）の鏡像対称性**:
-     - 接近進入時、急下降（Steep Down）下では手前反落・頭打ちが **73.4%** を占め、特に「急下降 $\times$ BB縮小」のトラップ条件（$N=7$）では **85.7% が頭打ち（Expansion はわずか 14.3%）** となる一方、「緩傾き $\times$ BB拡大」（$N=72$）では Expansion 突破率が **55.6%** に達する。
+     - 1対1 ピークマッチングおよび傾き相互相関により、各対象 $\\rightarrow$\text{SMA}_P$\\rightarrow$ の真の共鳴パートナー三つ組（Triad）を特定：
+       - $\\rightarrow$\text{SMA}_{21} \leftrightarrow \text{SMA}_{13}$\\rightarrow$（先行 6.0h, F1 0.501, $\\rightarrow$r=0.835$\\rightarrow$）$\\rightarrow$\times \text{Stoch\_D}_{34}$\\rightarrow$（先行 6.0h, F1 0.323, $\\rightarrow$r=0.845$\\rightarrow$）$\\rightarrow$\times \text{AFS}_{21}$\\rightarrow$（先行 9.0h, F1 0.370）
+       - $\\rightarrow$\text{SMA}_{34} \leftrightarrow \text{SMA}_{21}$\\rightarrow$（先行 9.5h, F1 0.403, $\\rightarrow$r=0.791$\\rightarrow$）$\\rightarrow$\times \text{Stoch\_D}_{55}$\\rightarrow$（先行 6.0h, F1 0.181, $\\rightarrow$r=0.831$\\rightarrow$）$\\rightarrow$\times \text{AFS}_{34}$\\rightarrow$（先行 11.0h, F1 0.235）
+       - $\\rightarrow$\text{SMA}_{55} \leftrightarrow \text{SMA}_{34}$\\rightarrow$（先行 18.0h, F1 0.252, $\\rightarrow$r=0.794$\\rightarrow$）$\\rightarrow$\times \text{Stoch\_D}_{55}$\\rightarrow$（先行 7.0h, F1 0.083, $\\rightarrow$r=0.801$\\rightarrow$）$\\rightarrow$\times \text{AFS}_{55}$\\rightarrow$（先行 10.0h, F1 0.114）
+       - $\\rightarrow$\text{SMA}_{89} \leftrightarrow \text{SMA}_{55}$\\rightarrow$（先行 3.0h, F1 0.068, $\\rightarrow$r=0.762$\\rightarrow$）$\\rightarrow$\times \text{Stoch\_D}_{55}$\\rightarrow$（先行 7.0h, F1 0.024, $\\rightarrow$r=0.587$\\rightarrow$）
+  3. **接近波（Approach Wave, $\\rightarrow$N=140$\\rightarrow$）の3相分岐と谷（Trough）の鏡像対称性**:
+     - 接近進入時、急下降（Steep Down）下では手前反落・頭打ちが **73.4%** を占め、特に「急下降 $\\rightarrow$\times$\\rightarrow$ BB縮小」のトラップ条件（$\\rightarrow$N=7$\\rightarrow$）では **85.7% が頭打ち（Expansion はわずか 14.3%）** となる一方、「緩傾き $\\rightarrow$\times$\\rightarrow$ BB拡大」（$\\rightarrow$N=72$\\rightarrow$）では Expansion 突破率が **55.6%** に達する。
      - 谷（Trough）の深さ中央値は急下降時 **`-8.42 ATR`**、急上昇時 **`+4.50 ATR`** となり、ピークと完全な鏡像対称性を形成。
   4. **K-038 MVC 3相適応型動的利確（S6）による資本効率とPF最大化**:
      - `EXP-69` の確定ベースライン（S0 Net EV `+1.07%`, PF `1.84`, Worst `-15.86%`、S3_k50 Net EV `+1.13%`, PF `1.95`, Worst `-7.35%`）を完全再現。
@@ -613,8 +625,8 @@ graph TD
 * **ステータス**: **反証・棄却 (Refuted / Negative Findings)**
 * **概要**: 1h確定エッジシグナル（K-038 MVC 独立86件）に対し、1分足（1m）ミクロ構造を用いた早期利確・分割執行・頭上疲弊トラップ排除を事前登録基準に基づき厳格検証。予備探索値の不再現と、1mノイズによる早期決済が本波の期待値を大きく毀損する構造的欠陥を客観的に実証（Issue #77 / PR #78 監査是正）：
   1. **予備探索（O-1〜O-7）の大幅な不再現（Negative Finding）**:
-     - 探索的プロトタイプで観測された過大評価値（O-5 EV `+1.19%`, PF `4.75` / O-6 EV `+1.53%`, PF `5.81`）は、確定終値判定 $\to$ 翌足始値成行約定という未来参照ゼロの厳格因果律下で**完全に不再現**となった（O-5 実測: EV **`+0.51%`**, PF **`1.76`** / O-6 実測: EV **`+0.89%`**, PF **`2.43`**）。
-     - パラメータ感度グリッド（アーム 1.2〜2.6% $\times$ SMA 55〜377 の全25セル）においても、Net EV は `+0.25%` 〜 `+0.70%` に留まり、**例外なく全セルが S3_k50（`+1.13%`）を下回った**。
+     - 探索的プロトタイプで観測された過大評価値（O-5 EV `+1.19%`, PF `4.75` / O-6 EV `+1.53%`, PF `5.81`）は、確定終値判定 $\\rightarrow$\to$\\rightarrow$ 翌足始値成行約定という未来参照ゼロの厳格因果律下で**完全に不再現**となった（O-5 実測: EV **`+0.51%`**, PF **`1.76`** / O-6 実測: EV **`+0.89%`**, PF **`2.43`**）。
+     - パラメータ感度グリッド（アーム 1.2〜2.6% $\\rightarrow$\times$\\rightarrow$ SMA 55〜377 の全25セル）においても、Net EV は `+0.25%` 〜 `+0.70%` に留まり、**例外なく全セルが S3_k50（`+1.13%`）を下回った**。
   2. **1m SMAトレーリング利確の反証・棄却（HYP-77-3: Refuted）**:
      - `S_Adaptive_1m` は平均保有時間を `63.6h` から `29.9h`（53.0%削減）へ短縮したものの、Net EV は `+1.13%` から **`+0.89%`（通常トレーリングでは `+0.51%`）へ 21%〜55% 毀損**。
      - ブートストラップ（5,000回）95%CI の Net EV 下限値は **`+0.35%`** であり、事前登録判定基準（`+0.83%`）を大幅に下回った。
@@ -623,7 +635,7 @@ graph TD
      - 180分成行補完（Fill）は Worst 損失が `-7.19%` から **`-7.77%` へ悪化**し棄却。
      - 未約定スキップ（Skip）の名目 Worst **`-3.59%`** は単に建玉が半分（0.5ロット）だったことによる機械的縮小であり、**投入資本あたり Worst は `-7.19%` で完全同一**。リスク圧縮エッジは確認されず保留。
   4. **頭上SMA×BB疲弊トラップ排除の保留（HYP-77-1: Inconclusive）**:
-     - 事前登録主評価（頭上 `SMA_89` $\le 1.0\text{ ATR}$ かつ `BB_Width >= 1.6 ATR`）は 6件 に留まり、ランダム除外ベンチマーク（1,000回）の p値は `0.323`（上位 5% 未達）。小標本のため統計的有意差は認められず保留。
+     - 事前登録主評価（頭上 `SMA_89` $\\rightarrow$\le 1.0\text{ ATR}$\\rightarrow$ かつ `BB_Width >= 1.6 ATR`）は 6件 に留まり、ランダム除外ベンチマーク（1,000回）の p値は `0.323`（上位 5% 未達）。小標本のため統計的有意差は認められず保留。
 * **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、K-038 MVC 独立86件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト全額控除、因果律厳守（判定1m終値・約定翌足始値）
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/77-1m-microstructure-and-rapid-exit/record.md`](experiments/77-1m-microstructure-and-rapid-exit/record.md) (EXP-77 / [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#78](https://github.com/makagi/MTF_AI_Trade/pull/78))
 * **仕様への影響**:
@@ -633,19 +645,19 @@ graph TD
 ---
 
 ### K-043: 条件付き上位階層エスカレーションによる親ライン（SMA 610/987）半値押し目救出と K-038 MVC 統合ポートフォリオ
-* **ステータス**: **支持 (Supported in Composite Portfolio $N=104$ / 単独 $N=22$ は CI Borderline 保留)**
+* **ステータス**: **支持 (Supported in Composite Portfolio $\\rightarrow$N=104$\\rightarrow$ / 単独 $\\rightarrow$N=22$\\rightarrow$ は CI Borderline 保留)**
 * **概要**: `MOR-77-01`（[#81](https://github.com/makagi/MTF_AI_Trade/issues/81)）および判断に迷いがある場合の条件付き上位階層参照原則（[#84](https://github.com/makagi/MTF_AI_Trade/issues/84)）から導出された「主軸階層（`SMA 34/233`）割れ時の上位親ライン（`SMA 610/987`）上向き・30日レンジ半値押し目救出（`HYP-86-3: M_HigherOrder_Pullback`）」を Discovery 全期間で定量検証：
   1. **`HYP-86-3` 単独のパフォーマンスと統計的境界（Partially Supported / CI Borderline）**:
-     - 主軸調整（`close < sma_34` $\land$ `close < sma_233`）下において、1〜2段上の親ライン `SMA 610`・`SMA 987` がともに上向き（`slope > 0`）で価格が `SMA 987` 上かつ 720h（30日）レンジの `35%〜65%`（半値押し圏）に位置する際の陽線 `SMA 21` 上抜け＋`AFS_Order == 3` は、独立 **22件** で **Net Mean EV `+2.03%`**（ベースライン `+1.13%` の 1.8倍）、**PF `2.58`**、**Worst `-3.95%`**、総累積 Net **`+44.56%`** を記録。
-     - ただし単独ではサンプル数 $N=22$ の小標本性によりブートストラップ 95% CI が **`[-0.10%, +4.17%]`** となり、事前登録基準（CI 下限 `> 0.0%`）に `0.10%pt` 届かないため、単独シグナルとしては「条件付き支持 / 保留（CI Borderline）」と厳格判定。
+     - 主軸調整（`close < sma_34` $\\rightarrow$\land$\\rightarrow$ `close < sma_233`）下において、1〜2段上の親ライン `SMA 610`・`SMA 987` がともに上向き（`slope > 0`）で価格が `SMA 987` 上かつ 720h（30日）レンジの `35%〜65%`（半値押し圏）に位置する際の陽線 `SMA 21` 上抜け＋`AFS_Order == 3` は、独立 **22件** で **Net Mean EV `+2.03%`**（ベースライン `+1.13%` の 1.8倍）、**PF `2.58`**、**Worst `-3.95%`**、総累積 Net **`+44.56%`** を記録。
+     - ただし単独ではサンプル数 $\\rightarrow$N=22$\\rightarrow$ の小標本性によりブートストラップ 95% CI が **`[-0.10%, +4.17%]`** となり、事前登録基準（CI 下限 `> 0.0%`）に `0.10%pt` 届かないため、単独シグナルとしては「条件付き支持 / 保留（CI Borderline）」と厳格判定。
      - 720h レンジ帯の感度分析において、`[0.35, 0.65]`（EV `+2.03%`, PF `2.58`, Worst `-3.95%`）および `[0.40, 0.60]`（EV `+1.98%`, PF `2.52`, Worst `-3.54%`）で安定した高期待値プラトーを確認（`[0.30, 0.70]` に広げると Worst が `-10.32%` に悪化）。
-  2. **K-038 MVC との厳選統合ポートフォリオ（$N=104$）における `SPEC-EVAL-001` 完全達成**:
-     - ベースライン `K-038 MVC`（86件）と `HYP-86-3`（22件）を 24h デクラスタリング統合したポートフォリオは、独立取引件数が **`104件`（`SPEC-EVAL-001` の必須基準 $N \ge 100$ を突破）** に到達。
+  2. **K-038 MVC との厳選統合ポートフォリオ（$\\rightarrow$N=104$\\rightarrow$）における `SPEC-EVAL-001` 完全達成**:
+     - ベースライン `K-038 MVC`（86件）と `HYP-86-3`（22件）を 24h デクラスタリング統合したポートフォリオは、独立取引件数が **`104件`（`SPEC-EVAL-001` の必須基準 $\\rightarrow$N \ge 100$\\rightarrow$ を突破）** に到達。
      - 往復 40 bps 控除・`S3_k50` エグジット下で **Net Mean EV `+1.27%`**（`+0.14%pt` 向上）、**PF `2.03`**（`1.95` から向上）、**Worst `-7.35%`**（悪化ゼロ）、**総累積 Net Return `+131.92%`**（ベースライン `+97.55%` 比 **`+34.37%pt` 改善**、事前登録採択基準 `+15%pt` の 2.3倍）、**95% CI `[+0.39%, +2.17%]`** を達成。
      - **全3期間プラス一貫性**: `P1_Bull`（36件: EV `+1.69%`, PF `2.31`）、**`P2_Bear`（19件: EV `+0.23%`, PF `1.13`）**、`P3_Mixed`（49件: EV `+1.37%`, PF `2.41`）と全レジームで正の期待値を維持。
 * **実験条件**: BTCUSD 1h（46,728行）& 1m（2,802,044行）、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除、`S3_k50` 執行
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/86-hierarchical-vacuum-pullback/record.md`](experiments/86-hierarchical-vacuum-pullback/record.md) (EXP-86 / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88))
-* **仕様への影響**: `K-038 MVC` の上位階層押し目補完モジュールとして統合採択候補に昇格（独立イベント数 $N=104 \ge 100$ を達成）。
+* **仕様への影響**: `K-038 MVC` の上位階層押し目補完モジュールとして統合採択候補に昇格（独立イベント数 $\\rightarrow$N=104 \ge 100$\\rightarrow$ を達成）。
 
 ---
 
@@ -662,18 +674,18 @@ graph TD
 
 ### K-045: 上位高値圏・空中浮遊の一律除外による機会損失および極小スクイーズ全突破単独救出の限界
 * **ステータス**: **反証・棄却 (Refuted / Negative Findings)**
-* **概要**: `K-038 MVC` に対する「720hレンジ高値圏（$\ge 88\%$）× 48h未押し目（空中浮遊）× 120h高値手前のトラップ除外（`HYP-86-2a`）」および「`Slope_55 <= 0` で漏れた極小スクイーズ全突破・48h押し目リセットの救出（`HYP-86-2b`）」を検証：
-  1. **高値圏トラップ除外の反証（`HYP-86-2a`）**: 除外された 9件の Net Mean EV は **`+1.14%`（PF `2.28`）** とベースライン全体平均（`+1.13%`）並みの黒字であり、ランダム除外ベンチマーク $p = 0.5010$ で改善効果は皆無。強気相場では30日高値圏で深い押し目を作らず青天井へ踏み上げる本波が存在するため、高値圏位置による一律除外は重大な機会損失を招く。
+* **概要**: `K-038 MVC` に対する「720hレンジ高値圏（$\\rightarrow$\ge 88\%$\\rightarrow$）× 48h未押し目（空中浮遊）× 120h高値手前のトラップ除外（`HYP-86-2a`）」および「`Slope_55 <= 0` で漏れた極小スクイーズ全突破・48h押し目リセットの救出（`HYP-86-2b`）」を検証：
+  1. **高値圏トラップ除外の反証（`HYP-86-2a`）**: 除外された 9件の Net Mean EV は **`+1.14%`（PF `2.28`）** とベースライン全体平均（`+1.13%`）並みの黒字であり、ランダム除外ベンチマーク $\\rightarrow$p = 0.5010$\\rightarrow$ で改善効果は皆無。強気相場では30日高値圏で深い押し目を作らず青天井へ踏み上げる本波が存在するため、高値圏位置による一律除外は重大な機会損失を招く。
   2. **極小スクイーズ全突破救出の反証（`HYP-86-2b`）**: 救出された 9件は勝率 `22.22%`・**Net Mean EV `-0.34%`（PF `0.72`）** と赤字化。ボラティリティ極小収縮時に `Slope_55 > 0` の中期モメンタム確認を免除すると、レンジ内のノイズ上ヒゲ・ダマシを高確率（77.8%）で掴むことが判明した。
 * **実験条件**: BTCUSD 1h & 1m、K-038 MVC 86件中除外9件 ＆ 救出候補9件、Discovery全期間（2020-01〜2025-04）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/86-hierarchical-vacuum-pullback/record.md`](experiments/86-hierarchical-vacuum-pullback/record.md) (EXP-86 / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88))
 ### K-046: 相対的時間スケールにおける長期並行チャネリングと方向確定の幾何分離則
 * **ステータス**: **支持 (Supported across Multiple Relative Scales)**
-* **概要**: ハードコードされた固定の移動平均線期間に依存せず、任意の時間スケール組 $(S, M, L)$（Fast: 89/144, Standard: 233/377, Slow: 610/987）において、長期ペア $(L_1, L_2)$ の並行度（$|\text{Slope}_{L_1} - \text{Slope}_{L_2}| \le 0.015 \text{ ATR/h}$ かつ双方の傾き絶対値 $\le 0.020 \text{ ATR/h}$）と方向確定（同符号かつ双方が閾値を超えて発散）の市場動態を検証（EXP-91）：
+* **概要**: ハードコードされた固定の移動平均線期間に依存せず、任意の時間スケール組 $\\rightarrow$(S, M, L)$\\rightarrow$（Fast: 89/144, Standard: 233/377, Slow: 610/987）において、長期ペア $\\rightarrow$(L_1, L_2)$\\rightarrow$ の並行度（$\\rightarrow$|\text{Slope}_{L_1} - \text{Slope}_{L_2}| \le 0.015 \text{ ATR/h}$\\rightarrow$ かつ双方の傾き絶対値 $\\rightarrow$\le 0.020 \text{ ATR/h}$\\rightarrow$）と方向確定（同符号かつ双方が閾値を超えて発散）の市場動態を検証（EXP-91）：
   - 長期ペアが並行している「チャネリング状態（Parallel）」では、相場エネルギーが往復振動に消費され、将来 72h MFE は平均 4.67〜5.25 ATR に強く頭打ちされる。
   - 一方、長期ペアが方向確定（Lock-In Bull）すると、上値余地が平均 6.27〜6.62 ATR（+19%〜+42%）へ大幅伸長し、MFE 10+ ATR の大トレンド発生確率は **1.65〜1.83倍** に跳ね上がる。
 * **実験条件**: BTCUSD 1h、Discovery全期間（2020-01〜2025-04、46,728行）、3つの相対スケール組比較
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95))
 * **仕様への影響**: 上位長期ペアの並行チャネリング状態下での無条件トレンド順張りを禁止。並行時は往復振幅端利確、方向確定時はトレンド追従とするレジーム適応の基礎として採用。
 
 ---
@@ -684,7 +696,7 @@ graph TD
   - 隣接3ペアのみを評価する従来の単純和（`afs_order_score`: 0〜3）は、ミクロな一時的交差で誤脱落する脆弱性があった。これに対し全6ペアの順列を評価する **`Majority Voting Score`（0〜6）は、24h Net Return に対する情報係数が IC `+0.0096` と従来の 2.1倍に向上** し、優れた識別力を示した。
   - 一方、オシレーター、SMA収縮幅、BB幅を固定比率で単純合算した多次元スコア（`S_MFC`）は IC が `-0.0013` とマイナス化し、異なる次元の特徴量を安易に線形合算することはノイズを増幅させることが実証された。
 * **実験条件**: BTCUSD 1h、K-038 セットアップ候補バー条件付き評価、Discovery全期間
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95))
 * **仕様への影響**: AFS の整流判定において `Majority Voting Score` を採用。多次元特徴量の安易な線形結合スコアの導入を禁止。
 
 ---
@@ -692,24 +704,51 @@ graph TD
 ### K-048: スケール相対的適応型利益防衛エグジット則と過剰早期撤退の弊害
 * **ステータス**: **適応型防衛支持 (Supported in Adaptive Trailing) / 無条件一律＆早期撤退過剰介入の反証**
 * **概要**: `MOR-86-01` の C2 負けトレード解剖（Case 07: +4.05 ATR からの -7.96% 全戻し、Case 10: 24h MFE 0.10 ATR の不発失速）から導出された動的エグジットルールを 1分足パスで検証（EXP-91）：
-  1. **無条件一律トレールの副作用**: 全トレード一律に「MFE $\ge +3.5 \text{ ATR}$ 到達時に Entry + 1.0 ATR ロック」を適用すると、PF は `2.03` $\rightarrow$ `2.31` に向上するものの、上位階層が方向確定（Lock-In Bull）して大伸長する本波の途中で浅い押し目に引っかかり、総累積リターンを `+131.92%` $\rightarrow$ `+124.03%` へ削ってしまう。
-  2. **スケール相対的適応型エグジット（`Scale-Relative Adaptive Exit`）の優位性**: 上位階層が方向確定（Lock-In Bull）している時は早期ロックせず大トレンドを伸ばし、**上位階層が並行・非Lock-In（往復振動モード）の時のみ MFE $\ge +3.5 \text{ ATR}$ で Entry + 1.0 ATR ロックを適用する適応型ルール** により、Case 07 型の全戻し大損をピンポイントで遮断しつつ、大トレンドの利益削れを防止（累積 `+158.21%`、PF `1.92` を達成）。
-  3. **過剰な早期撤退介入の有害性**: 「24h 以内で MFE < 0.75 ATR かつ SMA 21 割れで即時撤退（Rapid Stall Exit）」ルールは、一時的な押し目から 24h 以降に大きく伸びる本波（Whipsaw）を多数誤損切りし、累積リターンを `+131.92%` $\rightarrow$ `+72.78%` へ半減させた。
+  1. **無条件一律トレールの副作用**: 全トレード一律に「MFE $\\rightarrow$\ge +3.5 \text{ ATR}$\\rightarrow$ 到達時に Entry + 1.0 ATR ロック」を適用すると、PF は `2.03` $\\rightarrow$\rightarrow$\\rightarrow$ `2.31` に向上するものの、上位階層が方向確定（Lock-In Bull）して大伸長する本波の途中で浅い押し目に引っかかり、総累積リターンを `+131.92%` $\\rightarrow$\rightarrow$\\rightarrow$ `+124.03%` へ削ってしまう。
+  2. **スケール相対的適応型エグジット（`Scale-Relative Adaptive Exit`）の優位性**: 上位階層が方向確定（Lock-In Bull）している時は早期ロックせず大トレンドを伸ばし、**上位階層が並行・非Lock-In（往復振動モード）の時のみ MFE $\\rightarrow$\ge +3.5 \text{ ATR}$\\rightarrow$ で Entry + 1.0 ATR ロックを適用する適応型ルール** により、Case 07 型の全戻し大損をピンポイントで遮断しつつ、大トレンドの利益削れを防止（累積 `+158.21%`、PF `1.92` を達成）。
+  3. **過剰な早期撤退介入の有害性**: 「24h 以内で MFE < 0.75 ATR かつ SMA 21 割れで即時撤退（Rapid Stall Exit）」ルールは、一時的な押し目から 24h 以降に大きく伸びる本波（Whipsaw）を多数誤損切りし、累積リターンを `+131.92%` $\\rightarrow$\rightarrow$\\rightarrow$ `+72.78%` へ半減させた。
 * **実験条件**: BTCUSD 1h & 1m、K-043 統合モデル 104件および Master 統合 151件、Discovery全期間、往復 40 bps 摩擦コスト控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91))
-* **仕様への影響**: エグジット仕様（SPEC-STRAT）において、`S3_k50` に「上位階層が並行・非Lock-In時の MFE $\ge +3.5 \text{ ATR}$ 到達時 Entry + 1.0 ATR ロック」適応型トレーリング防衛を正式採択。値幅・時間のみに基づく安易な早期撤退介入（Rapid Stall Exit）の導入を禁止。
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md`](experiments/91-scale-relative-oscillation-and-hypothesis-propagation/record.md) (EXP-91 / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95))
+* **仕様への影響**: エグジット仕様（SPEC-STRAT）において、`S3_k50` に「上位階層が並行・非Lock-In時の MFE $\\rightarrow$\ge +3.5 \text{ ATR}$\\rightarrow$ 到達時 Entry + 1.0 ATR ロック」適応型トレーリング防衛を正式採択。値幅・時間のみに基づく安易な早期撤退介入（Rapid Stall Exit）の導入を禁止。
 
 ---
 
 ### K-049: 上位下支えなき真空点火ブレイクのレジーム脆弱性と多重スケール境界則
 * **ステータス**: **反証・制約確定 (Refuted in Unconditional / Constrained in Upward Trend)**
-* **概要**: 動的支配スケール $(k^*, k^*+1)$ と3要素連動（空間サポレジ/真空地帯 × 時間振動周期 × ATR/BB極限収縮）による反転点火モデルを検証（EXP-93）：
-  1. **マクロ頭上真空空間の引力（HYP-93-1）**: 超長期マクロ階層（SMA 1597〜10946）において、頭上の親ライン $k^*+1$ との間に $2.0 \text{ ATR}$ 以上の真空地帯が開いている局面は、狭小局面に対して将来 72h MFE が **`3.95 ATR` $\rightarrow$ `8.88 ATR`（+124.8%）へ劇的に拡大** する（非トートロジー支持）。
-  2. **時間とボラティリティの普遍的同期（HYP-93-2）**: 過去確定履歴のローリング極値間隔から算出した固有半周期終盤（$\tau_{\text{phase}} \in [0.75, 1.35]$）において、振幅減衰に伴い極限スクイーズ（BB幅下位25%）が発生する確率は全4スケール帯すべてで一貫して有意に上昇（+3.5%pt 〜 +15.7%pt）する（支持）。
+* **概要**: 動的支配スケール $\\rightarrow$(k^*, k^*+1)$\\rightarrow$ と3要素連動（空間サポレジ/真空地帯 × 時間振動周期 × ATR/BB極限収縮）による反転点火モデルを検証（EXP-93）：
+  1. **マクロ頭上真空空間の引力（HYP-93-1）**: 超長期マクロ階層（SMA 1597〜10946）において、頭上の親ライン $\\rightarrow$k^*+1$\\rightarrow$ との間に $\\rightarrow$2.0 \text{ ATR}$\\rightarrow$ 以上の真空地帯が開いている局面は、狭小局面に対して将来 72h MFE が **`3.95 ATR` $\\rightarrow$\rightarrow$\\rightarrow$ `8.88 ATR`（+124.8%）へ劇的に拡大** する（非トートロジー支持）。
+  2. **時間とボラティリティの普遍的同期（HYP-93-2）**: 過去確定履歴のローリング極値間隔から算出した固有半周期終盤（$\\rightarrow$\tau_{\text{phase}} \in [0.75, 1.35]$\\rightarrow$）において、振幅減衰に伴い極限スクイーズ（BB幅下位25%）が発生する確率は全4スケール帯すべてで一貫して有意に上昇（+3.5%pt 〜 +15.7%pt）する（支持）。
   3. **単独ブレイク点火の限界と下支え必須則（HYP-93-3）**: 3要素が揃っていても、下位〜中位の局所的ブレイク点火単独（Trigger B: N=22）はダマシ反落に遭い **Net Mean EV `-1.44%`、PF `0.29`** で棄却。是正により親ライン急落遮断を組み込んだことで 2022年弱気相場の損失は `-4.02%`（PF 0.92）へ劇的に抑制されたが、統合マスターを希釈するため不採用。真空点火は **「上位長期ペアが上向き支持または方向確定（Lock-In Bull / 水平下支え）している局面（`K-044` / `K-048`）」に厳格に限定** されなければならない。
-* **実験条件**: BTCUSD 1h & 1m、全スケール系列 $\mathcal{S}$（21〜17711）、Discovery全期間、往復 40 bps 摩擦コスト控除
+* **実験条件**: BTCUSD 1h & 1m、全スケール系列 $\\rightarrow$\mathcal{S}$\\rightarrow$（21〜17711）、Discovery全期間、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/93-dynamic-scale-3factor-ignition/record.md`](experiments/93-dynamic-scale-3factor-ignition/record.md) (EXP-93 / [#93](https://github.com/makagi/MTF_AI_Trade/issues/93))
 * **仕様への影響**: 戦略仕様（SPEC-STRAT）において、上位階層が下落トレンド中の真空逆張りブレイク（無条件 Trigger B）の採用を禁止。真空目標は上位方向確定時の順張り目標値としてのみ採用。EXP-91 統合マスターポートフォリオ（N=151, PF 1.92）を確定ベースラインとして維持。
+---
+
+
+### K-050: 下降親ライン戻り売り反落とスケール非対称性（中長期拘束則）
+* **ステータス**: **支持 (Supported)**
+* **概要**: 上位下降親ライン（SMA 610/987）下でのショート対称性とスケール間伝播構造を客観検証（EXP-95）：
+  1. **下降親ライン戻り売り幾何反落（HYP-95-1）**: 上位親ライン（SMA 610/987）が下降傾斜し、価格が中間抵抗帯（SMA 34〜377）へリトレースした後の陰線反落ブレイク（Bearish Pullback Rejection）は、勝率 **`88.89%`**、Net Mean EV **`+1.75%`**、Profit Factor **`7.81`** と極めて高い優位性を示す（K-043の幾何学的下落対称性の支持）。
+  2. **ショート特有のスケール非対称性（HYP-95-2）**: ロング側で有効だった短期スケール（Trio 1 Fast: 21, 55）のボトムアップ伝播は、弱気相場の突発的急反発（ショートスクイズ）に巻き込まれ Net EV `-0.83%`、PF `0.57` と大敗。一方、中長期スケール（Trio 2 Standard & Trio 3 Slow: 55, 144, 233, 377）を起点とする構造的崩壊ブレイクダウンのみが勝率 **`81.82%`**、PF **`10.71`** と圧倒的優位性を示す（スケール非対称性の発見と拘束則）。
+  3. **マクロ牛相場スクイズ遮断（Macro Bull Squeeze Guard）**: 超長期マクロ階層が上昇並行拡大（Lock-In Bull Higher）している局面のショートを遮断することで、半減期バブル相場（2020年、2024年）における踏み上げ壊滅を完全に回避。
+  4. **ショート単独実績**: N=33, 勝率 72.73%, Net Mean EV +1.83%, PF 4.14, Worst -4.48%, 累積純利益 +60.27%, 2022年弱気相場 +25.12% (PF 10.78)。全合格基準クリア。
+* **実験条件**: BTCUSD 1h & 1m、全スケール系列 $\\rightarrow$\mathcal{S}$\\rightarrow$（21〜17711）、Discovery全期間、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/95-short-symmetry-and-bidirectional-portfolio/record.md`](experiments/95-short-symmetry-and-bidirectional-portfolio/record.md) (EXP-95 / [#95](https://github.com/makagi/MTF_AI_Trade/issues/95))
+* **仕様への影響**: 戦略仕様（SPEC-STRAT）において、ショート戦略コアロジックとして「下降親ライン戻り売り（Bear Pullback Rejection）」および「中長期（Trio 2/3）ブレイクダウン伝播」を正式採用。短期スケール（Trio 1）のショート点火および上位Lock-In Bull環境下でのショート執行を一律禁止（Squeeze Guard）。
+
+---
+
+### K-051: ロング・ショート双方向統合マスターポートフォリオとレジーム平滑化
+* **ステータス**: **支持 (Supported)**
+* **概要**: ロング単独マスターと中長期厳選ショート戦略を相互排他統合し、全レジームの平滑化を実証（EXP-95）：
+  1. **双方向統合の累積期待値拡大（HYP-95-3）**: ロング単独マスター（EXP-91: N=151, EV +1.05%, PF 1.92, 累積 +158.21%）に対し、中長期厳選ショート戦略（EXP-95: N=33, EV +1.83%, PF 4.14, 累積 +60.27%）をポートフォリオ統合。
+  2. **統合マスターの達成成果**: 総取引数 **`N = 184`**、勝率 **`61.96%`**、Net Mean EV **`+1.19%`**、Lifetime PF **`2.14`**、通期総利益 **`+218.48%`**（ベースライン比 +60.27%pt / +38.1% の劇的拡大）。95% Bootstrap CI **`[+0.56%, +1.84%]`**（下限 $\\rightarrow$\ge +0.40\%$\\rightarrow$ クリア）。
+  3. **弱気相場の完全制覇と全暦年黒字化**: 2022年弱気相場（P2_Bear）の累積リターンが **`+12.75%` $\\rightarrow$
+ightarrow$\\rightarrow$ `+37.87%`**（PF 2.03）へと約3倍に急増。2020年（+5.1%）、2021年（+99.5%）、2022年（+37.9%）、2023年（+18.7%）、2024年（+42.9%）、2025年（+14.4%）の全6暦年、ならびにP1（+104.59%）、P2（+37.87%）、P3（+76.01%）の全期間すべてでPF $\\rightarrow$\ge 1.35$\\rightarrow$ かつプラス収益を達成。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除、最大同時保有1ポジション（時間重複ゼロ、相互排他）
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/95-short-symmetry-and-bidirectional-portfolio/record.md`](experiments/95-short-symmetry-and-bidirectional-portfolio/record.md) (EXP-95 / [#95](https://github.com/makagi/MTF_AI_Trade/issues/95))
+* **仕様への影響**: 戦略・評価仕様において、次期確定ベースラインポートフォリオを EXP-91 ロング単独から「EXP-95 双方向統合マスター（N=184, Net EV +1.19%, PF 2.14, 累積 +218.48%）」へ正式昇格。
+
 ---
 
 ## 4. Change History
@@ -741,3 +780,4 @@ graph TD
 | 2026-10-29 | 1.8.0 | EXP-86 反映、条件付き上位階層エスカレーションによる親ライン半値押し目救出とK-038統合（N=104）、空白地帯回帰・高値圏一律除外の反証（K-043〜K-045 登録・計45知見へ拡充） | @makagi / [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#88](https://github.com/makagi/MTF_AI_Trade/pull/88) |
 | 2026-10-31 | 1.9.0 | EXP-91 反映、相対スケール長期並行チャネリング分離則（K-046）、AFS多数決スコアリング則（K-047）、MFE+3.5ATR利益防衛トレーリング則（K-048 登録・計48知見へ拡充） | @makagi / [#91](https://github.com/makagi/MTF_AI_Trade/issues/91) |
 | 2026-10-31 | 2.0.0 | EXP-93 反映、上位下支えなき真空点火ブレイクのレジーム脆弱性と多重スケール境界則（K-049 登録・Refuted/Constrained、計49知見へ拡充） | @makagi / [#93](https://github.com/makagi/MTF_AI_Trade/issues/93) |
+| 2026-11-02 | 2.1.0 | EXP-95 反映、下降親ライン戻り売り反落とスケール非対称性（K-050）、ロング・ショート双方向統合マスター（K-051 登録・計51知見へ拡充・N=184 全6年全期黒字） | @makagi / [#95](https://github.com/makagi/MTF_AI_Trade/issues/95) |
