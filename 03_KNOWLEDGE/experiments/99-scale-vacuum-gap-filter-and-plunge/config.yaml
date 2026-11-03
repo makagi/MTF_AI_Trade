@@ -1,0 +1,49 @@
+experiment_id: EXP-99
+title: "超長期落差ギャップ（Scale Vacuum Gap）によるロング脆弱性遮断（Vacuum Trap Filter）と大暴落真空抜きショート（Scale Gap Plunge Short）の検証"
+date: "2026-11-03"
+status: completed
+issue: 99
+author: "@makagi"
+
+dataset:
+  symbol: "BTCUSD"
+  timeframe_primary: "1h"
+  timeframe_execution: "1m"
+  discovery_start: "2020-01-01 00:00:00+00:00"
+  discovery_end: "2025-04-30 23:59:00+00:00"
+  holdout_start: "2025-05-01 00:00:00+00:00"
+  cost_bps: 40  # 往復 0.40%
+
+scale_series:
+  scales: [21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765]
+  bands:
+    fast: [21, 34, 55]
+    standard: [89, 144, 233]
+    slow: [377, 610, 987]
+    super_macro: [1597, 2584, 4181, 6765]
+
+hypotheses:
+  hyp_99_1:
+    name: "Vacuum Trap Filter (守り)"
+    filter_conditions:
+      range_pos_720h_min: 0.80
+      gap_4181_6765_atr_min: 10.0
+    action: "Block Long Entries when conditions met"
+  hyp_99_2:
+    name: "Scale Gap Plunge Short (攻め)"
+    trigger_conditions:
+      break_support: "close < sma_4181 and close.shift(1) >= sma_4181.shift(1)"
+      min_vacuum_gap_atr: 8.0
+      min_bearish_afs_maj: 4
+    execution:
+      entry: "Next 1m bar open"
+      target_take_profit: "sma_6765"
+      stop_loss_atr: 2.5
+      max_holding_hours: 72
+
+portfolio:
+  name: "EXP-99 Integrated Bi-Directional Master"
+  components:
+    - "EXP-95 Long Master with Vacuum Trap Filter"
+    - "EXP-95 Short Master"
+    - "EXP-99 Scale Gap Plunge Short"
