@@ -96,5 +96,5 @@
 | 日付 | Version | 変更概要 | 担当者 / PR |
 |---|---|---|---|
 | 2026-10-12 | 0.1.0 | 初版作成（相場認識・文書階層・開発Agent体系の用語定義） | @makagi / [#25](https://github.com/makagi/MTF_AI_Trade/pull/25) |
-| 2026-11-03 | 0.3.0 | 先行上限到達、階層追いつき収斂、超長期落差ギャップ、真空吸い込みクラッシュの用語定義を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-11-03 | 0.3.0 | 先行上限到達、階層追いつき収斂、超長期落差ギャップ、真空吸い込みクラッシュの用語定義を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |
