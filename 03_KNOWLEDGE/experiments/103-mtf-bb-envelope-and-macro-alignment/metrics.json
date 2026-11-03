@@ -1,0 +1,153 @@
+{
+  "experiment_id": "EXP-103",
+  "title": "日足・上位足MTF包括状況判断と多重ボリンジャーバンド（MTF BB Envelope）検証",
+  "timestamp": "2026-11-03T16:20:02Z",
+  "hypotheses_evaluation": {
+    "HYP-103-1_Macro_Bandwidth_and_Support_Guard": {
+      "description": "日足BB下限近傍および日足200日線岩盤サポート近傍ガードによるダマシ損失遮断",
+      "status": "ACCEPTED",
+      "plunge_short_raw_trades": 20,
+      "plunge_short_macro_trades": 4,
+      "eliminated_false_signals": 16,
+      "profit_factor_improvement": 30.17
+    },
+    "HYP-103-3_Macro_Precision_Plunge_Short": {
+      "description": "大局ブレイクダウンモメンタムと超長期落差ギャップの真空抜きショート",
+      "status": "ACCEPTED",
+      "metrics": {
+        "executed_trades": 4,
+        "win_rate_pct": 75.0,
+        "net_mean_return_pct": 13.98,
+        "profit_factor": 32.87,
+        "total_opportunity_net_return_pct": 55.91,
+        "max_drawdown_pct": -1.75,
+        "worst_trade_pct": -1.75,
+        "best_trade_pct": 26.38
+      },
+      "bootstrap_ci_95": [
+        1.69,
+        26.26
+      ]
+    },
+    "HYP-103-4_EXP-103_Master_Portfolio": {
+      "description": "EXP-103 双方向統合マスターポートフォリオ",
+      "status": "ACCEPTED",
+      "metrics": {
+        "executed_trades": 166,
+        "win_rate_pct": 61.45,
+        "net_mean_return_pct": 1.6,
+        "profit_factor": 2.54,
+        "total_opportunity_net_return_pct": 266.19,
+        "max_drawdown_pct": -15.66,
+        "worst_trade_pct": -10.25,
+        "best_trade_pct": 26.38
+      },
+      "bootstrap_ci_95": [
+        0.75,
+        2.43
+      ],
+      "yearly_metrics": {
+        "2020": {
+          "executed_trades": 25,
+          "win_rate_pct": 56.0,
+          "net_mean_return_pct": 0.28,
+          "profit_factor": 1.18,
+          "total_opportunity_net_return_pct": 7.12,
+          "max_drawdown_pct": -15.6,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 8.91
+        },
+        "2021": {
+          "executed_trades": 34,
+          "win_rate_pct": 73.53,
+          "net_mean_return_pct": 4.51,
+          "profit_factor": 6.01,
+          "total_opportunity_net_return_pct": 153.23,
+          "max_drawdown_pct": -10.36,
+          "worst_trade_pct": -6.74,
+          "best_trade_pct": 26.38
+        },
+        "2022": {
+          "executed_trades": 32,
+          "win_rate_pct": 62.5,
+          "net_mean_return_pct": 1.13,
+          "profit_factor": 1.98,
+          "total_opportunity_net_return_pct": 36.05,
+          "max_drawdown_pct": -12.17,
+          "worst_trade_pct": -7.35,
+          "best_trade_pct": 17.34
+        },
+        "2023": {
+          "executed_trades": 30,
+          "win_rate_pct": 46.67,
+          "net_mean_return_pct": 0.77,
+          "profit_factor": 1.89,
+          "total_opportunity_net_return_pct": 23.05,
+          "max_drawdown_pct": -15.66,
+          "worst_trade_pct": -3.83,
+          "best_trade_pct": 10.41
+        },
+        "2024": {
+          "executed_trades": 31,
+          "win_rate_pct": 74.19,
+          "net_mean_return_pct": 1.42,
+          "profit_factor": 2.83,
+          "total_opportunity_net_return_pct": 44.03,
+          "max_drawdown_pct": -7.45,
+          "worst_trade_pct": -3.54,
+          "best_trade_pct": 10.05
+        },
+        "2025": {
+          "executed_trades": 14,
+          "win_rate_pct": 42.86,
+          "net_mean_return_pct": 0.19,
+          "profit_factor": 1.17,
+          "total_opportunity_net_return_pct": 2.72,
+          "max_drawdown_pct": -9.05,
+          "worst_trade_pct": -4.48,
+          "best_trade_pct": 9.7
+        }
+      },
+      "period_metrics": {
+        "P1_Bull": {
+          "executed_trades": 59,
+          "win_rate_pct": 66.1,
+          "net_mean_return_pct": 2.72,
+          "profit_factor": 3.3,
+          "total_opportunity_net_return_pct": 160.34,
+          "max_drawdown_pct": -15.6,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 26.38
+        },
+        "P2_Bear": {
+          "executed_trades": 32,
+          "win_rate_pct": 62.5,
+          "net_mean_return_pct": 1.13,
+          "profit_factor": 1.98,
+          "total_opportunity_net_return_pct": 36.05,
+          "max_drawdown_pct": -12.17,
+          "worst_trade_pct": -7.35,
+          "best_trade_pct": 17.34
+        },
+        "P3_Mixed": {
+          "executed_trades": 75,
+          "win_rate_pct": 57.33,
+          "net_mean_return_pct": 0.93,
+          "profit_factor": 2.05,
+          "total_opportunity_net_return_pct": 69.8,
+          "max_drawdown_pct": -15.66,
+          "worst_trade_pct": -4.48,
+          "best_trade_pct": 10.41
+        }
+      },
+      "vs_exp99_delta": {
+        "net_ev_delta_bps": 22.0,
+        "profit_factor_delta": 0.25,
+        "total_return_delta_pct": 14.77,
+        "max_drawdown_delta_pct": 0.19,
+        "year_2025_return_pct": 2.72,
+        "year_2024_return_pct": 44.03
+      }
+    }
+  }
+}

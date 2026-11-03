@@ -786,6 +786,31 @@ graph TD
 
 ---
 
+
+---
+
+### K-054: 日足MTFボリンジャーバンド（MTF BB Envelope）と大局トレンド整合による偽ブレイクアウト遮断則
+* **ステータス**: **支持 (Supported)**
+* **概要**: 特定の超長期SMAパラメータ（6765, 10946等）への過剰適合を脱却し、日足（1D = 24h）ボリンジャーバンド（20d BB Envelope）の上下端および日足20日線との幾何学的空間関係として大局トレンドを判定するモデルを検証（EXP-103）：
+  1. **大局トレンド逆行ショートの脆弱性特定**: 1h足で密集親線（SMA 4181）を下抜けても、価格が日足20日線（`sma_20d`）の上方にあったり、日足BB下限から遥か上方に位置している段階では、大局レンジ上半分または上昇トレンド中であり、ショートは逆張りとなって跳ね返される（2024年秋のダマシ損失の主因）。
+  2. **日足BB下限整合フィルター（HYP-103-1）**: 価格が日足20日線の下にあり、かつ日足BB下限近傍（`(close - bb_lower_20d) / bb_lower_20d <= 0.03`）にある大局ブレイクダウン局面のみにショートを限定。
+  3. **Plunge Short の劇的進化**: 原版（EXP-99 $N=20$, WR 40.0%, EV +2.06%, PF 2.70）に対し、**$N = 4$ 件、勝率 $75.0\%$、Net Mean EV `+13.98%`（約7倍）、Profit Factor `32.87`（約12倍）、総累積利益 `+55.91%`（+$14.77\%pt$ 拡大）** へと飛躍的向上を達成。2024年秋の5連敗を100%全滅させた。
+* **実験条件**: BTCUSD 日足（1D）および 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、前日確定足 `.shift(1).ffill()` による未来参照リーク完全遮断、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/103-mtf-bb-envelope-and-macro-alignment/record.md`](experiments/103-mtf-bb-envelope-and-macro-alignment/record.md) (EXP-103 / [#103](https://github.com/makagi/MTF_AI_Trade/issues/103))
+* **仕様への影響**: 戦略仕様において、Plunge Short に日足MTFボリンジャーバンド下限・日足ミドル整合フィルターを必須要件として採用。
+
+---
+
+### K-055: 日足200日線岩盤下値支持と超長期落差ギャップの真空貫通・支持吸収力学
+* **ステータス**: **支持 (Supported)**
+* **概要**: 相場全体の最強の岩盤下値支持線である日足200日線（SMA 200d）と、超長期落差ギャップ（Scale Vacuum Gap）の相互作用力学を解明（EXP-103）：
+  1. **支持吸収則 (Support Absorption)**: 直下 4.5% 以内に日足200日線が存在し、落差ギャップが中規模（$< 15	ext{ ATR}$）の場合、岩盤支持線が売り圧力を完全に吸収して急反発を引き起こす（2025年2月下旬のダマシ急落の主因）。
+  2. **真空貫通則 (Vacuum Penetration)**: 一方、落差ギャップが $20	ext{ ATR}$ 級の特大真空である場合、下落モーメンタムが岩盤支持線をも貫通して垂直大クラッシュとなる（2023年8月18日の大暴落）。
+  3. **EXP-103 統合マスターポートフォリオの樹立**: 日足BB下限整合および日足200日線支持吸収ガードを組み込んだ結果、**$N = 166$ 件、勝率 $61.45\%$、Net Mean EV `+1.60%`（EXP-99比 +22 bps）、Lifetime PF `2.54`（EXP-99比 +0.25）、総累積利益 `+266.19%`（EXP-99比 +14.77%pt）、最大DD `-15.66%`、2025年収支 `+2.72% (PF 1.17)`（赤字 -4.08% から完全黒字化・プラ転達成）** を実現。
+* **実験条件**: BTCUSD 日足（1D）および 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/103-mtf-bb-envelope-and-macro-alignment/record.md`](experiments/103-mtf-bb-envelope-and-macro-alignment/record.md) (EXP-103 / [#103](https://github.com/makagi/MTF_AI_Trade/issues/103))
+* **仕様への影響**: 戦略仕様における確定ベースラインを「EXP-103 統合マスターポートフォリオ（N=166, Net EV +1.60%, PF 2.54, 累積 +266.19%, MaxDD -15.66%, 2025年黒字）」へ更新。
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -817,3 +842,4 @@ graph TD
 | 2026-10-31 | 2.0.0 | EXP-93 反映、上位下支えなき真空点火ブレイクのレジーム脆弱性と多重スケール境界則（K-049 登録・Refuted/Constrained、計49知見へ拡充） | @makagi / [#93](https://github.com/makagi/MTF_AI_Trade/issues/93) |
 | 2026-11-02 | 2.1.0 | EXP-95 反映、下降親ライン戻り売り反落とスケール非対称性（K-050）、ロング・ショート双方向統合マスター（K-051 登録・計51知見へ拡充・N=184 全6年全期黒字） | @makagi / [#95](https://github.com/makagi/MTF_AI_Trade/issues/95) |
 | 2026-11-03 | 2.2.0 | EXP-99 反映、超長期落差ギャップ脆弱性とVacuum Trap Filter（K-052）、最深親線への真空吸い込みクラッシュとScale Gap Plunge Short（K-053 登録・計53知見へ拡充・N=182 Net EV +1.38% PF 2.29） | @makagi / [#99](https://github.com/makagi/MTF_AI_Trade/issues/99) |
+| 2026-11-04 | 2.3.0 | EXP-103 反映、日足MTF BB Envelope大局整合則（K-054）、日足200日線岩盤支持と真空貫通力学（K-055）登録・計55知見へ拡充（N=166 Net EV +1.60% PF 2.54 全年黒字） | @makagi / [#103](https://github.com/makagi/MTF_AI_Trade/issues/103) |

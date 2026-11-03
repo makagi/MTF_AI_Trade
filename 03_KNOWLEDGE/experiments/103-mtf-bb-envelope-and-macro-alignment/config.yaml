@@ -1,0 +1,55 @@
+experiment_id: EXP-103
+title: "日足・上位足MTF包括状況判断と多重ボリンジャーバンド（MTF BB Envelope）収縮・親ライン支持構造転換・AFS周期同期によるドローダウン抑制と大相場点火の検証"
+date: "2026-11-04"
+status: completed
+issue: 103
+author: "@makagi"
+
+dataset:
+  symbol: "BTCUSD"
+  timeframe_macro: "1D"
+  timeframe_primary: "1h"
+  timeframe_execution: "1m"
+  discovery_start: "2020-01-01 00:00:00+00:00"
+  discovery_end: "2025-04-30 23:59:00+00:00"
+  holdout_start: "2025-05-01 00:00:00+00:00"
+  cost_bps: 40  # 往復 0.40%
+
+scale_series:
+  scales: [21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765]
+  macro_scales: [20, 50, 100, 200]  # 日足移動平均・BB期間
+
+hypotheses:
+  hyp_103_1:
+    name: "Macro Bandwidth & Support Alignment Guard (Plunge Short 守り・同期)"
+    conditions:
+      daily_bb_lower_proximity: "(close - bb_lower_20d) / bb_lower_20d <= 0.03"
+      daily_mid_alignment: "close < bb_mid_20d"
+      daily_200d_trap_guard: "NOT ((gap_4181_6765 < 15.0) and (0.0 < (close - sma_200d) / close < 0.045))"
+    action: "Authorize plunge short only when daily macro envelope confirms breakdown momentum without immediate 200d bounce trap"
+  hyp_103_2:
+    name: "Scale Vacuum Gap Filter (EXP-99 継承守り)"
+    conditions:
+      range_pos_720h_min: 0.80
+      gap_4181_6765_atr_min: 10.0
+    action: "Block Long Entries during early ceiling catch-up vacuum gap"
+  hyp_103_3:
+    name: "Precision Macro Plunge Short (攻め)"
+    execution:
+      entry: "Next 1m bar open"
+      target_take_profit: "sma_6765"
+      stop_loss_atr: 2.5
+      max_holding_hours: 72
+  hyp_103_4:
+    name: "EXP-103 Integrated Master Portfolio"
+    components:
+      - "EXP-99 Long Master (Filtered N=136)"
+      - "EXP-95 Short Master (Standalone N=26)"
+      - "EXP-103 Macro-Guided Plunge Short (N=4)"
+
+acceptance_criteria:
+  profit_factor: 2.50
+  net_mean_ev_pct: 1.50
+  max_drawdown_pct: -16.0
+  yearly_profitability_all_positive: true
+  bootstrap_ci_95_lower: 0.65
