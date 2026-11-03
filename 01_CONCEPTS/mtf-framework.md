@@ -1,11 +1,11 @@
 # MTFシステムトレード MTF Framework (多時間軸概念モデル)
 
 **Doc ID:** CONC-MTF-001  
-**Version:** 0.7.0  
+**Version:** 0.8.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-11-03  
-**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97)  
+**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97), [#101](https://github.com/makagi/MTF_AI_Trade/issues/101)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [market-structure.md](market-structure.md), [volatility.md](volatility.md)  
 
 ---
@@ -128,7 +128,7 @@
 1. **空間要素（直前の大変動の「由来スケール $k^*$」特定と親スケール $k^*+1$ との頭上真空地帯）**:
    - 直前の主要な変動（急騰・急落の起点となった転換点）が、スケール系列の中のどの相対スケール $k^*$ のサポレジ（接触・反発）に由来して発生したかを特定する。
    - その支配スケール $k^*$ と 1段上の親スケール $k^*+1$ の関係に注目し、頭上に位置する親スケールとの間に有意な「空白地帯（Overhead Vacuum）」が開いているかを評価する。特に超長期マクロ階層において頭上に大きな空白地帯が開いている局面は、反転後に価格が吸い寄せられる強力な回帰目標（引力空間）となる。
-2. **時間要素（確定履歴に基づく過去の振動周期 $T_{	ext{cycle}}(k^*)$ と反転時期の判断）**:
+2. **時間要素（確定履歴に基づく過去の振動周期 $T_{\text{cycle}}(k^*)$ と反転時期の判断）**:
    - 固定された周期数値を用いるのではなく、各時点までの過去の確定履歴における当該スケール $k^*$ の実際の振動周期（スイング極値間隔や構造線交差の半周期・フルサイクル）を動的に計測する。
    - 直前の転換起点からの経過時間が、そのスケール固有の振動周期の終盤ウィンドウに到達しているかを確認することで、「まだ振動・調整の途中か、次の反転時期に到達しているか」を判断する。
 3. **ボラティリティ収縮要素（振動周期の終盤と ATR / BB 収縮の同期）**:
@@ -178,6 +178,45 @@
 
 ---
 
+### 4.9 多重ボリンジャーバンド（MTF BB Envelope）の収縮階層とAFS周期反転力学
+
+これまでの移動平均線（$\text{SMA}_k$）を軸とした一次元の「線」の認識を、**「期間 $k$ の移動平均線 $\text{SMA}_k$ は、同期間 $k$ のボリンジャーバンドのミドルライン（$\text{BB\_Mid}_k$）と幾何学的に等価である」** という事実に基づき、二次元空間エンベロープ（$\text{MTF BB Envelope}$）および時間周期性（AFS / Stochastics 周期反転）へと拡張・統合する。
+
+```text
+【二次元空間（MTF BB Envelope）× 時間周期（AFS / stoch_d）の統合力学】
+
+  BB_Upper_k ───┬─────────────────────── [AFS 周期ピーク到達] ──→ 反落・上限拘束
+                │  ↑ 押し戻し（未収縮時）                           (Range Rejection)
+  BB_Mid_k   ───┼──(＝ SMA_k: 中心重力・傾き) ──→ 完全収縮・親線密集・一斉上向きで爆発点火
+                │  ↓ 押し戻し（未収縮時）                           (Synchronized Breakout)
+  BB_Lower_k ───┴─────────────────────── [AFS 周期ボトム到達] ──→ 反発・下限支持
+                                                                    (Trough Rebound)
+```
+
+1. **多重ボリンジャーバンド・エンベロープ（MTF BB Envelope）の二次元空間モデル**:
+   - 任意の相対スケール $k$ における市場構造は、中心線 $\text{SMA}_k \equiv \text{BB\_Mid}_k$ と、その標準偏差 $\sigma_k$ によって張られる上下端（$\text{BB\_Upper}_k, \text{BB\_Lower}_k$）およびバンド幅（$\text{Bandwidth}_k = (\text{BB\_Upper}_k - \text{BB\_Lower}_k) / \text{BB\_Mid}_k$）の二次元空間エンベロープとして定義される。
+   - 価格は単一の期間ではなく、短期・中期・長期・超長期（代表例として1時間足における `SMA 4181 / 6765 / 10946 / 17711` 等）の入れ子状の多重ボリンジャーバンド（MTF BB Envelope）の内部を運動しており、どのスケール $k$ のバンドが現在価格を拘束・支持しているかによって相場のフェーズが決定される。
+
+2. **未収縮バンド幅のレンジ拘束則 (Uncontracted Bandwidth Constraint)**:
+   - トレンドの持続的ブレイクアウトが生じるためには、対象となる上位・超長期スケール $k$ のバンド幅 $\text{Bandwidth}_k$ が十分に収縮（エネルギー充填・ボラティリティ圧縮）していなければならないという作業仮説を採用する。
+   - **当該スケール $k$（特に長期〜超長期階層）の $\text{Bandwidth}_k$ がまだ収縮しきっていない（過去の履歴分布において高水準・拡散状態にある）局面**では、たとえ下位足が局所的な上昇を試みても、未収縮のバンド上限や下降傾斜する上位 $\text{SMA}_k$ に跳ね返され、バンド内部へ押し戻されて**レンジ相場（往復振動）が継続**する。
+   - この「超長期BB未収縮時のブレイク不発」を認識することで、大局の収縮完了前にフライングで順張りエントリーして往復ビンタ（Whipsaw）に遭うリスクを構造的に排除できる。
+
+3. **AFS / stoch_d 周期反転同期則 (Cycle Peak/Trough Synchronization)**:
+   - 多重ボリンジャーバンドの空間的境界（$\text{BB\_Upper}_k, \text{BB\_Lower}_k$ や親ライン $\text{SMA}_k$）への到達と、オシレーター群（AFS 多数決スコアや $\text{stoch\_d}$ 等）の周期的極値（Peak / Trough）が同期した瞬間に、高精度な反転力学が作用する：
+     - **周期ピーク反落（Peak Rejection）**: 上位構造線が密集・平行化して上昇の土台になり得るように見える局面であっても、下位〜中位の構造線群がすでに上位線より上側に乖離して位置し、かつ $\text{BB\_Upper}_k$ 付近で **AFS / $\text{stoch\_d}$ が周期の上端ピーク（過熱極値）に達して折れ曲がった場合**、上値追いのエネルギーが枯渇して急落（または深押し）が発生しやすい。
+     - **周期ボトム反発（Trough Rebound）**: 逆に、下位〜中位の構造線群が上位親ラインの下側まで十分に潜り込み（下がり切り）、$\text{BB\_Lower}_k$ サポート到達と同時に **AFS / $\text{stoch\_d}$ が周期の下端ボトム（売られすぎ極値）から上向き反転した場合**、長期周期の反発と合致して強力な上昇転換の起点となる。
+
+4. **下位潜り込みと超長期BB完全収縮からの一斉点火 (Submergence, Full Contraction & Synchronized Ignition)**:
+   - レンジ継続から爆発的トレンド（大陽線・バブル相場）への相転移は、以下の段階的プロセスを経て完結する：
+     1. **下位群の潜り込みと底打ち**: 先行して高値を作った後、中位以下の構造線群（例: `SMA 4181` 以下）が一度超長期親ライン（例: `SMA 6765`）の下側へ回り込み、$\text{BB\_Lower}_k$ サポートと周期ボトムで反発する。
+     2. **超長期BBの完全収縮と親線密集・水平平行化**: 長いレンジ期間を経て、超長期階層（例: `SMA 6765 / 10946 / 17711`）のボリンジャーバンド幅が極限まで収縮しきり、複数の超長期親ラインが密集・水平平行化する。
+     3. **短期からの突き上げと全階層一斉上向き転換**: 下位からの突き上げ（ボトムアップ伝播）によって、密集していた超長期を含む全階層の傾きが一斉に上向きへ揃った瞬間、未収縮の拘束から解放された爆発的な大トレンドが点火する。
+
+※ 具体的なバンド幅収縮パーセンタイル閾値、周期ピーク／ボトムの判定条件、および検証メトリクスは仕様（[02_SPECIFICATIONS/](../02_SPECIFICATIONS/)）および検証実験（[03_KNOWLEDGE/experiments/](../03_KNOWLEDGE/experiments/)）で規定する。
+
+---
+
 ## 5. Separation of Analysis and Decision (8段階証拠連鎖に基づく認識モデル)
 
 本フレームワークでは、[00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md) §2 に基づき、以下の情報処理プロセスを厳密に分離する。
@@ -219,3 +258,4 @@
 | 2026-10-31 | 0.5.0 | スケール相対性の徹底（特定パラメータ固定観念の排除 §4.2）、上位並行時の下位往復振動と方向確定後の相転移（§4.5）、複数特徴量統合とボトムアップ仮説伝播モデル（§4.6）を追加 | @makagi / [#89](https://github.com/makagi/MTF_AI_Trade/issues/89) |
 | 2026-10-31 | 0.6.0 | 動的支配スケール $(k^*, k^*+1)$ と反転時期の3要素特定モデル（空間サポレジ × 時間振動周期 × ATR/BB収縮 §4.7）を追加 | @makagi / [#93](https://github.com/makagi/MTF_AI_Trade/issues/93) |
 | 2026-11-03 | 0.7.0 | 先行上限到達・階層追いつき収斂（Catch-Up Convergence）と超長期落差ギャップ（Scale Vacuum Gap）の真空吸い込みクラッシュ力学（§4.8）を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |
+| 2026-11-03 | 0.8.0 | 多重ボリンジャーバンド（MTF BB Envelope）の収縮階層とAFS周期反転力学（§4.9）を追加 | @makagi / [#101](https://github.com/makagi/MTF_AI_Trade/issues/101) |
