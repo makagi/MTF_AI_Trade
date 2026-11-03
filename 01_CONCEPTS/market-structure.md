@@ -1,11 +1,11 @@
 # MTFシステムトレード Market Structure (市場構造概念モデル)
 
 **Doc ID:** CONC-STR-001  
-**Version:** 0.2.0  
+**Version:** 0.3.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-12  
-**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5)  
+**Last Updated:** 2026-11-03  
+**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [mtf-framework.md](mtf-framework.md), [volatility.md](volatility.md)  
 
 ---
@@ -38,6 +38,20 @@
    * 過去に形成されたサポレジも、時間が経過するにつれて市場参加者の関心が薄れ、その境界としての影響力は減衰する。
 3. **ロールリバーサル (Role Reversal)**:
    * 支持帯が明確にブレイクされた場合、そこは新たな抵抗帯へと役割が転換する（逆も同様）。
+
+---
+
+### 2.1 密集支持帯の直下真空リスク（Scale Vacuum Gap）と支持線ゼロの落差カスケード
+
+支持帯（サポート）の堅牢性を評価する際、**「支持帯自体の厚み（密集度）」だけでなく「その直下に何があるか（下方の空間構造）」**を必ずセットで評価しなければならない。
+
+1. **密集支持帯（Bundle Support）の二面性**:
+   - 複数時間軸の移動平均線やスイング安値が一定の狭い価格帯に密集している局面は、一見すると極めて強固な支持帯に見える。
+   - しかし、先行して上限に達した価格に対し、中長期の構造線が下から追いついて密集した場合、その密集帯の直下に未だ追いついていない超長期構造線との間で**広大な「支持線ゼロの空白地帯（Vacuum Gap）」**が生じる。
+2. **底割れ時の流動性真空と垂直落下 (Vacuum Cascade)**:
+   - このような「薄い密集の床の直下に巨大な真空が開いている」構造において、密集支持帯の最下端が破られた場合、途中で買い支える防戦注文（流動性）が一切存在しない。
+   - その結果、ストップロス注文の連鎖（清算カスケード）と成行売りの殺到が真空地帯を直撃し、**最深の超長期親ライン（例: SMA 6765等）まで抵抗なく一気に垂直落下する現象（Vacuum Plunge）**が発生する。
+   - したがって、「支持帯が密集しているから安全」と判断するのではなく、「直下の超長期支持線までの距離（真空の深さ）」を測定し、深すぎる真空が存在する場合はロングを警戒・遮断する非対称リスク管理が不可欠となる。
 
 ---
 
@@ -85,3 +99,4 @@
 | 2026-10-09 | 0.1.0 | 初版作成（市場構造概念モデル、サポレジ、Liquidity） | @makagi / [#16](https://github.com/makagi/MTF_AI_Trade/pull/16) |
 | 2026-10-12 | 0.2.0 | 仕様記述分離、作業仮説表現への純化 | @makagi / [#24](https://github.com/makagi/MTF_AI_Trade/pull/24) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-11-03 | 0.3.0 | 密集支持帯の直下真空リスク（Scale Vacuum Gap）と支持線ゼロの落差カスケード（§2.1）を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |

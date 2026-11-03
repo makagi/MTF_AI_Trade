@@ -1,11 +1,11 @@
 # MTFシステムトレード 用語集 (Glossary)
 
 **Doc ID:** CONC-GLS-001  
-**Version:** 0.1.0  
+**Version:** 0.3.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-12  
-**Related Issues:** [#12](https://github.com/makagi/MTF_AI_Trade/issues/12)  
+**Last Updated:** 2026-11-03  
+**Related Issues:** [#12](https://github.com/makagi/MTF_AI_Trade/issues/12), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [mtf-framework.md](mtf-framework.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [04_IMPLEMENTATION/agent-rules.md](../04_IMPLEMENTATION/agent-rules.md)  
 
 ---
@@ -50,6 +50,10 @@
 | **Armed 状態** | Armed State | 上位足のサポレジ接近やボラティリティ圧縮を経て、セットアップ条件が成立し、短期足のエントリートリガーを待機している「発火準備完了」状態。 |
 | **ロールリバーサル** | Role Reversal | サポート帯が下抜かれた後にレジスタンス帯へと役割が転換する（またはその逆）現象。 |
 | **流動性プール** | Liquidity Pool | スイング高値の上やスイング安値の下など、市場参加者の損切り注文（ストップロス）が集中的に溜まっている価格帯。 |
+| **先行上限到達** | Early Ceiling | 短期・中位階層が先行して高値・上限に達し、上値抵抗に阻まれて頭打ちとなる現象。中長期構造線が下から追いつくまでレンジ振動へ移行する。 |
+| **階層追いつき収斂** | Catch-Up Convergence | 先行した価格や短期構造線に対し、遅行する中長期・超長期構造線群が時間をかけて下から追いつき密集（ボリンジャーバンド極限スクイズ）する動態。 |
+| **超長期落差ギャップ** | Scale Vacuum Gap | 中長期構造線が上限付近まで追いついて密集した結果、その直下に位置する最深超長期親ライン（SMA 6765等）との間に生じる広大な支持線ゼロの空白地帯（15〜50 ATR）。 |
+| **真空吸い込みクラッシュ** | Vacuum Plunge Crash | 密集支持帯の底割れをトリガーとし、直下の超長期落差ギャップ（支持線ゼロの真空地帯）へ価格が一気に吸い込まれ、最深親ラインまで垂直落下する現象。 |
 
 ---
 
@@ -93,3 +97,4 @@
 |---|---|---|---|
 | 2026-10-12 | 0.1.0 | 初版作成（相場認識・文書階層・開発Agent体系の用語定義） | @makagi / [#25](https://github.com/makagi/MTF_AI_Trade/pull/25) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
+| 2026-11-03 | 0.3.0 | 先行上限到達、階層追いつき収斂、超長期落差ギャップ、真空吸い込みクラッシュの用語定義を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |
