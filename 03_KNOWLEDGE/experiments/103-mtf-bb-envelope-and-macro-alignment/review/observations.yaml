@@ -1,0 +1,43 @@
+review_id: MOR-103-01
+experiment: EXP-103
+date: '2026-11-04'
+reviewer: '@makagi'
+target_model: 'EXP-103 Macro-Guided Integrated Master Portfolio'
+
+cases:
+  - case_id: 1
+    datetime: '2021-05-17 20:00:00+00:00'
+    stage_a_call: 'short'
+    stage_a_rationale: '日足終値が日足20日線（bb_mid_20d=54,539ドル）を遥かに下回り、日足ボリンジャーバンド下限（46,735ドル）を割り込んで拡大中。1h足でSMA 4181を下抜け、直下のSMA 6765まで広大な落差真空（8.83 ATR）が存在。日足200日線まで+7.6%の余地あり。'
+    stage_b_comment: '判定は short（的中/True Positive）。歴史的大暴落を捉え、SMA 6765到達で Net +26.15% を回収。'
+    tags: [macro_guided_plunge, true_positive, historic_crash]
+    revealed_label: 'M1'
+
+  - case_id: 2
+    datetime: '2024-09-22 04:00:00+00:00'
+    stage_a_call: 'skip'
+    stage_a_rationale: '1h足でSMA 4181を下抜けたが、日足終値は日足20日線（sma_20d）より+7.77%上方にあり、日足ボリンジャーバンド下限からも+19.19%上方に位置。日足レベルでは大局上昇トレンド（またはレンジ上半分）であり、日足サポートに跳ね返されるリスク極めて大。'
+    stage_b_comment: '判定は skip（的中/True Negative）。EXP-99で被弾していたストップ損失（Net -1.04%）を完全に回避。'
+    tags: [macro_trend_alignment, true_negative, false_breakdown_avoidance]
+    revealed_label: 'C1'
+
+  - case_id: 3
+    datetime: '2025-02-26 22:00:00+00:00'
+    stage_a_call: 'skip'
+    stage_a_rationale: '1h足でSMA 4181（84,979ドル）を下抜けたが、直下わずか+2.79%（81,664ドル）に日足200日線（sma_200d）という岩盤支持線が存在。落差ギャップも8.59 ATRと中規模であるため、日足200日線で強力に反発・吸収されるリスク大。'
+    stage_b_comment: '判定は skip（的中/True Negative）。直後に日足200日線直上で急反発し、EXP-99で被弾していたストップ損失（Net -3.28%）を完全に排除。2025年の黒字化に直結。'
+    tags: [daily_200d_trap_guard, true_negative, support_absorption]
+    revealed_label: 'C2'
+
+  - case_id: 4
+    datetime: '2023-08-17 23:00:00+00:00'
+    stage_a_call: 'short'
+    stage_a_rationale: '日足BB下限を割り込み、1h足でSMA 4181を下抜け。直下に日足200日線が存在するものの、落差ギャップが20.10 ATR（約3,300ドル）という規格外の超巨大真空落差であり、下落モーメンタムが岩盤支持線を貫通してクラッシュすると判定。'
+    stage_b_comment: '判定は short（的中/True Positive）。翌日安値24,601ドルまで垂直落下し、Net +5.14% を回収。'
+    tags: [massive_vacuum_override, true_positive, support_penetration]
+    revealed_label: 'M1'
+
+summary:
+  total_cases: 4
+  precision: 1.0
+  key_takeaway: '1h足の特定SMA本数に依存せず、日足ボリンジャーバンド（MTF BB Envelope）および日足200日線との幾何学的空間関係を統合判定することで、2024年秋および2025年初頭のダマシショートを100%遮断し、大暴落初動のみを最高精度で捉えることが実証された。'
