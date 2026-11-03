@@ -1,0 +1,43 @@
+review_id: MOR-99-01
+experiment: EXP-99
+date: '2026-11-03'
+reviewer: '@makagi'
+target_model: 'EXP-99 Integrated Master Portfolio'
+
+cases:
+  - case_id: 1
+    datetime: '2021-03-14 21:00:00+00:00'
+    stage_a_call: 'skip'
+    stage_a_rationale: '短期SMA群が先行上限到達後、SMA 1597〜4181が下からせり上がり密集。直下 SMA 6765 との間に 10.1 ATR の真空落差が存在し、RangePos 0.89 の高値圏。支持帯割れ時の垂直落下リスク極めて大。'
+    stage_b_comment: '判定は skip（的中/True Negative）。真空トラップフィルターにより被弾トレード（Net -6.32%）を完璧に回避。'
+    tags: [vacuum_trap_filter, true_negative, drawdown_prevention]
+    revealed_label: 'C1'
+
+  - case_id: 2
+    datetime: '2021-05-17 20:00:00+00:00'
+    stage_a_call: 'short'
+    stage_a_rationale: '5万ドル台の天井から下落し、支持フロアであった SMA 4181（43,000ドル近傍）を下抜け実体確定。直下 SMA 6765（31,000ドル近傍）まで 12 ATR 超の巨大真空帯が開いており、弱気AFS多数決スコア 4〜6 と完全下落同期。'
+    stage_b_comment: '判定は short（的中/True Positive）。SMA 6765（31,268ドル）まで垂直落下し、指値利確目標到達で Net +26.15% の超特大利得を回収。'
+    tags: [scale_gap_plunge_short, true_positive, historic_crash]
+    revealed_label: 'M1'
+
+  - case_id: 3
+    datetime: '2023-04-14 23:00:00+00:00'
+    stage_a_call: 'skip'
+    stage_a_rationale: '30,000ドル高値圏（RangePos 0.90）。上位SMAが下から寄ってきたが直下サポートが薄く、レンジ上限での反落リスクが高い。'
+    stage_b_comment: '判定は skip（的中/True Negative）。S3ストップ被弾トレード（Net -2.03%）を回避。'
+    tags: [range_exhaustion, true_negative, trap_avoidance]
+    revealed_label: 'C1'
+
+  - case_id: 4
+    datetime: '2023-08-17 23:00:00+00:00'
+    stage_a_call: 'short'
+    stage_a_rationale: '長期間の超極小スクイズ（BB幅 1.01%）を経て、密集下端の SMA 4181（27,867ドル）を1h終値 27,699ドルで下抜け実体割れ確定。直下の SMA 6765（24,567ドル）まで約 20 ATR（3,300ドル）の完全真空。弱気AFS多数決スコア 5。'
+    stage_b_comment: '判定は short（的中/True Positive）。翌日安値 24,601ドルが SMA 6765（24,567ドル）の直上わずか +34ドル（誤差 0.1%）でピタリと反発。MFE 18.9 ATR、72h タイムアウトでも Net +5.14% を回収。'
+    tags: [scale_gap_plunge_short, true_positive, precision_support_bounce]
+    revealed_label: 'M1'
+
+summary:
+  total_cases: 4
+  precision: 1.0
+  key_takeaway: '落差真空ギャップ（Scale Vacuum Gap）は高値圏ロングにおける最大のリスク要因であり、同時に密集割れ時における最大のショート高期待値機会であることが実証された。'
