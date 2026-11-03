@@ -1,11 +1,11 @@
 # MTFシステムトレード 用語集 (Glossary)
 
 **Doc ID:** CONC-GLS-001  
-**Version:** 0.3.0  
+**Version:** 0.4.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-11-03  
-**Related Issues:** [#12](https://github.com/makagi/MTF_AI_Trade/issues/12), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97)  
+**Related Issues:** [#12](https://github.com/makagi/MTF_AI_Trade/issues/12), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97), [#101](https://github.com/makagi/MTF_AI_Trade/issues/101)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [mtf-framework.md](mtf-framework.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [04_IMPLEMENTATION/agent-rules.md](../04_IMPLEMENTATION/agent-rules.md)  
 
 ---
@@ -54,6 +54,10 @@
 | **階層追いつき収斂** | Catch-Up Convergence | 先行した価格や短期構造線に対し、遅行する中長期・超長期構造線群が時間をかけて下から追いつき密集（ボリンジャーバンド極限スクイズ）する動態。 |
 | **超長期落差ギャップ** | Scale Vacuum Gap | 中長期構造線が上限付近まで追いついて密集した結果、その直下に位置する最深超長期親ライン（SMA 6765等）との間に生じる広大な支持線ゼロの空白地帯（15〜50 ATR）。 |
 | **真空吸い込みクラッシュ** | Vacuum Plunge Crash | 密集支持帯の底割れをトリガーとし、直下の超長期落差ギャップ（支持線ゼロの真空地帯）へ価格が一気に吸い込まれ、最深親ラインまで垂直落下する現象。 |
+| **多重ボリンジャーバンド・エンベロープ** | MTF BB Envelope | 期間 $k$ の移動平均線（$\text{SMA}_k$）を同期間のボリンジャーバンド中心線（$\text{BB\_Mid}_k$）と捉え、短期から超長期までの各階層のバンド上下端（$\text{BB\_Upper}_k, \text{BB\_Lower}_k$）とバンド幅（$\text{Bandwidth}_k$）を入れ子状の二次元空間として統合認識するモデル。 |
+| **未収縮バンド幅レンジ拘束則** | Uncontracted Bandwidth Constraint | 上位・超長期スケール $k$ のボリンジャーバンド幅（$\text{Bandwidth}_k$）が十分に収縮しきっていない状態では、価格が持続的なブレイクアウトを果たせずバンド内部へ押し戻されてレンジ（往復振動）を継続する力学。 |
+| **超長期親ライン支持転換** | Role Reversal Support | 下落局面で上値抵抗として機能していた超長期親ライン（例: `SMA 6765`）が、価格の下げ止まり・横ばい推移の過程で価格の下側へと潜り込み、以降の急落を受け止める最終下値支持線へと役割を転換する構造変化。 |
+| **周期ピーク・ボトム反転同期** | Cycle Peak/Trough Synchronization | 多重ボリンジャーバンドの上下端（$\text{BB\_Upper}_k, \text{BB\_Lower}_k$）や親ラインへの空間的到達と、オシレーター群（AFS 多数決スコアや $\text{stoch\_d}$ 等）の周期的ピーク（上端過熱）またはボトム（下端売られすぎ）の折り返しが同期して反落・反発を引き起こす現象。 |
 
 ---
 
@@ -98,3 +102,4 @@
 | 2026-10-12 | 0.1.0 | 初版作成（相場認識・文書階層・開発Agent体系の用語定義） | @makagi / [#25](https://github.com/makagi/MTF_AI_Trade/pull/25) |
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 | 2026-11-03 | 0.3.0 | 先行上限到達、階層追いつき収斂、超長期落差ギャップ、真空吸い込みクラッシュの用語定義を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |
+| 2026-11-03 | 0.4.0 | 多重ボリンジャーバンド・エンベロープ、未収縮バンド幅レンジ拘束則、超長期親ライン支持転換、周期ピーク・ボトム反転同期の用語定義を追加 | @makagi / [#101](https://github.com/makagi/MTF_AI_Trade/issues/101) |
