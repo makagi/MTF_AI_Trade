@@ -1,11 +1,11 @@
 # MTFシステムトレード MTF Framework (多時間軸概念モデル)
 
 **Doc ID:** CONC-MTF-001  
-**Version:** 0.5.0  
+**Version:** 0.7.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-10-31  
-**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89)  
+**Last Updated:** 2026-11-03  
+**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#57](https://github.com/makagi/MTF_AI_Trade/issues/57), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [market-structure.md](market-structure.md), [volatility.md](volatility.md)  
 
 ---
@@ -141,6 +141,43 @@
 
 ---
 
+### 4.8 先行上限到達・階層追いつき収斂（Catch-Up Convergence）と超長期落差ギャップ（Scale Vacuum Gap）の真空吸い込みクラッシュ力学
+
+相場が強い上昇トレンドを形成した後、天井圏で発生する「急激な崩落・大陰線（テールリスク）」は、単一時間足の買われすぎ（過熱）ではなく、**多時間軸の「空間」「時間成熟」「ボラティリティ収縮」が極限に達した瞬間に生じる幾何学的必然現象**である。
+
+`	ext
+① 先行上限形成: 短期・中位が先に最高値に達して上値キャップ（頭打ち）を作る
+     ↓
+② 階層追いつき収斂 (Catch-Up Convergence): 遅れて中長期〜超長期SMA群が下から時間をかけて密集・収斂
+     ↓
+③ 階層落差ギャップの発生 (Scale Vacuum Gap): 密集帯の直下に、未だ追いついていない最深超長期SMAとの間に巨大な空白地帯が開く
+     ↓
+④ 真空吸い込みクラッシュ (Vacuum Plunge): 密集支持帯の底割れをトリガーに、直下の最深親線まで一瞬で垂直落下
+`
+
+1. **先行上限到達と時間成熟 (Early Ceiling & Catch-Up Convergence)**:
+   - 相対的短期・中位階層が急ピッチで高値（天井）に到達すると、上値の抵抗帯や心理的節目に阻まれて上昇モメンタムが頭打ちとなり、先行して上限（Ceiling）を形成する。
+   - その後、価格は上限付近でボリンジャーバンド（BB）の間を往復振動しながら推移するが、その間に遅行する中長期・超長期の構造線（上位移動平均群など）が下から時間をかけて急ピッチで追いついてくる。
+   - 複数階層の構造線が価格の足元に重なり合うように密集（Bundle / Convergence）し、ボリンジャーバンドの帯幅（Bandwidth）が極限まで収縮（Squeeze）した状態は、「エネルギーの完全充填」と同時に「上値推進エネルギーの枯渇（時間成熟の極致）」を意味する。
+
+2. **超長期落差ギャップの発生 (Scale Vacuum Gap)**:
+   - 追いついて密集した構造線群の直下に、さらに上位の「最深の超長期親ライン」が存在する場合、その階層間の距離関係が決定的な境界条件となる。
+   - 中長期構造線群が上限付近までせり上がった結果、**密集した支持帯の最下端と、未だ下方に位置する最深親ラインとの間に、途中の支持線が一切存在しない「広大な空白地帯（Vacuum Gap:  \sim 50\text{ ATR}$）」が形成される**。
+   - このとき、表面上はすべての構造線が上向きであり「強力なマクロ上昇トレンド中の押し目支持帯」に見えるが、幾何学的には「薄い密集の床の下に深い奈落（エアポケット）が口を開けている」極めて脆弱な状態となる。
+
+3. **真空吸い込みクラッシュと非対称リスク (Vacuum Plunge Crash)**:
+   - 密集支持帯の最下端を価格が終値または実体で割り込んだ瞬間、下方を支える物理的な注文（買い板・サポート）が存在しないため、流動性の空白地帯に向かってパニック売りと清算カスケード（多重ロスカット）が誘発される。
+   - 価格は下方の巨大な真空地帯に猛スピードで吸い込まれ、**次の一番硬い最深親ラインに接触するまで一瞬で垂直落下する大陰線（Vacuum Plunge）**となる。
+   - **実測エビデンス**:
+     - **2021年4月18日**: SMA 21〜1597が密集完了後、SMA 4181（36,032ドル）〜SMA 6765（26,429ドル）間に 28 ATRの真空ギャップが存在。密集帯割れからわずか1時間で 58,827ドル $\rightarrow$ 51,079ドル（$-13\%$, 12 ATR）へ垂直落下。
+     - **2023年8月18日**: SMA 21〜1597が密集（BB幅 1.01%の極限スクイズ）後、SMA 4181（27,813ドル）とSMA 6765（24,507ドル）の間に 3,306ドル（約50 ATR）の真空ギャップが存在。密集帯割れから一気に垂直暴落し、**安値 24,601ドル は SMA 6765（24,507ドル）の直上わずか +32ドル（誤差 0.1%） で寸分違わずピッタリ止まって急反発**した。
+
+4. **周期性指標（AFS多数決・Stochastics %D等）による上限反転の把握**:
+   - 上限レンジ衝突時において、短期・中期のオシレーター群（AFS多数決スコアやストキャスティクス）は、BB上限タッチ時に天井圏（過熱）へ張り付いた後、**「オシレーターの急角度な下折れ・デッドクロス」**によって先行して反落開始のシグナルを発する。
+   - 下からせり上がるSMAとの衝突による一時的リバウンドを「押し目買い好機」と誤認せず、上値余地の枯渇と下方の巨大真空地帯を多重認識することで、ロングの致命傷回避および特大ショート捕捉の決定打となる。
+
+---
+
 ## 5. Separation of Analysis and Decision (8段階証拠連鎖に基づく認識モデル)
 
 本フレームワークでは、[00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md) §2 に基づき、以下の情報処理プロセスを厳密に分離する。
@@ -180,4 +217,5 @@
 | 2026-10-19 | 0.3.0 | 時間階層の視点（Timeframe Scales）と相場認識の相対性（§4.2）を追加 | @makagi / [#58](https://github.com/makagi/MTF_AI_Trade/pull/58) |
 | 2026-10-29 | 0.4.0 | 条件付き上位階層エスカレーション（スケール不変の迷い解消モデル §4.3）を追加 | @makagi / [#84](https://github.com/makagi/MTF_AI_Trade/issues/84) |
 | 2026-10-31 | 0.5.0 | スケール相対性の徹底（特定パラメータ固定観念の排除 §4.2）、上位並行時の下位往復振動と方向確定後の相転移（§4.5）、複数特徴量統合とボトムアップ仮説伝播モデル（§4.6）を追加 | @makagi / [#89](https://github.com/makagi/MTF_AI_Trade/issues/89) |
+| 2026-11-03 | 0.7.0 | 先行上限到達・階層追いつき収斂（Catch-Up Convergence）と超長期落差ギャップ（Scale Vacuum Gap）の真空吸い込みクラッシュ力学（§4.8）を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |
 | 2026-10-31 | 0.6.0 | 動的支配スケール $(k^*, k^*+1)$ と反転時期の3要素特定モデル（空間サポレジ × 時間振動周期 × ATR/BB収縮 §4.7）を追加 | @makagi / [#93](https://github.com/makagi/MTF_AI_Trade/issues/93) |
