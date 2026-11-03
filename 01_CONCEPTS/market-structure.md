@@ -1,11 +1,11 @@
 # MTFシステムトレード Market Structure (市場構造概念モデル)
 
 **Doc ID:** CONC-STR-001  
-**Version:** 0.4.0  
+**Version:** 0.5.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-11-03  
-**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97), [#101](https://github.com/makagi/MTF_AI_Trade/issues/101)  
+**Last Updated:** 2026-11-04  
+**Related Issues:** [#5](https://github.com/makagi/MTF_AI_Trade/issues/5), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97), [#101](https://github.com/makagi/MTF_AI_Trade/issues/101), [#105](https://github.com/makagi/MTF_AI_Trade/issues/105)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [mtf-framework.md](mtf-framework.md), [volatility.md](volatility.md)  
 
 ---
@@ -100,6 +100,21 @@
 
 ---
 
+### 2.3 特定支持線の絶対視排除（Anti-Dogma）と階層的真空貫通力学 (Vacuum Penetration vs Support Absorption)
+
+従来の相場分析において頻繁に見られる「日足200日線は岩盤支持」「特定期間の移動平均線は絶対に突破されない」といった固定観念は、相場破綻局面において最も危険なバイアス（Dogma）となる。
+
+1. **静的ラベルの否定と動的流動性評価**:
+   - いかなる構造線や移動平均線も、それ単体で神秘的な反発力を持つわけではない。ラインの機能は、そこに市場参加者の指値・買い防戦注文（流動性）が実際に供給されているかどうかにのみ依存する。
+   - 参照している長期線自体が他の線と密集・収縮している場合、そのライン帯は強固な壁ではなく、エネルギーが充填された「上下どちらかに容易に抜ける薄い膜」へと変質している。
+
+2. **貫通（Penetration）と吸収（Absorption）の支配則**:
+   - **真空貫通（Vacuum Penetration）**: 主要支持線の直下に広大な超長期真空空間（Scale Vacuum Gap: $20+\text{ ATR}$）が開いている場合、買い支える実体的な防戦注文が存在しない。そのため、どれほど教科書的に著名なライン（例: 日足200日線）であっても、まるで存在しなかったかのように一瞬で突き破られ、下方の最深親ライン（例: SMA 6765等）まで垂直落下する。
+   - **支持吸収（Support Absorption）**: 主要支持線を下回った直下に次の超長期親ラインが近接（落差ギャップ $< 15\text{ ATR}$）している場合、その超長期構造に滞留する大口注文が売り圧力を吸収し、下掘りを阻止して一時反発を形成する。
+   - したがって、相場判断においては「線そのものの硬さ」を絶対視するのではなく、**「注目階層の判断不能時に長期へエスカレーションし、長期が収縮していればさらに超長期へ再帰的に引き上げて、直下の真空落差を評価する」** という動的構造認識を徹底する。
+
+---
+
 ## 3. Swing High / Swing Low and Directional Flow (スイング構造と方向性)
 
 市場の構造は、スイングの高値（Swing High）と安値（Swing Low）の連続的な更新関係によってモデル化される。
@@ -146,3 +161,4 @@
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 | 2026-11-03 | 0.3.0 | 密集支持帯の直下真空リスク（Scale Vacuum Gap）と支持線ゼロの落差カスケード（§2.1）を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |
 | 2026-11-03 | 0.4.0 | 超長期親ライン（6765/10946/17711）の上下関係・落差ギャップ追従と下支え構造転換（§2.2）を追加 | @makagi / [#101](https://github.com/makagi/MTF_AI_Trade/issues/101) |
+| 2026-11-04 | 0.5.0 | 特定支持線の絶対視排除（Anti-Dogma）と階層的真空貫通力学（§2.3）を追加 | @makagi / [#105](https://github.com/makagi/MTF_AI_Trade/issues/105) |

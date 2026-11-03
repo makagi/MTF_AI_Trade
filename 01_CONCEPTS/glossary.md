@@ -1,11 +1,11 @@
 # MTFシステムトレード 用語集 (Glossary)
 
 **Doc ID:** CONC-GLS-001  
-**Version:** 0.4.0  
+**Version:** 0.5.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-11-03  
-**Related Issues:** [#12](https://github.com/makagi/MTF_AI_Trade/issues/12), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97), [#101](https://github.com/makagi/MTF_AI_Trade/issues/101)  
+**Last Updated:** 2026-11-04  
+**Related Issues:** [#12](https://github.com/makagi/MTF_AI_Trade/issues/12), [#97](https://github.com/makagi/MTF_AI_Trade/issues/97), [#101](https://github.com/makagi/MTF_AI_Trade/issues/101), [#105](https://github.com/makagi/MTF_AI_Trade/issues/105)  
 **Related Docs:** [00_GOVERNANCE/principles.md](../00_GOVERNANCE/principles.md), [mtf-framework.md](mtf-framework.md), [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [04_IMPLEMENTATION/agent-rules.md](../04_IMPLEMENTATION/agent-rules.md)  
 
 ---
@@ -58,6 +58,9 @@
 | **未収縮バンド幅レンジ拘束則** | Uncontracted Bandwidth Constraint | 上位・超長期スケール $k$ のボリンジャーバンド幅（$\text{Bandwidth}_k$）が十分に収縮しきっていない状態では、価格が持続的なブレイクアウトを果たせずバンド内部へ押し戻されてレンジ（往復振動）を継続する力学。 |
 | **超長期親ライン支持転換** | Role Reversal Support | 下落局面で上値抵抗として機能していた超長期親ライン（例: `SMA 6765`）が、価格の下げ止まり・横ばい推移の過程で価格の下側へと潜り込み、以降の急落を受け止める最終下値支持線へと役割を転換する構造変化。 |
 | **周期ピーク・ボトム反転同期** | Cycle Peak/Trough Synchronization | 多重ボリンジャーバンドの上下端（$\text{BB\_Upper}_k, \text{BB\_Lower}_k$）や親ラインへの空間的到達と、オシレーター群（AFS 多数決スコアや $\text{stoch\_d}$ 等）の周期的ピーク（上端過熱）またはボトム（下端売られすぎ）の折り返しが同期して反落・反発を引き起こす現象。 |
+| **再帰的エスカレーション** | Recursive Escalation | 注目している階層（スケール $k$）で判断に迷いがある際、長期（$k+1$）を確認し、その長期自体が密集・極限収縮（スクイズ）している場合はさらに上位の超長期（$k+2, k+3$）へと再帰的に視点を引き上げて全体構造を見極める多時間軸認識プロセス。 |
+| **真空貫通力学** | Vacuum Penetration | 長期密集帯や主要構造線（200日線等）の直下に巨大な超長期真空（Scale Vacuum Gap: $20+\text{ ATR}$）が開いている局面において、買い防戦流動性が存在しないため主要線を突き抜けて最深親ラインまで垂直落下する力学。 |
+| **支持吸収力学** | Support Absorption | 構造線割れが発生しても、直下に次の超長期親ラインが近接（落差ギャップが中規模 $< 15\text{ ATR}$）している場合に、大口の防戦流動性によって売り圧力が吸収され、一時反発や下げ止まりを形成する力学。 |
 
 ---
 
@@ -103,3 +106,4 @@
 | 2026-10-13 | 0.2.0 | 書式・メタデータ統一 | @makagi / [#31](https://github.com/makagi/MTF_AI_Trade/pull/31) |
 | 2026-11-03 | 0.3.0 | 先行上限到達、階層追いつき収斂、超長期落差ギャップ、真空吸い込みクラッシュの用語定義を追加 | @makagi / [#97](https://github.com/makagi/MTF_AI_Trade/issues/97) |
 | 2026-11-03 | 0.4.0 | 多重ボリンジャーバンド・エンベロープ、未収縮バンド幅レンジ拘束則、超長期親ライン支持転換、周期ピーク・ボトム反転同期の用語定義を追加 | @makagi / [#101](https://github.com/makagi/MTF_AI_Trade/issues/101) |
+| 2026-11-04 | 0.5.0 | 再帰的エスカレーション、真空貫通力学、支持吸収力学の用語定義を追加 | @makagi / [#105](https://github.com/makagi/MTF_AI_Trade/issues/105) |
