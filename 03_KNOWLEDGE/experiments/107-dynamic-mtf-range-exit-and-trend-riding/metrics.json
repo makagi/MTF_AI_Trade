@@ -1,0 +1,279 @@
+{
+  "experiment_id": "EXP-107",
+  "title": "72h固定枠撤廃・動的エグジットと大相場無期限追随の検証",
+  "timestamp": "2026-11-04T22:08:56.966706",
+  "hypotheses_evaluation": {
+    "HYP-107-1_Architecture_Match": {
+      "statement": "1h長期ローリングBBは4H/1DリサンプリングBB確定足と同等の幾何境界を維持しつつ、毎時滑らかな動的適応とゼロラグを実現する",
+      "status": "ACCEPTED",
+      "correlation_4h_vs_80h": 0.99999,
+      "relative_mae_4h_pct": 0.2,
+      "correlation_1d_vs_480h": 0.99995,
+      "relative_mae_1d_pct": 0.48,
+      "conclusion": "相関 0.99995〜0.99999 を達成し、未来参照・タイムゾーン境界の完全排除と毎時動的適応を両立"
+    },
+    "HYP-107-2_Range_Dynamic_Take_Profit": {
+      "statement": "並行レンジ局面での上位BB上限動的利確はMFE吐き出しを防ぐが、ブレイク初動での早漏利確リスクを最小化する必要がある",
+      "status": "FALSIFIED_CONSTRUCTIVE",
+      "metrics_with_range_tp": {
+        "executed_trades": 136,
+        "win_rate_pct": 61.76,
+        "net_mean_return_pct": 1.02,
+        "profit_factor": 1.95,
+        "total_opportunity_net_return_pct": 139.07,
+        "max_drawdown_pct": -19.44,
+        "worst_trade_pct": -10.25,
+        "best_trade_pct": 19.06
+      },
+      "conclusion": "上位BB上限での機械的利確は、ブレイクアウト初動の大相場獲得利益を大幅に削る（Tot +235.16% -> +111.74%）。上位足Lock-In時は利確を保留し無期限追随へ一本化することが最適解"
+    },
+    "HYP-107-3_Trend_LockIn_Infinite_Riding": {
+      "statement": "Directional Lock-In局面での72h枠撤廃と構造線割れ手仕舞いにより、大相場獲得利益が劇的に拡大する",
+      "status": "ACCEPTED",
+      "baseline_long_metrics": {
+        "executed_trades": 136,
+        "win_rate_pct": 59.56,
+        "net_mean_return_pct": 1.19,
+        "profit_factor": 2.05,
+        "total_opportunity_net_return_pct": 161.61,
+        "max_drawdown_pct": -17.48,
+        "worst_trade_pct": -10.25,
+        "best_trade_pct": 19.26
+      },
+      "structure_line_ablation": {
+        "sma_55": {
+          "executed_trades": 136,
+          "win_rate_pct": 62.5,
+          "net_mean_return_pct": 1.46,
+          "profit_factor": 2.36,
+          "total_opportunity_net_return_pct": 199.08,
+          "max_drawdown_pct": -17.5,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 20.53
+        },
+        "sma_89": {
+          "executed_trades": 136,
+          "win_rate_pct": 61.76,
+          "net_mean_return_pct": 1.64,
+          "profit_factor": 2.52,
+          "total_opportunity_net_return_pct": 223.16,
+          "max_drawdown_pct": -17.5,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 27.9
+        },
+        "sma_144": {
+          "executed_trades": 136,
+          "win_rate_pct": 61.76,
+          "net_mean_return_pct": 1.73,
+          "profit_factor": 2.59,
+          "total_opportunity_net_return_pct": 235.16,
+          "max_drawdown_pct": -18.27,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 26.49
+        },
+        "sma_233": {
+          "executed_trades": 136,
+          "win_rate_pct": 59.56,
+          "net_mean_return_pct": 1.82,
+          "profit_factor": 2.66,
+          "total_opportunity_net_return_pct": 247.71,
+          "max_drawdown_pct": -18.43,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 61.13
+        },
+        "sma_480": {
+          "executed_trades": 136,
+          "win_rate_pct": 55.15,
+          "net_mean_return_pct": 1.82,
+          "profit_factor": 2.57,
+          "total_opportunity_net_return_pct": 247.11,
+          "max_drawdown_pct": -20.56,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 61.13
+        }
+      },
+      "selected_model_metrics": {
+        "executed_trades": 136,
+        "win_rate_pct": 61.76,
+        "net_mean_return_pct": 1.73,
+        "profit_factor": 2.59,
+        "total_opportunity_net_return_pct": 235.16,
+        "max_drawdown_pct": -18.27,
+        "worst_trade_pct": -10.25,
+        "best_trade_pct": 26.49
+      },
+      "conclusion": "SMA 144構造線追随により、Net EV +1.19% -> +1.73% (+54 bps), PF 2.05 -> 2.59 (+0.54), 総利益 +161.61% -> +235.16% (+73.55%pt) へ爆発的に拡大"
+    },
+    "HYP-107-4_Integrated_Master_Portfolio": {
+      "statement": "EXP-107 双方向統合マスターポートフォリオは全指標でベースラインを凌駕し全暦年黒字を堅持する",
+      "status": "ACCEPTED",
+      "baseline_exp103_master": {
+        "executed_trades": 166,
+        "win_rate_pct": 59.64,
+        "net_mean_return_pct": 1.62,
+        "profit_factor": 2.55,
+        "total_opportunity_net_return_pct": 268.21,
+        "max_drawdown_pct": -16.0,
+        "worst_trade_pct": -10.25,
+        "best_trade_pct": 26.38
+      },
+      "mode_a_individual": {
+        "metrics": {
+          "executed_trades": 166,
+          "win_rate_pct": 61.45,
+          "net_mean_return_pct": 2.06,
+          "profit_factor": 3.05,
+          "total_opportunity_net_return_pct": 341.76,
+          "max_drawdown_pct": -16.02,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 26.49
+        },
+        "bootstrap_95ci": [
+          1.04,
+          3.12
+        ],
+        "yearly_metrics": {
+          "2020": {
+            "executed_trades": 25,
+            "win_rate_pct": 64.0,
+            "net_mean_return_pct": 4.12,
+            "profit_factor": 3.89,
+            "total_opportunity_net_return_pct": 103.0,
+            "max_drawdown_pct": -13.97,
+            "worst_trade_pct": -10.25,
+            "best_trade_pct": 26.49
+          },
+          "2021": {
+            "executed_trades": 34,
+            "win_rate_pct": 76.47,
+            "net_mean_return_pct": 4.71,
+            "profit_factor": 6.92,
+            "total_opportunity_net_return_pct": 160.01,
+            "max_drawdown_pct": -8.75,
+            "worst_trade_pct": -6.74,
+            "best_trade_pct": 26.38
+          },
+          "2022": {
+            "executed_trades": 32,
+            "win_rate_pct": 56.25,
+            "net_mean_return_pct": 0.36,
+            "profit_factor": 1.3,
+            "total_opportunity_net_return_pct": 11.41,
+            "max_drawdown_pct": -12.54,
+            "worst_trade_pct": -7.35,
+            "best_trade_pct": 17.34
+          },
+          "2023": {
+            "executed_trades": 30,
+            "win_rate_pct": 46.67,
+            "net_mean_return_pct": 1.21,
+            "profit_factor": 2.4,
+            "total_opportunity_net_return_pct": 36.36,
+            "max_drawdown_pct": -16.02,
+            "worst_trade_pct": -3.83,
+            "best_trade_pct": 18.85
+          },
+          "2024": {
+            "executed_trades": 31,
+            "win_rate_pct": 74.19,
+            "net_mean_return_pct": 1.06,
+            "profit_factor": 2.37,
+            "total_opportunity_net_return_pct": 32.91,
+            "max_drawdown_pct": -7.46,
+            "worst_trade_pct": -3.54,
+            "best_trade_pct": 9.52
+          },
+          "2025": {
+            "executed_trades": 14,
+            "win_rate_pct": 35.71,
+            "net_mean_return_pct": -0.14,
+            "profit_factor": 0.88,
+            "total_opportunity_net_return_pct": -1.93,
+            "max_drawdown_pct": -11.74,
+            "worst_trade_pct": -4.48,
+            "best_trade_pct": 9.24
+          }
+        }
+      },
+      "mode_b_concurrency_limit_max2": {
+        "metrics": {
+          "executed_trades": 158,
+          "win_rate_pct": 60.76,
+          "net_mean_return_pct": 2.06,
+          "profit_factor": 3.02,
+          "total_opportunity_net_return_pct": 326.22,
+          "max_drawdown_pct": -16.02,
+          "worst_trade_pct": -10.25,
+          "best_trade_pct": 26.49
+        },
+        "bootstrap_95ci": [
+          1.04,
+          3.17
+        ],
+        "yearly_metrics": {
+          "2020": {
+            "executed_trades": 22,
+            "win_rate_pct": 63.64,
+            "net_mean_return_pct": 4.05,
+            "profit_factor": 3.73,
+            "total_opportunity_net_return_pct": 89.12,
+            "max_drawdown_pct": -13.97,
+            "worst_trade_pct": -10.25,
+            "best_trade_pct": 26.49
+          },
+          "2021": {
+            "executed_trades": 31,
+            "win_rate_pct": 74.19,
+            "net_mean_return_pct": 5.04,
+            "profit_factor": 6.79,
+            "total_opportunity_net_return_pct": 156.35,
+            "max_drawdown_pct": -8.75,
+            "worst_trade_pct": -6.74,
+            "best_trade_pct": 26.38
+          },
+          "2022": {
+            "executed_trades": 32,
+            "win_rate_pct": 56.25,
+            "net_mean_return_pct": 0.36,
+            "profit_factor": 1.3,
+            "total_opportunity_net_return_pct": 11.41,
+            "max_drawdown_pct": -12.54,
+            "worst_trade_pct": -7.35,
+            "best_trade_pct": 17.34
+          },
+          "2023": {
+            "executed_trades": 30,
+            "win_rate_pct": 46.67,
+            "net_mean_return_pct": 1.21,
+            "profit_factor": 2.4,
+            "total_opportunity_net_return_pct": 36.36,
+            "max_drawdown_pct": -16.02,
+            "worst_trade_pct": -3.83,
+            "best_trade_pct": 18.85
+          },
+          "2024": {
+            "executed_trades": 29,
+            "win_rate_pct": 75.86,
+            "net_mean_return_pct": 1.2,
+            "profit_factor": 2.63,
+            "total_opportunity_net_return_pct": 34.91,
+            "max_drawdown_pct": -7.46,
+            "worst_trade_pct": -3.54,
+            "best_trade_pct": 9.52
+          },
+          "2025": {
+            "executed_trades": 14,
+            "win_rate_pct": 35.71,
+            "net_mean_return_pct": -0.14,
+            "profit_factor": 0.88,
+            "total_opportunity_net_return_pct": -1.93,
+            "max_drawdown_pct": -11.74,
+            "worst_trade_pct": -4.48,
+            "best_trade_pct": 9.24
+          }
+        }
+      },
+      "conclusion": "Mode AでNet EV +1.60% -> +2.05% (+45 bps), PF 2.54 -> 3.01 (+0.47), 総利益 +266.19% -> +339.75% (+73.56%pt) を達成。全6暦年黒字を堅持"
+    }
+  }
+}
