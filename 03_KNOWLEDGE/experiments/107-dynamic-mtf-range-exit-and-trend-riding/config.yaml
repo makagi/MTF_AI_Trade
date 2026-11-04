@@ -1,5 +1,5 @@
 experiment_id: EXP-107
-title: 72h固定枠の撤廃・MTF複合レンジ判定（1h長期ローリングBB vs 4H/1D BB × 幾何並行度 × AFS周期）による動的エグジットと大相場無期限追随の検証
+title: 72h固定枠の撤廃・普遍的親階層動的構造線（Scale Relativity）によるシームレス無期限追随の検証
 date: 2026-11-04
 author: makagi
 status: COMPLETED
@@ -18,9 +18,10 @@ parameters:
     trail_tp_atr: 3.5
     trail_lock_atr: 1.0
     s3_stop_atr: 5.0
-    structure_stop_sma: 144
+    parent_scale_line: bb_mid_240h
+    parent_buffer_atr: 1.0
     trend_riding_enabled: true
-    max_duration_h: 720
+    max_duration_cap: null
   short:
     stop_atr: 2.5
     macro_filter_dist_sma200d: 0.045

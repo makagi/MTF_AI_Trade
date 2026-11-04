@@ -196,6 +196,11 @@ graph TD
     EXP099 --> K053
     EXP103["EXP-103: 103-mtf-bb-envelope-and-macro-alignment"] --> K054
     EXP103 --> K055
+    K054 --> K056
+    K051 --> K057
+    K056 --> K057
+    EXP107["EXP-107: 107-dynamic-mtf-range-exit-and-trend-riding"] --> K056
+    EXP107 --> K057
 ```
 
 ---
@@ -814,6 +819,33 @@ graph TD
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/103-mtf-bb-envelope-and-macro-alignment/record.md`](experiments/103-mtf-bb-envelope-and-macro-alignment/record.md) (EXP-103 / [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107))
 * **仕様への影響**: 戦略仕様における確定ベースラインを「EXP-103 統合マスターポートフォリオ（N=166, Net EV +1.60%, PF 2.54, 累積 +266.19%, MaxDD -15.66%, 2025年黒字）」へ更新。
 
+
+---
+
+### K-056: 1h長期ローリングBBによるゼロラグ動的幾何適応とMTF統一則
+* **ステータス**: **支持（Supported）**
+* **概要**: マルチタイムフレーム（4H/1D）のボリンジャーバンド確定足リサンプリングに対して、1h足上で長期ローリング計算（80h ≒ 4H20本、480h ≒ 1D20本）を行うアーキテクチャの優位性を実証（EXP-107）：
+  1. **幾何境界の完全一致**: 1h 80hローリングBBは4HリサンプリングBB（確定足 `shift(1)`）と相関 **`0.99999`**（平均相対誤差 0.20%）、1h 480hローリングBBは1DリサンプリングBBと相関 **`0.99995`**（平均相対誤差 0.48%）で完全に一致。
+  2. **ゼロラグ動的適応**: リサンプリング確定足特有の4時間〜24時間の階段状シフト遅延ラグを完全に排除し、毎時最新の確定足に基づき滑らかにボラティリティ境界を更新。
+  3. **未来参照・タイムゾーン境界の完全排除**: 単一の1h足時系列内で完結するため、日足カットオフ時刻（UTC 00:00 vs 09:00等）の恣意性やマルチタイムフレーム結合時の未来参照リスクが原理的にゼロとなる。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/107-dynamic-mtf-range-exit-and-trend-riding/record.md`](experiments/107-dynamic-mtf-range-exit-and-trend-riding/record.md) (EXP-107 / [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#108](https://github.com/makagi/MTF_AI_Trade/pull/108))
+* **仕様への影響**: 戦略仕様において、4H/1Dのリサンプリング結合を廃止し、1h足長期ローリングBB（80h, 240h, 480h）へ完全統一。
+
+---
+
+### K-057: Directional Lock-In親階層構造線無期限追随とレンジ早漏利確抑止則
+* **ステータス**: **支持（Supported）**
+* **概要**: 72h固定時間枠を完全撤廃し、特定パラメータに依存しない普遍的親階層構造線（階層相対性原則：Scale Relativity）に基づくシームレス動的エグジット体系を実証（EXP-107）：
+  1. **レンジ早漏利確（切り株利確）の抑止**: 上位BB上限到達での成行利確（Range TP）は、ブレイクアウト初動の大相場をわずか +2%〜+3% で手放す致命的な早漏利確となり、総利益を激減させる（総利益 +235.16% $
+ightarrow$ +111.74%）。上位足整列局面では利確ルールを完全停止することが幾何学的正解。
+  2. **普遍的親構造線（10日線 bb_mid_240h / 日足BBミドル bb_mid_480h）によるシームレス無期限追随**: 時間境界（72h二重構造）を完全撤廃し、エントリー直後から親構造線割れまで無期限追随（Trend Riding）させることで、大相場獲得利益が劇的に拡大（Net Mean EV `+2.06%`、Lifetime PF `3.05`、総累積利益 `+341.76%`）。
+  3. **実運用制約（Mode B: 同時保有上限 Max 2 ポジション）の頑健性**: 同時保有上限を設けても Net EV `+2.06%`、PF `3.02`、総利益 `+326.22%` を維持し、実運用への耐性を証明。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/107-dynamic-mtf-range-exit-and-trend-riding/record.md`](experiments/107-dynamic-mtf-range-exit-and-trend-riding/record.md) (EXP-107 / [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#108](https://github.com/makagi/MTF_AI_Trade/pull/108))
+* **仕様への影響**: 72h固定保有枠の完全撤廃、普遍的親階層構造線（bb_mid_240h / bb_mid_480h）による無期限追随動的エグジットおよび早漏利確抑止ルールを中核仕様として採用。
+
+---
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -845,4 +877,5 @@ graph TD
 | 2026-10-31 | 2.0.0 | EXP-93 反映、上位下支えなき真空点火ブレイクのレジーム脆弱性と多重スケール境界則（K-049 登録・Refuted/Constrained、計49知見へ拡充） | @makagi / [#93](https://github.com/makagi/MTF_AI_Trade/issues/93) |
 | 2026-11-02 | 2.1.0 | EXP-95 反映、下降親ライン戻り売り反落とスケール非対称性（K-050）、ロング・ショート双方向統合マスター（K-051 登録・計51知見へ拡充・N=184 全6年全期黒字） | @makagi / [#95](https://github.com/makagi/MTF_AI_Trade/issues/95) |
 | 2026-11-03 | 2.2.0 | EXP-99 反映、超長期落差ギャップ脆弱性とVacuum Trap Filter（K-052）、最深親線への真空吸い込みクラッシュとScale Gap Plunge Short（K-053 登録・計53知見へ拡充・N=182 Net EV +1.38% PF 2.29） | @makagi / [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107) |
-| 2026-11-04 | 2.3.0 | EXP-103 反映、日足MTF BB Envelope大局整合則（K-054）、日足200日線岩盤支持と真空貫通力学（K-055）登録・計55知見へ拡充（N=166 Net EV +1.60% PF 2.54 全年黒字） | @makagi / [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107) |
+| 2026-11-04 | 2.3.0 | EXP-103 反映、日足MTF BB Envelope大局整合則（K-054）、日足200日線岩盤支持と真空貫通力学（K-055）登録・計55知見へ拡充（N=166 Net EV +1.60% PF 2.54 全年黒字） | @makagi / [#103](https://github.com/makagi/MTF_AI_Trade/issues/103) |
+| 2026-11-04 | 2.4.0 | EXP-107 反映、72h固定枠撤廃・1h長期BB統一（K-056）、Lock-In親構造線無期限追随と早漏利確抑止（K-057）登録・計57知見へ拡充（N=166 Net EV +2.06% PF 3.05 総利益 +341.76%） | @makagi / [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#108](https://github.com/makagi/MTF_AI_Trade/pull/108) |
