@@ -114,18 +114,30 @@ def compute_yearly_metrics(trades):
 def simulate_regime_adaptive_long(events, df_1h, df_1m,
                                   parent_line_col='bb_mid_240h',
                                   parent_buf_atr=1.0,
-                                  enable_regime_switch=True,
-                                  enable_squeeze_4h_mid_esc=True):
+                                  regime_mode='adaptive',
+                                  enable_squeeze_4h_mid_esc=True,
+                                  reclaim_timeout_h=48.0,
+                                  initial_risk_atr=3.0):
     """
-    EXP-109 レジーム適応型ロングシミュレータ (Scale Relativity & Regime Adaptation):
-    - トレンド期 (Expansion / Directional Lock-In):
-        10日線親構造線 (bb_mid_240h - 1.0 ATR) による無期限シームレス追随。
-        多段階ラチェットは呼吸を妨げない広域設定 [(3.5, 1.0), (5.5, 2.5), (8.0, 4.5)]。
-    - レンジ期 (Squeeze / Non-LockIn):
-        bb_width_pct_240h <= 0.45 かつ abs(bb_slope_240h) <= 0.04 で真のレンジを幾何判別。
-        早期防衛ラチェット [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)]。
-        MFE >= 2.5 ATR 到達で 4H BB Mid (bb_mid_80h - 0.5 ATR) へストップを急加速引き上げ。
-    - 有効ストップ: max(base_stop, ratchet_stop, struct_stop, rapid_stop)
+    EXP-109 レジーム適応型ロングシミュレータ (Scale Relativity, Reclaim Ignition & Dynamic Ratchet):
+    - スケール相対的エスカレーション (Reclaim Ignition):
+        エントリー建値 p0 が親構造線ストップ (cur_parent_line - 1.0 ATR) 以上の場合:
+            即座に親構造線シームレス追随を有効化 (parent_armed = True)。
+        エントリー建値 p0 が親構造線ストップ以下の場合 (親構造線より下で拾う深い押し目):
+            初期防衛線 initial_stop (p0 - 3.0 ATR) と base_stop (sma_34 - 5.0 ATR) で防御。
+            高値が親構造線 cur_parent_line を奪還・上抜け (cur_high >= cur_parent_line) したら、
+            無期限親構造線追随へ昇格 (parent_armed = True)。
+            48時間以内に親構造線を奪還できなければ timeout_reclaim_failed で早期成行撤退。
+    - 単調非減少ラチェット (Monotonic Non-Decreasing Ratchet):
+        ラチェットストップは後退・引き下げを許さず、max(current_ratchet_stop, cand_stop) で更新。
+    - レジーム適応 (Regime Mode):
+        'adaptive': Squeeze期 (bb_width_pct_2160 <= 0.45 かつ abs(bb_slope_240h) <= 0.04 かつ non-lockin)
+                    では早期防衛ラチェット [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)] と
+                    4H BB Mid急加速ストップ (MFE >= 2.5 ATR で bb_mid_80h - 0.5 ATR) を適用。
+                    Expansion/Trend期では広域ラチェット [(3.5, 1.0), (5.5, 2.5), (8.0, 4.5)] を適用。
+        'static_ratchet': レジーム判別を行わず、全期間一律に広域ラチェットのみを適用。
+        'uniform_squeeze': 全期間一律にレンジ用早期引き締め・4H Mid急加速を適用 (反証用実験)。
+    - 有効ストップ: max(base_stop, initial_stop, current_ratchet_stop, struct_stop, current_rapid_stop)
     - Discovery期間末 (2025-04-30 23:59) で強制決済 (Holdout完全隔離)
     """
     trades = []
@@ -160,8 +172,16 @@ def simulate_regime_adaptive_long(events, df_1h, df_1m,
         cur_squeeze = bool(df_1h['is_true_squeeze'].loc[t0])
         atr_cur = atr0
 
+        # 初期防衛線の設定
+        parent_armed = (p0 > cur_parent_line - parent_buf_atr * atr0)
+
+        # 単調非減少ストップのトラッカー
+        current_ratchet_stop = -999999.0
+        current_rapid_stop = -999999.0
+
         for i in range(n_bars):
             t_bar = sub_times[i]
+            elapsed_h = i / 60.0
 
             if i % 60 == 0:
                 t_1h = (t_bar - pd.Timedelta(hours=1)).floor("1h")
@@ -181,50 +201,87 @@ def simulate_regime_adaptive_long(events, df_1h, df_1m,
             if cur_mfe > max_mfe_atr:
                 max_mfe_atr = cur_mfe
 
+            # 親構造線の奪還・上抜けチェック (Promotion to Parent Structure Trailing)
+            if not parent_armed and cur_high >= cur_parent_line:
+                parent_armed = True
+
             # 1. ベースストップ (安全フロア: sma_34 - 5.0 ATR)
             base_stop = cur_sma34 - 5.0 * atr_cur
 
-            # 2. レジーム適応型多段階ラチェット
-            is_range_regime = cur_squeeze and (not cur_lockin) and enable_regime_switch
-            if is_range_regime:
-                tiers = [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)]
+            # 2. 未奪還時の初期リスク防衛線 (Initial Risk Bound)
+            if not parent_armed and initial_risk_atr is not None:
+                initial_stop = p0 - initial_risk_atr * atr0
             else:
+                initial_stop = -999999.0
+
+            # 3. 多段階動的ラチェット (単調非減少)
+            if regime_mode == 'static_ratchet':
                 tiers = [(3.5, 1.0), (5.5, 2.5), (8.0, 4.5)]
+                for trig_mfe, lock_atr in tiers:
+                    if max_mfe_atr >= trig_mfe:
+                        current_ratchet_stop = max(current_ratchet_stop, p0 + lock_atr * atr0)
+            elif regime_mode == 'uniform_squeeze':
+                tiers = [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)]
+                for trig_mfe, lock_atr in tiers:
+                    if max_mfe_atr >= trig_mfe:
+                        current_ratchet_stop = max(current_ratchet_stop, p0 + lock_atr * atr0)
+                if enable_squeeze_4h_mid_esc and max_mfe_atr >= 2.5:
+                    current_rapid_stop = max(current_rapid_stop, cur_bb_mid_80 - 0.5 * atr_cur)
+            elif regime_mode == 'adaptive':
+                is_range_regime = cur_squeeze and (not cur_lockin)
+                if is_range_regime:
+                    tiers = [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)]
+                    if enable_squeeze_4h_mid_esc and max_mfe_atr >= 2.5:
+                        current_rapid_stop = max(current_rapid_stop, cur_bb_mid_80 - 0.5 * atr_cur)
+                else:
+                    tiers = [(3.5, 1.0), (5.5, 2.5), (8.0, 4.5)]
 
-            ratchet_stop = base_stop
-            for trig_mfe, lock_atr in tiers:
-                if max_mfe_atr >= trig_mfe:
-                    cand_stop = p0 + lock_atr * atr0
-                    if cand_stop > ratchet_stop:
-                        ratchet_stop = cand_stop
-
-            # 3. 4H BB Mid 急加速ストップ (レンジ相場のみ)
-            rapid_stop = base_stop
-            if enable_squeeze_4h_mid_esc and is_range_regime and max_mfe_atr >= 2.5:
-                rapid_stop = cur_bb_mid_80 - 0.5 * atr_cur
+                for trig_mfe, lock_atr in tiers:
+                    if max_mfe_atr >= trig_mfe:
+                        current_ratchet_stop = max(current_ratchet_stop, p0 + lock_atr * atr0)
 
             # 4. 普遍的親階層動的構造線ストップ (Scale Relativity)
-            struct_stop = cur_parent_line - parent_buf_atr * atr_cur
+            if parent_armed:
+                struct_stop = cur_parent_line - parent_buf_atr * atr_cur
+            else:
+                struct_stop = base_stop
 
             # 有効ストップライン
-            effective_stop = max(base_stop, ratchet_stop, struct_stop, rapid_stop)
+            effective_stop = max(base_stop, initial_stop, current_ratchet_stop, struct_stop, current_rapid_stop)
 
             # ストップアウト判定
             if cur_low <= effective_stop:
                 p_exit = min(cur_open, effective_stop)
-                if effective_stop == rapid_stop and rapid_stop > max(base_stop, ratchet_stop, struct_stop):
+                dur_h = float(np.round(elapsed_h, 2))
+                if effective_stop == current_rapid_stop and current_rapid_stop > max(base_stop, initial_stop, current_ratchet_stop, struct_stop):
                     exit_type = 'rapid_4h_mid_stop'
-                elif effective_stop == ratchet_stop and ratchet_stop > max(base_stop, struct_stop):
+                elif effective_stop == current_ratchet_stop and current_ratchet_stop > max(base_stop, initial_stop, struct_stop):
                     exit_type = 'regime_ratchet_lock'
-                elif effective_stop == struct_stop and struct_stop > base_stop:
+                elif effective_stop == struct_stop and struct_stop > max(base_stop, initial_stop):
                     exit_type = 'parent_scale_exit'
+                elif effective_stop == initial_stop and initial_stop > base_stop:
+                    exit_type = 'initial_risk_stop'
                 else:
                     exit_type = 's3_stop'
 
                 trades.append({
                     't0': t0, 'entry_time': entry_time, 'exit_time': t_bar, 'period': p_era,
                     'p0': p0, 'exit_p': p_exit, 'net_ret': (p_exit - p0)/p0 - FRICTION_BPS,
-                    'duration_h': float(np.round(i / 60.0, 2)), 'exit': exit_type,
+                    'duration_h': dur_h, 'exit': exit_type,
+                    'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'is_lockin': cur_lockin,
+                    'is_squeeze': cur_squeeze, 'direction': 'long', 'side': 'long'
+                })
+                exited = True
+                break
+
+            # 奪還タイムアウト判定 (親構造線未奪還のまま timeout_h 到達で成行撤退)
+            if not parent_armed and reclaim_timeout_h is not None and elapsed_h >= reclaim_timeout_h:
+                p_exit = cur_open
+                dur_h = float(np.round(elapsed_h, 2))
+                trades.append({
+                    't0': t0, 'entry_time': entry_time, 'exit_time': t_bar, 'period': p_era,
+                    'p0': p0, 'exit_p': p_exit, 'net_ret': (p_exit - p0)/p0 - FRICTION_BPS,
+                    'duration_h': dur_h, 'exit': 'timeout_reclaim_failed',
                     'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'is_lockin': cur_lockin,
                     'is_squeeze': cur_squeeze, 'direction': 'long', 'side': 'long'
                 })
@@ -233,13 +290,19 @@ def simulate_regime_adaptive_long(events, df_1h, df_1m,
 
         if not exited:
             p_exit = sub_closes[-1]
+            dur_h = float(np.round(n_bars / 60.0, 2))
             trades.append({
                 't0': t0, 'entry_time': entry_time, 'exit_time': sub_times[-1], 'period': p_era,
                 'p0': p0, 'exit_p': p_exit, 'net_ret': (p_exit - p0)/p0 - FRICTION_BPS,
-                'duration_h': float(np.round(n_bars / 60.0, 2)), 'exit': 'discovery_end',
+                'duration_h': dur_h, 'exit': 'discovery_end',
                 'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'is_lockin': cur_lockin,
                 'is_squeeze': cur_squeeze, 'direction': 'long', 'side': 'long'
             })
+
+    # 架空0秒決済の完全根絶を保証する厳格アサーション
+    dur0_count = sum(1 for t in trades if t['duration_h'] == 0.0)
+    assert dur0_count == 0, f"CRITICAL: Found {dur0_count} trades with duration_h == 0.0!"
+
     return trades
 
 def apply_mode_b_concurrency_limit(trades, max_concurrent=2):
@@ -368,9 +431,9 @@ def main():
     df_1h['is_mtf_lockin_bull'] = is_mtf_lockin_bull
     df_1h['is_mtf_parallel'] = (~is_mtf_lockin_bull)
 
-    # 幾何学的 Squeeze 判別器 (因果的ローリング30日パーセンタイル)
-    df_1h['bb_width_pct_240h'] = df_1h['bb_width_240h'].rolling(720, min_periods=120).rank(pct=True)
-    df_1h['is_true_squeeze'] = (df_1h['bb_width_pct_240h'] <= 0.45) & (df_1h['bb_slope_240h'].abs() <= 0.04)
+    # 幾何学的 Squeeze 判別器 (因果的ローリングパーセンタイル: 90日=2160h)
+    df_1h['bb_width_pct_2160'] = df_1h['bb_width_240h'].rolling(2160, min_periods=120).rank(pct=True)
+    df_1h['is_true_squeeze'] = (df_1h['bb_width_pct_2160'] <= 0.45) & (df_1h['bb_slope_240h'].abs() <= 0.04)
 
     has_downside_vacuum = pd.Series(True, index=df_1h.index)
     for p in [89, 144, 233, 377, 610]:
@@ -379,7 +442,7 @@ def main():
         has_downside_vacuum = has_downside_vacuum & (~is_blocked)
     df_1h['has_downside_vacuum'] = has_downside_vacuum
 
-    # --- Step 3: Reproducing Trades ---
+    # --- Step 3: Reproducing Baseline Trades ---
     print("\n--- Step 3: Reproducing Baseline Trades ---")
     meso_raw = (close_1h > df_1h['sma_34']) & (close_1h.shift(1) <= df_1h['sma_34'].shift(1)) & (df_1h['slope_55'] > 0)
     meso_decl = exp95.decluster_events(meso_raw, cooldown_bars=24)
@@ -431,15 +494,35 @@ def main():
     short_master_raw = (spb_raw | prop_mask_trio3 | trio2_trend_aligned) & macro_bull_squeeze_guard
     events_short_master = df_1h.index[exp95.decluster_events(short_master_raw, cooldown_bars=24)]
     trades_short_master = exp95.simulate_1m_path_short(events_short_master, df_1h, df_1m, trail_tp_atr=3.5, trail_lock_atr=1.0)
+
+    # ショート取引辞書への属性付与 (ロングとの完全整合)
     for t in trades_short_master:
         t['side'] = 'short'
+        t['direction'] = 'short'
+        t_entry_1h = t['entry_time'].floor('1h')
+        if t_entry_1h in df_1h.index:
+            t['is_squeeze'] = bool(df_1h['is_true_squeeze'].loc[t_entry_1h])
+            t['is_lockin'] = bool(df_1h['is_mtf_lockin_bull'].loc[t_entry_1h])
+        else:
+            t['is_squeeze'] = False
+            t['is_lockin'] = False
+
     for t in trades_plunge_refined:
         t['side'] = 'short'
+        t['direction'] = 'short'
+        t_entry_1h = t['entry_time'].floor('1h')
+        if t_entry_1h in df_1h.index:
+            t['is_squeeze'] = bool(df_1h['is_true_squeeze'].loc[t_entry_1h])
+            t['is_lockin'] = bool(df_1h['is_mtf_lockin_bull'].loc[t_entry_1h])
+        else:
+            t['is_squeeze'] = False
+            t['is_lockin'] = False
+
     all_shorts = trades_short_master + trades_plunge_refined
 
-    # --- Step 4: Ablation Studies ---
+    # --- Step 4: Ablation Studies (Issue #109 Hypotheses) ---
     print("\n--- Step 4: Ablation Studies ---")
-    # 1. EXP-107 Baseline (Seamless 10-day line, Single Tier 3.5->1.0)
+    # 0. EXP-107 Baseline (Seamless 10-day line, Single Tier 3.5->1.0)
     trades_long_exp107 = exp107.simulate_seamless_dynamic_long(long_events, df_1h, df_1m, parent_line_col='bb_mid_240h', parent_buf_atr=1.0, range_tp=False)
     for t in trades_long_exp107:
         t['side'] = 'long'
@@ -448,22 +531,29 @@ def main():
     ym_exp107 = compute_yearly_metrics(portfolio_exp107)
     print(f"EXP-107 Baseline: N={m_exp107['executed_trades']}, Net EV={m_exp107['net_mean_return_pct']:+.2f}%, PF={m_exp107['profit_factor']:.2f}, Tot={m_exp107['total_opportunity_net_return_pct']:+.2f}%, MaxDD={m_exp107['max_drawdown_pct']:.2f}%")
 
-    # 2. HYP-109-1: Multi-Tier Dynamic Ratchet (Static across regimes)
-    trades_long_ratchet_only = simulate_regime_adaptive_long(long_events, df_1h, df_1m, enable_regime_switch=False, enable_squeeze_4h_mid_esc=False)
-    portfolio_ratchet_only = sorted(trades_long_ratchet_only + all_shorts, key=lambda x: x['entry_time'])
-    m_ratchet_only = compute_metrics(portfolio_ratchet_only)
-    ym_ratchet_only = compute_yearly_metrics(portfolio_ratchet_only)
-    print(f"HYP-109-1 (Multi-Tier Ratchet Only): N={m_ratchet_only['executed_trades']}, Net EV={m_ratchet_only['net_mean_return_pct']:+.2f}%, PF={m_ratchet_only['profit_factor']:.2f}, Tot={m_ratchet_only['total_opportunity_net_return_pct']:+.2f}%, MaxDD={m_ratchet_only['max_drawdown_pct']:.2f}%")
+    # 1. HYP-109-1: Static Multi-Tier Ratchet (Static across regimes with Reclaim Ignition)
+    trades_long_static_ratchet = simulate_regime_adaptive_long(long_events, df_1h, df_1m, regime_mode='static_ratchet', enable_squeeze_4h_mid_esc=False)
+    portfolio_static_ratchet = sorted(trades_long_static_ratchet + all_shorts, key=lambda x: x['entry_time'])
+    m_static_ratchet = compute_metrics(portfolio_static_ratchet)
+    ym_static_ratchet = compute_yearly_metrics(portfolio_static_ratchet)
+    print(f"HYP-109-1 (Static Multi-Tier Ratchet): N={m_static_ratchet['executed_trades']}, Net EV={m_static_ratchet['net_mean_return_pct']:+.2f}%, PF={m_static_ratchet['profit_factor']:.2f}, Tot={m_static_ratchet['total_opportunity_net_return_pct']:+.2f}%, MaxDD={m_static_ratchet['max_drawdown_pct']:.2f}%")
 
-    # 3. HYP-109-2: Regime-Adaptive Ratchet Switch (Squeeze vs Expansion)
-    trades_long_regime_switch = simulate_regime_adaptive_long(long_events, df_1h, df_1m, enable_regime_switch=True, enable_squeeze_4h_mid_esc=False)
-    portfolio_regime_switch = sorted(trades_long_regime_switch + all_shorts, key=lambda x: x['entry_time'])
-    m_regime_switch = compute_metrics(portfolio_regime_switch)
-    ym_regime_switch = compute_yearly_metrics(portfolio_regime_switch)
-    print(f"HYP-109-2 (Regime-Adaptive Ratchet): N={m_regime_switch['executed_trades']}, Net EV={m_regime_switch['net_mean_return_pct']:+.2f}%, PF={m_regime_switch['profit_factor']:.2f}, Tot={m_regime_switch['total_opportunity_net_return_pct']:+.2f}%, MaxDD={m_regime_switch['max_drawdown_pct']:.2f}%")
+    # 2. HYP-109-2 (Counter-Hypothesis): Uniform Squeeze across all regimes (No regime separation)
+    trades_long_uniform_squeeze = simulate_regime_adaptive_long(long_events, df_1h, df_1m, regime_mode='uniform_squeeze', enable_squeeze_4h_mid_esc=True)
+    portfolio_uniform_squeeze = sorted(trades_long_uniform_squeeze + all_shorts, key=lambda x: x['entry_time'])
+    m_uniform_squeeze = compute_metrics(portfolio_uniform_squeeze)
+    ym_uniform_squeeze = compute_yearly_metrics(portfolio_uniform_squeeze)
+    print(f"HYP-109-2 (Uniform Squeeze Across All Regimes): N={m_uniform_squeeze['executed_trades']}, Net EV={m_uniform_squeeze['net_mean_return_pct']:+.2f}%, PF={m_uniform_squeeze['profit_factor']:.2f}, Tot={m_uniform_squeeze['total_opportunity_net_return_pct']:+.2f}%, MaxDD={m_uniform_squeeze['max_drawdown_pct']:.2f}%")
 
-    # 4. HYP-109-3 / EXP-109 Master: Regime-Adaptive Ratchet + Squeeze 4H Mid Escalation
-    trades_long_master = simulate_regime_adaptive_long(long_events, df_1h, df_1m, enable_regime_switch=True, enable_squeeze_4h_mid_esc=True)
+    # 3. HYP-109-3: Regime-Adaptive Dynamic Ratchet (Switching between Squeeze and Trend, without 4H Mid esc)
+    trades_long_adaptive_no_4h = simulate_regime_adaptive_long(long_events, df_1h, df_1m, regime_mode='adaptive', enable_squeeze_4h_mid_esc=False)
+    portfolio_adaptive_no_4h = sorted(trades_long_adaptive_no_4h + all_shorts, key=lambda x: x['entry_time'])
+    m_adaptive_no_4h = compute_metrics(portfolio_adaptive_no_4h)
+    ym_adaptive_no_4h = compute_yearly_metrics(portfolio_adaptive_no_4h)
+    print(f"HYP-109-3 (Regime-Adaptive Ratchet w/o 4H Mid): N={m_adaptive_no_4h['executed_trades']}, Net EV={m_adaptive_no_4h['net_mean_return_pct']:+.2f}%, PF={m_adaptive_no_4h['profit_factor']:.2f}, Tot={m_adaptive_no_4h['total_opportunity_net_return_pct']:+.2f}%, MaxDD={m_adaptive_no_4h['max_drawdown_pct']:.2f}%")
+
+    # 4. HYP-109-4 / EXP-109 Master: Regime-Adaptive Dynamic Ratchet + Squeeze 4H Mid Escalation (Full Master)
+    trades_long_master = simulate_regime_adaptive_long(long_events, df_1h, df_1m, regime_mode='adaptive', enable_squeeze_4h_mid_esc=True)
     portfolio_exp109_master_a = sorted(trades_long_master + all_shorts, key=lambda x: x['entry_time'])
     m_exp109_master_a = compute_metrics(portfolio_exp109_master_a)
     ym_exp109_master_a = compute_yearly_metrics(portfolio_exp109_master_a)
@@ -477,6 +567,15 @@ def main():
     ci_b = bootstrap_ci(portfolio_exp109_master_b)
     print(f"EXP-109 Master (Mode B Max 2): N={m_exp109_master_b['executed_trades']}, Net EV={m_exp109_master_b['net_mean_return_pct']:+.2f}% 95% CI {ci_b}, PF={m_exp109_master_b['profit_factor']:.2f}, Tot={m_exp109_master_b['total_opportunity_net_return_pct']:+.2f}%, MaxDD={m_exp109_master_b['max_drawdown_pct']:.2f}%")
 
+    # 4H Mid Escalation の実際の発火件数プロファイリング
+    n_rapid = sum(1 for t in trades_long_master if t['exit'] == 'rapid_4h_mid_stop')
+    n_ratchet = sum(1 for t in trades_long_master if t['exit'] == 'regime_ratchet_lock')
+    n_parent = sum(1 for t in trades_long_master if t['exit'] == 'parent_scale_exit')
+    n_init_risk = sum(1 for t in trades_long_master if t['exit'] == 'initial_risk_stop')
+    n_timeout = sum(1 for t in trades_long_master if t['exit'] == 'timeout_reclaim_failed')
+    n_s3 = sum(1 for t in trades_long_master if t['exit'] == 's3_stop')
+    print(f"\nLong Exit Type Profile: Total={len(trades_long_master)}, ParentScale={n_parent}, RatchetLock={n_ratchet}, Rapid4HMid={n_rapid}, InitialRiskStop={n_init_risk}, ReclaimTimeout={n_timeout}, S3={n_s3}")
+
     # --- Step 5: Generating Publication-Grade Visualizations ---
     print("\n--- Step 5: Generating Publication-Grade Visualizations ---")
     plt.rcParams['font.sans-serif'] = 'DejaVu Sans'
@@ -484,21 +583,21 @@ def main():
     plt.rcParams['axes.linewidth'] = 0.8
 
     # Plot 1: Ablation Comparison Bar Chart
-    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-    labels = ['EXP-107\nBaseline', 'HYP-109-1\nStatic Ratchet', 'HYP-109-2\nRegime Ratchet', 'EXP-109 Master\n(+4H Mid Esc)']
-    colors = ['#7f7f7f', '#3b82f6', '#8b5cf6', '#10b981']
+    fig, axes = plt.subplots(1, 3, figsize=(20, 5))
+    labels = ['EXP-107\nBaseline', 'HYP-109-1\nStatic Ratchet', 'HYP-109-2\nUniform Squeeze', 'EXP-109 Master\n(Adaptive)']
+    colors = ['#7f7f7f', '#3b82f6', '#ef4444', '#10b981']
 
-    pfs = [m_exp107['profit_factor'], m_ratchet_only['profit_factor'], m_regime_switch['profit_factor'], m_exp109_master_a['profit_factor']]
-    evs = [m_exp107['net_mean_return_pct'], m_ratchet_only['net_mean_return_pct'], m_regime_switch['net_mean_return_pct'], m_exp109_master_a['net_mean_return_pct']]
-    dds = [m_exp107['max_drawdown_pct'], m_ratchet_only['max_drawdown_pct'], m_regime_switch['max_drawdown_pct'], m_exp109_master_a['max_drawdown_pct']]
+    pfs = [m_exp107['profit_factor'], m_static_ratchet['profit_factor'], m_uniform_squeeze['profit_factor'], m_exp109_master_a['profit_factor']]
+    evs = [m_exp107['net_mean_return_pct'], m_static_ratchet['net_mean_return_pct'], m_uniform_squeeze['net_mean_return_pct'], m_exp109_master_a['net_mean_return_pct']]
+    dds = [m_exp107['max_drawdown_pct'], m_static_ratchet['max_drawdown_pct'], m_uniform_squeeze['max_drawdown_pct'], m_exp109_master_a['max_drawdown_pct']]
 
     axes[0].bar(labels, pfs, color=colors, alpha=0.85, edgecolor='black')
-    axes[0].axhline(4.0, color='red', linestyle='--', linewidth=1.2, label='Target PF >= 4.00')
+    axes[0].axhline(2.20, color='red', linestyle='--', linewidth=1.2, label='Target PF >= 2.20')
     axes[0].set_title('Profit Factor (PF)', fontsize=12, fontweight='bold')
     axes[0].grid(True, linestyle=':', alpha=0.6)
     axes[0].legend(loc='upper left')
     for i, v in enumerate(pfs):
-        axes[0].text(i, v + 0.05, f"{v:.2f}", ha='center', fontweight='bold')
+        axes[0].text(i, v + 0.08, f"{v:.2f}", ha='center', fontweight='bold')
 
     axes[1].bar(labels, evs, color=colors, alpha=0.85, edgecolor='black')
     axes[1].axhline(2.10, color='red', linestyle='--', linewidth=1.2, label='Target EV >= +2.10%')
@@ -506,15 +605,15 @@ def main():
     axes[1].grid(True, linestyle=':', alpha=0.6)
     axes[1].legend(loc='upper left')
     for i, v in enumerate(evs):
-        axes[1].text(i, v + 0.03, f"{v:+.2f}%", ha='center', fontweight='bold')
+        axes[1].text(i, v + 0.05, f"{v:+.2f}%", ha='center', fontweight='bold')
 
     axes[2].bar(labels, dds, color=colors, alpha=0.85, edgecolor='black')
-    axes[2].axhline(-11.50, color='red', linestyle='--', linewidth=1.2, label='Target MaxDD <= -11.50%')
+    axes[2].axhline(-15.0, color='red', linestyle='--', linewidth=1.2, label='Target MaxDD <= -15.0%')
     axes[2].set_title('Max Drawdown (%)', fontsize=12, fontweight='bold')
     axes[2].grid(True, linestyle=':', alpha=0.6)
     axes[2].legend(loc='lower left')
     for i, v in enumerate(dds):
-        axes[2].text(i, v - 0.5, f"{v:.2f}%", ha='center', fontweight='bold')
+        axes[2].text(i, v - 0.6, f"{v:.2f}%", ha='center', fontweight='bold')
 
     plt.tight_layout()
     plt.savefig(os.path.join(plots_dir, 'regime_adaptive_ablation_comparison.png'), dpi=300)
@@ -595,27 +694,47 @@ def main():
 
     # Plot 4: MFE vs Duration Scatter Plot by Regime
     df_trades_109 = pd.DataFrame(portfolio_exp109_master_a)
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(11, 6))
 
-    squeeze_trades = df_trades_109[df_trades_109.get('is_squeeze', False) == True]
-    trend_trades = df_trades_109[df_trades_109.get('is_squeeze', False) == False]
+    # Longs
+    long_squeeze = df_trades_109[(df_trades_109['side'] == 'long') & (df_trades_109['is_squeeze'] == True)]
+    long_trend = df_trades_109[(df_trades_109['side'] == 'long') & (df_trades_109['is_squeeze'] == False)]
 
-    ax.scatter(trend_trades['duration_h'], trend_trades['net_ret'] * 100.0,
-               color='#10b981', alpha=0.75, s=60, label=f"Expansion / Trend Trades (N={len(trend_trades)})", edgecolors='black', linewidth=0.5)
-    ax.scatter(squeeze_trades['duration_h'], squeeze_trades['net_ret'] * 100.0,
-               color='#f59e0b', alpha=0.85, s=60, label=f"Squeeze / Range Trades (N={len(squeeze_trades)})", marker='^', edgecolors='black', linewidth=0.5)
+    # Shorts
+    short_squeeze = df_trades_109[(df_trades_109['side'] == 'short') & (df_trades_109['is_squeeze'] == True)]
+    short_trend = df_trades_109[(df_trades_109['side'] == 'short') & (df_trades_109['is_squeeze'] == False)]
 
-    ax.axhline(0, color='black', linestyle='-', linewidth=0.8)
-    ax.set_title('Trade Duration vs Net Return (%) by Regime (EXP-109 Master)', fontsize=12, fontweight='bold')
+    ax.scatter(long_trend['duration_h'], long_trend['max_mfe_atr'],
+               color='#10b981', alpha=0.75, s=60, label=f"Long: Expansion/Trend (N={len(long_trend)})", marker='o', edgecolors='black', linewidth=0.5)
+    ax.scatter(long_squeeze['duration_h'], long_squeeze['max_mfe_atr'],
+               color='#f59e0b', alpha=0.85, s=60, label=f"Long: Squeeze/Range (N={len(long_squeeze)})", marker='^', edgecolors='black', linewidth=0.5)
+    ax.scatter(short_trend['duration_h'], short_trend['max_mfe_atr'],
+               color='#6366f1', alpha=0.75, s=60, label=f"Short: Expansion/Plunge (N={len(short_trend)})", marker='s', edgecolors='black', linewidth=0.5)
+    ax.scatter(short_squeeze['duration_h'], short_squeeze['max_mfe_atr'],
+               color='#ec4899', alpha=0.85, s=60, label=f"Short: Squeeze/Range (N={len(short_squeeze)})", marker='D', edgecolors='black', linewidth=0.5)
+
+    ax.axhline(3.5, color='#10b981', linestyle='--', linewidth=1.0, label='Ratchet Tier 1 (3.5 ATR)')
+    ax.axhline(5.5, color='#3b82f6', linestyle='--', linewidth=1.0, label='Ratchet Tier 2 (5.5 ATR)')
+    ax.axhline(8.0, color='#8b5cf6', linestyle='--', linewidth=1.0, label='Ratchet Tier 3 (8.0 ATR)')
+    ax.set_title('Holding Duration vs Maximum Favorable Excursion (MFE ATR) by Regime & Side (EXP-109 Master)', fontsize=12, fontweight='bold')
     ax.set_xlabel('Holding Duration (Hours)', fontsize=11)
-    ax.set_ylabel('Net Return (% / Trade)', fontsize=11)
+    ax.set_ylabel('Max MFE (ATR)', fontsize=11)
     ax.grid(True, linestyle=':', alpha=0.6)
-    ax.legend(loc='upper right', fontsize=10)
+    ax.legend(loc='upper right', fontsize=9)
 
     plt.tight_layout()
     plt.savefig(os.path.join(plots_dir, 'mfe_vs_duration_regime_scatter.png'), dpi=300)
     plt.close()
     print("Saved plots/mfe_vs_duration_regime_scatter.png")
+
+    # 100時間超トレンドポジションの平均MFE集計
+    t_over_100h = [t for t in portfolio_exp109_master_a if t['duration_h'] >= 100.0]
+    avg_mfe_over_100h = float(np.mean([t['max_mfe_atr'] for t in t_over_100h])) if t_over_100h else 0.0
+    print(f"\nPositions >= 100h: Count={len(t_over_100h)}, Mean MFE={avg_mfe_over_100h:.2f} ATR")
+
+    # ショート単独収支集計
+    shorts_stats = compute_metrics(all_shorts)
+    print(f"Shorts Standalone: N={shorts_stats['executed_trades']}, Net EV={shorts_stats['net_mean_return_pct']:+.2f}%, PF={shorts_stats['profit_factor']:.2f}, Tot={shorts_stats['total_opportunity_net_return_pct']:+.2f}%")
 
     # --- Step 6: Output Metrics JSON ---
     print("\n--- Step 6: Output Metrics JSON ---")
@@ -633,20 +752,38 @@ def main():
         },
         'ablations': {
             'hyp_109_1_static_ratchet': {
-                'mode_a': m_ratchet_only,
-                'yearly': ym_ratchet_only
+                'mode_a': m_static_ratchet,
+                'yearly': ym_static_ratchet
             },
-            'hyp_109_2_regime_switch_ratchet': {
-                'mode_a': m_regime_switch,
-                'yearly': ym_regime_switch
+            'hyp_109_2_uniform_squeeze': {
+                'mode_a': m_uniform_squeeze,
+                'yearly': ym_uniform_squeeze
             },
-            'hyp_109_3_master_adaptive': {
+            'hyp_109_3_adaptive_no_4h_mid': {
+                'mode_a': m_adaptive_no_4h,
+                'yearly': ym_adaptive_no_4h
+            },
+            'hyp_109_4_master_adaptive': {
                 'mode_a': m_exp109_master_a,
                 'ci_95': ci_a,
                 'yearly_mode_a': ym_exp109_master_a,
                 'mode_b_max_concurrent_2': m_exp109_master_b,
                 'ci_95_mode_b': ci_b,
-                'yearly_mode_b': ym_exp109_master_b
+                'yearly_mode_b': ym_exp109_master_b,
+                'exit_types_long': {
+                    'total': len(trades_long_master),
+                    'parent_scale_exit': n_parent,
+                    'regime_ratchet_lock': n_ratchet,
+                    'rapid_4h_mid_stop': n_rapid,
+                    'initial_risk_stop': n_init_risk,
+                    'timeout_reclaim_failed': n_timeout,
+                    's3_stop': n_s3
+                },
+                'positions_over_100h': {
+                    'count': len(t_over_100h),
+                    'mean_mfe_atr': float(np.round(avg_mfe_over_100h, 2))
+                },
+                'shorts_standalone': shorts_stats
             }
         },
         'execution_time_sec': float(np.round(time.time() - t_start, 2))

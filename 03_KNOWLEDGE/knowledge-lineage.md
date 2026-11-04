@@ -814,8 +814,8 @@ graph TD
 ### K-055: 日足200日線岩盤下値支持と超長期落差ギャップの真空貫通・支持吸収力学
 * **ステータス**: **支持 (Supported)**
 * **概要**: 相場全体の最強の岩盤下値支持線である日足200日線（SMA 200d）と、超長期落差ギャップ（Scale Vacuum Gap）の相互作用力学を解明（EXP-103）：
-  1. **支持吸収則 (Support Absorption)**: 直下 4.5% 以内に日足200日線が存在し、落差ギャップが中規模（$< 15	ext{ ATR}$）の場合、岩盤支持線が売り圧力を完全に吸収して急反発を引き起こす（2025年2月下旬のダマシ急落の主因）。
-  2. **真空貫通則 (Vacuum Penetration)**: 一方、落差ギャップが $20	ext{ ATR}$ 級の特大真空である場合、下落モーメンタムが岩盤支持線をも貫通して垂直大クラッシュとなる（2023年8月18日の大暴落）。
+  1. **支持吸収則 (Support Absorption)**: 直下 4.5% 以内に日足200日線が存在し、落差ギャップが中規模（$< 15\text{ ATR}$）の場合、岩盤支持線が売り圧力を完全に吸収して急反発を引き起こす（2025年2月下旬のダマシ急落の主因）。
+  2. **真空貫通則 (Vacuum Penetration)**: 一方、落差ギャップが $20\text{ ATR}$ 級の特大真空である場合、下落モーメンタムが岩盤支持線をも貫通して垂直大クラッシュとなる（2023年8月18日の大暴落）。
   3. **EXP-103 統合マスターポートフォリオの樹立**: 日足BB下限整合および日足200日線支持吸収ガードを組み込んだ結果、**$N = 166$ 件、勝率 $61.45\%$、Net Mean EV `+1.60%`（EXP-99比 +22 bps）、Lifetime PF `2.54`（EXP-99比 +0.25）、総累積利益 `+266.19%`（EXP-99比 +14.77%pt）、最大DD `-15.66%`、2025年収支 `+2.72% (PF 1.17)`（赤字 -4.08% から完全黒字化・プラ転達成）** を実現。
 * **実験条件**: BTCUSD 日足（1D）および 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/103-mtf-bb-envelope-and-macro-alignment/record.md`](experiments/103-mtf-bb-envelope-and-macro-alignment/record.md) (EXP-103 / [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109))
@@ -848,25 +848,24 @@ ightarrow$ +111.74%）。上位足整列局面では利確ルールを完全停�
 * **仕様への影響**: 72h固定保有枠の完全撤廃、普遍的親階層構造線（bb_mid_240h / bb_mid_480h）による無期限追随動的エグジットおよび早漏利確抑止ルールを中核仕様として採用。
 
 ---
----
 
 ### K-058: 普遍的 MTF ボリンジャーバンド幾何学的レジーム判別器（Causal Squeeze vs Expansion Filter）
 * **ステータス**: **支持（Supported）**
 * **概要**: 大相場の健全な押し目呼吸（Expansion）と、往来相場における上限からの急激な反落（Squeeze）を厳格に分離する幾何学的動的レジーム判別器を確立（EXP-109）：
-  1. **真のSqueeze幾何判別則**: 単一時点の固定閾値ではなく、過去30日（720h）の因果的ローリング確定分布において、10日線BB幅が下位45%（`bb_width_pct_240h <= 0.45`）かつ10日親構造線の傾きがフラット（`abs(bb_slope_240h) <= 0.04`）である状態を「真のSqueeze（レンジ往来相場）」と定義。
-  2. **大相場Expansionの完全保護**: `is_mtf_lockin_bull`（パーフェクトオーダー＆正の傾き）または親構造Expansion局面では、Squeeze専用の引き締めルールを100%完全バイパス。大トレンド初期の健全な呼吸（2〜3 ATRの押し目反落）を許容することで、大相場獲得利益（Best Trade +51.22%、2020年 +71.33%、2021年 +183.05%）を1 bpsも毀損せずに完全保護する。
-* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、因果的ローリング720hウィンドウ、往復 40 bps 摩擦コスト控除
+  1. **真のSqueeze幾何判別則**: 単一時点の固定閾値ではなく、因果的ローリング確定分布（90日=2160h）において、10日線BB幅が下位45%（`bb_width_pct_2160 <= 0.45`）かつ10日親構造線の傾きがフラット（`abs(bb_slope_240h) <= 0.04`）である状態を「真のSqueeze（レンジ往来相場）」と幾何定義。
+  2. **大相場Expansionの完全保護と反証実験**: 全期間一律にレンジ用引き締めを適用した場合（HYP-109-2 Uniform Squeeze）、大相場の途中で狩り取られ通期利益が `+412.92% -> +207.41%` へ半減することを反証。レジーム分離を行うことで大トレンド相場（Expansion）の健全な呼吸（2〜3 ATRの押し目反落）を許容し、大相場獲得利益を完全死守する。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、因果的ローリング2160hウィンドウ、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/109-regime-adaptive-dynamic-exit/record.md`](experiments/109-regime-adaptive-dynamic-exit/record.md) (EXP-109 / [#109](https://github.com/makagi/MTF_AI_Trade/issues/109))
 * **仕様への影響**: 戦略仕様において、動的レジーム判別器（Squeeze vs Expansion）をエグジット統括機構の基盤として正式採用。
 
 ---
 
-### K-059: レジーム適応型多段階ダイナミックラチェット＆4H BB Mid急加速エグジット体系
+### K-059: スケール相対的エスカレーション（Reclaim Ignition）＆レジーム適応型多段階動的ラチェットエグジット体系
 * **ステータス**: **支持（Supported）**
-* **概要**: トレンド追随とレンジ利益固定を両立するレジーム適応型エグジット体系を確立（EXP-109）：
-  1. **多段階ダイナミックラチェット**: 一段階固定ロック（3.5 ATR -> 1.0 ATR）から、MFEの進展に応じた多段階利益防衛ラチェット（Expansion: 3.5/5.5/8.0 ATR、Squeeze: 3.0/4.2/6.0/8.0 ATR）へと進化。
-  2. **4H BB Mid急加速ストップ（Rapid Escalation）**: Squeeze期に MFE >= 2.5 ATR に達したポジションは、ストップラインを中間構造線（4H BB Mid `bb_mid_80h - 0.5 ATR`）へ急加速引き上げし、レンジ天井からの反落による含み益吐き出しを阻止。
-  3. **往来相場リターンの底上げと大台突破**: 課題であった2024年リターンが **`+7.25% (PF 1.41)` から `+20.71% (PF 2.31)` へ約3倍に急増**。通期 Lifetime PF は **`4.38`（Mode A）/ `4.32`（Mode B）** へ大台突破、MaxDD は **`-10.22%`**（1.51%pt圧縮）、累積純利益 **`+361.22%`** を達成。全6暦年すべて黒字を堅持。
+* **概要**: トレンド追随とレンジ利益固定を両立し、深い押し目の初期防衛と親構造無期限追随を幾何学的に統合した動的エグジット体系を確立（EXP-109）：
+  1. **スケール相対的エスカレーション（Reclaim Ignition）**: 親構造線より下で拾う深い押し目において、エントリー直後の初足即死（duration_h == 0.0）を完全解消。親構造線奪還までは初期防衛線（`p0 - 3.0 ATR`）と48hタイムアウトで守り、奪還・上抜け（`cur_high >= cur_parent_line`）した瞬間に無期限親構造線追随へ昇格させるロジックを確立。
+  2. **多段階動的ラチェット（単調非減少）**: MFE進展に応じた多段階利益防衛ラチェット（Expansion: 3.5/5.5/8.0 ATR、Squeeze: 3.0/4.2/6.0/8.0 ATR）を単調非減少（引き下げ禁止）で導入。
+  3. **往来相場リターンの底上げと大台更新**: 課題であった2024年リターンが **`+7.25% (PF 1.41)` から `+26.95% (PF 2.15)` へ約3.7倍に急増**。通期 Lifetime PF は **`3.83`（Mode A）/ `3.78`（Mode B）**、通期総利益 **`+412.92%`（Mode A）/ `406.16%`（Mode B）**、MaxDD **`-12.40%`** を達成し、全6暦年すべて黒字を堅持。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/109-regime-adaptive-dynamic-exit/record.md`](experiments/109-regime-adaptive-dynamic-exit/record.md) (EXP-109 / [#109](https://github.com/makagi/MTF_AI_Trade/issues/109))
 * **仕様への影響**: 戦略仕様におけるエグジット体系を「EXP-109 レジーム適応型動的エグジットマスター」へ昇格。確定ベースラインを更新。
@@ -906,4 +905,4 @@ ightarrow$ +111.74%）。上位足整列局面では利確ルールを完全停�
 | 2026-11-03 | 2.2.0 | EXP-99 反映、超長期落差ギャップ脆弱性とVacuum Trap Filter（K-052）、最深親線への真空吸い込みクラッシュとScale Gap Plunge Short（K-053 登録・計53知見へ拡充・N=182 Net EV +1.38% PF 2.29） | @makagi / [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109) |
 | 2026-11-04 | 2.3.0 | EXP-103 反映、日足MTF BB Envelope大局整合則（K-054）、日足200日線岩盤支持と真空貫通力学（K-055）登録・計55知見へ拡充（N=166 Net EV +1.60% PF 2.54 全年黒字） | @makagi / [#103](https://github.com/makagi/MTF_AI_Trade/issues/103) |
 | 2026-11-04 | 2.4.0 | EXP-107 反映、72h固定枠撤廃・1h長期BB統一（K-056）、Lock-In親構造線無期限追随と早漏利確抑止（K-057）登録・計57知見へ拡充（N=166 Net EV +2.06% PF 3.05 総利益 +341.76%） | @makagi / [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#108](https://github.com/makagi/MTF_AI_Trade/pull/108) |
-| 2026-11-05 | 2.5.0 | EXP-109 反映、MTF BB幾何学的レジーム判別器（K-058）、レジーム適応型多段階ラチェット＆4H Mid急加速エグジット体系（K-059）登録・計59知見へ拡充（N=166 Net EV +2.18% PF 4.38 MaxDD -10.22% 2024年3倍増） | @makagi / [#109](https://github.com/makagi/MTF_AI_Trade/issues/109) |
+| 2026-11-05 | 2.5.0 | EXP-109 反映、MTF BB幾何学的レジーム判別器（K-058）、スケール相対的エスカレーション＆多段階動的ラチェットエグジット（K-059）登録・計59知見へ拡充（N=166 Net EV +2.49% PF 3.83 Tot +412.92% MaxDD -12.40% 全6年プラス堅持） | @makagi / [#109](https://github.com/makagi/MTF_AI_Trade/issues/109) |

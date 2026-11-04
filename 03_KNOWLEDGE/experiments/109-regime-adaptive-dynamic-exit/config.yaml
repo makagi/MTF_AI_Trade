@@ -18,10 +18,13 @@ parameters:
     parent_scale_line: bb_mid_240h
     parent_buffer_atr: 1.0
     s3_stop_atr: 5.0
+    scale_reclaim_ignition:
+      reclaim_timeout_h: 48.0
+      initial_risk_atr: 3.0
     regime_detection:
       squeeze_bandwidth_pct_max: 0.45
       squeeze_slope_abs_max: 0.04
-      rolling_window_hours: 720
+      rolling_window_hours: 2160
     ratchet_expansion:
       - [3.5, 1.0]
       - [5.5, 2.5]
@@ -43,5 +46,6 @@ parameters:
 
 hypotheses:
   HYP-109-1: ACCEPTED
-  HYP-109-2: ACCEPTED
+  HYP-109-2: REFUTED
   HYP-109-3: ACCEPTED
+  HYP-109-4: ACCEPTED
