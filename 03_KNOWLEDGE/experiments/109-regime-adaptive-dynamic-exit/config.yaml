@@ -1,0 +1,51 @@
+experiment_id: EXP-109
+title: MTFボリンジャーバンド・レジーム適応型エグジット（トレンド無期限追随 × レンジ動的利確・トレール急加速）による往来相場リターン底上げの検証
+date: 2026-11-05
+author: makagi
+status: COMPLETED
+decision: ACCEPTED
+
+data:
+  symbol: BTCUSD
+  timeframes: [1h, 1m]
+  discovery_start: "2020-01-01 00:00:00"
+  discovery_end: "2025-04-30 23:59:59"
+  holdout_start: "2025-05-01 00:00:00"
+  friction_bps: 40.0
+
+parameters:
+  long:
+    parent_scale_line: bb_mid_240h
+    parent_buffer_atr: 1.0
+    s3_stop_atr: 5.0
+    scale_reclaim_ignition:
+      reclaim_timeout_h: 48.0
+      initial_risk_atr: 3.0
+    regime_detection:
+      squeeze_bandwidth_pct_max: 0.45
+      squeeze_slope_abs_max: 0.04
+      rolling_window_hours: 2160
+    ratchet_expansion:
+      - [3.5, 1.0]
+      - [5.5, 2.5]
+      - [8.0, 4.5]
+    ratchet_squeeze:
+      - [3.0, 1.0]
+      - [4.2, 2.2]
+      - [6.0, 3.5]
+      - [8.0, 5.0]
+    squeeze_4h_mid_escalation:
+      enabled: true
+      trigger_mfe_atr: 2.5
+      buffer_atr: 0.5
+  short:
+    stop_atr: 2.5
+    macro_filter_dist_sma200d: 0.045
+    trail_tp_atr: 3.5
+    trail_lock_atr: 1.0
+
+hypotheses:
+  HYP-109-1: ACCEPTED
+  HYP-109-2: REFUTED
+  HYP-109-3: ACCEPTED
+  HYP-109-4: ACCEPTED
