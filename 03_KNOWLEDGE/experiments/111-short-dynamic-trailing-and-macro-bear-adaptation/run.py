@@ -222,7 +222,11 @@ def load_data_and_features():
 # ==============================================================================
 def simulate_dynamic_short(events, df_1h, df_1m,
                            struct_mode='regime_adaptive',  # 'uniform_intermediate' or 'regime_adaptive'
+                           buf_atr_lockin=0.8,
+                           buf_atr_normal=0.8,
+                           arm_depth_atr=0.5,
                            initial_risk_atr=2.5,
+                           base_stop_floor_atr=1.0,
                            timeout_h=48.0,
                            ratchet_tiers=[(3.0, 1.5), (4.5, 2.5), (6.0, 4.0), (8.0, 6.0)]):
     trades = []
@@ -256,18 +260,18 @@ def simulate_dynamic_short(events, df_1h, df_1m,
         is_lockin = bool(df_1h['is_mtf_lockin_bear'].loc[t0])
         if struct_mode == 'regime_adaptive':
             struct_col = 'bb_mid_240h' if is_lockin else 'bb_mid_80h'
-            buf_atr = 0.5 if is_lockin else 0.0
+            buf_atr = buf_atr_lockin if is_lockin else buf_atr_normal
         else: # uniform_intermediate
             struct_col = 'bb_mid_80h'
-            buf_atr = 0.0
+            buf_atr = buf_atr_normal
 
         cur_struct = df_1h[struct_col].loc[t0]
-        armed = (p0 < cur_struct - 0.2 * atr0)
+        armed = (p0 < cur_struct - arm_depth_atr * atr0)
         current_ratchet_stop = 999999.0
 
         for i in range(n_bars):
             t_bar = sub_times[i]
-            elapsed_h = max(i / 60.0, 1.0 / 60.0)
+            elapsed_h = (t_bar - entry_time).total_seconds() / 3600.0
 
             if i % 60 == 0 and i > 0:
                 t_1h = (t_bar - pd.Timedelta(hours=1)).floor("1h")
@@ -276,10 +280,10 @@ def simulate_dynamic_short(events, df_1h, df_1m,
                     is_lockin = bool(df_1h['is_mtf_lockin_bear'].loc[t_1h])
                     if struct_mode == 'regime_adaptive':
                         struct_col = 'bb_mid_240h' if is_lockin else 'bb_mid_80h'
-                        buf_atr = 0.5 if is_lockin else 0.0
+                        buf_atr = buf_atr_lockin if is_lockin else buf_atr_normal
                     else:
                         struct_col = 'bb_mid_80h'
-                        buf_atr = 0.0
+                        buf_atr = buf_atr_normal
                     cur_struct = df_1h[struct_col].loc[t_1h]
                     atr_cur = df_1h['atr_24'].loc[t_1h]
 
@@ -291,10 +295,7 @@ def simulate_dynamic_short(events, df_1h, df_1m,
             if cur_mfe > max_mfe_atr:
                 max_mfe_atr = cur_mfe
 
-            if not armed and cur_low <= cur_struct - 0.2 * atr_cur:
-                armed = True
-
-            base_stop = cur_sma34 + 5.0 * atr_cur
+            base_stop = max(cur_sma34 + 5.0 * atr_cur, p0 + base_stop_floor_atr * atr0)
             initial_stop = p0 + initial_risk_atr * atr0 if (not armed and initial_risk_atr is not None) else 999999.0
 
             for trig, lck in ratchet_tiers:
@@ -305,10 +306,8 @@ def simulate_dynamic_short(events, df_1h, df_1m,
             struct_stop = cur_struct + buf_atr * atr_cur if armed else base_stop
             effective_stop = min(base_stop, initial_stop, current_ratchet_stop, struct_stop)
 
-            if cur_high >= effective_stop:
+            if i > 0 and cur_high >= effective_stop:
                 dur_h = float(np.round(elapsed_h, 2))
-                if dur_h == 0.0:
-                    dur_h = 0.02
                 p_exit = max(cur_open, effective_stop)
                 exit_type = 'struct_exit' if effective_stop == struct_stop else ('ratchet_lock' if effective_stop == current_ratchet_stop else 'stop_hit')
                 trades.append({
@@ -321,7 +320,10 @@ def simulate_dynamic_short(events, df_1h, df_1m,
                 exited = True
                 break
 
-            if not armed and timeout_h is not None and elapsed_h >= timeout_h:
+            if not armed and cur_low <= cur_struct - arm_depth_atr * atr_cur:
+                armed = True
+
+            if not armed and timeout_h is not None and elapsed_h >= timeout_h and i > 0:
                 dur_h = float(np.round(elapsed_h, 2))
                 trades.append({
                     't0': t0, 'entry_time': entry_time, 'exit_time': t_bar, 'period': p_era,
@@ -334,7 +336,7 @@ def simulate_dynamic_short(events, df_1h, df_1m,
                 break
 
         if not exited:
-            dur_h = float(np.round(n_bars / 60.0, 2))
+            dur_h = float(np.round((sub_times[-1] - entry_time).total_seconds() / 3600.0, 2))
             trades.append({
                 't0': t0, 'entry_time': entry_time, 'exit_time': sub_times[-1], 'period': p_era,
                 'p0': p0, 'exit_p': sub_closes[-1], 'net_ret': (p0 - sub_closes[-1])/p0 - FRICTION_BPS,
@@ -345,7 +347,8 @@ def simulate_dynamic_short(events, df_1h, df_1m,
 
     return trades
 
-def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765', stop_atr=2.5):
+def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765', stop_atr=2.5,
+                                  ratchet_tiers=[(3.5, 1.0), (5.5, 2.5), (8.0, 4.5), (12.0, 8.0)]):
     trades = []
     events_decl = exp95.decluster_events(events, cooldown_bars=24)
     event_idx = df_1h.index[events_decl]
@@ -361,31 +364,39 @@ def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765
             continue
         entry_price = float(path_1m['open'].iloc[0])
         atr = float(df_1h['atr_24'].loc[t0])
-        stop_price = entry_price + stop_atr * atr
         target_price = float(df_1h[target_sma_col].loc[t0])
         p_era = exp95.get_period(t0)
         exited = False
         max_mfe_atr = 0.0
+        current_ratchet_stop = 999999.0
         
         for bar_idx, row in path_1m.iterrows():
             high = float(row['high'])
             low = float(row['low'])
+            cur_open = float(row['open'])
+            elapsed_h = (bar_idx - t_entry).total_seconds() / 3600.0
+            
             mfe_atr = (entry_price - low) / atr
             if mfe_atr > max_mfe_atr:
                 max_mfe_atr = mfe_atr
-            if high >= stop_price:
-                dur_h = float(np.round(max((bar_idx - t_entry).total_seconds() / 3600.0, 0.02), 2))
-                trades.append({
-                    't0': t0, 'entry_time': t_entry, 'exit_time': bar_idx, 'period': p_era,
-                    'p0': entry_price, 'exit_p': stop_price,
-                    'net_ret': (entry_price - stop_price)/entry_price - FRICTION_BPS,
-                    'duration_h': dur_h, 'exit': 'stop_hit',
-                    'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'short', 'side': 'short'
-                })
-                exited = True
-                break
+
+            base_stop = entry_price + stop_atr * atr
+
+            for trig, lck in ratchet_tiers:
+                if max_mfe_atr >= trig:
+                    cand = entry_price - lck * atr
+                    current_ratchet_stop = min(current_ratchet_stop, cand)
+
+            t_1h = bar_idx.floor('1h')
+            if t_1h in df_1h.index and max_mfe_atr >= 3.5:
+                struct_stop = df_1h['bb_mid_240h'].loc[t_1h] + 0.5 * df_1h['atr_24'].loc[t_1h]
+            else:
+                struct_stop = 999999.0
+
+            effective_stop = min(base_stop, current_ratchet_stop, struct_stop)
+
             if low <= target_price:
-                dur_h = float(np.round(max((bar_idx - t_entry).total_seconds() / 3600.0, 0.02), 2))
+                dur_h = float(np.round(elapsed_h, 2))
                 trades.append({
                     't0': t0, 'entry_time': t_entry, 'exit_time': bar_idx, 'period': p_era,
                     'p0': entry_price, 'exit_p': target_price,
@@ -395,9 +406,24 @@ def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765
                 })
                 exited = True
                 break
+
+            if elapsed_h > 0 and high >= effective_stop:
+                dur_h = float(np.round(elapsed_h, 2))
+                p_exit = max(cur_open, effective_stop)
+                exit_type = 'ratchet_lock' if effective_stop == current_ratchet_stop else ('struct_exit' if effective_stop == struct_stop else 'stop_hit')
+                trades.append({
+                    't0': t0, 'entry_time': t_entry, 'exit_time': bar_idx, 'period': p_era,
+                    'p0': entry_price, 'exit_p': p_exit,
+                    'net_ret': (entry_price - p_exit)/entry_price - FRICTION_BPS,
+                    'duration_h': dur_h, 'exit': exit_type,
+                    'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'short', 'side': 'short'
+                })
+                exited = True
+                break
+
         if not exited:
             p_exit = float(path_1m['close'].iloc[-1])
-            dur_h = float(np.round(len(path_1m) / 60.0, 2))
+            dur_h = float(np.round((path_1m.index[-1] - t_entry).total_seconds() / 3600.0, 2))
             trades.append({
                 't0': t0, 'entry_time': t_entry, 'exit_time': path_1m.index[-1], 'period': p_era,
                 'p0': entry_price, 'exit_p': p_exit,
@@ -465,7 +491,7 @@ def simulate_adaptive_long(events, df_1h, df_1m,
 
         for i in range(n_bars):
             t_bar = sub_times[i]
-            elapsed_h = max(i / 60.0, 1.0 / 60.0)
+            elapsed_h = (t_bar - entry_time).total_seconds() / 3600.0
 
             if i % 60 == 0 and i > 0:
                 t_1h = (t_bar - pd.Timedelta(hours=1)).floor("1h")
@@ -485,21 +511,27 @@ def simulate_adaptive_long(events, df_1h, df_1m,
             if cur_mfe > max_mfe_atr:
                 max_mfe_atr = cur_mfe
 
-            if not parent_armed and cur_high >= cur_parent_line:
-                parent_armed = True
-
             base_stop = cur_sma34 - 5.0 * atr_cur
+
+            # Macro Bear initial risk cap applies before MFE >= 2.5
+            if enable_macro_bear_adaptation and is_mb_entry and max_mfe_atr < 2.5:
+                mb_cap_stop = p0 - eff_init_risk * atr0
+            else:
+                mb_cap_stop = -999999.0
 
             if not parent_armed and eff_init_risk is not None:
                 initial_stop = p0 - eff_init_risk * atr0
             else:
                 initial_stop = -999999.0
 
-            # Adaptive ratchet
             is_range_regime = cur_squeeze and (not cur_lockin)
             if is_range_regime:
                 tiers = [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)]
                 if enable_squeeze_4h_mid_esc and max_mfe_atr >= 2.5:
+                    current_rapid_stop = max(current_rapid_stop, cur_bb_mid_80 - 0.5 * atr_cur)
+            elif enable_macro_bear_adaptation and is_mb_entry:
+                tiers = [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)]
+                if max_mfe_atr >= 2.0:
                     current_rapid_stop = max(current_rapid_stop, cur_bb_mid_80 - 0.5 * atr_cur)
             else:
                 tiers = [(3.5, 1.0), (5.5, 2.5), (8.0, 4.5)]
@@ -513,17 +545,15 @@ def simulate_adaptive_long(events, df_1h, df_1m,
             else:
                 struct_stop = base_stop
 
-            effective_stop = max(base_stop, initial_stop, current_ratchet_stop, struct_stop, current_rapid_stop)
+            effective_stop = max(base_stop, initial_stop, current_ratchet_stop, struct_stop, current_rapid_stop, mb_cap_stop)
 
-            if cur_low <= effective_stop:
+            if i > 0 and cur_low <= effective_stop:
                 dur_h = float(np.round(elapsed_h, 2))
-                if dur_h == 0.0:
-                    dur_h = 0.02
                 p_exit = min(cur_open, effective_stop)
                 exit_type = 'parent_scale_exit' if effective_stop == struct_stop else (
                     'rapid_4h_mid_stop' if effective_stop == current_rapid_stop else (
                         'regime_ratchet_lock' if effective_stop == current_ratchet_stop else (
-                            'initial_risk_stop' if effective_stop == initial_stop else 's3_stop'
+                            'initial_risk_stop' if effective_stop in (initial_stop, mb_cap_stop) else 's3_stop'
                         )
                     )
                 )
@@ -537,7 +567,10 @@ def simulate_adaptive_long(events, df_1h, df_1m,
                 exited = True
                 break
 
-            if not parent_armed and eff_timeout_h is not None and elapsed_h >= eff_timeout_h:
+            if not parent_armed and cur_high >= cur_parent_line:
+                parent_armed = True
+
+            if not parent_armed and eff_timeout_h is not None and elapsed_h >= eff_timeout_h and i > 0:
                 dur_h = float(np.round(elapsed_h, 2))
                 trades.append({
                     't0': t0, 'entry_time': entry_time, 'exit_time': t_bar, 'period': p_era,
@@ -550,7 +583,7 @@ def simulate_adaptive_long(events, df_1h, df_1m,
                 break
 
         if not exited:
-            dur_h = float(np.round(n_bars / 60.0, 2))
+            dur_h = float(np.round((sub_times[-1] - entry_time).total_seconds() / 3600.0, 2))
             trades.append({
                 't0': t0, 'entry_time': entry_time, 'exit_time': sub_times[-1], 'period': p_era,
                 'p0': p0, 'exit_p': sub_closes[-1], 'net_ret': (sub_closes[-1] - p0)/p0 - FRICTION_BPS,
@@ -635,14 +668,16 @@ def main():
     )
     trades_short_master_all = sorted(trades_short_master_sym + trades_plunge_dyn, key=lambda x: x['entry_time'])
 
-    # Assert duration > 0 on all trades
-    assert all(t['duration_h'] > 0 for t in trades_short_master_all), "Error: Zero duration short trade detected!"
-    assert all(t['duration_h'] > 0 for t in trades_long_mb_adapted), "Error: Zero duration long trade detected!"
+    # Assert genuine positive duration and causal validity on all trades (Directive 2)
+    assert all(t['duration_h'] > 0 for t in trades_short_master_all), "Error: Non-positive duration short trade detected!"
+    assert all(t['exit_time'] > t['entry_time'] for t in trades_short_master_all), "Error: Short exit_time <= entry_time detected!"
+    assert all(t['duration_h'] > 0 for t in trades_long_mb_adapted), "Error: Non-positive duration long trade detected!"
+    assert all(t['exit_time'] > t['entry_time'] for t in trades_long_mb_adapted), "Error: Long exit_time <= entry_time detected!"
 
     # Assert 100% elimination of 72h fixed timer in short trades
     assert not any(t.get('exit') == 'timeout_72h' for t in trades_short_master_all), "Error: 72h fixed timeout present in Master Shorts!"
 
-    print("All duration checks passed: 0 trades with duration <= 0; 0 trades with 72h timeout.")
+    print("All duration and causal checks passed: 0 trades with duration <= 0; 0 trades with exit_time <= entry_time; 0 trades with 72h timeout.")
 
     # --- Step 3: Compose Combined Portfolios & Metrics ---
     print("\n--- Step 3: Computing Portfolio Metrics ---")
@@ -669,6 +704,8 @@ def main():
 
     # Master: EXP-111 Master Mode A (All Trades)
     port_master_a = sorted(trades_long_mb_adapted + trades_short_master_all, key=lambda x: x['entry_time'])
+    assert all(t['duration_h'] > 0 for t in port_master_a), "Error: Non-positive duration detected in Master Mode A!"
+    assert all(t['exit_time'] > t['entry_time'] for t in port_master_a), "Error: exit_time <= entry_time detected in Master Mode A!"
     m_master_a = compute_metrics(port_master_a)
     ym_master_a = compute_yearly_metrics(port_master_a)
     ci_master_a = bootstrap_ci(port_master_a)
