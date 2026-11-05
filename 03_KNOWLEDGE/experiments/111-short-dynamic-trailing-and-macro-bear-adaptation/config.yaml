@@ -14,66 +14,46 @@ data:
   holdout_start: '2025-05-01 00:00:00'
   friction_bps: 40.0
 parameters:
+  mtf_scales:
+    short_term_scale: 20h
+    intermediate_scale: 80h
+    parent_scale: 240h
+    macro_scale: 480h
+    envelope_std_multiplier: 0.5
   short:
-    parent_scale_line_lockin: bb_mid_240h
-    parent_scale_line_normal: bb_mid_80h
-    buffer_atr_lockin: 0.8
-    buffer_atr_normal: 0.8
-    timeout_breakdown_failed_h: 48.0
-    initial_risk_atr: 2.5
-    ratchet_tiers:
-    - - 3.0
-      - 1.5
-    - - 4.5
-      - 2.5
-    - - 6.0
-      - 4.0
-    - - 8.0
-      - 6.0
-    arm_depth_atr: 0.5
-    base_stop_floor_atr: 1.0
+    initial_risk_atr: 2.0
+    structural_invalidation:
+      reference_scale: 20h
+      condition: close > bb_mid_20h and bb_slope_20h > 0 and afs_order_score_bear == 0
+    scale_shift:
+      default_tracking: bb_mid_240h + 0.5 * std_240h
+      intermediate_shift_trigger: reached bb_lower_240h and afs_7 > afs_9
+      intermediate_tracking: bb_mid_80h + 0.5 * std_80h
+      extreme_shift_trigger: reached bb_lower_480h and afs_7 > afs_9
+      extreme_tracking: bb_mid_20h + 0.5 * std_20h
   long:
-    parent_scale_line: bb_mid_240h
-    parent_buffer_atr: 1.0
-    s3_stop_atr: 5.0
-    scale_reclaim_ignition:
-      reclaim_timeout_h: 48.0
-      initial_risk_atr: 3.0
-    macro_bear_adaptation:
-      macro_bear_initial_risk_atr: 1.0
-      macro_bear_timeout_h: 16.0
-    regime_detection:
-      squeeze_bandwidth_pct_max: 0.45
-      squeeze_slope_abs_max: 0.04
-      rolling_window_hours: 2160
-    ratchet_expansion:
-    - - 3.5
-      - 1.0
-    - - 5.5
-      - 2.5
-    - - 8.0
-      - 4.5
-    ratchet_squeeze:
-    - - 3.0
-      - 1.0
-    - - 4.2
-      - 2.2
-    - - 6.0
-      - 3.5
-    - - 8.0
-      - 5.0
+    initial_risk_atr: 2.0
+    structural_invalidation:
+      reference_scale: 20h
+      condition: close < bb_mid_20h and bb_slope_20h < 0 and afs_order_score == 0
+    overhead_resistance_constraint:
+      condition: bb_mid_240h < bb_mid_480h and bb_slope_480h < 0 and close < bb_mid_480h
+      mean_reversion_tighten_trigger: (high >= bb_mid_240h or high >= bb_upper_80h) and afs_7 < afs_9
+      mean_reversion_tighten_tracking: bb_mid_20h - 0.5 * std_20h
+      mean_reversion_default_tracking: bb_mid_80h - 0.5 * std_80h
+    vacuum_open_scale_shift:
+      default_tracking: bb_mid_240h - 0.5 * std_240h
+      shift_trigger: reached bb_upper_240h and afs_7 < afs_9
+      shift_tracking: bb_mid_80h - 0.5 * std_80h
   plunge_short:
-    ratchet_tiers:
-    - - 3.5
-      - 1.0
-    - - 5.5
-      - 2.5
-    - - 8.0
-      - 4.5
-    - - 12.0
-      - 8.0
-    trailing_line: bb_mid_240h
-    trailing_buffer_atr: 0.5
+    target_scale: sma_6765
+    initial_risk_atr: 2.0
+    scale_shift:
+      default_tracking: bb_mid_240h + 0.5 * std_240h
+      intermediate_shift_trigger: reached bb_lower_240h and afs_7 > afs_9
+      intermediate_tracking: bb_mid_80h + 0.5 * std_80h
+      extreme_shift_trigger: reached bb_lower_480h and afs_7 > afs_9
+      extreme_tracking: bb_mid_20h + 0.5 * std_20h
 hypotheses:
   HYP-111-1: ACCEPTED
   HYP-111-2: ACCEPTED
