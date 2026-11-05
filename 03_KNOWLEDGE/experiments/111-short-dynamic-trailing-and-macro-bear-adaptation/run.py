@@ -222,7 +222,12 @@ def load_data_and_features():
 # ==============================================================================
 def simulate_dynamic_short(events, df_1h, df_1m,
                            struct_mode='regime_adaptive',  # 'uniform_intermediate' or 'regime_adaptive'
-                           initial_risk_atr=2.0):
+                           buf_atr_lockin=0.8,
+                           buf_atr_normal=0.8,
+                           arm_depth_atr=0.5,
+                           initial_risk_atr=2.5,
+                           base_stop_floor_atr=1.0,
+                           ratchet_tiers=[(3.5, 1.0), (5.5, 2.5), (8.0, 4.5), (12.0, 8.0)]):
     trades = []
     discovery_end = df_1m.index[-1]
 
@@ -245,38 +250,58 @@ def simulate_dynamic_short(events, df_1h, df_1m,
         sub_closes = sub_1m['close'].values
         n_bars = len(sub_1m)
 
-        # Directive 1: Safety stop floor outside p0
-        std_80_0 = (df_1h['bb_upper_80h'].loc[t0] - df_1h['bb_mid_80h'].loc[t0]) / 2.0
-        base_stop = max(df_1h['bb_upper_80h'].loc[t0], df_1h['sma_34'].loc[t0] + 2.0 * std_80_0, p0 + initial_risk_atr * atr0)
-
-        armed = False
-        reached_env_240 = False
-        reached_env_480 = False
-        trail_stop = 999999.0
         max_mfe_atr = 0.0
         exited = False
+
+        row_0 = df_1h.loc[t0]
+        cur_sma34 = row_0['sma_34']
+        atr_cur = atr0
+
+        is_lockin = bool(row_0['is_mtf_lockin_bear'])
+        if struct_mode == 'regime_adaptive':
+            struct_col = 'bb_mid_240h' if is_lockin else 'bb_mid_80h'
+            buf_atr = buf_atr_lockin if is_lockin else buf_atr_normal
+        else:
+            struct_col = 'bb_mid_80h'
+            buf_atr = buf_atr_normal
+
+        cur_struct = row_0[struct_col]
+        armed = (p0 < cur_struct - arm_depth_atr * atr0)
+        current_ratchet_stop = 999999.0
 
         for i in range(n_bars):
             t_bar = sub_times[i]
             elapsed_h = (t_bar - entry_time).total_seconds() / 3600.0
 
-            # Directive 1: Structural Invalidation on 1h bar update when un-armed
+            # Fix Bug 1: Causal 1h bar update (Strictly no intra-hour lookahead)
             if i % 60 == 0 and i > 0:
                 t_1h = (t_bar - pd.Timedelta(hours=1)).floor("1h")
                 if t_1h in df_1h.index:
                     row_1h = df_1h.loc[t_1h]
-                    if not armed:
-                        if row_1h['close'] > row_1h['bb_mid_20h'] and row_1h['bb_slope_20h'] > 0 and row_1h['afs_order_score_bear'] == 0:
-                            dur_h = float(np.round(elapsed_h, 2))
-                            trades.append({
-                                't0': t0, 'entry_time': entry_time, 'exit_time': t_bar, 'period': p_era,
-                                'p0': p0, 'exit_p': sub_opens[i], 'net_ret': (p0 - sub_opens[i])/p0 - FRICTION_BPS,
-                                'duration_h': dur_h, 'exit': 'structural_invalidation',
-                                'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'short', 'side': 'short',
-                                'struct_mode': struct_mode
-                            })
-                            exited = True
-                            break
+                    cur_sma34 = row_1h['sma_34']
+                    is_lockin = bool(row_1h['is_mtf_lockin_bear'])
+                    if struct_mode == 'regime_adaptive':
+                        struct_col = 'bb_mid_240h' if is_lockin else 'bb_mid_80h'
+                        buf_atr = buf_atr_lockin if is_lockin else buf_atr_normal
+                    else:
+                        struct_col = 'bb_mid_80h'
+                        buf_atr = buf_atr_normal
+                    cur_struct = row_1h[struct_col]
+                    atr_cur = row_1h['atr_24']
+
+                    # Structural invalidation when un-armed (Decoupled from clock timer)
+                    if not armed and row_1h['close'] > row_1h['bb_mid_20h'] and row_1h['bb_slope_20h'] > 0 and row_1h['afs_order_score_bear'] == 0:
+                        dur_h = float(np.round((i + 1) / 60.0, 2))
+                        t_exit = t_bar + pd.Timedelta(minutes=1)
+                        trades.append({
+                            't0': t0, 'entry_time': entry_time, 'exit_time': t_exit, 'period': p_era,
+                            'p0': p0, 'exit_p': sub_opens[i], 'net_ret': (p0 - sub_opens[i])/p0 - FRICTION_BPS,
+                            'duration_h': dur_h, 'exit': 'structural_invalidation',
+                            'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'short', 'side': 'short',
+                            'is_lockin': is_lockin, 'struct_mode': struct_mode
+                        })
+                        exited = True
+                        break
 
             cur_high = sub_highs[i]
             cur_low = sub_lows[i]
@@ -286,57 +311,43 @@ def simulate_dynamic_short(events, df_1h, df_1m,
             if cur_mfe > max_mfe_atr:
                 max_mfe_atr = cur_mfe
 
-            t_1h_cur = t_bar.floor('1h')
-            row_cur = df_1h.loc[t_1h_cur] if t_1h_cur in df_1h.index else df_1h.loc[t0]
+            # 1. Base safety floor stop strictly outside p0
+            base_stop = max(cur_sma34 + 5.0 * atr_cur, p0 + base_stop_floor_atr * atr0)
 
-            std_20 = (row_cur['bb_upper_20h'] - row_cur['bb_mid_20h']) / 2.0
-            std_80 = (row_cur['bb_upper_80h'] - row_cur['bb_mid_80h']) / 2.0
-            std_240 = (row_cur['bb_upper_240h'] - row_cur['bb_mid_240h']) / 2.0
+            # 2. Initial risk stop before arming
+            initial_stop = p0 + initial_risk_atr * atr0 if (not armed and initial_risk_atr is not None) else 999999.0
 
-            if not armed and cur_low <= row_cur['bb_mid_240h'] - 0.5 * std_240:
-                armed = True
+            # 3. Dynamic ratchet
+            for trig, lck in ratchet_tiers:
+                if max_mfe_atr >= trig:
+                    cand = p0 - lck * atr0
+                    current_ratchet_stop = min(current_ratchet_stop, cand)
 
-            if armed:
-                if cur_low <= row_cur['bb_lower_240h']:
-                    reached_env_240 = True
-                if cur_low <= row_cur['bb_lower_480h']:
-                    reached_env_480 = True
+            # 4. Structure trailing stop
+            struct_stop = cur_struct + buf_atr * atr_cur if armed else base_stop
+            effective_stop = min(base_stop, initial_stop, current_ratchet_stop, struct_stop)
 
-                afs_reversal = (row_cur['afs_7'] > row_cur['afs_9'])
-
-                # Directive 2: Dynamic Scale Shift (Parent 240h -> Intermediate 80h -> Short 20h)
-                if struct_mode == 'regime_adaptive':
-                    if reached_env_480 and afs_reversal:
-                        cand_stop = row_cur['bb_mid_20h'] + 0.5 * std_20
-                    elif reached_env_240 and afs_reversal:
-                        cand_stop = row_cur['bb_mid_80h'] + 0.5 * std_80
-                    else:
-                        cand_stop = row_cur['bb_mid_240h'] + 0.5 * std_240
-                else: # uniform_intermediate
-                    if reached_env_240 and afs_reversal:
-                        cand_stop = row_cur['bb_mid_80h'] + 0.5 * std_80
-                    else:
-                        cand_stop = row_cur['bb_mid_80h'] + 0.5 * std_80
-
-                if cand_stop > cur_high:
-                    trail_stop = min(trail_stop, cand_stop)
-
-            effective_stop = min(base_stop, trail_stop)
-
-            # Direct stop hit verification without if i > 0
+            # Exit on stop hit / structure reclaim (evaluated directly)
             if cur_high >= effective_stop:
-                dur_h = float(np.round(elapsed_h, 2))
+                dur_h = float(np.round((i + 1) / 60.0, 2))
+                t_exit = t_bar + pd.Timedelta(minutes=1)
                 p_exit = max(cur_open, effective_stop)
-                exit_type = 'struct_exit' if effective_stop == trail_stop else 'stop_hit'
+                exit_type = 'struct_exit' if effective_stop == struct_stop else (
+                    'ratchet_lock' if effective_stop == current_ratchet_stop else 'stop_hit'
+                )
                 trades.append({
-                    't0': t0, 'entry_time': entry_time, 'exit_time': t_bar, 'period': p_era,
+                    't0': t0, 'entry_time': entry_time, 'exit_time': t_exit, 'period': p_era,
                     'p0': p0, 'exit_p': p_exit, 'net_ret': (p0 - p_exit)/p0 - FRICTION_BPS,
                     'duration_h': dur_h, 'exit': exit_type,
                     'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'short', 'side': 'short',
-                    'struct_mode': struct_mode
+                    'is_lockin': is_lockin, 'struct_mode': struct_mode
                 })
                 exited = True
                 break
+
+            # Arming promotion evaluated AFTER stop check to prevent intra-bar instant stop hit
+            if not armed and cur_low <= cur_struct - arm_depth_atr * atr_cur:
+                armed = True
 
         if not exited:
             dur_h = float(np.round((sub_times[-1] - entry_time).total_seconds() / 3600.0, 2))
@@ -345,7 +356,7 @@ def simulate_dynamic_short(events, df_1h, df_1m,
                 'p0': p0, 'exit_p': sub_closes[-1], 'net_ret': (p0 - sub_closes[-1])/p0 - FRICTION_BPS,
                 'duration_h': dur_h, 'exit': 'discovery_end',
                 'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'short', 'side': 'short',
-                'struct_mode': struct_mode
+                'is_lockin': is_lockin, 'struct_mode': struct_mode
             })
 
     return trades
@@ -353,7 +364,8 @@ def simulate_dynamic_short(events, df_1h, df_1m,
 # ==============================================================================
 # Plunge Short Simulation with Unified Scale Shift (Directive 2)
 # ==============================================================================
-def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765', initial_risk_atr=2.0):
+def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765', stop_atr=2.5,
+                                    ratchet_tiers=[(3.5, 1.0), (5.5, 2.5), (8.0, 4.5), (12.0, 8.0)]):
     trades = []
     events_decl = exp95.decluster_events(events, cooldown_bars=24)
     event_idx = df_1h.index[events_decl]
@@ -368,39 +380,54 @@ def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765
         if path_1m.empty or len(path_1m) < 60:
             continue
         entry_price = float(path_1m['open'].iloc[0])
-        atr = float(df_1h['atr_24'].loc[t0])
+        atr0 = float(df_1h['atr_24'].loc[t0])
         target_price = float(df_1h[target_sma_col].loc[t0])
         p_era = exp95.get_period(t0)
         exited = False
         max_mfe_atr = 0.0
+        current_ratchet_stop = 999999.0
+        cur_mid_240 = float(df_1h['bb_mid_240h'].loc[t0])
+        atr_cur = atr0
 
-        base_stop = max(df_1h['bb_upper_80h'].loc[t0], entry_price + initial_risk_atr * atr)
-
-        reached_env_240 = False
-        reached_env_480 = False
-        trail_stop = 999999.0
-
+        bar_count = 0
         for bar_idx, row in path_1m.iterrows():
             high = float(row['high'])
             low = float(row['low'])
             cur_open = float(row['open'])
             elapsed_h = (bar_idx - t_entry).total_seconds() / 3600.0
 
-            mfe_atr = (entry_price - low) / atr
+            # Fix Bug 1: Causal 1h bar update (Strictly no intra-hour lookahead)
+            if bar_count % 60 == 0 and bar_count > 0:
+                t_1h = (bar_idx - pd.Timedelta(hours=1)).floor("1h")
+                if t_1h in df_1h.index:
+                    cur_mid_240 = float(df_1h['bb_mid_240h'].loc[t_1h])
+                    atr_cur = float(df_1h['atr_24'].loc[t_1h])
+            bar_count += 1
+
+            mfe_atr = (entry_price - low) / atr0
             if mfe_atr > max_mfe_atr:
                 max_mfe_atr = mfe_atr
 
-            t_1h = bar_idx.floor('1h')
-            row_cur = df_1h.loc[t_1h] if t_1h in df_1h.index else df_1h.loc[t0]
+            base_stop = entry_price + stop_atr * atr0
 
-            std_20 = (row_cur['bb_upper_20h'] - row_cur['bb_mid_20h']) / 2.0
-            std_80 = (row_cur['bb_upper_80h'] - row_cur['bb_mid_80h']) / 2.0
-            std_240 = (row_cur['bb_upper_240h'] - row_cur['bb_mid_240h']) / 2.0
+            for trig, lck in ratchet_tiers:
+                if max_mfe_atr >= trig:
+                    cand = entry_price - lck * atr0
+                    current_ratchet_stop = min(current_ratchet_stop, cand)
 
+            if max_mfe_atr >= 3.5:
+                struct_stop = cur_mid_240 + 0.5 * atr_cur
+            else:
+                struct_stop = 999999.0
+
+            effective_stop = min(base_stop, current_ratchet_stop, struct_stop)
+
+            # 1. Target hit (Deepest parent scale SMA 6765)
             if low <= target_price:
-                dur_h = float(np.round(elapsed_h, 2))
+                dur_h = float(np.round(bar_count / 60.0, 2))
+                t_exit = bar_idx + pd.Timedelta(minutes=1)
                 trades.append({
-                    't0': t0, 'entry_time': t_entry, 'exit_time': bar_idx, 'period': p_era,
+                    't0': t0, 'entry_time': t_entry, 'exit_time': t_exit, 'period': p_era,
                     'p0': entry_price, 'exit_p': target_price,
                     'net_ret': (entry_price - target_price)/entry_price - FRICTION_BPS,
                     'duration_h': dur_h, 'exit': 'target_hit',
@@ -409,32 +436,16 @@ def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765
                 exited = True
                 break
 
-            if low <= row_cur['bb_lower_240h']:
-                reached_env_240 = True
-            if low <= row_cur['bb_lower_480h']:
-                reached_env_480 = True
-
-            afs_reversal = (row_cur['afs_7'] > row_cur['afs_9'])
-
-            # Unified Scale Shift for Plunge Short
-            if reached_env_480 and afs_reversal:
-                cand_stop = row_cur['bb_mid_20h'] + 0.5 * std_20
-            elif reached_env_240 and afs_reversal:
-                cand_stop = row_cur['bb_mid_80h'] + 0.5 * std_80
-            else:
-                cand_stop = row_cur['bb_mid_240h'] + 0.5 * std_240
-
-            if cand_stop > high:
-                trail_stop = min(trail_stop, cand_stop)
-
-            effective_stop = min(base_stop, trail_stop)
-
+            # 2. Stop hit / Trailing stop
             if high >= effective_stop:
-                dur_h = float(np.round(elapsed_h, 2))
+                dur_h = float(np.round(bar_count / 60.0, 2))
+                t_exit = bar_idx + pd.Timedelta(minutes=1)
                 p_exit = max(cur_open, effective_stop)
-                exit_type = 'struct_exit' if effective_stop == trail_stop else 'stop_hit'
+                exit_type = 'ratchet_lock' if effective_stop == current_ratchet_stop else (
+                    'struct_exit' if effective_stop == struct_stop else 'stop_hit'
+                )
                 trades.append({
-                    't0': t0, 'entry_time': t_entry, 'exit_time': bar_idx, 'period': p_era,
+                    't0': t0, 'entry_time': t_entry, 'exit_time': t_exit, 'period': p_era,
                     'p0': entry_price, 'exit_p': p_exit,
                     'net_ret': (entry_price - p_exit)/entry_price - FRICTION_BPS,
                     'duration_h': dur_h, 'exit': exit_type,
@@ -459,8 +470,10 @@ def simulate_plunge_short_dynamic(events, df_1h, df_1m, target_sma_col='sma_6765
 # Structural Long Simulation with Dynamic Overhead Resistance (Directive 1 & 3)
 # ==============================================================================
 def simulate_adaptive_long(events, df_1h, df_1m,
+                           parent_line_col='bb_mid_240h',
+                           parent_buf_atr=1.0,
                            enable_overhead_resistance_adaptation=True,
-                           initial_risk_atr=2.0):
+                           initial_risk_atr=3.0):
     trades = []
     discovery_end = df_1m.index[-1]
 
@@ -483,36 +496,49 @@ def simulate_adaptive_long(events, df_1h, df_1m,
         sub_closes = sub_1m['close'].values
         n_bars = len(sub_1m)
 
-        # Directive 1: Safety stop floor outside p0
-        std_80_0 = (df_1h['bb_upper_80h'].loc[t0] - df_1h['bb_mid_80h'].loc[t0]) / 2.0
-        base_stop = min(df_1h['bb_lower_80h'].loc[t0], df_1h['sma_34'].loc[t0] - 2.0 * std_80_0, p0 - initial_risk_atr * atr0)
-
-        parent_armed = False
-        reached_env_240 = False
-        trail_stop = -999999.0
         max_mfe_atr = 0.0
         exited = False
+
+        row_0 = df_1h.loc[t0]
+        cur_sma34 = row_0['sma_34']
+        cur_parent_line = row_0[parent_line_col]
+        cur_bb_mid_80 = row_0['bb_mid_80h']
+        cur_lockin = bool(row_0['is_mtf_lockin_bull'])
+        cur_squeeze = bool(row_0['is_true_squeeze'])
+        atr_cur = atr0
+
+        parent_armed = (p0 > cur_parent_line - parent_buf_atr * atr0)
+        current_ratchet_stop = -999999.0
+        current_rapid_stop = -999999.0
 
         for i in range(n_bars):
             t_bar = sub_times[i]
             elapsed_h = (t_bar - entry_time).total_seconds() / 3600.0
 
-            # Directive 1: Structural Invalidation on 1h bar update when un-armed
+            # Fix Bug 1: Causal 1h bar update (Strictly no intra-hour lookahead)
             if i % 60 == 0 and i > 0:
                 t_1h = (t_bar - pd.Timedelta(hours=1)).floor("1h")
                 if t_1h in df_1h.index:
                     row_1h = df_1h.loc[t_1h]
-                    if not parent_armed:
-                        if row_1h['close'] < row_1h['bb_mid_20h'] and row_1h['bb_slope_20h'] < 0 and row_1h['afs_order_score'] == 0:
-                            dur_h = float(np.round(elapsed_h, 2))
-                            trades.append({
-                                't0': t0, 'entry_time': entry_time, 'exit_time': t_bar, 'period': p_era,
-                                'p0': p0, 'exit_p': sub_opens[i], 'net_ret': (sub_opens[i] - p0)/p0 - FRICTION_BPS,
-                                'duration_h': dur_h, 'exit': 'structural_invalidation',
-                                'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'long', 'side': 'long'
-                            })
-                            exited = True
-                            break
+                    cur_sma34 = row_1h['sma_34']
+                    cur_parent_line = row_1h[parent_line_col]
+                    cur_bb_mid_80 = row_1h['bb_mid_80h']
+                    cur_lockin = bool(row_1h['is_mtf_lockin_bull'])
+                    cur_squeeze = bool(row_1h['is_true_squeeze'])
+                    atr_cur = row_1h['atr_24']
+
+                    # Structural invalidation when un-armed (Decoupled from clock timer)
+                    if not parent_armed and row_1h['close'] < row_1h['bb_mid_20h'] and row_1h['bb_slope_20h'] < 0 and row_1h['afs_order_score'] == 0:
+                        dur_h = float(np.round((i + 1) / 60.0, 2))
+                        t_exit = t_bar + pd.Timedelta(minutes=1)
+                        trades.append({
+                            't0': t0, 'entry_time': entry_time, 'exit_time': t_exit, 'period': p_era,
+                            'p0': p0, 'exit_p': sub_opens[i], 'net_ret': (sub_opens[i] - p0)/p0 - FRICTION_BPS,
+                            'duration_h': dur_h, 'exit': 'structural_invalidation',
+                            'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'long', 'side': 'long'
+                        })
+                        exited = True
+                        break
 
             cur_high = sub_highs[i]
             cur_low = sub_lows[i]
@@ -522,51 +548,73 @@ def simulate_adaptive_long(events, df_1h, df_1m,
             if cur_mfe > max_mfe_atr:
                 max_mfe_atr = cur_mfe
 
-            t_1h_cur = t_bar.floor('1h')
-            row_cur = df_1h.loc[t_1h_cur] if t_1h_cur in df_1h.index else df_1h.loc[t0]
-
-            std_20 = (row_cur['bb_upper_20h'] - row_cur['bb_mid_20h']) / 2.0
-            std_80 = (row_cur['bb_upper_80h'] - row_cur['bb_mid_80h']) / 2.0
-            std_240 = (row_cur['bb_upper_240h'] - row_cur['bb_mid_240h']) / 2.0
-
-            # Arming condition: price reclaims parent line
-            if not parent_armed and cur_high >= row_cur['bb_mid_240h'] - 0.5 * std_240:
+            # Promotion to parent structure trailing
+            if not parent_armed and cur_high >= cur_parent_line:
                 parent_armed = True
 
+            # 1. Base stop floor (sma_34 - 5.0 ATR)
+            base_stop = cur_sma34 - 5.0 * atr_cur
+
+            # 2. Initial risk stop before parent line reclaim
+            if not parent_armed and initial_risk_atr is not None:
+                initial_stop = p0 - initial_risk_atr * atr0
+            else:
+                initial_stop = -999999.0
+
+            # 3. Dynamic Overhead Resistance vs Open Vacuum (Anti-Dogma Directive 3)
+            t_1h_look = (t_bar - pd.Timedelta(hours=1)).floor("1h")
+            row_chk = df_1h.loc[t_1h_look] if t_1h_look in df_1h.index else df_1h.loc[t0]
+            is_overhead_blocked = (row_chk['bb_mid_240h'] < row_chk['bb_mid_480h']) and (row_chk['bb_slope_480h'] < 0) and (row_chk['close'] < row_chk['bb_mid_480h'])
+            afs_peak = (row_chk['afs_7'] < row_chk['afs_9'])
+
+            is_range_regime = cur_squeeze and (not cur_lockin)
+
+            if enable_overhead_resistance_adaptation and is_overhead_blocked:
+                # Constrained by overhead descending parent line (Mean Reversion mode, e.g. 2022 bear market)
+                tiers = [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)]
+                hit_res = (cur_high >= cur_parent_line or cur_high >= row_chk['bb_upper_80h'])
+                if hit_res and afs_peak and max_mfe_atr >= 1.0:
+                    current_rapid_stop = max(current_rapid_stop, row_chk['bb_mid_20h'] - 0.5 * atr_cur)
+                elif max_mfe_atr >= 2.5:
+                    current_rapid_stop = max(current_rapid_stop, cur_bb_mid_80 - 0.5 * atr_cur)
+            elif is_range_regime:
+                # Squeeze regime (K-058)
+                tiers = [(3.0, 1.0), (4.2, 2.2), (6.0, 3.5), (8.0, 5.0)]
+                if max_mfe_atr >= 2.5:
+                    current_rapid_stop = max(current_rapid_stop, cur_bb_mid_80 - 0.5 * atr_cur)
+            else:
+                # Expansion / Trend riding regime (Headroom vacuum open, e.g. 2023 breakout)
+                tiers = [(3.5, 1.0), (5.5, 2.5), (8.0, 4.5)]
+
+            for trig_mfe, lock_atr in tiers:
+                if max_mfe_atr >= trig_mfe:
+                    current_ratchet_stop = max(current_ratchet_stop, p0 + lock_atr * atr0)
+
+            # 4. Parent structure trailing
             if parent_armed:
-                # Directive 3: Dynamic Overhead Resistance Constraint
-                is_overhead_blocked = (row_cur['bb_mid_240h'] < row_cur['bb_mid_480h']) and (row_cur['bb_slope_480h'] < 0) and (row_cur['close'] < row_cur['bb_mid_480h'])
-                afs_peak = (row_cur['afs_7'] < row_cur['afs_9'])
+                struct_stop = cur_parent_line - parent_buf_atr * atr_cur
+            else:
+                struct_stop = base_stop
 
-                if enable_overhead_resistance_adaptation and is_overhead_blocked:
-                    # Constrained by overhead descending parent line (Mean Reversion mode)
-                    hit_overhead_res = (cur_high >= row_cur['bb_mid_240h'] or cur_high >= row_cur['bb_upper_80h'])
-                    if hit_overhead_res and afs_peak:
-                        cand_stop = row_cur['bb_mid_20h'] - 0.5 * std_20
-                    else:
-                        cand_stop = row_cur['bb_mid_80h'] - 0.5 * std_80
-                else:
-                    # Vacuum open (Trend riding mode, e.g. 2023 breakout)
-                    if cur_high >= row_cur['bb_upper_240h']:
-                        reached_env_240 = True
+            effective_stop = max(base_stop, initial_stop, current_ratchet_stop, struct_stop, current_rapid_stop)
 
-                    if reached_env_240 and afs_peak:
-                        cand_stop = row_cur['bb_mid_80h'] - 0.5 * std_80
-                    else:
-                        cand_stop = row_cur['bb_mid_240h'] - 0.5 * std_240
-
-                if cand_stop < cur_low:
-                    trail_stop = max(trail_stop, cand_stop)
-
-            effective_stop = max(base_stop, trail_stop)
-
-            # Direct stop hit verification without if i > 0
             if cur_low <= effective_stop:
-                dur_h = float(np.round(elapsed_h, 2))
+                dur_h = float(np.round((i + 1) / 60.0, 2))
+                t_exit = t_bar + pd.Timedelta(minutes=1)
                 p_exit = min(cur_open, effective_stop)
-                exit_type = 'struct_exit' if effective_stop == trail_stop else 'stop_hit'
+                if effective_stop == current_rapid_stop and current_rapid_stop > max(base_stop, initial_stop, current_ratchet_stop, struct_stop):
+                    exit_type = 'rapid_4h_mid_stop'
+                elif effective_stop == current_ratchet_stop and current_ratchet_stop > max(base_stop, initial_stop, struct_stop):
+                    exit_type = 'regime_ratchet_lock'
+                elif effective_stop == struct_stop and struct_stop > max(base_stop, initial_stop):
+                    exit_type = 'parent_scale_exit'
+                elif effective_stop == initial_stop and initial_stop > base_stop:
+                    exit_type = 'initial_risk_stop'
+                else:
+                    exit_type = 's3_stop'
+
                 trades.append({
-                    't0': t0, 'entry_time': entry_time, 'exit_time': t_bar, 'period': p_era,
+                    't0': t0, 'entry_time': entry_time, 'exit_time': t_exit, 'period': p_era,
                     'p0': p0, 'exit_p': p_exit, 'net_ret': (p_exit - p0)/p0 - FRICTION_BPS,
                     'duration_h': dur_h, 'exit': exit_type,
                     'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'long', 'side': 'long'
@@ -658,6 +706,7 @@ def main():
     )
     trades_short_master_all = sorted(trades_short_master_sym + trades_plunge_dyn, key=lambda x: x['entry_time'])
 
+    # Assert genuine positive duration and causal validity on all trades (Directive 1)
     # Assert genuine positive duration and causal validity on all trades (Directive 1)
     assert all(t['duration_h'] > 0 for t in trades_short_master_all), "Error: Non-positive duration short trade detected!"
     assert all(t['exit_time'] > t['entry_time'] for t in trades_short_master_all), "Error: Short exit_time <= entry_time detected!"
