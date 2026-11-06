@@ -518,6 +518,72 @@ def simulate_multiscale_plunge_short(events, df_1h, df_1m):
 # Main Orchestration & Audit Pipeline
 # ==============================================================================
 
+def compute_scale_crossing_returns(events, df_1h, df_1m, direction='long', min_mfe_atr=2.5, scales=[233, 144, 89, 55, 34, 21]):
+    """
+    Dynamically compute the mean realized net return if exiting upon crossing each Fibonacci scale SMA post-peak.
+    Evaluates trades with significant excursion (MFE >= min_mfe_atr).
+    """
+    scale_returns = {s: [] for s in scales}
+    for t0 in events:
+        entry_time = t0 + pd.Timedelta(hours=1)
+        if entry_time not in df_1h.index:
+            continue
+        atr0 = df_1h.loc[t0, 'atr_24']
+        p0 = df_1m.loc[entry_time, 'open']
+        sub_1h = df_1h.loc[entry_time : entry_time + pd.Timedelta(hours=350)]
+        if len(sub_1h) < 24:
+            continue
+
+        if direction == 'long':
+            peak_price = p0
+            peak_time = entry_time
+            for t_bar, row in sub_1h.iterrows():
+                if row['high'] > peak_price:
+                    peak_price = row['high']
+                    peak_time = t_bar
+            mfe_atr = (peak_price - p0) / atr0
+            if mfe_atr < min_mfe_atr:
+                continue
+            post_peak = sub_1h.loc[peak_time:]
+            for s in scales:
+                crossed = False
+                col_sma = f'sma_{s}'
+                for t_bar, row in post_peak.iterrows():
+                    if row['close'] < row[col_sma]:
+                        ret = (row['close'] - p0) / p0 * 100.0 - 0.40
+                        scale_returns[s].append(ret)
+                        crossed = True
+                        break
+                if not crossed:
+                    ret = (post_peak['close'].iloc[-1] - p0) / p0 * 100.0 - 0.40
+                    scale_returns[s].append(ret)
+        else:  # short
+            lowest_price = p0
+            lowest_time = entry_time
+            for t_bar, row in sub_1h.iterrows():
+                if row['low'] < lowest_price:
+                    lowest_price = row['low']
+                    lowest_time = t_bar
+            mfe_atr = (p0 - lowest_price) / atr0
+            if mfe_atr < min_mfe_atr:
+                continue
+            post_peak = sub_1h.loc[lowest_time:]
+            for s in scales:
+                crossed = False
+                col_sma = f'sma_{s}'
+                for t_bar, row in post_peak.iterrows():
+                    if row['close'] > row[col_sma]:
+                        ret = (p0 - row['close']) / p0 * 100.0 - 0.40
+                        scale_returns[s].append(ret)
+                        crossed = True
+                        break
+                if not crossed:
+                    ret = (p0 - post_peak['close'].iloc[-1]) / p0 * 100.0 - 0.40
+                    scale_returns[s].append(ret)
+
+    mean_returns = [float(np.mean(scale_returns[s])) if scale_returns[s] else 0.0 for s in scales]
+    return mean_returns
+
 def main():
     print("=" * 80)
     print("EXP-113: Continuous Multi-Scale Anchor Shift Verification Pipeline")
@@ -672,12 +738,13 @@ def main():
     plt.close()
     print("  -> Saved plots/fig1_ratchet_spatial_gap_profiling.png")
 
-    # Plot 2: Multi-Scale Anchor Shift Geometry
+    # Plot 2: Multi-Scale Anchor Shift Geometry (Dynamically Computed)
     fig, ax = plt.subplots(figsize=(10, 5))
+    scales_order = [233, 144, 89, 55, 34, 21]
     x_scales = [1, 2, 3, 4, 5, 6]
     scale_names = ['$S_{233}$ (Parent)', '$S_{144}$', '$S_{89}$ (Mid)', '$S_{55}$', '$S_{34}$ (Short)', '$S_{21}$']
-    lag_atr = [8.24, 8.52, 9.44, 9.80, 10.13, 10.42]  # Long realized return by scale cross
-    short_lag_atr = [2.61, 3.64, 3.95, 4.81, 5.24, 6.19]  # Short realized return by scale cross
+    lag_atr = compute_scale_crossing_returns(long_events, df_1h, df_1m, direction='long', scales=scales_order)
+    short_lag_atr = compute_scale_crossing_returns(events_short_master, df_1h, df_1m, direction='short', scales=scales_order)
 
     ax.plot(x_scales, lag_atr, marker='o', linewidth=2.5, color='#1f77b4', label='Long Realized Return at Cross (Mean %)')
     ax.plot(x_scales, short_lag_atr, marker='s', linewidth=2.5, color='#d62728', label='Short Realized Return at Cross (Mean %)')
