@@ -4,7 +4,7 @@
 **Version:** 2.6.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-11-05  
+**Last Updated:** 2026-11-06  
 **Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
@@ -207,7 +207,7 @@ graph TD
     EXP109 --> K059
     K057 --> K058
     K057 --> K059
-    K060["K-060: ショート動的構造線トレール＆親スケール相対性<br/>(Supported)"]:::supported
+    K060["K-060: ショート動的構造線トレール＆親スケール相対性<br/>(Inconclusive)"]:::inconclusive
     K061["K-061: 大局完全ベア相場ロング初期リスク適応制御<br/>(Supported)"]:::supported
     K050 --> K060
     K057 --> K060
@@ -890,6 +890,8 @@ graph TD
   1. **時間タイマーの完全撤廃と因果律厳格化**: 72h強制決済タイマーを完全撤廃。確定足参照（`(t_bar - pd.Timedelta(hours=1)).floor("1h")`）により未来参照リークを排除。保有時間を `dur_h = (i + 1) / 60.0` と定義し、初期防衛線を約定価格の保護側外側に配置することで初足の即死判定（`duration_h <= 0`）を物理的に完全根絶（全取引で `duration_h > 0` かつ `exit_time > entry_time` をアサーション検証通過）。
   2. **マクロレジーム動的構造線トレール**: マクロ下降相場（Lock-In Bear）時は240h親構造線、非Lock-In時は80h中間構造線を動的トレール。2021年5月の歴史的急落（2021-05-12 06:00 取引）を305時間追随して `+30.50%`（MFE 45.79 ATR）で完全捕捉。Plunge Shortでも多段階利益防衛ラチェットと10日線トレールにより、2023-08-18 取引の全戻し損切りを防止し `+0.87%` 利確。
   3. **工学的評価と制約付き判定**: 40bps控除後でショート単独累積純利益 `+90.54%`（PF `4.95`、Net Mean EV `+3.02%`、MaxDD `-6.66%`）と大幅黒字を達成したものの、事前登録基準（PF $\ge 6.00$、累積利益 $\ge +100.0\%$）に僅差で未達（EXP-109比 -16.06%pt）。したがって本知見は「制約付き知見（Inconclusive）」と判定し、今後の追試課題とする。
+  4. **多段階ラチェット（階段）が有効に機能する構造的本質**: 価格が急激に順行（ボラティリティ膨張・バンド外縁突破）した局面では、240h（10日）や80h（3.3日）の移動平均線（BB Mid）に大きな遅行ラグが生じるため、単一の親構造線のみを追随すると深い押し目・戻りで獲得利益の大半を吐き出す（Round-trip 現象）。多段階ラチェットは、「順行乖離（MFE）の拡大に応じて許容する戻りの深さ（Giveback幅）を段階的に引き締め、遅行する親構造線と現在価格の空間ギャップを埋める疑似的な多階層エンベロープ」として本質的に機能している。
+  5. **次課題への展望（汎用動的構造モデルへの昇華）**: 現在はエントリー価格 $p_0$ とエントリー時 $\text{ATR}_0$ を基準とした離散的な階段テーブルで近似しているが、この本質（「乖離拡大に伴う基準アンカーの引き締め」）を抽出し、進行中の動的ボラティリティ（各階層バンド幅 $\sigma_k$・現在ATR）および上位バンドからの空間乖離度に応じて、追随アンカーを親構造線から中間・短期構造線（または極値からの動的ボラティリティ幅）へ連続的・自律的にシフトさせる汎用構造モデルの構築を次なる研究課題とする。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md`](experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md) (EXP-111 / [#111](https://github.com/makagi/MTF_AI_Trade/issues/111))
 * **仕様への影響**: ショート側エグジット仕様から72h固定枠を完全撤廃。構造的無効化成行撤退および動的構造線トレールを探索的機能として記録。確定ベースラインは EXP-109 を維持。
