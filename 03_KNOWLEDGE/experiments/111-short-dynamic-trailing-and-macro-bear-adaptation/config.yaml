@@ -1,0 +1,67 @@
+experiment_id: EXP-111
+title: ショート側エグジットの幾何学的脱ドグマ（72h固定枠完全撤廃・親構造線動的トレール）と大局ベア相場ロング適応制御の検証
+date: 2026-11-05
+author: makagi
+status: COMPLETED
+decision: CONSTRAINED
+data:
+  symbol: BTCUSD
+  timeframes:
+  - 1h
+  - 1m
+  discovery_start: '2020-01-01 00:00:00'
+  discovery_end: '2025-04-30 23:59:59'
+  holdout_start: '2025-05-01 00:00:00'
+  friction_bps: 40.0
+parameters:
+  mtf_scales:
+    short_term_scale: 20h
+    intermediate_scale: 80h
+    parent_scale: 240h
+    macro_scale: 480h
+  short:
+    initial_risk_atr: 2.5
+    base_stop_floor_atr: 1.0
+    buffer_atr_lockin: 0.8
+    buffer_atr_normal: 0.8
+    arm_depth_atr: 0.5
+    ratchet_tiers:
+    - [3.5, 1.0]
+    - [5.5, 2.5]
+    - [8.0, 4.5]
+    - [12.0, 8.0]
+    structural_invalidation:
+      condition: close > bb_mid_20h and bb_slope_20h > 0 and afs_order_score_bear == 0
+  long:
+    initial_risk_atr: 3.0
+    parent_buffer_atr: 1.0
+    structural_invalidation:
+      condition: close < bb_mid_20h and bb_slope_20h < 0 and afs_order_score == 0
+    overhead_resistance_constraint:
+      condition: bb_mid_240h < bb_mid_480h and bb_slope_480h < 0 and close < bb_mid_480h
+      rapid_stop_trigger: (high >= bb_mid_240h or high >= bb_upper_80h) and afs_7 < afs_9 and max_mfe_atr >= 1.0
+      rapid_stop_tracking: bb_mid_20h - 0.5 * atr
+    ratchet_tiers_squeeze:
+    - [3.0, 1.0]
+    - [4.2, 2.2]
+    - [6.0, 3.5]
+    - [8.0, 5.0]
+    ratchet_tiers_trend:
+    - [3.5, 1.0]
+    - [5.5, 2.5]
+    - [8.0, 4.5]
+  plunge_short:
+    target_scale: sma_6765
+    initial_risk_atr: 2.5
+    ratchet_tiers:
+    - [3.5, 1.0]
+    - [5.5, 2.5]
+    - [8.0, 4.5]
+    - [12.0, 8.0]
+    parent_trail_mfe_trigger: 3.5
+    parent_trail_tracking: bb_mid_240h + 0.5 * atr
+hypotheses:
+  HYP-111-1: ACCEPTED
+  HYP-111-2: CONSTRAINED
+  HYP-111-3: ACCEPTED
+  HYP-111-4: CONSTRAINED
