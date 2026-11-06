@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 2.6.0  
+**Version:** 2.7.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-11-06  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -207,8 +207,10 @@ graph TD
     EXP109 --> K059
     K057 --> K058
     K057 --> K059
-    K060["K-060: ショート動的構造線トレール＆親スケール相対性<br/>(Inconclusive)"]:::inconclusive
+    K060["K-060: ショート動的構造線トレール＆階層アンカーシフト<br/>(Supported)"]:::supported
     K061["K-061: 大局完全ベア相場ロング初期リスク適応制御<br/>(Supported)"]:::supported
+    K062["K-062: 多段階ラチェットの構造的本質解明（疑似多階層エンベロープ）<br/>(Supported)"]:::supported
+    K063["K-063: 動的ボラティリティ連続アンカーシフト統合<br/>(Inconclusive)"]:::inconclusive
     K050 --> K060
     K057 --> K060
     K058 --> K060
@@ -216,6 +218,13 @@ graph TD
     K059 --> K061
     EXP111["EXP-111: 111-short-dynamic-trailing-and-macro-bear-adaptation"] --> K060
     EXP111 --> K061
+    K059 --> K062
+    K060 --> K062
+    K062 --> K063
+    K061 --> K063
+    EXP113["EXP-113: 113-continuous-anchor-shift-and-dynamic-envelope-exit"] --> K060
+    EXP113 --> K062
+    EXP113 --> K063
 ```
 
 ---
@@ -885,7 +894,7 @@ graph TD
 ---
 
 ### K-060: ショート側幾何学的動的構造線トレール＆階層スケールシフト（Short Dynamic Trailing & Envelope Scale Shift）
-* **ステータス**: **保留・観察中（Inconclusive / 制約付き知見）**
+* **ステータス**: **支持（Supported）**
 * **概要**: ショート側ポジションにおける72h固定強制決済タイマーを100%完全撤廃（0件）し、幾何学的動的構造線トレール体系を検証（EXP-111）：
   1. **時間タイマーの完全撤廃と因果律厳格化**: 72h強制決済タイマーを完全撤廃。確定足参照（`(t_bar - pd.Timedelta(hours=1)).floor("1h")`）により未来参照リークを排除。保有時間を `dur_h = (i + 1) / 60.0` と定義し、初期防衛線を約定価格の保護側外側に配置することで初足の即死判定（`duration_h <= 0`）を物理的に完全根絶（全取引で `duration_h > 0` かつ `exit_time > entry_time` をアサーション検証通過）。
   2. **マクロレジーム動的構造線トレール**: マクロ下降相場（Lock-In Bear）時は240h親構造線、非Lock-In時は80h中間構造線を動的トレール。2021年5月の歴史的急落（2021-05-12 06:00 取引）を305時間追随して `+30.50%`（MFE 45.79 ATR）で完全捕捉。Plunge Shortでも多段階利益防衛ラチェットと10日線トレールにより、2023-08-18 取引の全戻し損切りを防止し `+0.87%` 利確。
@@ -893,7 +902,9 @@ graph TD
   4. **多段階ラチェット（階段）が有効に機能する構造的本質**: 価格が急激に順行（ボラティリティ膨張・バンド外縁突破）した局面では、240h（10日）や80h（3.3日）の移動平均線（BB Mid）に大きな遅行ラグが生じるため、単一の親構造線のみを追随すると深い押し目・戻りで獲得利益の大半を吐き出す（Round-trip 現象）。多段階ラチェットは、「順行乖離（MFE）の拡大に応じて許容する戻りの深さ（Giveback幅）を段階的に引き締め、遅行する親構造線と現在価格の空間ギャップを埋める疑似的な多階層エンベロープ」として本質的に機能している。
   5. **次課題への展望（汎用動的構造モデルへの昇華）**: 現在はエントリー価格 $p_0$ とエントリー時 $\text{ATR}_0$ を基準とした離散的な階段テーブルで近似しているが、この本質（「乖離拡大に伴う基準アンカーの引き締め」）を抽出し、進行中の動的ボラティリティ（各階層バンド幅 $\sigma_k$・現在ATR）および上位バンドからの空間乖離度に応じて、追随アンカーを親構造線から中間・短期構造線（または極値からの動的ボラティリティ幅）へ連続的・自律的にシフトさせる汎用構造モデルの構築を次なる研究課題とする。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md`](experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md) (EXP-111 / [#111](https://github.com/makagi/MTF_AI_Trade/issues/111))
+  6. **EXP-113 における Supported 昇格実証**: EXP-113 において、下落進行空間とボラティリティに応じた「非対称動的エンベロープ（初期ブレークイーブン防衛＋連続ロック＋12 ATR超大相場呼吸幅10.5 ATR確保）」を導入。72h固定時間枠ゼロ（0件）のまま、ショート単独30件で **Net Mean EV `+3.63%`（要求 >= +3.50% 達成）、Profit Factor `6.40`（要求 >= 6.00 達成）、累積総純利益 `+108.86%`（要求 >= +100.0% 大台突破）、最大DD `-5.39%`** を達成し、正式に支持（Supported）へ昇格。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md`](experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md) (EXP-111 / [#111](https://github.com/makagi/MTF_AI_Trade/issues/111)), [`03_KNOWLEDGE/experiments/113-continuous-anchor-shift-and-dynamic-envelope-exit/record.md`](experiments/113-continuous-anchor-shift-and-dynamic-envelope-exit/record.md) (EXP-113 / [#113](https://github.com/makagi/MTF_AI_Trade/issues/113))
 * **仕様への影響**: ショート側エグジット仕様から72h固定枠を完全撤廃。構造的無効化成行撤退および動的構造線トレールを探索的機能として記録。確定ベースラインは EXP-109 を維持。
 
 ---
@@ -905,8 +916,34 @@ graph TD
   2. **ベア相場損失圧縮と大相場解放**: 単独アブレーション（Ablation 3）において、**Lifetime PF `4.02`（4.00大台突破！）**、通期総純利益 **`+405.62%`**、MaxDD **`-12.23%`**（EXP-109ベースラインより縮小）を記録。2022年の歴史的ベア相場におけるロング収支を `+5.30%` から `+10.85%` へ倍増させ、2023年大相場も `+57.08%`、2025年Holdout期も `+13.36%` とベースラインを上回る増益を達成。
   3. **EXP-111 Master ポートフォリオのガバナンス評価**: Master 統合（Mode A）では通期総純利益 `+389.57%`、PF `3.81`、Net Mean EV `+2.35%`、全6暦年完全黒字（2020: +140.82%, 2021: +167.25%, 2022: +6.28%, 2023: +52.40%, 2024: +10.06%, 2025: +12.76%）を達成。通期総純利益が EXP-109（`+412.92%`）に僅差未達となったため、Goalpost Shifting を厳禁し判定は `CONSTRAINED`。本番確定ベースラインは EXP-109 を維持。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md`](experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md) (EXP-111 / [#111](https://github.com/makagi/MTF_AI_Trade/issues/111))
+  6. **EXP-113 における Supported 昇格実証**: EXP-113 において、下落進行空間とボラティリティに応じた「非対称動的エンベロープ（初期ブレークイーブン防衛＋連続ロック＋12 ATR超大相場呼吸幅10.5 ATR確保）」を導入。72h固定時間枠ゼロ（0件）のまま、ショート単独30件で **Net Mean EV `+3.63%`（要求 >= +3.50% 達成）、Profit Factor `6.40`（要求 >= 6.00 達成）、累積総純利益 `+108.86%`（要求 >= +100.0% 大台突破）、最大DD `-5.39%`** を達成し、正式に支持（Supported）へ昇格。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md`](experiments/111-short-dynamic-trailing-and-macro-bear-adaptation/record.md) (EXP-111 / [#111](https://github.com/makagi/MTF_AI_Trade/issues/111)), [`03_KNOWLEDGE/experiments/113-continuous-anchor-shift-and-dynamic-envelope-exit/record.md`](experiments/113-continuous-anchor-shift-and-dynamic-envelope-exit/record.md) (EXP-113 / [#113](https://github.com/makagi/MTF_AI_Trade/issues/113))
 * **仕様への影響**: 動的上値抵抗帯制約（Overhead Resistance Constraint）をエグジット統括機構の有効な適応制御として支持。確定ベースラインは EXP-109 を維持し、EXP-111 は派生分析・制約付き採択として位置づける。
+
+---
+
+---
+
+### K-062: 多段階ラチェットの構造的本質解明（疑似多階層エンベロープと親構造線遅行ラグ補完）
+* **ステータス**: **支持（Supported）**
+* **概要**: EXP-109 / EXP-111 において利益防衛の柱を担っていた離散ラチェット（`ratchet_tiers`）がなぜ有効に機能していたのか、その幾何学的本質を定量プロファイリングにより解明（EXP-113）：
+  1. **親構造線の空間的遅行ラグの実証**: ラチェット決済時の親構造線乖離を計測した結果、現在価格は親構造線（`bb_mid_240h`）から平均 **`+4.88 ATR`（ロング）** および **`+7.24 ATR`（ショート）** も上方に置き去りにされていた。親構造線まで待つと含み益の 65%〜70% を吐き出す（Round-trip 現象）。
+  2. **疑似多階層エンベロープ機能**: ラチェット決済価格は、中間構造線（`bb_mid_80h`）〜短期構造線（`bb_mid_20h`）の直上（平均 `-0.07 ATR`）に位置していた。すなわち、多段階ラチェットは「価格が順行乖離するにつれて許容Giveback幅を引き締め、遅行する親構造線と現在価格の空間ギャップを埋める疑似多階層エンベロープ」として本質的に機能していたことを実証。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/113-continuous-anchor-shift-and-dynamic-envelope-exit/record.md`](experiments/113-continuous-anchor-shift-and-dynamic-envelope-exit/record.md) (EXP-113 / [#113](https://github.com/makagi/MTF_AI_Trade/issues/113))
+* **仕様への影響**: 離散ラチェットテーブルを「疑似多階層エンベロープ機構」として体系化。ボラティリティ進行型エンベロープ設計の理論的根拠として採用。
+
+---
+
+### K-063: 動的ボラティリティ連続アンカーシフト統合と大相場Giveback呼吸制御
+* **ステータス**: **保留・観察中（Inconclusive / 制約付き知見）**
+* **概要**: 多段階ラチェットの疑似エンベロープ特性を、ボラティリティ進行関数と階層アンカーシフト（`240h -> 80h -> 20h`）へ汎用化し、双方向マスター統合を検証（EXP-113）：
+  1. **ショート側での完全成立**: 進行ボラティリティ連動型エンベロープにより、ショート単独で Net EV `+3.63%`、PF `6.40`、累積総利益 `+108.86%`、MaxDD `-5.39%` を達成し、72h固定枠完全撤廃を実現。
+  2. **双方向統合マスターポートフォリオのガバナンス評価**: Master Alt Mode A において Net EV `+2.50%`（EXP-109 の `+2.49%` 超）、累積純利益 `+415.18%`（EXP-109 の `+412.92%` 超）、全6暦年完全黒字（2020: +139.74%, 2021: +180.98%, 2022: +3.68%, 2023: +50.97%, 2024: +27.30%, 2025: +12.52%）を達成。しかし、PF `3.81`（目標 `4.00` 未達）および MaxDD `-16.78%`（目標 `-12.40%` 未達）となったため、判定は `CONSTRAINED`。本番確定ベースラインは EXP-109 を維持。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/113-continuous-anchor-shift-and-dynamic-envelope-exit/record.md`](experiments/113-continuous-anchor-shift-and-dynamic-envelope-exit/record.md) (EXP-113 / [#113](https://github.com/makagi/MTF_AI_Trade/issues/113))
+* **仕様への影響**: 確定ベースラインは EXP-109 を維持。ショート側の動的エンベロープおよびロング側上値抵抗帯制約の精緻化を探索的アーキテクチャとして記録。
 
 ---
 
@@ -945,3 +982,4 @@ graph TD
 | 2026-11-04 | 2.4.0 | EXP-107 反映、72h固定枠撤廃・1h長期BB統一（K-056）、Lock-In親構造線無期限追随と早漏利確抑止（K-057）登録・計57知見へ拡充（N=166 Net EV +2.06% PF 3.05 総利益 +341.76%） | @makagi / [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#108](https://github.com/makagi/MTF_AI_Trade/pull/108) |
 | 2026-11-05 | 2.5.0 | EXP-109 反映、MTF BB幾何学的レジーム判別器（K-058）、スケール相対的エスカレーション＆多段階動的ラチェットエグジット（K-059）登録・計59知見へ拡充（N=166 Net EV +2.49% PF 3.83 Tot +412.92% MaxDD -12.40% 全6年プラス堅持） | @makagi / [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111) |
 | 2026-11-06 | 2.6.0 | EXP-111 是正反映、因果律厳格化・即死根絶・72h固定枠0件撤廃・ロング大局ベア適応K-061 Supported（Ablation 3 PF 4.02）・ショート動的トレールK-060 Inconclusive登録・計61知見へ拡充（Master N=166 Net EV +2.35% PF 3.81 Tot +389.57% 全6年黒字堅持・確定ベースラインはEXP-109維持） | @makagi / [#111](https://github.com/makagi/MTF_AI_Trade/issues/111) |
+| 2026-11-06 | 2.7.0 | EXP-113 反映、多段階ラチェット構造本質解明（K-062 Supported）、ショート動的トレール（K-060 Supported 昇格）、動的アンカーシフト統合（K-063 Inconclusive 登録・計63知見へ拡充・ショートPF 6.40 Tot +108.86%・確定ベースラインはEXP-109維持） | @makagi / [#113](https://github.com/makagi/MTF_AI_Trade/issues/113) |

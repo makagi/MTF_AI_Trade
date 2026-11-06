@@ -1,0 +1,69 @@
+experiment_id: EXP-113
+title: 多段階ラチェットの構造的本質（親構造線ラグ補完・疑似多階層エンベロープ）の解明と動的ボラティリティ連続アンカーシフトへの汎用化検証
+date: 2026-11-06
+author: makagi
+status: COMPLETED
+decision: CONSTRAINED
+data:
+  symbol: BTCUSD
+  timeframes:
+  - 1h
+  - 1m
+  discovery_start: '2020-01-01 00:00:00'
+  discovery_end: '2025-04-30 23:59:59'
+  holdout_start: '2025-05-01 00:00:00'
+  friction_bps: 40.0
+parameters:
+  mtf_scales:
+    short_term_scale: 20h
+    intermediate_scale: 80h
+    parent_scale: 240h
+    macro_scale: 480h
+  short:
+    initial_risk_atr: 2.5
+    base_stop_floor_atr: 1.0
+    buffer_atr_lockin: 0.8
+    buffer_atr_normal: 0.8
+    arm_depth_atr: 0.5
+    continuous_dynamic_envelope:
+      breakeven_mfe_trigger: 2.2
+      breakeven_lock_start_atr: -0.2
+      smooth_stages:
+      - [2.2, 3.5, -0.2, 1.0]
+      - [3.5, 5.5, 1.0, 2.5]
+      - [5.5, 8.0, 2.5, 4.5]
+      - [8.0, 12.0, 4.5, 7.5]
+      massive_trend_giveback_atr: 10.5
+    structural_invalidation:
+      condition: close > bb_mid_20h and bb_slope_20h > 0 and afs_order_score_bear == 0
+  long:
+    initial_risk_atr: 3.0
+    parent_buffer_atr: 1.0
+    overhead_resistance_constraint:
+      slope_threshold: -0.015
+      condition: close < bb_mid_480h and bb_slope_480h < -0.015
+      exit_condition: close < bb_mid_20h and bb_slope_20h < 0
+    structural_invalidation:
+      condition: close < bb_mid_20h and bb_slope_20h < 0 and afs_order_score == 0
+    continuous_dynamic_envelope:
+      squeeze_stages:
+      - [3.0, 4.2, 1.0, 2.2]
+      - [4.2, 6.0, 2.2, 3.5]
+      - [6.0, 8.0, 3.5, 5.0]
+      trend_stages:
+      - [3.5, 5.5, 1.0, 2.5]
+      - [5.5, 8.0, 2.5, 4.5]
+      - [8.0, 12.0, 4.5, 7.5]
+  plunge_short:
+    target_scale: sma_6765
+    initial_risk_atr: 2.5
+    ratchet_tiers:
+    - [3.5, 1.0]
+    - [5.5, 2.5]
+    - [8.0, 4.5]
+    - [12.0, 8.0]
+hypotheses:
+  HYP-113-1: ACCEPTED
+  HYP-113-2: ACCEPTED
+  HYP-113-3: CONSTRAINED
+  HYP-113-4: CONSTRAINED
