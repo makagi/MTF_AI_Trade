@@ -146,7 +146,8 @@ def simulate_exp115_long(events, df_1h, df_1m,
         else:
             armed = (p0 > cur_struct + 0.5 * atr0)
 
-        is_climax_entry = (abs(p0 - row_0['sma_233']) / atr0 > 5.0) or (abs(p0 - row_0['sma_610']) / atr0 > 8.0)
+        # Pure envelope climax entry check (no fixed scalar)
+        is_climax_entry = (p0 > row_0['bb_upper_233']) or (p0 > row_0['bb_upper_610'])
 
         highest_price = p0
         prev_afs_diff = row_0['afs_7'] - row_0['afs_9']
@@ -173,44 +174,64 @@ def simulate_exp115_long(events, df_1h, df_1m,
                     afs_reversal_cross = (prev_afs_diff >= 0 and now_afs_diff < 0)
 
                     trigger_shift = False
-                    if now_above_band and not prev_above_band and gap_to_anchor > 3.0:
+                    # Pure envelope breakout (no fixed scalar)
+                    if now_above_band and not prev_above_band:
                         trigger_shift = True
-                    if afs_reversal_cross and gap_to_anchor > 3.5:
+                    # Pure envelope AFS reversal (reversal above candidate anchor envelope)
+                    if afs_reversal_cross and (highest_price > row_1h[f'bb_upper_{cand_anchor}']):
                         trigger_shift = True
 
-                    # Overhead resistance constraint (K-061)
+                    # Overhead resistance constraint (pure structural relations, no fixed scalar)
                     if enable_overhead:
-                        is_overhead = (close_1h < row_1h['sma_610']) and (row_1h['slope_610'] < -0.01)
-                        if is_overhead and afs_reversal_cross and gap_to_anchor > 2.0:
+                        is_overhead = (close_1h < row_1h['sma_610']) and (row_1h['sma_233'] < row_1h['sma_610']) and (row_1h['slope_610'] < 0)
+                        if is_overhead and afs_reversal_cross and (close_1h > row_1h['sma_55']):
                             if current_anchor > 55:
                                 cand_anchor = 55
                                 trigger_shift = True
 
-                    # HYP-115-1: Structural Hysteresis Gate
+                    # HYP-115-1: Structural Hysteresis Gate (Self-reference bug resolved)
                     if trigger_shift and cand_anchor < current_anchor:
                         accept_shift = True
                         if enable_hysteresis:
-                            crossover_ok = (row_1h['sma_21'] > row_1h['sma_34'] > row_1h[f'sma_{cand_anchor}'])
+                            if cand_anchor >= 55:
+                                crossover_ok = (row_1h['sma_21'] > row_1h['sma_34'] > row_1h[f'sma_{cand_anchor}'])
+                            elif cand_anchor == 34:
+                                crossover_ok = (close_1h > row_1h['sma_21'] > row_1h['sma_34'])
+                            elif cand_anchor == 21:
+                                crossover_ok = (close_1h > row_1h['sma_21'] and row_1h['sma_21'] > row_1h['sma_34'])
+                            else:
+                                crossover_ok = False
+
                             slope_ok = (row_1h[f'slope_{cand_anchor}'] > 0)
                             cand_stop = row_1h[f'sma_{cand_anchor}'] - 1.0 * atr_cur
                             init_stop_level = p0 - 3.0 * atr0
                             protection_ok = (cand_stop > init_stop_level) and (row_1h[f'sma_{cand_anchor}'] >= p0 - 0.5 * atr_cur)
                             accept_shift = crossover_ok and slope_ok and protection_ok
 
+                        # HYP-115-2: Adaptive Multi-Scale Respiration - Impulse Scale Floor
+                        if enable_respiration and accept_shift:
+                            is_impulse = ((row_1h['sma_55'] > row_1h['sma_89'] > row_1h['sma_144']) or \
+                                          (row_1h['sma_21'] > row_1h['sma_34'] > row_1h['sma_55'])) and \
+                                         (row_1h['slope_55'] > 0) and \
+                                         (row_1h['sma_55'] > p0)
+                            if is_impulse and cand_anchor < 55:
+                                # Suppress over-contraction during active impulse
+                                accept_shift = False
+
                         if accept_shift:
                             current_anchor = cand_anchor
                             armed = True
 
-                    # HYP-115-2: Adaptive Multi-Scale Respiration
+                    # HYP-115-2: Adaptive Multi-Scale Respiration - Exhale Re-expansion
                     if enable_respiration:
-                        is_impulse = (row_1h['sma_55'] > row_1h['sma_89'] > row_1h['sma_144']) and \
-                                     (row_1h['slope_55'] > 0 and row_1h['slope_89'] > 0) and \
+                        is_impulse = ((row_1h['sma_55'] > row_1h['sma_89'] > row_1h['sma_144']) or \
+                                      (row_1h['sma_21'] > row_1h['sma_34'] > row_1h['sma_55'])) and \
+                                     (row_1h['slope_55'] > 0) and \
                                      (row_1h['sma_55'] > p0)
-                        if is_impulse:
-                            # Impulse floor & exhale: keep floor at S55 during active impulse
-                            if current_anchor < 55:
-                                if close_1h < row_1h['sma_21'] or row_1h['slope_34'] > 0:
-                                    current_anchor = 55
+                        if is_impulse and current_anchor < 55:
+                            # Re-expand defense line to S55 during short-term pullback in macro impulse
+                            if close_1h < row_1h['sma_21'] or row_1h['slope_34'] > 0:
+                                current_anchor = 55
 
                     prev_above_band = now_above_band
                     prev_afs_diff = now_afs_diff
@@ -364,7 +385,8 @@ def simulate_exp115_short(events, df_1h, df_1m,
         else:
             armed = (p0 < cur_struct - 0.5 * atr0)
 
-        is_climax_entry = (abs(p0 - row_0['sma_233']) / atr0 > 5.0) or (abs(p0 - row_0['sma_610']) / atr0 > 8.0)
+        # Pure envelope climax entry check (no fixed scalar)
+        is_climax_entry = (p0 < row_0['bb_lower_233']) or (p0 < row_0['bb_lower_610'])
 
         lowest_price = p0
         prev_afs_diff = row_0['afs_7'] - row_0['afs_9']
@@ -391,35 +413,55 @@ def simulate_exp115_short(events, df_1h, df_1m,
                     afs_reversal_cross = (prev_afs_diff <= 0 and now_afs_diff > 0)
 
                     trigger_shift = False
-                    if now_below_band and not prev_below_band and gap_to_anchor > 3.0:
+                    # Pure envelope breakout (no fixed scalar)
+                    if now_below_band and not prev_below_band:
                         trigger_shift = True
-                    if afs_reversal_cross and gap_to_anchor > 3.5:
+                    # Pure envelope AFS reversal (reversal above candidate anchor envelope)
+                    if afs_reversal_cross and (lowest_price < row_1h[f'bb_lower_{cand_anchor}']):
                         trigger_shift = True
 
-                    # HYP-115-1: Structural Hysteresis Gate
+                    # HYP-115-1: Structural Hysteresis Gate (Self-reference bug resolved)
                     if trigger_shift and cand_anchor < current_anchor:
                         accept_shift = True
                         if enable_hysteresis:
-                            crossover_ok = (row_1h['sma_21'] < row_1h['sma_34'] < row_1h[f'sma_{cand_anchor}'])
+                            if cand_anchor >= 55:
+                                crossover_ok = (row_1h['sma_21'] < row_1h['sma_34'] < row_1h[f'sma_{cand_anchor}'])
+                            elif cand_anchor == 34:
+                                crossover_ok = (close_1h < row_1h['sma_21'] < row_1h['sma_34'])
+                            elif cand_anchor == 21:
+                                crossover_ok = (close_1h < row_1h['sma_21'] and row_1h['sma_21'] < row_1h['sma_34'])
+                            else:
+                                crossover_ok = False
+
                             slope_ok = (row_1h[f'slope_{cand_anchor}'] < 0)
                             cand_stop = row_1h[f'sma_{cand_anchor}'] + 0.8 * atr_cur
                             init_stop_level = p0 + 2.5 * atr0
                             protection_ok = (cand_stop < init_stop_level) and (row_1h[f'sma_{cand_anchor}'] <= p0 + 0.5 * atr_cur)
                             accept_shift = crossover_ok and slope_ok and protection_ok
 
+                        # HYP-115-2: Adaptive Multi-Scale Respiration - Impulse Scale Floor
+                        if enable_respiration and accept_shift:
+                            is_impulse = ((row_1h['sma_55'] < row_1h['sma_89'] < row_1h['sma_144']) or \
+                                          (row_1h['sma_21'] < row_1h['sma_34'] < row_1h['sma_55'])) and \
+                                         (row_1h['slope_55'] < 0) and \
+                                         (row_1h['sma_55'] < p0)
+                            if is_impulse and cand_anchor < 55:
+                                # Suppress over-contraction during active impulse
+                                accept_shift = False
+
                         if accept_shift:
                             current_anchor = cand_anchor
                             armed = True
 
-                    # HYP-115-2: Adaptive Multi-Scale Respiration
+                    # HYP-115-2: Adaptive Multi-Scale Respiration - Exhale Re-expansion
                     if enable_respiration:
-                        is_impulse = (row_1h['sma_55'] < row_1h['sma_89'] < row_1h['sma_144']) and \
-                                     (row_1h['slope_55'] < 0 and row_1h['slope_89'] < 0) and \
+                        is_impulse = ((row_1h['sma_55'] < row_1h['sma_89'] < row_1h['sma_144']) or \
+                                      (row_1h['sma_21'] < row_1h['sma_34'] < row_1h['sma_55'])) and \
+                                     (row_1h['slope_55'] < 0) and \
                                      (row_1h['sma_55'] < p0)
-                        if is_impulse:
-                            if current_anchor < 55:
-                                if close_1h > row_1h['sma_21'] or row_1h['slope_34'] < 0:
-                                    current_anchor = 55
+                        if is_impulse and current_anchor < 55:
+                            if close_1h > row_1h['sma_21'] or row_1h['slope_34'] < 0:
+                                current_anchor = 55
 
                     prev_below_band = now_below_band
                     prev_afs_diff = now_afs_diff
@@ -535,14 +577,16 @@ def run_experiment():
     for t in t_sn_109 + t_sp_109: t['side'] = 'short'
     all_109 = t_l_109 + t_sn_109 + t_sp_109
     sorted_109 = sorted(all_109, key=lambda x: x['entry_time'])
+    m_109_std = compute_metrics(all_109) # Standard unconstrained N=166
     t_109_ma = []
     last_exit = pd.Timestamp.min.tz_localize('UTC')
     for t in sorted_109:
         if t['entry_time'] >= last_exit:
             t_109_ma.append(t)
             last_exit = t['exit_time']
-    m_109 = compute_metrics(t_109_ma)
-    print(f"EXP-109 Master: N={m_109['executed_trades']}, Net EV={m_109['net_mean_return_pct']:+.2f}%, PF={m_109['profit_factor']:.2f}, Tot={m_109['total_opportunity_net_return_pct']:+.1f}%, MaxDD={m_109['max_drawdown_pct']:.1f}%")
+    m_109_ma = compute_metrics(t_109_ma)
+    print(f"EXP-109 Standard (N=166): Net EV={m_109_std['net_mean_return_pct']:+.2f}%, PF={m_109_std['profit_factor']:.2f}, Tot={m_109_std['total_opportunity_net_return_pct']:+.1f}%, MaxDD={m_109_std['max_drawdown_pct']:.1f}%")
+    print(f"EXP-109 Mode A (N={m_109_ma['executed_trades']}): Net EV={m_109_ma['net_mean_return_pct']:+.2f}%, PF={m_109_ma['profit_factor']:.2f}, Tot={m_109_ma['total_opportunity_net_return_pct']:+.1f}%, MaxDD={m_109_ma['max_drawdown_pct']:.1f}%")
 
     # 2. EXP-113 Baseline (Previous Generation Pure Model)
     print("\n--- 2. Computing EXP-113 Pure Master Baseline ---")
@@ -553,14 +597,17 @@ def run_experiment():
     for t in t_sn_113 + t_sp_113: t['side'] = 'short'
     all_113 = t_l_113 + t_sn_113 + t_sp_113
     sorted_113 = sorted(all_113, key=lambda x: x['entry_time'])
+    m_113_std = compute_metrics(all_113) # Standard unconstrained N=166
     t_113_ma = []
     last_exit = pd.Timestamp.min.tz_localize('UTC')
     for t in sorted_113:
         if t['entry_time'] >= last_exit:
             t_113_ma.append(t)
             last_exit = t['exit_time']
-    m_113 = compute_metrics(t_113_ma)
-    print(f"EXP-113 Pure Master Mode A: N={m_113['executed_trades']}, Net EV={m_113['net_mean_return_pct']:+.2f}%, PF={m_113['profit_factor']:.2f}, Tot={m_113['total_opportunity_net_return_pct']:+.1f}%, MaxDD={m_113['max_drawdown_pct']:.1f}%")
+    m_113_ma = compute_metrics(t_113_ma)
+    yearly_113_ma = compute_yearly_metrics(t_113_ma)
+    print(f"EXP-113 Standard (N=166): Net EV={m_113_std['net_mean_return_pct']:+.2f}%, PF={m_113_std['profit_factor']:.2f}, Tot={m_113_std['total_opportunity_net_return_pct']:+.1f}%, MaxDD={m_113_std['max_drawdown_pct']:.1f}%")
+    print(f"EXP-113 Mode A (N={m_113_ma['executed_trades']}): Net EV={m_113_ma['net_mean_return_pct']:+.2f}%, PF={m_113_ma['profit_factor']:.2f}, Tot={m_113_ma['total_opportunity_net_return_pct']:+.1f}%, MaxDD={m_113_ma['max_drawdown_pct']:.1f}%")
 
     # 3. EXP-115 Ablation Stages
     stages = [
@@ -594,6 +641,7 @@ def run_experiment():
         # Mode B: max 2 concurrent, same-direction exclusive
         filtered_b = apply_mode_b_concurrency_limit(sorted_all, max_concurrent=2)
 
+        m_std = compute_metrics(all_t) # Standard N=166
         ml = compute_metrics(tl)
         ms = compute_metrics(ts + tp)
         ma = compute_metrics(filtered_a)
@@ -607,6 +655,7 @@ def run_experiment():
         ablation_results[name] = {
             'long': ml,
             'short': ms,
+            'master_std': m_std,
             'master_a': ma,
             'master_b': mb,
             'case1': c1,
@@ -614,14 +663,15 @@ def run_experiment():
             'case3': c3
         }
         stage_trades[name] = {
-            'long': tl, 'short': ts + tp, 'master_a': filtered_a, 'master_b': filtered_b
+            'long': tl, 'short': ts + tp, 'master_std': all_t, 'master_a': filtered_a, 'master_b': filtered_b
         }
 
         print(f"\n--- {name} ---")
-        print(f"Long Solo:  N={ml['executed_trades']}, Net EV={ml['net_mean_return_pct']:+.2f}%, PF={ml['profit_factor']:.2f}, Tot={ml['total_opportunity_net_return_pct']:+.1f}%, MaxDD={ml['max_drawdown_pct']:.1f}%")
-        print(f"Short Solo: N={ms['executed_trades']}, Net EV={ms['net_mean_return_pct']:+.2f}%, PF={ms['profit_factor']:.2f}, Tot={ms['total_opportunity_net_return_pct']:+.1f}%, MaxDD={ms['max_drawdown_pct']:.1f}%")
-        print(f"Master A:   N={ma['executed_trades']}, Net EV={ma['net_mean_return_pct']:+.2f}%, PF={ma['profit_factor']:.2f}, Tot={ma['total_opportunity_net_return_pct']:+.1f}%, MaxDD={ma['max_drawdown_pct']:.1f}%")
-        print(f"Master B:   N={mb['executed_trades']}, Net EV={mb['net_mean_return_pct']:+.2f}%, PF={mb['profit_factor']:.2f}, Tot={mb['total_opportunity_net_return_pct']:+.1f}%, MaxDD={mb['max_drawdown_pct']:.1f}%")
+        print(f"Long Solo:   N={ml['executed_trades']}, Net EV={ml['net_mean_return_pct']:+.2f}%, PF={ml['profit_factor']:.2f}, Tot={ml['total_opportunity_net_return_pct']:+.1f}%, MaxDD={ml['max_drawdown_pct']:.1f}%")
+        print(f"Short Solo:  N={ms['executed_trades']}, Net EV={ms['net_mean_return_pct']:+.2f}%, PF={ms['profit_factor']:.2f}, Tot={ms['total_opportunity_net_return_pct']:+.1f}%, MaxDD={ms['max_drawdown_pct']:.1f}%")
+        print(f"Master Std:  N={m_std['executed_trades']}, Net EV={m_std['net_mean_return_pct']:+.2f}%, PF={m_std['profit_factor']:.2f}, Tot={m_std['total_opportunity_net_return_pct']:+.1f}%, MaxDD={m_std['max_drawdown_pct']:.1f}%")
+        print(f"Master A:    N={ma['executed_trades']}, Net EV={ma['net_mean_return_pct']:+.2f}%, PF={ma['profit_factor']:.2f}, Tot={ma['total_opportunity_net_return_pct']:+.1f}%, MaxDD={ma['max_drawdown_pct']:.1f}%")
+        print(f"Master B:    N={mb['executed_trades']}, Net EV={mb['net_mean_return_pct']:+.2f}%, PF={mb['profit_factor']:.2f}, Tot={mb['total_opportunity_net_return_pct']:+.1f}%, MaxDD={mb['max_drawdown_pct']:.1f}%")
         if c1: print(f"  Case 1 (2020-12-11 Long): {c1['net_ret']*100:+.2f}% ({c1['exit']}, dur={c1['duration_h']}h, final_anchor=S{c1['final_anchor']})")
         if c2: print(f"  Case 2 (2021-01-30 Long): {c2['net_ret']*100:+.2f}% ({c2['exit']}, dur={c2['duration_h']}h, final_anchor=S{c2['final_anchor']})")
         if c3: print(f"  Case 3 (2022-06-19 Short): {c3['net_ret']*100:+.2f}% ({c3['exit']}, dur={c3['duration_h']}h, final_anchor=S{c3['final_anchor']})")
@@ -660,9 +710,19 @@ def run_experiment():
         return out
 
     metrics_output = {
-        'baseline_exp109': clean_dict(m_109),
-        'baseline_exp113_pure': clean_dict(m_113),
+        'baseline_exp109': {
+            'master_std': clean_dict(m_109_std),
+            'master_a': clean_dict(m_109_ma)
+        },
+        'baseline_exp113_pure': {
+            'master_std': clean_dict(m_113_std),
+            'master_a': clean_dict(m_113_ma),
+            'yearly_a': {k: clean_dict(v) for k, v in yearly_113_ma.items()}
+        },
         'ablation': {k: {subk: clean_dict(subv) if isinstance(subv, dict) else subv for subk, subv in v.items()} for k, v in ablation_results.items()},
+        'exp115_primary_std': {
+            'metrics': clean_dict(ablation_results['Stage 2: +HYP-115-2 (Multi-Scale Respiration)']['master_std'])
+        },
         'exp115_primary_mode_a': {
             'metrics': clean_dict(ablation_results['Stage 2: +HYP-115-2 (Multi-Scale Respiration)']['master_a']),
             'yearly': {k: clean_dict(v) for k, v in yearly_a.items()},

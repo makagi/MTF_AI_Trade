@@ -31,7 +31,7 @@ spec_115.loader.exec_module(exp115)
 df_1h, df_1m, long_events, events_short_master, sig_plunge_macro = exp111.load_data_and_features()
 exp115.add_multiscale_features_exp115(df_1h)
 
-# Load metrics.json
+# Load metrics.json dynamically
 metrics_path = os.path.join(ROOT_DIR, '03_KNOWLEDGE/experiments/115-adaptive-multiscale-respiration-and-hysteresis-exit/metrics.json')
 with open(metrics_path, 'r', encoding='utf-8') as f:
     metrics_data = json.load(f)
@@ -45,20 +45,26 @@ plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica']
 
 # ==============================================================================
-# Plot 1: Fixed Yearly Return Breakdown (2020-2025) & Yearly PF
+# Plot 1: Fixed Yearly Return Breakdown (2020-2025) & Yearly PF (Dynamic from metrics.json)
 # ==============================================================================
 years = [2020, 2021, 2022, 2023, 2024, 2025]
-y_113_ret = [30.42, 51.42, 8.70, 15.56, 17.99, 2.08]
-y_115_ret = [metrics_data['exp115_primary_mode_a']['yearly'][str(y)]['total_opportunity_net_return_pct'] for y in years]
-y_113_pf = [2.71, 2.15, 1.25, 1.68, 1.70, 1.18]
-y_115_pf = [metrics_data['exp115_primary_mode_a']['yearly'][str(y)]['profit_factor'] for y in years]
+y_113_yearly = metrics_data['baseline_exp113_pure']['yearly_a']
+y_115_yearly = metrics_data['exp115_primary_mode_a']['yearly']
+
+y_113_ret = [y_113_yearly.get(str(y), {}).get('total_opportunity_net_return_pct', 0.0) for y in years]
+y_115_ret = [y_115_yearly.get(str(y), {}).get('total_opportunity_net_return_pct', 0.0) for y in years]
+y_113_pf = [y_113_yearly.get(str(y), {}).get('profit_factor', 0.0) for y in years]
+y_115_pf = [y_115_yearly.get(str(y), {}).get('profit_factor', 0.0) for y in years]
 
 fig, (ax_bar, ax_pf) = plt.subplots(2, 1, figsize=(14, 9), sharex=True, gridspec_kw={'height_ratios': [2.2, 1.0]})
 x = np.arange(len(years))
 width = 0.35
 
-rects1 = ax_bar.bar(x - width/2, y_113_ret, width, label='EXP-113 Pure Baseline (Tot: +126.2%)', color='#e74c3c', alpha=0.85)
-rects2 = ax_bar.bar(x + width/2, y_115_ret, width, label='EXP-115 Pure Mode A (+Hysteresis+Respiration, Tot: +188.1%)', color='#27ae60', alpha=0.9)
+tot_113_ret = metrics_data['baseline_exp113_pure']['master_a']['total_opportunity_net_return_pct']
+tot_115_ret = metrics_data['exp115_primary_mode_a']['metrics']['total_opportunity_net_return_pct']
+
+rects1 = ax_bar.bar(x - width/2, y_113_ret, width, label=f'EXP-113 Pure Baseline (Tot: {tot_113_ret:+.1f}%)', color='#e74c3c', alpha=0.85)
+rects2 = ax_bar.bar(x + width/2, y_115_ret, width, label=f'EXP-115 Pure Mode A (+Hysteresis+Respiration, Tot: {tot_115_ret:+.1f}%)', color='#27ae60', alpha=0.9)
 
 ax_bar.set_title('Year-by-Year Cumulative Net Return & Profit Factor: EXP-113 vs EXP-115\n(Significant Performance Jump in Bull & Recovery Years)', fontsize=14, fontweight='bold')
 ax_bar.set_ylabel('Annual Net Return (%)', fontsize=12)
@@ -95,7 +101,7 @@ plt.close(fig)
 print('Saved fig4_yearly_overlay.png successfully!')
 
 # ==============================================================================
-# Plot 2: Ablation Stages Comparison (Bar chart of Return, PF, Drawdown)
+# Plot 2: Ablation Stages Comparison (Dynamic from metrics.json)
 # ==============================================================================
 stages_names = [
     'Stage 0\nEXP-113 Pure',
@@ -104,10 +110,16 @@ stages_names = [
     'Stage 3\n+Full Guard',
     'Mode B\n(Max 2 Pos)'
 ]
-ret_vals = [125.3, 188.1, 188.1, 82.9, 229.6]
-pf_vals = [1.81, 2.28, 2.28, 1.53, 2.31]
-dd_vals = [-17.2, -15.8, -15.8, -28.1, -19.3]
-long_ret = [85.7, 175.8, 175.8, 87.3, 175.8]
+abl = metrics_data['ablation']
+s0 = abl['Stage 0: EXP-113 Pure Baseline']['master_a']
+s1 = abl['Stage 1: +HYP-115-1 (Crossover Hysteresis)']['master_a']
+s2 = abl['Stage 2: +HYP-115-2 (Multi-Scale Respiration)']['master_a']
+s3 = abl['Stage 3: +HYP-115-3 (Full Model with Climax Guard)']['master_a']
+mb = metrics_data['exp115_primary_mode_b']['metrics']
+
+ret_vals = [s0['total_opportunity_net_return_pct'], s1['total_opportunity_net_return_pct'], s2['total_opportunity_net_return_pct'], s3['total_opportunity_net_return_pct'], mb['total_opportunity_net_return_pct']]
+pf_vals = [s0['profit_factor'], s1['profit_factor'], s2['profit_factor'], s3['profit_factor'], mb['profit_factor']]
+dd_vals = [s0['max_drawdown_pct'], s1['max_drawdown_pct'], s2['max_drawdown_pct'], s3['max_drawdown_pct'], mb['max_drawdown_pct']]
 
 fig, (ax_r, ax_p, ax_d) = plt.subplots(1, 3, figsize=(16, 5))
 
@@ -132,11 +144,11 @@ for b, v in zip(bars2, pf_vals):
 
 # 3. Maximum Drawdown
 bars3 = ax_d.bar(stages_names, dd_vals, color=colors, alpha=0.85)
-ax_d.set_title('Maximum Drawdown (%)', fontsize=12, fontweight='bold')
+ax_d.set_title('Max Drawdown (%)', fontsize=12, fontweight='bold')
 ax_d.set_ylabel('Max DD (%)', fontsize=11)
 ax_d.grid(True, axis='y', alpha=0.3)
 for b, v in zip(bars3, dd_vals):
-    ax_d.text(b.get_x() + b.get_width()/2, v - 1.8, f"{v:.1f}%", ha='center', fontsize=10, fontweight='bold')
+    ax_d.text(b.get_x() + b.get_width()/2, v - 1.5, f"{v:.1f}%", ha='center', fontsize=10, fontweight='bold')
 
 fig.suptitle('EXP-115 Ablation Stages: Clear Proof of Hypothesis Contribution & Trade-offs', fontsize=14, fontweight='bold')
 fig.tight_layout()
