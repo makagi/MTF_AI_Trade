@@ -722,8 +722,8 @@ def run_experiment():
 
     # Plot 2: Yearly Return Breakdown (2020-2025)
     years = [2020, 2021, 2022, 2023, 2024, 2025]
-    y_113 = [compute_yearly_metrics(t_113_ma).get(y, {}).get('total_opportunity_net_return_pct', 0.0) for y in years]
-    y_115 = [yearly_a.get(y, {}).get('total_opportunity_net_return_pct', 0.0) for y in years]
+    y_113 = [compute_yearly_metrics(t_113_ma).get(str(y), {}).get('total_opportunity_net_return_pct', 0.0) for y in years]
+    y_115 = [yearly_a.get(str(y), {}).get('total_opportunity_net_return_pct', 0.0) for y in years]
 
     fig, ax_bar = plt.subplots(figsize=(12, 6))
     x = np.arange(len(years))
