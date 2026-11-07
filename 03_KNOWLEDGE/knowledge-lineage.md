@@ -940,6 +940,26 @@ graph TD
 
 ---
 
+### K-064: 構造クロスオーバー確定ヒステリシス則 (Structural Crossover Separation & Breakeven Gate)
+* **ステータス**: **支持（Supported / 確立済み知見）**
+* **概要**: 多階層アンカーシフトにおいて、下位構造線群（$S_{21}, S_{34}$）が移行先スケール（$S_{k-1}$）を順方向にクロスオーバー分離（Long: $S_{21} > S_{34} > S_{k-1}$、Short: $S_{21} < S_{34} < S_{k-1}$）し、移行先スケールの傾きが順方向に転換し、かつ新ストップが初期リスクストップを改善しエントリー価格 $p_0$ 近傍以上に浮上するまでアンカー移行を保留する幾何学確定条件（EXP-115）：
+  1. **初動ヒゲによる自滅の根絶**: 単一バーの局所的ヒゲによる性急なアンカー繰り上げ（Case 2: 2021-01-30 Long）を完全抑止し、損失を `-6.28%` から `-1.94%` へ圧縮。
+  2. **構造的性能の飛躍**: 固定スカラー閾値ゼロで、Long Solo PF が `1.63` から `1.90`、純利益が `+90.4%` から `+137.7%` へ激増。Master Std も PF `1.91` $\to$ `2.04`、累積純利益 `+160.3%` $\to$ `+194.6%`（Mode A: PF `1.93` $\to$ `2.11`、`+145.1%` $\to$ `+164.9%`）へ大幅改善。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/115-adaptive-multiscale-respiration-and-hysteresis-exit/record.md`](experiments/115-adaptive-multiscale-respiration-and-hysteresis-exit/record.md) (EXP-115 / [#115](https://github.com/makagi/MTF_AI_Trade/issues/115))
+* **仕様への影響**: 純粋多階層モデルの不可欠な幾何学的確定ゲートとして仕様へ採用。
+
+### K-065: 推進期フロア保持と調整期呼気再拡張則 (Impulse Scale Floor & Hierarchical Respiration)
+* **ステータス**: **支持（Supported / 確立済み知見）**
+* **概要**: トレンド追従における多階層アンカーの縮小は不可逆であってはならず、相場の推進期と調整期に応じた自律的呼吸（Respiration）が必要である幾何学原則（EXP-115）：
+  1. **推進期の中間スケールフロア**: 中間・親構造群（$S_{55} \gtrless S_{89} \gtrless S_{144}$ または進行方向 $S_{21} \gtrless S_{34} \gtrless S_{55}$ かつ $\text{slope}_{55}$ 順方向かつ $S_{55}$ が $p_0$ 突破）が成立する推進期には、アンカーを $S_{55}$ 以下へ過収縮させずフロアを維持。
+  2. **調整期の呼気再拡張**: 健全な押し目（Long: $\text{close} < S_{21}$、Short: $\text{close} > S_{21}$）では、上位線 $S_{55}$ を防衛床として呼吸（再拡張）させることで、Case 1（2020-12-11 Long）において `+4.82%`（55h）から `+28.24%`（235h）までメガトレンドを動的完走。Master Std 純利益 `+194.6%` $\to$ `+253.7%`（PF `2.04` $\to$ `2.35`）、Mode A `+164.9%` $\to$ `+196.3%`（PF `2.11` $\to$ `2.36`）を達成。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/115-adaptive-multiscale-respiration-and-hysteresis-exit/record.md`](experiments/115-adaptive-multiscale-respiration-and-hysteresis-exit/record.md) (EXP-115 / [#115](https://github.com/makagi/MTF_AI_Trade/issues/115))
+* **仕様への影響**: トレンドフォローモデルにおける不可逆ラチェットの弊害を排し、多階層呼吸モデルとして仕様へ統合。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -976,3 +996,4 @@ graph TD
 | 2026-11-05 | 2.5.0 | EXP-109 反映、MTF BB幾何学的レジーム判別器（K-058）、スケール相対的エスカレーション＆多段階動的ラチェットエグジット（K-059）登録・計59知見へ拡充（N=166 Net EV +2.49% PF 3.83 Tot +412.92% MaxDD -12.40% 全6年プラス堅持） | @makagi / [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111) |
 | 2026-11-06 | 2.6.0 | EXP-111 是正反映、因果律厳格化・即死根絶・72h固定枠0件撤廃・ロング大局ベア適応K-061 Supported（Ablation 3 PF 4.02）・ショート動的トレールK-060 Inconclusive登録・計61知見へ拡充（Master N=166 Net EV +2.35% PF 3.81 Tot +389.57% 全6年黒字堅持・確定ベースラインはEXP-109維持） | @makagi / [#111](https://github.com/makagi/MTF_AI_Trade/issues/111) |
 | 2026-11-06 | 2.7.0 | EXP-113 反映、多段階ラチェット構造本質解明（K-062 Supported）、ショート動的トレール（K-060 Supported 昇格）、純粋多階層アンカーシフトモデル挙動解明（K-063 Inconclusive 登録・計63知見へ拡充・ショートPF 3.32 Tot +75.08%・Master PF 2.00 Tot +160.42% 全6年黒字・確定ベースラインはEXP-109維持） | @makagi / [#113](https://github.com/makagi/MTF_AI_Trade/issues/113) |
+| 2026-11-07 | 2.8.0 | EXP-115 反映、構造クロス確定ヒステリシス（K-064 Supported）、推進期フロア保持と調整期呼気再拡張（K-065 Supported）登録・計65知見へ拡充（Pure Master Std: PF 2.35 Tot +253.7%・Mode A: PF 2.36 Tot +196.3%・Mode B: PF 2.38 Tot +240.8%・EXP-113比大幅進化・確定ベースラインはEXP-109維持） | @makagi / [#115](https://github.com/makagi/MTF_AI_Trade/issues/115) |
