@@ -1,0 +1,59 @@
+experiment_id: EXP-115
+title: 多階層自律呼吸モデル（Scale Respiration：推進期吸気と調整期呼気）・構造クロス確定ヒステリシス・未保護領域モメンタム無効化による純粋構造エグジットの進化検証
+date: 2026-11-07
+author: makagi
+status: COMPLETED
+decision: CONSTRAINED
+data:
+  symbol: BTCUSD
+  timeframes:
+  - 1h
+  - 1m
+  discovery_start: '2020-01-01 00:00:00'
+  discovery_end: '2025-04-30 23:59:59'
+  holdout_start: '2025-05-01 00:00:00'
+  friction_bps: 40.0
+parameters:
+  multiscale_scales: [21, 34, 55, 89, 144, 233, 377, 610]
+  pure_multiscale_short:
+    initial_risk_atr: 2.5
+    buffer_atr: 0.8
+    arm_depth_atr: 0.5
+    initial_anchor_rule: geometric_scale_standing (S233 -> S144 -> S89 -> S55)
+    hysteresis_gate:
+      crossover: sma_21 < sma_34 < sma_{target}
+      slope: slope_{target} < 0
+      protection: cand_stop < init_stop and sma_{target} <= p0 + 0.5 * atr
+    scale_respiration:
+      impulse_condition: sma_55 < sma_89 < sma_144 and slope_55 < 0 and slope_89 < 0 and sma_55 < p0
+      impulse_floor: current_anchor <= 55
+      exhale_action: if close > sma_21, relax anchor to S55
+    momentum_invalidation:
+      state_condition: (climax_entry or loss_bearing) and not protected
+      trigger: close > sma_21 and close > sma_34 and slope_21 > 0 and afs_reversal
+  pure_multiscale_long:
+    initial_risk_atr: 3.0
+    parent_buffer_atr: 1.0
+    arm_depth_atr: 0.5
+    initial_anchor_rule: geometric_scale_standing (S233 -> S144 -> S89 -> S55)
+    hysteresis_gate:
+      crossover: sma_21 > sma_34 > sma_{target}
+      slope: slope_{target} > 0
+      protection: cand_stop > init_stop and sma_{target} >= p0 - 0.5 * atr
+    scale_respiration:
+      impulse_condition: sma_55 > sma_89 > sma_144 and slope_55 > 0 and slope_89 > 0 and sma_55 > p0
+      impulse_floor: current_anchor <= 55
+      exhale_action: if close < sma_21, relax anchor to S55
+    momentum_invalidation:
+      state_condition: (climax_entry or loss_bearing) and not protected
+      trigger: close < sma_21 and close < sma_34 and slope_21 < 0 and afs_order_score == 0
+  plunge_short:
+    defense_structure: sma_144
+    target_scale: sma_6765
+    initial_risk_atr: 2.5
+    buffer_atr: 0.5
+hypotheses:
+  HYP-115-1: ACCEPTED
+  HYP-115-2: ACCEPTED
+  HYP-115-3: INCONCLUSIVE
+  HYP-115-4: CONSTRAINED
