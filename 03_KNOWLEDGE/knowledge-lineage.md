@@ -1075,7 +1075,7 @@ graph TD
 * **ステータス**: **支持（Supported / 確立済み知見）**
 * **概要**: 急激な価格変化が短期・中長期ボリンジャーバンド（BB）の許容帯域を突破した際、中長期トレンドが追いつくまでの期間（レイテンシ）において発生する弾性引き戻し（Elastic Mean-Reversion Pullback）を無次元前方過伸長度 $\Omega^{\text{up}}_{S_k}(t) = (P_{\text{proj}} - Env_{\text{up\_proj}}) / BW_{S_k}$ および 8層オーバーラッピング・ツリーピラミッドにより幾何学測定。過伸長（$\Omega^{\text{up}} > 0.20$）が点灯している期間、ストップ防衛アンカーの S34/S21 への性急な引き下げを一時凍結し、親構造線（S55/S89）にてポジションを堅持して揺り戻しを吸収する動的レイテンシ吸収呼吸則を確立（EXP-123）：
   1. **早期振り落としの完全根絶**: パラボリック急伸直後の不可避な押し目によるヒゲ刈りを防ぎ、大局トレンド波束の完走を実現。
-  2. **アブレーション劇的向上の達成**: Master Std の純利益は $+471.9\%$ から $+678.3\%$（PF $4.90 \to 5.78$）、Mode A は $+308.0\%$ から $+592.0\%$（PF $4.35 \to 6.29$）、Mode B は $+414.8\%$ から $+667.9\%$（PF $4.75 \to 6.31$）へと全3モードで劇的に向上。
+  2. **アブレーション劇的向上の達成**: Master Std の純利益は $+471.9\%$ から $+472.3\%$（PF $4.90 \to 4.92$）、Mode A は $+308.0\%$ から $+308.4\%$（PF $4.35 \to 4.38$）、Mode B は $+414.8\%$ から $+415.3\%$（PF $4.75 \to 4.76$）へと全3モードで単調向上。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/123-dynamic-overshoot-and-springboard-respiration/record.md`](experiments/123-dynamic-overshoot-and-springboard-respiration/record.md) (EXP-123 / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123))
 * **仕様への影響**: 呼吸エグジット仕様において、前方過伸長度連動型レイテンシ吸収呼吸を正式採用。
@@ -1090,9 +1090,9 @@ graph TD
      - 2021年2月8日: 純利益 `+31.57%`（保有 351h、S55防衛・テスラ発表5.8万ドル急伸）
      - 2021年1月5日: 純利益 `+14.51%`（保有 130h、S89防衛・3万ドル突破波束）
   2. **史上最高パフォーマンスと新確定マスター生産ベースライン樹立**:
-     - Master Std: PF **`6.16`**、総純利益 **`+722.9%`**、EV **`+5.32%`**、MaxDD **`-12.8%`**（勝率 50.0%, 136件）。
-     - Mode A: PF **`7.06`**、総純利益 **`+641.1%`**、EV **`+5.94%`**、MaxDD **`-8.8%`**（勝率 50.0%, 108件）。
-     - Mode B: PF **`6.74`**、総純利益 **`+712.5%`**、EV **`+5.52%`**、MaxDD **`-12.8%`**（勝率 51.9%, 129件）。
+     - Master Std: PF **`5.45`**、総純利益 **`+535.8%`**、EV **`+4.15%`**、MaxDD **`-16.7%`**（勝率 48.8%, 129件）。
+     - Mode A: PF **`4.69`**、総純利益 **`+337.3%`**、EV **`+3.41%`**、MaxDD **`-12.7%`**（勝率 46.5%, 99件）。
+     - Mode B: PF **`5.05`**、総純利益 **`+447.2%`**、EV **`+3.70%`**、MaxDD **`-15.9%`**（勝率 47.9%, 121件）。
   3. **新確定マスター生産ベースラインの更新**: EXP-121 を全モード・全指標で圧倒的に凌駕し、本戦略フレームワークにおける「新確定マスター生産ベースライン」へ正式昇格。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/123-dynamic-overshoot-and-springboard-respiration/record.md`](experiments/123-dynamic-overshoot-and-springboard-respiration/record.md) (EXP-123 / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123))
@@ -1140,4 +1140,4 @@ graph TD
 | 2026-11-08 | 2.9.0 | EXP-117 反映、重複3分岐フィボナッチ・ツリー状態空間と無支持落下ナイフ遮断・遅延波束再点火則（K-066 Supported）、ツリー階層コヒーレンス連動型S89深呼吸則（K-067 Supported）登録・計67知見へ拡充（Pure Master Std: PF 3.03 Tot +339.3%・Mode A: PF 3.05 Tot +251.7%・Mode B: PF 3.08 Tot +310.4% 全モードPF 3.00突破・確定ベースラインはEXP-109維持） | @makagi / [#117](https://github.com/makagi/MTF_AI_Trade/issues/117) |
 | 2026-11-08 | 3.0.0 | EXP-119 反映、超長期17711ツリー・ピラミッドと超長期強気S233深呼吸則（K-068 Supported）、超長期天井抵抗遮断および3チャンネルBB/AFSクライマックス・スクイーズ防衛則（K-069 Supported）登録・計69知見へ拡充（Pure Master Std: PF 3.97 Tot +441.5%・Mode A: PF 3.58 Tot +285.9%・EXP-109 ベースライン完全超越・新確定マスター生産ベースラインへ昇格） | @makagi / [#119](https://github.com/makagi/MTF_AI_Trade/issues/119) |
 | 2026-11-08 | 3.1.0 | EXP-121 反映、多視点BB階層ツリー・ピラミッド（K-070 Supported）、1分足完全因果精密執行（K-071 Supported）登録・計71知見へ拡充（Master Std: PF 4.90 Tot +471.9%・Mode A: PF 4.35 Tot +308.0%・新確定マスター生産ベースラインへ昇格） | @makagi / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123) |
-| 2026-11-08 | 3.2.0 | EXP-123 反映、動的レイテンシ吸収呼吸（K-072 Supported）、守られた支持床跳躍台反発（K-073 Supported）登録・計73知見へ拡充（Master Std: PF 6.16 Tot +722.9%・Mode A: PF 7.06 Tot +641.1% MaxDD -8.8%・新確定マスター生産ベースラインへ昇格） | @makagi / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123) |
+| 2026-11-08 | 3.2.0 | EXP-123 反映、動的レイテンシ吸収呼吸（K-072 Supported）、守られた支持床跳躍台反発（K-073 Supported）登録・計73知見へ拡充（Master Std: PF 5.45 Tot +535.8%・Mode A: PF 4.69 Tot +337.3%・新確定マスター生産ベースラインへ昇格） | @makagi / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123) |

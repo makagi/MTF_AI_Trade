@@ -158,36 +158,38 @@ def compute_springboard_scales(df_1h, scales=SPRING_SCALES):
 
 def simulate_long_exp123(events, df_1h, df_1m,
                          enable_bb_respiration=True,
-                         enable_latency_absorption=True,
+                         enable_latency_absorption=False,
                          min_omega_val=0.20,
                          entry_1m_map=None):
-    """
-    Long Simulation Engine with HYP-123-1 Dynamic Latency Absorption Respiration.
-    """
     trades = []
     discovery_end = df_1m.index[-1]
     for t0 in events:
         entry_time = t0 + pd.Timedelta(hours=1)
-        if entry_time not in df_1h.index:
-            continue
+        if entry_time not in df_1h.index: continue
         row_0 = df_1h.loc[t0]
+
+        # EXP-119 Bear Ceiling Gate (exact copy from EXP-121)
+        if (row_0['tree_L2_[610..4181]'] < -0.30 and
+            row_0['tree_L3_[610..10946]'] < -0.25 and
+            row_0['tree_L2_[144..987]'] < -0.10 and
+            row_0['close'] < row_0['sma_610'] and
+            row_0['slope_610'] < 0):
+            continue
+
         atr0 = row_0['atr_24']
         p_era = exp115.get_period(t0)
         sub_1m = df_1m.loc[entry_time : discovery_end]
-        if len(sub_1m) < 60:
-            continue
+        if len(sub_1m) < 60: continue
 
         if entry_1m_map is not None and t0 in entry_1m_map:
             p0, actual_entry_time, bar_offset = entry_1m_map[t0]
-            if bar_offset > 0:
-                sub_1m = sub_1m.iloc[bar_offset:]
-                if len(sub_1m) < 10:
-                    continue
         else:
             p0 = sub_1m['open'].iloc[0]
             actual_entry_time = entry_time
+            bar_offset = 0
 
         sub_times = sub_1m.index
+        sub_opens = sub_1m['open'].values
         sub_highs = sub_1m['high'].values
         sub_lows = sub_1m['low'].values
         sub_closes = sub_1m['close'].values
@@ -197,14 +199,10 @@ def simulate_long_exp123(events, df_1h, df_1m,
 
         cur_sma34 = row_0['sma_34']
         atr_cur = atr0
-        if p0 >= row_0['sma_233'] - 0.5 * atr0:
-            current_anchor = 233
-        elif p0 >= row_0['sma_144'] - 0.5 * atr0:
-            current_anchor = 144
-        elif p0 >= row_0['sma_89'] - 0.5 * atr0:
-            current_anchor = 89
-        else:
-            current_anchor = 55
+        if p0 >= row_0['sma_233'] - 0.5 * atr0: current_anchor = 233
+        elif p0 >= row_0['sma_144'] - 0.5 * atr0: current_anchor = 144
+        elif p0 >= row_0['sma_89'] - 0.5 * atr0: current_anchor = 89
+        else: current_anchor = 55
 
         cur_struct = row_0[f'sma_{current_anchor}']
         armed = (p0 > cur_struct + 0.5 * atr0) and (row_0['sma_21'] > row_0['sma_34']) and (row_0[f'slope_{current_anchor}'] > 0)
@@ -212,18 +210,8 @@ def simulate_long_exp123(events, df_1h, df_1m,
         prev_afs_diff = row_0['afs_7'] - row_0['afs_9']
         prev_above_band = (row_0['close'] > row_0[f'bb_upper_{current_anchor}'])
 
-        for i in range(n_bars):
+        for i in range(bar_offset, n_bars):
             t_bar = sub_times[i]
-            cur_high = sub_highs[i]
-            cur_low = sub_lows[i]
-            cur_close = sub_closes[i]
-
-            mfe_atr = (cur_high - p0) / (atr0 + 1e-8)
-            if mfe_atr > max_mfe_atr:
-                max_mfe_atr = mfe_atr
-            if cur_high > highest_price:
-                highest_price = cur_high
-
             if i % 60 == 0 and i > 0:
                 t_1h = (t_bar - pd.Timedelta(hours=1)).floor("1h")
                 if t_1h in df_1h.index:
@@ -239,10 +227,14 @@ def simulate_long_exp123(events, df_1h, df_1m,
                     afs_reversal_cross = (prev_afs_diff >= 0 and now_afs_diff < 0)
 
                     trigger_shift = False
-                    if now_above_band and not prev_above_band:
-                        trigger_shift = True
-                    if afs_reversal_cross and (highest_price > row_1h[f'bb_upper_{cand_anchor}']):
-                        trigger_shift = True
+                    if now_above_band and not prev_above_band: trigger_shift = True
+                    if afs_reversal_cross and (highest_price > row_1h[f'bb_upper_{cand_anchor}']): trigger_shift = True
+
+                    is_overhead = (c_1h < row_1h['sma_610']) and (row_1h['sma_233'] < row_1h['sma_610']) and (row_1h['slope_610'] < 0)
+                    if is_overhead and afs_reversal_cross and (c_1h > row_1h['sma_55']):
+                        if current_anchor > 55:
+                            cand_anchor = 55
+                            trigger_shift = True
 
                     if trigger_shift and cand_anchor < current_anchor:
                         if cand_anchor >= 55:
@@ -256,7 +248,7 @@ def simulate_long_exp123(events, df_1h, df_1m,
 
                         slope_ok = (row_1h[f'slope_{cand_anchor}'] > 0)
                         cand_stop = row_1h[f'sma_{cand_anchor}'] - 1.0 * atr_cur
-                        init_stop_level = p0 - 2.5 * atr0
+                        init_stop_level = p0 - 3.0 * atr0
                         protection_ok = (cand_stop > init_stop_level) and (row_1h[f'sma_{cand_anchor}'] >= p0 - 0.5 * atr_cur)
                         accept_shift = crossover_ok and slope_ok and protection_ok
 
@@ -268,18 +260,49 @@ def simulate_long_exp123(events, df_1h, df_1m,
                             if is_impulse and cand_anchor < 55:
                                 accept_shift = False
 
+                            # Ultra-Bull Respiration Floor Holding (EXP-119)
+                            is_ultra_bull_233 = (
+                                (row_1h['tree_L2_[610..4181]'] > 0.70) and
+                                (row_1h['tree_L1_(144,233,377)'] > 0.75) and
+                                (row_1h['sma_233'] > p0) and
+                                (row_1h['slope_233'] > 0)
+                            )
+                            if is_ultra_bull_233 and current_anchor == 233 and cand_anchor < 233:
+                                accept_shift = False
+
+                            is_ultra_bull_144 = (
+                                (row_1h['tree_L2_[610..4181]'] > 0.70) and
+                                (row_1h['tree_L1_(144,233,377)'] > 0.75) and
+                                (row_1h['sma_144'] > p0) and
+                                (row_1h['slope_144'] > 0)
+                            )
+                            if is_ultra_bull_144 and current_anchor == 144 and cand_anchor < 144:
+                                accept_shift = False
+
+                            # EXP-121 BB Trumpet Expansion Floor Holding
+                            if enable_bb_respiration:
+                                is_trumpet = (row_1h['slope_bb_upper_55'] > 0) and (row_1h['bb_up_L1_(55,89,144)'] > 0.40)
+                                if is_trumpet and current_anchor >= 89 and cand_anchor < 89 and (row_1h['sma_89'] > p0):
+                                    accept_shift = False
+
                             # HYP-123-1 Dynamic Latency Absorption Respiration
-                            if enable_latency_absorption and cand_anchor < 55:
+                            if enable_latency_absorption:
+                                # Absorb elastic pullback during forward overshoot
                                 is_overshoot = (row_1h.get('overshoot_up_L2_[34..233]', 0) > min_omega_val) or \
                                                (row_1h.get('omega_up_55', 0) > min_omega_val) or \
                                                (row_1h.get('omega_up_89', 0) > min_omega_val)
-                                if is_overshoot:
+                                if is_overshoot and cand_anchor < 55:
+                                    accept_shift = False
+
+                                # Also absorb pullback when S89 overshoot is active
+                                if is_overshoot and current_anchor >= 89 and cand_anchor < 89 and (row_1h['sma_89'] > p0):
                                     accept_shift = False
 
                         if accept_shift:
                             current_anchor = cand_anchor
                             armed = True
 
+                    # Exhale Re-expansion to S55 (EXP-115)
                     is_impulse = ((row_1h['sma_55'] > row_1h['sma_89'] > row_1h['sma_144']) or \
                                   (row_1h['sma_21'] > row_1h['sma_34'] > row_1h['sma_55'])) and \
                                  (row_1h['slope_55'] > 0) and \
@@ -288,46 +311,84 @@ def simulate_long_exp123(events, df_1h, df_1m,
                         if c_1h < row_1h['sma_21'] or row_1h['slope_34'] > 0:
                             current_anchor = 55
 
+                    # Respiration to S89 (EXP-117)
                     if armed:
-                        is_macro_tree_ultra_bull = (
-                            (row_1h['tree_L2_[610..4181]'] > 0.78) and
-                            (row_1h['tree_L1_(144,233,377)'] > 0.80) and
+                        is_macro_tree_impulse = (
+                            (row_1h['tree_L2_[34..233]'] > 0.70) and
+                            (row_1h['tree_L1_(55,89,144)'] > 0.70) and
+                            (row_1h['sma_55'] > row_1h['sma_89'] > row_1h['sma_144'] > row_1h['sma_233']) and
+                            (row_1h['slope_89'] > 0) and
+                            (row_1h['sma_89'] > p0)
+                        )
+                        if is_macro_tree_impulse and current_anchor <= 55 and c_1h < row_1h['sma_34']:
+                            current_anchor = 89
+
+                    # Ultra-Long Selective Respiration to S233 & S144 (EXP-119)
+                    if armed:
+                        is_ultra_bull_233 = (
+                            (row_1h['tree_L2_[610..4181]'] > 0.70) and
+                            (row_1h['tree_L1_(144,233,377)'] > 0.75) and
+                            (row_1h['sma_233'] > p0) and
+                            (row_1h['slope_233'] > 0) and
+                            (c_1h > row_1h['sma_233'])
+                        )
+                        is_ultra_bull_144 = (
+                            (row_1h['tree_L2_[610..4181]'] > 0.70) and
+                            (row_1h['tree_L1_(144,233,377)'] > 0.75) and
                             (row_1h['sma_144'] > p0) and
                             (row_1h['slope_144'] > 0) and
-                            (row_1h['slope_233'] > 0)
+                            (c_1h > row_1h['sma_144'])
                         )
-                        if is_macro_tree_ultra_bull:
-                            if current_anchor <= 55 and c_1h < row_1h['sma_34']:
-                                current_anchor = 144
-                            elif current_anchor == 144 and row_1h['sma_233'] > p0 and c_1h < row_1h['sma_55']:
-                                current_anchor = 233
+                        if is_ultra_bull_233:
+                            current_anchor = 233
+                        elif is_ultra_bull_144 and current_anchor < 144:
+                            current_anchor = 144
 
-                    # BB Floor Staircase Respiration (EXP-121)
+                    # EXP-121 BB Floor Respiration to S89 / S144
                     if enable_bb_respiration and armed:
-                        for s_floor in [55, 89, 144, 233]:
-                            if s_floor > current_anchor:
-                                slope_bb_low = row_1h.get(f'slope_bb_lower_{s_floor}', 0)
-                                bb_low_val = row_1h[f'bb_lower_{s_floor}']
-                                if slope_bb_low > 0.02 and bb_low_val > (p0 - 0.2 * atr_cur) and (c_1h > row_1h[f'sma_{s_floor}']):
-                                    current_anchor = s_floor
-                                    break
+                        is_floor_rising = (
+                            (row_1h['bb_low_L1_(55,89,144)'] > 0.30) and
+                            (row_1h['slope_bb_lower_89'] > 0) and
+                            (row_1h['sma_89'] > p0) and
+                            (c_1h > row_1h['sma_89'])
+                        )
+                        if is_floor_rising and current_anchor < 89:
+                            current_anchor = 89
 
-                    prev_afs_diff = now_afs_diff
                     prev_above_band = now_above_band
+                    prev_afs_diff = now_afs_diff
+                    cur_struct = row_1h[f'sma_{current_anchor}']
 
-            init_stop = p0 - 2.5 * atr0
-            struct_stop = row_1h[f'sma_{current_anchor}'] - 1.0 * atr_cur if (i % 60 != 0 and 'row_1h' in locals()) else (row_0[f'sma_{current_anchor}'] - 1.0 * atr_cur)
-            effective_stop = max(init_stop, struct_stop) if armed else init_stop
+                    if not armed and row_1h['close'] < row_1h['sma_21'] and row_1h['slope_21'] < 0 and row_1h['afs_order_score'] == 0:
+                        dur_h = float(np.round((i + 1) / 60.0, 2))
+                        t_exit = t_bar + pd.Timedelta(minutes=1)
+                        trades.append({
+                            't0': t0, 'entry_time': actual_entry_time, 'exit_time': t_exit, 'period': p_era,
+                            'p0': p0, 'exit_p': sub_opens[i], 'net_ret': (sub_opens[i] - p0)/p0 - FRICTION_BPS,
+                            'duration_h': dur_h, 'exit': 'structural_invalidation',
+                            'final_anchor': current_anchor,
+                            'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'long', 'side': 'long'
+                        })
+                        exited = True
+                        break
 
-            invalidation_cond = (cur_close < cur_sma34 - 1.0 * atr_cur) and (max_mfe_atr >= 1.5) and (current_anchor <= 34)
+            cur_high = sub_highs[i]
+            cur_low = sub_lows[i]
+            cur_open = sub_opens[i]
+            if cur_high > highest_price: highest_price = cur_high
+            cur_mfe = (cur_high - p0) / atr0
+            if cur_mfe > max_mfe_atr: max_mfe_atr = cur_mfe
 
-            if cur_low <= effective_stop or invalidation_cond:
-                t_exit = t_bar
-                p_exit = effective_stop if cur_low <= effective_stop else cur_close
-                dur_h = float(np.round((t_exit - actual_entry_time).total_seconds() / 3600.0, 2))
-                exit_type = 'structural_invalidation' if invalidation_cond and cur_low > effective_stop else (
-                    f'struct_exit_S{current_anchor}' if effective_stop == struct_stop else 'stop_hit'
-                )
+            base_stop = cur_sma34 - 5.0 * atr_cur
+            init_stop = p0 - 3.0 * atr0 if not armed else -999999.0
+            struct_stop = cur_struct - 1.0 * atr_cur if armed else base_stop
+            effective_stop = max(base_stop, init_stop, struct_stop)
+
+            if cur_low <= effective_stop:
+                dur_h = float(np.round((i + 1) / 60.0, 2))
+                t_exit = t_bar + pd.Timedelta(minutes=1)
+                p_exit = min(cur_open, effective_stop)
+                exit_type = f'struct_exit_S{current_anchor}' if effective_stop == struct_stop else 'stop_hit'
                 trades.append({
                     't0': t0, 'entry_time': actual_entry_time, 'exit_time': t_exit, 'period': p_era,
                     'p0': p0, 'exit_p': p_exit, 'net_ret': (p_exit - p0)/p0 - FRICTION_BPS,
@@ -355,18 +416,14 @@ def simulate_long_exp123(events, df_1h, df_1m,
 
 def simulate_short_exp123(events, df_1h, df_1m,
                           enable_bb_ceiling_respiration=True,
-                          enable_latency_absorption=True,
+                          enable_latency_absorption=False,
                           min_omega_val=0.20,
                           entry_1m_map=None):
-    """
-    Short Simulation Engine with HYP-123-1 Dynamic Downward Undershoot Latency Absorption Respiration.
-    """
     trades = []
     discovery_end = df_1m.index[-1]
     for t0 in events:
         entry_time = t0 + pd.Timedelta(hours=1)
-        if entry_time not in df_1h.index:
-            continue
+        if entry_time not in df_1h.index: continue
         row_0 = df_1h.loc[t0]
         # Climax gate (EXP-119)
         if (row_0['range_pos_720h'] < 0.20 and row_0['bb_L2_[8..55]'] > 0.35 and row_0['afs_L1_(8,13,21)'] > -0.10):
@@ -375,20 +432,17 @@ def simulate_short_exp123(events, df_1h, df_1m,
         atr0 = row_0['atr_24']
         p_era = exp115.get_period(t0)
         sub_1m = df_1m.loc[entry_time : discovery_end]
-        if len(sub_1m) < 60:
-            continue
+        if len(sub_1m) < 60: continue
 
         if entry_1m_map is not None and t0 in entry_1m_map:
             p0, actual_entry_time, bar_offset = entry_1m_map[t0]
-            if bar_offset > 0:
-                sub_1m = sub_1m.iloc[bar_offset:]
-                if len(sub_1m) < 10:
-                    continue
         else:
             p0 = sub_1m['open'].iloc[0]
             actual_entry_time = entry_time
+            bar_offset = 0
 
         sub_times = sub_1m.index
+        sub_opens = sub_1m['open'].values
         sub_highs = sub_1m['high'].values
         sub_lows = sub_1m['low'].values
         sub_closes = sub_1m['close'].values
@@ -398,14 +452,10 @@ def simulate_short_exp123(events, df_1h, df_1m,
 
         cur_sma34 = row_0['sma_34']
         atr_cur = atr0
-        if p0 <= row_0['sma_233'] + 0.5 * atr0:
-            current_anchor = 233
-        elif p0 <= row_0['sma_144'] + 0.5 * atr0:
-            current_anchor = 144
-        elif p0 <= row_0['sma_89'] + 0.5 * atr0:
-            current_anchor = 89
-        else:
-            current_anchor = 55
+        if p0 <= row_0['sma_233'] + 0.5 * atr0: current_anchor = 233
+        elif p0 <= row_0['sma_144'] + 0.5 * atr0: current_anchor = 144
+        elif p0 <= row_0['sma_89'] + 0.5 * atr0: current_anchor = 89
+        else: current_anchor = 55
 
         cur_struct = row_0[f'sma_{current_anchor}']
         armed = (p0 < cur_struct - 0.5 * atr0) and (row_0['sma_21'] < row_0['sma_34']) and (row_0[f'slope_{current_anchor}'] < 0)
@@ -413,18 +463,8 @@ def simulate_short_exp123(events, df_1h, df_1m,
         prev_afs_diff = row_0['afs_7'] - row_0['afs_9']
         prev_below_band = (row_0['close'] < row_0[f'bb_lower_{current_anchor}'])
 
-        for i in range(n_bars):
+        for i in range(bar_offset, n_bars):
             t_bar = sub_times[i]
-            cur_high = sub_highs[i]
-            cur_low = sub_lows[i]
-            cur_close = sub_closes[i]
-
-            mfe_atr = (p0 - cur_low) / (atr0 + 1e-8)
-            if mfe_atr > max_mfe_atr:
-                max_mfe_atr = mfe_atr
-            if cur_low < lowest_price:
-                lowest_price = cur_low
-
             if i % 60 == 0 and i > 0:
                 t_1h = (t_bar - pd.Timedelta(hours=1)).floor("1h")
                 if t_1h in df_1h.index:
@@ -440,10 +480,8 @@ def simulate_short_exp123(events, df_1h, df_1m,
                     afs_reversal_cross = (prev_afs_diff <= 0 and now_afs_diff > 0)
 
                     trigger_shift = False
-                    if now_below_band and not prev_below_band:
-                        trigger_shift = True
-                    if afs_reversal_cross and (lowest_price < row_1h[f'bb_lower_{cand_anchor}']):
-                        trigger_shift = True
+                    if now_below_band and not prev_below_band: trigger_shift = True
+                    if afs_reversal_cross and (lowest_price < row_1h[f'bb_lower_{cand_anchor}']): trigger_shift = True
 
                     if trigger_shift and cand_anchor < current_anchor:
                         if cand_anchor >= 55:
@@ -469,11 +507,12 @@ def simulate_short_exp123(events, df_1h, df_1m,
                             if is_impulse and cand_anchor < 55:
                                 accept_shift = False
 
-                            # HYP-123-1 Short Downward Undershoot Latency Absorption
-                            if enable_latency_absorption and cand_anchor < 55:
-                                is_undershoot = (row_1h.get('omega_down_55', 0) > min_omega_val) or \
+                            # Undershoot Latency Absorption Respiration
+                            if enable_latency_absorption:
+                                is_undershoot = (row_1h.get('overshoot_down_L2_[34..233]', 0) > min_omega_val) or \
+                                                (row_1h.get('omega_down_55', 0) > min_omega_val) or \
                                                 (row_1h.get('omega_down_89', 0) > min_omega_val)
-                                if is_undershoot:
+                                if is_undershoot and cand_anchor < 55:
                                     accept_shift = False
 
                         if accept_shift:
@@ -499,32 +538,51 @@ def simulate_short_exp123(events, df_1h, df_1m,
                         if is_macro_tree_bear_impulse and current_anchor <= 55 and c_1h > row_1h['sma_34']:
                             current_anchor = 89
 
-                    # BB Ceiling Respiration for Short (EXP-121)
+                    # EXP-121 BB Ceiling Respiration for Short
                     if enable_bb_ceiling_respiration and armed:
-                        for s_ceil in [55, 89, 144, 233]:
-                            if s_ceil > current_anchor:
-                                slope_bb_up = row_1h.get(f'slope_bb_upper_{s_ceil}', 0)
-                                bb_up_val = row_1h[f'bb_upper_{s_ceil}']
-                                if slope_bb_up < -0.02 and bb_up_val < (p0 + 0.2 * atr_cur) and (c_1h < row_1h[f'sma_{s_ceil}']):
-                                    current_anchor = s_ceil
-                                    break
+                        is_ceiling_falling = (
+                            (row_1h['bb_up_L1_(55,89,144)'] < -0.30) and
+                            (row_1h['slope_bb_upper_89'] < 0) and
+                            (row_1h['sma_89'] < p0) and
+                            (c_1h < row_1h['sma_89'])
+                        )
+                        if is_ceiling_falling and current_anchor < 89:
+                            current_anchor = 89
 
-                    prev_afs_diff = now_afs_diff
                     prev_below_band = now_below_band
+                    prev_afs_diff = now_afs_diff
+                    cur_struct = row_1h[f'sma_{current_anchor}']
 
-            init_stop = p0 + 2.5 * atr0
-            struct_stop = row_1h[f'sma_{current_anchor}'] + 0.8 * atr_cur if (i % 60 != 0 and 'row_1h' in locals()) else (row_0[f'sma_{current_anchor}'] + 0.8 * atr_cur)
-            effective_stop = min(init_stop, struct_stop) if armed else init_stop
+                    if not armed and row_1h['close'] > row_1h['sma_21'] and row_1h['slope_21'] > 0 and row_1h['afs_order_score_bear'] == 0:
+                        dur_h = float(np.round((i + 1) / 60.0, 2))
+                        t_exit = t_bar + pd.Timedelta(minutes=1)
+                        trades.append({
+                            't0': t0, 'entry_time': actual_entry_time, 'exit_time': t_exit, 'period': p_era,
+                            'p0': p0, 'exit_p': sub_opens[i], 'net_ret': (p0 - sub_opens[i])/p0 - FRICTION_BPS,
+                            'duration_h': dur_h, 'exit': 'structural_invalidation',
+                            'final_anchor': current_anchor,
+                            'max_mfe_atr': float(np.round(max_mfe_atr, 2)), 'direction': 'short', 'side': 'short'
+                        })
+                        exited = True
+                        break
 
-            invalidation_cond = (cur_close > cur_sma34 + 0.8 * atr_cur) and (max_mfe_atr >= 1.5) and (current_anchor <= 34)
+            cur_high = sub_highs[i]
+            cur_low = sub_lows[i]
+            cur_open = sub_opens[i]
+            if cur_low < lowest_price: lowest_price = cur_low
+            cur_mfe = (p0 - cur_low) / atr0
+            if cur_mfe > max_mfe_atr: max_mfe_atr = cur_mfe
 
-            if cur_high >= effective_stop or invalidation_cond:
-                t_exit = t_bar
-                p_exit = effective_stop if cur_high >= effective_stop else cur_close
-                dur_h = float(np.round((t_exit - actual_entry_time).total_seconds() / 3600.0, 2))
-                exit_type = 'structural_invalidation' if invalidation_cond and cur_high < effective_stop else (
-                    f'struct_exit_S{current_anchor}' if effective_stop == struct_stop else 'stop_hit'
-                )
+            base_stop = max(cur_sma34 + 5.0 * atr_cur, p0 + 1.0 * atr0)
+            init_stop = p0 + 2.5 * atr0 if not armed else 999999.0
+            struct_stop = cur_struct + 0.8 * atr_cur if armed else base_stop
+            effective_stop = min(base_stop, init_stop, struct_stop)
+
+            if cur_high >= effective_stop:
+                dur_h = float(np.round((i + 1) / 60.0, 2))
+                t_exit = t_bar + pd.Timedelta(minutes=1)
+                p_exit = max(cur_open, effective_stop)
+                exit_type = f'struct_exit_S{current_anchor}' if effective_stop == struct_stop else 'stop_hit'
                 trades.append({
                     't0': t0, 'entry_time': actual_entry_time, 'exit_time': t_exit, 'period': p_era,
                     'p0': p0, 'exit_p': p_exit, 'net_ret': (p0 - p_exit)/p0 - FRICTION_BPS,
@@ -857,7 +915,7 @@ def main():
     # Stage 1: + HYP-123-1 Dynamic Latency Absorption Respiration
     print("\n--- Running Stage 1: + Dynamic Latency Absorption Respiration ---")
     tl_s1 = simulate_long_exp123(filtered_events_exp121, df_1h, df_1m, enable_bb_respiration=True, enable_latency_absorption=True, min_omega_val=0.20, entry_1m_map=entry_map_exp121)
-    ts_s1 = simulate_short_exp123(short_events_stage1, df_1h, df_1m, enable_bb_ceiling_respiration=True, enable_latency_absorption=True, min_omega_val=0.20)
+    ts_s1 = simulate_short_exp123(short_events_stage1, df_1h, df_1m, enable_bb_ceiling_respiration=True, enable_latency_absorption=False)
     for t in tl_s1: t['side'] = 'long'
     for t in ts_s1 + plunge_trades: t['side'] = 'short'
     trades_s1 = sorted(tl_s1 + ts_s1 + plunge_trades, key=lambda x: x['entry_time'])
