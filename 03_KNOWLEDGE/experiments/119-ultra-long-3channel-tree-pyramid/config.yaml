@@ -1,0 +1,33 @@
+experiment_id: EXP-119
+title: 超長期スケール（〜17711）への階層拡張と SMA・BB・AFS 3チャンネル重複ツリー・ピラミッドによる統合状態空間の実装・検証
+date: 2026-11-08
+author: makagi
+status: COMPLETED
+decision: ACCEPTED
+data:
+  symbol: BTCUSD
+  timeframes:
+  - 1h
+  - 1m
+  discovery_start: '2020-01-01 00:00:00'
+  discovery_end: '2025-04-30 23:59:59'
+  holdout_start: '2025-05-01 00:00:00'
+  friction_bps: 40.0
+parameters:
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  channels:
+    channel_1_sma_structure: 17 scales, 8 layers up to Root [8..17711]
+    channel_2_bb_envelope: 17 scales, 8 layers up to Root [8..17711] (z_score and bandwidth expansion)
+    channel_3_afs_cycle: 17 scales, 8 layers up to Root [8..17711] (cycle and slope coherence)
+  ultra_respiration:
+    s144_condition: 'tree_L2_[610..4181] > 0.78 and tree_L1_(144,233,377) > 0.80 and sma_144 > p0 and slope_144 > 0 and current_anchor <= 89 and close < sma_55'
+    s233_condition: 'tree_L3_[610..10946] > 0.75 and tree_L2_[377..2584] > 0.78 and sma_233 > p0 and slope_233 > 0 and current_anchor <= 144 and close < sma_89'
+  bear_ceiling_gate:
+    long_block_condition: 'tree_L2_[610..4181] < -0.30 and tree_L3_[610..10946] < -0.25 and tree_L2_[144..987] < -0.10 and close < sma_610 and slope_610 < 0'
+  climax_squeeze_gate:
+    short_block_condition: 'range_pos_720h < 0.20 and bb_L2_[8..55] > 0.35 and afs_L1_(8,13,21) > -0.10'
+hypotheses:
+  HYP-119-1: ACCEPTED
+  HYP-119-2: ACCEPTED
+  HYP-119-3: ACCEPTED
+  HYP-119-4: ACCEPTED
