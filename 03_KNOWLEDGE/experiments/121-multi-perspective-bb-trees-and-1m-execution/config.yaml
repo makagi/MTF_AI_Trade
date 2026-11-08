@@ -1,0 +1,34 @@
+experiment_id: EXP-121
+title: 多視点BB階層ツリー・ピラミッド（上下バンド・帯域幅比・傾斜動態）とStoch_Dダイバージェンスおよび1分足精密執行の実装・検証
+date: 2026-11-08
+author: makagi
+status: COMPLETED
+decision: ACCEPTED
+data:
+  symbol: BTCUSD
+  timeframes:
+  - 1h
+  - 1m
+  discovery_start: '2020-01-01 00:00:00'
+  discovery_end: '2025-04-30 23:59:59'
+  holdout_start: '2025-05-01 00:00:00'
+  friction_bps: 40.0
+parameters:
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  scales_1m: [8, 13, 21, 34, 55, 89, 144, 233, 377]
+  perspectives:
+    perspective_a_bb_lower: 17 scales, 8 layers (Support Floor Ordering & Rising Staircase)
+    perspective_b_bb_upper: 17 scales, 8 layers (Ceiling Opening / Trumpet Expansion vs Exhaustion Pinching)
+    perspective_c_bb_wratio: 17 scales, 8 layers (Multi-Scale Volatility Cascade: Coiled Squeeze vs Burst)
+    perspective_d_bb_slope_diff: Directional Velocity (slope_up + slope_low)/2 vs Expansion Velocity (slope_up - slope_low)/2
+  stoch_pyramid:
+    scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+    divergence_metric: 'stoch_L1_(8,13,21) - stoch_L2_[34..233]'
+  execution_1m:
+    window: '[t0+1h, t0+2h]'
+    trigger: '1m micro-dip-rebound with 1m_tree_L1_(8,13,21) turn or stoch_z turn from oversold'
+hypotheses:
+  HYP-121-1: ACCEPTED
+  HYP-121-2: ACCEPTED
+  HYP-121-3: ACCEPTED
+  HYP-121-4: ACCEPTED

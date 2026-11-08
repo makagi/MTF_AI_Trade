@@ -1,0 +1,134 @@
+{
+  "experiment_id": "EXP-121",
+  "friction_bps": 40.0,
+  "stages": {
+    "Stage 0 (EXP-119 Base)": {
+      "master_std": {
+        "executed_trades": 145,
+        "win_rate_pct": 42.76,
+        "net_mean_return_pct": 3.05,
+        "profit_factor": 3.97,
+        "total_opportunity_net_return_pct": 441.54,
+        "max_drawdown_pct": -19.31,
+        "worst_trade_pct": -5.43,
+        "best_trade_pct": 67.4
+      },
+      "mode_a": {
+        "executed_trades": 112,
+        "win_rate_pct": 41.07,
+        "net_mean_return_pct": 2.55,
+        "profit_factor": 3.58,
+        "total_opportunity_net_return_pct": 285.93,
+        "max_drawdown_pct": -13.98,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.4
+      },
+      "mode_b": {
+        "executed_trades": 135,
+        "win_rate_pct": 42.22,
+        "net_mean_return_pct": 2.89,
+        "profit_factor": 3.95,
+        "total_opportunity_net_return_pct": 390.65,
+        "max_drawdown_pct": -17.16,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.4
+      }
+    },
+    "Stage 1 (+ BB Respiration)": {
+      "master_std": {
+        "executed_trades": 145,
+        "win_rate_pct": 42.76,
+        "net_mean_return_pct": 3.08,
+        "profit_factor": 4.01,
+        "total_opportunity_net_return_pct": 446.19,
+        "max_drawdown_pct": -19.31,
+        "worst_trade_pct": -5.43,
+        "best_trade_pct": 67.4
+      },
+      "mode_a": {
+        "executed_trades": 112,
+        "win_rate_pct": 41.07,
+        "net_mean_return_pct": 2.61,
+        "profit_factor": 3.64,
+        "total_opportunity_net_return_pct": 291.94,
+        "max_drawdown_pct": -13.98,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.4
+      },
+      "mode_b": {
+        "executed_trades": 135,
+        "win_rate_pct": 42.22,
+        "net_mean_return_pct": 2.93,
+        "profit_factor": 4.0,
+        "total_opportunity_net_return_pct": 395.31,
+        "max_drawdown_pct": -17.16,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.4
+      }
+    },
+    "Stage 2 (+ BB_Width & Stoch Filter)": {
+      "master_std": {
+        "executed_trades": 126,
+        "win_rate_pct": 46.03,
+        "net_mean_return_pct": 3.7,
+        "profit_factor": 4.78,
+        "total_opportunity_net_return_pct": 466.64,
+        "max_drawdown_pct": -17.65,
+        "worst_trade_pct": -5.43,
+        "best_trade_pct": 67.4
+      },
+      "mode_a": {
+        "executed_trades": 98,
+        "win_rate_pct": 43.88,
+        "net_mean_return_pct": 3.1,
+        "profit_factor": 4.22,
+        "total_opportunity_net_return_pct": 303.82,
+        "max_drawdown_pct": -12.69,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.4
+      },
+      "mode_b": {
+        "executed_trades": 119,
+        "win_rate_pct": 45.38,
+        "net_mean_return_pct": 3.44,
+        "profit_factor": 4.61,
+        "total_opportunity_net_return_pct": 409.69,
+        "max_drawdown_pct": -15.87,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.4
+      }
+    },
+    "Stage 3 (+ 1m Precision Timing)": {
+      "master_std": {
+        "executed_trades": 126,
+        "win_rate_pct": 47.62,
+        "net_mean_return_pct": 3.74,
+        "profit_factor": 4.9,
+        "total_opportunity_net_return_pct": 471.85,
+        "max_drawdown_pct": -17.41,
+        "worst_trade_pct": -5.43,
+        "best_trade_pct": 67.49
+      },
+      "mode_a": {
+        "executed_trades": 98,
+        "win_rate_pct": 45.92,
+        "net_mean_return_pct": 3.14,
+        "profit_factor": 4.35,
+        "total_opportunity_net_return_pct": 307.96,
+        "max_drawdown_pct": -12.7,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      },
+      "mode_b": {
+        "executed_trades": 119,
+        "win_rate_pct": 47.06,
+        "net_mean_return_pct": 3.49,
+        "profit_factor": 4.75,
+        "total_opportunity_net_return_pct": 414.84,
+        "max_drawdown_pct": -15.88,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      }
+    }
+  }
+}
