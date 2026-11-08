@@ -463,9 +463,13 @@ def simulate_exp119_short(events, df_1h, df_1m,
             continue
         row_0 = df_1h.loc[t0]
 
-        # HYP-119-3: BB Tree Oversold Climax Squeeze Gate
+        # HYP-119-3: 3-Channel BB & AFS Tree Oversold Climax Squeeze Gate
         if enable_bb_climax_gate:
-            is_oversold_exhaustion = (row_0['range_pos_720h'] < 0.20) and (row_0['bb_L2_[8..55]'] > 0.35)
+            is_oversold_exhaustion = (
+                (row_0['range_pos_720h'] < 0.20) and
+                (row_0['bb_L2_[8..55]'] > 0.35) and
+                (row_0['afs_L1_(8,13,21)'] > -0.10)
+            )
             if is_oversold_exhaustion:
                 continue
 
@@ -1085,15 +1089,15 @@ def run_experiment():
     ax_c3.scatter([pd.Timestamp('2022-06-23 22:40:00+00:00')], [20800.0], color='red', marker='x', s=150, zorder=6, label='EXP-117 S233 Stop Hit (-5.43%)')
 
     ax_c3.annotate(
-        "EXP-117: Short into capitulation low ($17.5k dump)\nHit S233 stop on sharp bounce (-5.43% loss)\nEXP-119 HYP-119-3: BB Tree Oversold Climax Squeeze Gate\nDetects bb_L2_[8..55] > 0.35 & range_pos < 0.20 -> BLOCKED (Saved -5.43%)!",
+        "EXP-117: Short into capitulation low ($17.5k dump)\nHit S233 stop on sharp bounce (-5.43% loss)\nEXP-119 HYP-119-3: 3-Channel BB & AFS Climax Gate\nDetects bb_L2_[8..55] > 0.35 & afs_L1_(8,13,21) > -0.10 & range_pos < 0.20\n-> BLOCKED (Saved -5.43%)!",
         xy=(t_entry_c3, p_entry_c3),
-        xytext=(pd.Timestamp('2022-06-17 12:00:00+00:00'), 22500),
+        xytext=(pd.Timestamp('2022-06-19 22:00:00+00:00'), 18350),
         arrowprops=dict(facecolor='red', shrink=0.05, width=1.5, headwidth=6),
         fontsize=9.5, fontweight='bold', color='#c0392b',
         bbox=dict(boxstyle='round,pad=0.3', facecolor='#fadbd8', edgecolor='red')
     )
 
-    ax_c3.set_title('Panel B: Case 3 (2022-06-19 Short) — BB Tree Oversold Climax Squeeze Gate Blocks Capitulation Bottom Trap', fontsize=12, fontweight='bold')
+    ax_c3.set_title('Panel B: Case 3 (2022-06-19 Short) — 3-Channel BB & AFS Climax Gate Blocks Capitulation Bottom Trap', fontsize=12, fontweight='bold')
     ax_c3.set_ylabel('Price (USD)', fontsize=11)
     ax_c3.legend(loc='lower right', fontsize=9, framealpha=0.9)
     ax_c3.grid(True, alpha=0.3)

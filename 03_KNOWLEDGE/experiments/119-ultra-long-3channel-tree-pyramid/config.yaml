@@ -25,7 +25,7 @@ parameters:
   bear_ceiling_gate:
     long_block_condition: 'tree_L2_[610..4181] < -0.30 and tree_L3_[610..10946] < -0.25 and tree_L2_[144..987] < -0.10 and close < sma_610 and slope_610 < 0'
   climax_squeeze_gate:
-    short_block_condition: 'range_pos_720h < 0.20 and bb_L2_[8..55] > 0.35'
+    short_block_condition: 'range_pos_720h < 0.20 and bb_L2_[8..55] > 0.35 and afs_L1_(8,13,21) > -0.10'
 hypotheses:
   HYP-119-1: ACCEPTED
   HYP-119-2: ACCEPTED
