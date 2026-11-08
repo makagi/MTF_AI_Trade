@@ -242,36 +242,42 @@ def build_1m_tree_pyramid(df_1m, scales=SCALES_1M):
 # Precision Execution Engines
 # ==============================================================================
 
-def build_1m_entry_timing_map(events, df_1h, df_1m):
+def build_1m_entry_timing_map(events, df_1h, df_1m, max_wait_mins=15):
     """
-    Build 1m micro-dip-rebound execution within [t0+1h, t0+2h]:
-    Checks if 1m tree turns up on a dip or stoch turns up from oversold.
+    Strictly causal 1m micro-dip-rebound execution within [t0+1h, t0+1h+max_wait_mins]:
+    1. At `t0 + 59m` (the final 1m bar of the 1h signal bar `t0`, 100% known before `entry_time = t0 + 1h`),
+       check if the 1m state is overbought (`bb_z_1m_21 > 0.40` and `stoch_z_1m_21 > 0.40`).
+    2. If NOT overbought at `t0 + 59m`, enter immediately at minute 0 open (`p_open0`).
+    3. If overbought at `t0 + 59m`, wait up to `K = max_wait_mins` (15 minutes):
+       - At each minute `m` in `1..K`, inspect ONLY the completed minute `m-1`:
+         if `bb_z_1m_21[m-1] < 0.0` with a bullish close (`close[m-1] > open[m-1]`) or `stoch_z_1m_21[m-1] < 0.0`,
+         execute at `open[m]`.
+       - If no dip occurs by `m = K`, execute unconditionally at `open[K]` (zero look-ahead fallback).
     """
     entry_map = {}
     for t0 in events:
         entry_time = t0 + pd.Timedelta(hours=1)
+        last_1m_before = entry_time - pd.Timedelta(minutes=1)
         sub_1m = df_1m.loc[entry_time : entry_time + pd.Timedelta(minutes=59)]
-        if len(sub_1m) < 10:
+        if len(sub_1m) <= max_wait_mins or last_1m_before not in df_1m.index:
             continue
         p_open0 = sub_1m['open'].iloc[0]
-        best_p = p_open0
-        best_time = entry_time
-        best_offset = 0
+        r_pre = df_1m.loc[last_1m_before]
 
-        sub_opens = sub_1m['open'].values
-        sub_times = sub_1m.index
-        sub_tree = sub_1m['tree_1m_L1_(8,13,21)'].values
-        sub_stoch = sub_1m['stoch_z_1m_21'].values
-        sub_bb_z = sub_1m['bb_z_1m_21'].values
-
-        for m in range(1, len(sub_1m)):
-            if sub_opens[m] < p_open0:
-                if (sub_tree[m] > 0 and sub_tree[m-1] <= 0) or (sub_stoch[m] > sub_stoch[m-1] and sub_bb_z[m] < -0.3):
-                    best_p = sub_opens[m]
-                    best_time = sub_times[m]
-                    best_offset = m
+        if r_pre['bb_z_1m_21'] > 0.40 and r_pre['stoch_z_1m_21'] > 0.40:
+            # Causal wait up to max_wait_mins; default to timeout open at K if no dip triggers
+            chosen_p = sub_1m['open'].iloc[max_wait_mins]
+            chosen_time = sub_1m.index[max_wait_mins]
+            chosen_offset = max_wait_mins
+            for m in range(1, max_wait_mins + 1):
+                if (sub_1m['bb_z_1m_21'].iloc[m - 1] < 0.0 and sub_1m['close'].iloc[m - 1] > sub_1m['open'].iloc[m - 1]) or (sub_1m['stoch_z_1m_21'].iloc[m - 1] < 0.0):
+                    chosen_p = sub_1m['open'].iloc[m]
+                    chosen_time = sub_1m.index[m]
+                    chosen_offset = m
                     break
-        entry_map[t0] = (best_p, best_time, best_offset)
+            entry_map[t0] = (chosen_p, chosen_time, chosen_offset)
+        else:
+            entry_map[t0] = (p_open0, entry_time, 0)
     return entry_map
 
 def simulate_long_exp121(events, df_1h, df_1m,
@@ -299,13 +305,10 @@ def simulate_long_exp121(events, df_1h, df_1m,
 
         if entry_1m_map is not None and t0 in entry_1m_map:
             p0, actual_entry_time, bar_offset = entry_1m_map[t0]
-            if bar_offset > 0:
-                sub_1m = sub_1m.iloc[bar_offset:]
-                if len(sub_1m) < 10:
-                    continue
         else:
             p0 = sub_1m['open'].iloc[0]
             actual_entry_time = entry_time
+            bar_offset = 0
 
         sub_times = sub_1m.index
         sub_opens = sub_1m['open'].values
@@ -329,7 +332,7 @@ def simulate_long_exp121(events, df_1h, df_1m,
         prev_afs_diff = row_0['afs_7'] - row_0['afs_9']
         prev_above_band = (row_0['close'] > row_0[f'bb_upper_{current_anchor}'])
 
-        for i in range(n_bars):
+        for i in range(bar_offset, n_bars):
             t_bar = sub_times[i]
             if i % 60 == 0 and i > 0:
                 t_1h = (t_bar - pd.Timedelta(hours=1)).floor("1h")
@@ -864,28 +867,48 @@ def plot_fig3_case_studies(df_1h, save_path):
     plt.savefig(save_path, dpi=180)
     plt.close()
 
-def plot_fig4_yearly_overlay(trades_std, save_path):
-    df_t = pd.DataFrame(trades_std)
-    df_t['year'] = df_t['exit_time'].dt.year
+def plot_fig4_yearly_overlay(trades_s0, trades_s3, save_path):
+    ym_s0 = exp115.compute_yearly_metrics(trades_s0)
+    ym_s3 = exp115.compute_yearly_metrics(trades_s3)
+    years = ['2020', '2021', '2022', '2023', '2024', '2025']
+    x = np.arange(len(years))
+    w = 0.35
 
-    years = sorted(df_t['year'].unique())
-    cum_by_year = {}
-    for y in years:
-        sub = df_t[df_t['year'] == y].sort_values(by='exit_time')
-        rets = sub['net_ret'].values * 100.0
-        cum_by_year[y] = np.sum(rets)
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(13, 10), sharex=True)
 
-    fig, ax = plt.subplots(figsize=(12, 6))
-    bars = ax.bar([str(y) for y in years], [cum_by_year[y] for y in years], color='#1f77b4', width=0.55, alpha=0.85)
+    ret_s0 = [ym_s0.get(y, {}).get('total_opportunity_net_return_pct', 0.0) for y in years]
+    ret_s3 = [ym_s3.get(y, {}).get('total_opportunity_net_return_pct', 0.0) for y in years]
 
-    for bar in bars:
-        h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width() / 2.0, h + 2.0, f"+{h:.1f}%" if h >= 0 else f"{h:.1f}%", ha='center', va='bottom', fontsize=10, fontweight='bold')
+    b1 = ax1.bar(x - w/2, ret_s0, w, label='Stage 0: EXP-119 Base', color='#7f7f7f', alpha=0.85)
+    b2 = ax1.bar(x + w/2, ret_s3, w, label='Stage 3: EXP-121 Multi-Perspective BB + 1m Exec', color='#2ca02c', alpha=0.90)
 
-    ax.set_title("Figure 4: EXP-121 Stage 3 Yearly Net Return Distribution (100% Profitable Every Year)", fontsize=13, fontweight='bold')
-    ax.set_ylabel("Annual Total Net Return (%)", fontsize=11)
-    ax.set_xlabel("Year", fontsize=11)
-    ax.grid(True, alpha=0.3, axis='y')
+    for b in list(b1) + list(b2):
+        h = b.get_height()
+        ax1.text(b.get_x() + b.get_width()/2, h + (2.0 if h >= 0 else -5.0), f"{h:+.1f}%", ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    ax1.set_title("Figure 4A: EXP-121 Mode A Annual Cumulative Net Return Comparison (EXP-119 Base vs EXP-121 Stage 3)", fontsize=13, fontweight='bold')
+    ax1.set_ylabel("Annual Cumulative Net Return (%)", fontsize=11)
+    ax1.legend(loc='upper right', fontsize=10)
+    ax1.grid(True, alpha=0.3, axis='y')
+
+    pf_s0 = [min(ym_s0.get(y, {}).get('profit_factor', 0.0), 10.0) for y in years]
+    pf_s3 = [min(ym_s3.get(y, {}).get('profit_factor', 0.0), 10.0) for y in years]
+
+    p1 = ax2.bar(x - w/2, pf_s0, w, label='Stage 0: EXP-119 Base PF', color='#7f7f7f', alpha=0.85)
+    p2 = ax2.bar(x + w/2, pf_s3, w, label='Stage 3: EXP-121 Proposed PF', color='#1f77b4', alpha=0.90)
+    ax2.axhline(1.0, color='red', ls='--', lw=1.2, alpha=0.7, label='Breakeven (PF = 1.0)')
+
+    for b in list(p1) + list(p2):
+        h = b.get_height()
+        ax2.text(b.get_x() + b.get_width()/2, h + 0.1, f"{h:.2f}", ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    ax2.set_title("Figure 4B: Annual Profit Factor Progression Across Market Regimes (2020-2025)", fontsize=13, fontweight='bold')
+    ax2.set_ylabel("Profit Factor (Capped at 10)", fontsize=11)
+    ax2.set_xticks(x)
+    ax2.set_xticklabels(years, fontsize=11)
+    ax2.set_xlabel("Year", fontsize=11)
+    ax2.legend(loc='upper right', fontsize=10)
+    ax2.grid(True, alpha=0.3, axis='y')
 
     plt.tight_layout()
     plt.savefig(save_path, dpi=180)
@@ -996,7 +1019,10 @@ def main():
     filtered_events_s2 = []
     for t0 in events_stage2:
         r0 = df_1h.loc[t0]
-        is_exhaustion = (r0['stoch_divergence_fast_slow'] < -0.40) and (r0['bb_up_L2_[34..233]'] < -0.10)
+        is_exhaustion = (
+            ((r0['stoch_divergence_fast_slow'] < -0.40) and (r0['bb_up_L2_[34..233]'] < -0.10)) or
+            ((r0['bb_up_L2_[34..233]'] < -0.50) and (r0['bb_wratio_L2_[34..233]'] < -0.30))
+        )
         if not is_exhaustion:
             filtered_events_s2.append(t0)
 
@@ -1038,7 +1064,11 @@ def main():
     plot_fig1_ablation_equity_curves(stages_res, fig1_path)
     plot_fig2_ablation_stages_bar(stages_res, fig2_path)
     plot_fig3_case_studies(df_1h, fig3_path)
-    plot_fig4_yearly_overlay(trades_s3, fig4_path)
+    plot_fig4_yearly_overlay(
+        stages_res['Stage 0 (EXP-119 Base)']['trades_ma'],
+        stages_res['Stage 3 (+ 1m Precision Timing)']['trades_ma'],
+        fig4_path
+    )
 
     print(f"\nAll 4 experiment plots generated in {plots_dir}.")
 

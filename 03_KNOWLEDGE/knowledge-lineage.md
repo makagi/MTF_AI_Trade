@@ -1038,9 +1038,9 @@ graph TD
 ### K-070: 多視点BB階層ツリー・ピラミッドによる直交状態空間
 * **ステータス**: **支持（Supported / 確立済み知見）**
 * **概要**: ボリンジャーバンド（BB）を単なる位置指標（%B）に留めず、上下バンド構造線・帯域幅比・バンド傾斜の4視点からなる多次元階層ツリー・ピラミッド（Channel 2 Multi-Perspective Trees: `BB_Lower`, `BB_Upper`, `BB_Width_Ratio`, `BB_Slope`）として定式化。さらにストキャスティクスD階層ツリーのファスト・スロー乖離（`stoch_divergence_fast_slow`）を直交情報として統合することにより、偽ブレイクアウトの抑制と推進波のホールド耐性を飛躍的に向上させた（EXP-121）：
-  1. **BB Structural Slope Respiration & Trumpet Floor Holding**: `BB_Lower` 構造傾斜が正（$slope > 0$）かつトランペット型拡大時（$\text{bb\_width\_ratio} > 1.05$）に防衛フロアを維持・ホールドすることで、強気トレンド途中の押し目ノイズによる早期脱落を根絶。
-  2. **BB Width Ratio Diffusion & Stoch_D Fast-Slow Divergence Filter**: バンド幅急拡大期におけるオシレーター過熱・乖離（$d_{\text{fast-slow}} < -0.15$ かつ $\text{stoch\_fast} > 0.85$）を検出して逆張りエントリー・天井掴み（9件の消耗トラップ）を事前排除。排除されたトレードはすべて損失または微益であり、無駄な損切りを削減。
-  3. **収益性の向上**: Master Std PF は $3.97 \to 4.35$、総純利益は $+441.5\% \to +456.9\%$、Mode A PF は $3.58 \to 3.96$（$+285.9\% \to +300.0\%$）へ単調改善。
+  1. **BB Structural Slope Respiration & Trumpet Floor Holding**: `BB_Lower` 構造傾斜が正（$slope > 0$）かつトランペット型拡大時（`bb_up_L1 > 0.40`）に防衛フロアを維持・ホールドすることで、強気トレンド途中の押し目ノイズによる早期脱落を根絶（Stage 1: Master Std PF `3.97` $\to$ `4.01`, `+441.5%` $\to$ `+446.2%`）。
+  2. **BB Width Ratio Diffusion & Stoch_D Fast-Slow Divergence Filter**: 天井収縮（`bb_up_L2_[34..233] < -0.10` かつ `stoch_divergence_fast_slow < -0.40`、または `bb_up_L2_[34..233] < -0.50` かつ `bb_wratio_L2_[34..233] < -0.30`）の偽ブルトラップ（19件）を事前排除。
+  3. **収益性の向上**: Master Std PF は `3.97` $\to$ **`4.78`**、総純利益は `+441.5%` $\to$ **`+466.6%`**、Mode A PF は `3.58` $\to$ **`4.22`**（`+285.9%` $\to$ **`+303.8%`**）へ単調改善。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md`](experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md) (EXP-121 / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121))
 * **仕様への影響**: BB特徴量体系を単一のバンド幅・乖離度から「多視点BBツリー・ピラミッド」へ改訂・仕様統合。
@@ -1049,12 +1049,12 @@ graph TD
 
 ### K-071: 1分足階層ツリーとマイクロプルバック反発精密執行
 * **ステータス**: **支持（Supported / 確立済み知見）**
-* **概要**: 1時間足のセットアップ確定後（$t_0$）の執行において、盲目的に $t_0+1\text{h}$ 始値で成行約定するのではなく、1分足フィボナッチ・スケール群（$8\text{m} \sim 377\text{m}$、最大6.3時間）からなる1分足階層ツリー（1m Tree Pyramid）および1m BB/Stoch_Dを監視し、$[t_0+1\text{h}, t_0+2\text{h}]$ のウィンドウ内で1mマイクロプルバック（1m BB下限接触・下髭）からの反発点火（`1m_tree_L1 > 0` または `1m_stoch_d` 上向き転換）を捉えて精密約定させる執行機構を確立（EXP-121）：
-  1. **スリッページ・押し目獲得によるエントリー有利化**: 1h足ブレイクアウト直後の1m局所高値掴みを回避し、平均してより有利な価格帯での執行を実現（平均EV +0.15%pt向上）。
+* **概要**: 1時間足のセットアップ確定後（$t_0$）の執行において、盲目的に $t_0+1\text{h}$ 始値で成行約定するのではなく、1分足フィボナッチ・スケール群（$8\text{m} \sim 377\text{m}$、最大6.3時間）からなる1分足階層ツリー（1m Tree Pyramid）および1m BB/Stoch_Dを監視し、シグナル確定直前（$t_0+59\text{m}$）の1m過熱時に最大15分間のマイクロプルバック反発（未発火時は15分目始値で無条件成行執行する完全因果設計）で精密約定させる執行機構を確立（EXP-121）：
+  1. **スリッページ・押し目獲得によるエントリー有利化**: 1h足ブレイクアウト直後の1m局所高値掴みを回避し、過熱エントリーに対して平均 `+8.55 bps` 有利な価格帯での完全因果執行を実現。
   2. **史上最高パフォーマンスの達成**:
-     - Master Std: PF **`4.89`**（+$0.92$pt）、総純利益 **`+477.5%`**（+$36.0$pt）、MaxDD **`-17.3%`**（勝率 49.3%, 136件）。全6年全期黒字（2020: +108.4%, 2021: +101.2%, 2022: +12.4%, 2023: +51.8%, 2024: +52.1%, 2025: +6.8%）。
-     - Mode A: PF **`4.54`**（+$0.96$pt）、総純利益 **`+315.2%`**（+$29.3$pt）、MaxDD **`-14.3%`**（勝率 48.1%, 106件）。
-     - Mode B: PF **`4.86`**（+$0.91$pt）、総純利益 **`+423.1%`**（+$32.5$pt）、MaxDD **`-17.3%`**（勝率 49.2%, 128件）。
+     - Master Std: PF **`4.90`**（+0.93pt）、総純利益 **`+471.9%`**（+30.4%pt）、MaxDD **`-17.4%`**（勝率 47.6%, 126件）。
+     - Mode A: PF **`4.35`**（+0.77pt）、総純利益 **`+308.0%`**（+22.1%pt）、MaxDD **`-12.7%`**（勝率 45.9%, 98件）。
+     - Mode B: PF **`4.75`**（+0.80pt）、総純利益 **`+414.8%`**（+24.2%pt）、MaxDD **`-15.9%`**（勝率 46.2%, 119件）。
   3. **新確定マスター生産ベースラインの更新**: EXP-119 を全モード・全指標で大幅に凌駕し、本戦略フレームワークにおける「新確定マスター生産ベースライン」へ正式昇格。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md`](experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md) (EXP-121 / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121))
@@ -1101,4 +1101,4 @@ graph TD
 | 2026-11-07 | 2.8.0 | EXP-115 反映、構造クロス確定ヒステリシス（K-064 Supported）、推進期フロア保持と調整期呼気再拡張（K-065 Supported）登録・計65知見へ拡充（Pure Master Std: PF 2.35 Tot +253.7%・Mode A: PF 2.36 Tot +196.3%・Mode B: PF 2.38 Tot +240.8%・EXP-113比大幅進化・確定ベースラインはEXP-109維持） | @makagi / [#115](https://github.com/makagi/MTF_AI_Trade/issues/115) |
 | 2026-11-08 | 2.9.0 | EXP-117 反映、重複3分岐フィボナッチ・ツリー状態空間と無支持落下ナイフ遮断・遅延波束再点火則（K-066 Supported）、ツリー階層コヒーレンス連動型S89深呼吸則（K-067 Supported）登録・計67知見へ拡充（Pure Master Std: PF 3.03 Tot +339.3%・Mode A: PF 3.05 Tot +251.7%・Mode B: PF 3.08 Tot +310.4% 全モードPF 3.00突破・確定ベースラインはEXP-109維持） | @makagi / [#117](https://github.com/makagi/MTF_AI_Trade/issues/117) |
 | 2026-11-08 | 3.0.0 | EXP-119 反映、超長期17711ツリー・ピラミッドと超長期強気S233深呼吸則（K-068 Supported）、超長期天井抵抗遮断および3チャンネルBB/AFSクライマックス・スクイーズ防衛則（K-069 Supported）登録・計69知見へ拡充（Pure Master Std: PF 3.97 Tot +441.5%・Mode A: PF 3.58 Tot +285.9%・EXP-109 ベースライン完全超越・新確定マスター生産ベースラインへ昇格） | @makagi / [#119](https://github.com/makagi/MTF_AI_Trade/issues/119) |
-| 2026-11-08 | 3.1.0 | EXP-121 反映、多視点BB階層ツリー・ピラミッド（K-070 Supported）、1分足精密執行（K-071 Supported）登録・計71知見へ拡充（Master Std: PF 4.89 Tot +477.5%・Mode A: PF 4.54 Tot +315.2%・新確定マスター生産ベースラインへ昇格） | @makagi / [#121] |
+| 2026-11-08 | 3.1.0 | EXP-121 反映、多視点BB階層ツリー・ピラミッド（K-070 Supported）、1分足完全因果精密執行（K-071 Supported）登録・計71知見へ拡充（Master Std: PF 4.90 Tot +471.9%・Mode A: PF 4.35 Tot +308.0%・新確定マスター生産ベースラインへ昇格） | @makagi / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121) |
