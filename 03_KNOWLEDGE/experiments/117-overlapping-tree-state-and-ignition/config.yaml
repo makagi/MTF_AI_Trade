@@ -1,0 +1,37 @@
+experiment_id: EXP-117
+title: 重複3分岐フィボナッチ・ツリー状態空間と無支持落下ナイフ遮断・遅延波束再点火則および階層コヒーレンス連動型多段呼吸エグジットの実装・検証
+date: 2026-11-08
+author: makagi
+status: COMPLETED
+decision: CONSTRAINED
+data:
+  symbol: BTCUSD
+  timeframes:
+  - 1h
+  - 1m
+  discovery_start: '2020-01-01 00:00:00'
+  discovery_end: '2025-04-30 23:59:59'
+  holdout_start: '2025-05-01 00:00:00'
+  friction_bps: 40.0
+parameters:
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377]
+  tree_layers:
+    L1: 7 triplets (8..21 to 144..377)
+    L2: 5 wave packets ([8..55] to [55..377])
+    L3: 3 macro regime nodes ([8..144] to [21..377])
+    L4: 1 global root ([8..377])
+  unanchored_knife_gate:
+    long_knife_condition: 'close < sma_21 and close < sma_34 and afs_order_score == 0 and tree_L1_(8,13,21) < 0 and (tree_L1_(89,144,233) <= 0.0 or slope_233 <= 0.0)'
+    short_squeeze_gate: 'tree_L2_[8..55] <= 0.45'
+  deferred_tree_ignition:
+    pending_trigger: 'prop_mask_fast and is_unanchored_knife'
+    invalidation_reset: 'close < bb_lower_233'
+    tree_ignition_trigger: 'close > sma_21 > sma_34 > sma_55 > sma_144 > sma_233 and slope_21>0 and slope_34>0 and slope_55>0 and slope_233>0 and tree_L2_[8..55] > 0.25 and tree_L3_[13..233] > 0.15 and close <= bb_upper_233 and gate_trap and gate_booster'
+  tree_coherence_respiration:
+    long_exhale_to_s89: 'tree_L2_[34..233] > 0.70 and tree_L1_(55,89,144) > 0.70 and sma_55 > sma_89 > sma_144 > sma_233 and slope_89 > 0 and sma_89 > p0 and current_anchor <= 55 and close < sma_34'
+    short_exhale_to_s89: 'tree_L2_[34..233] < -0.70 and tree_L1_(55,89,144) < -0.70 and sma_55 < sma_89 < sma_144 < sma_233 and slope_89 < 0 and sma_89 < p0 and current_anchor <= 55 and close > sma_34'
+hypotheses:
+  HYP-117-1: ACCEPTED
+  HYP-117-2: ACCEPTED
+  HYP-117-3: ACCEPTED
+  HYP-117-4: CONSTRAINED
