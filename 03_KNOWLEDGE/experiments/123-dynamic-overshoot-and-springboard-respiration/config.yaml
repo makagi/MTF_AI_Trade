@@ -1,0 +1,34 @@
+experiment_id: EXP-123
+title: 動的スケール適応型包絡線過伸長予測・レイテンシ吸収呼吸と跳躍台（Springboard）反発の実装・検証
+date: 2026-11-08
+author: makagi
+status: COMPLETED
+decision: ACCEPTED
+data:
+  symbol: BTCUSD
+  timeframes:
+  - 1h
+  - 1m
+  discovery_start: '2020-01-01 00:00:00'
+  discovery_end: '2025-04-30 23:59:59'
+  holdout_start: '2025-05-01 00:00:00'
+  friction_bps: 40.0
+parameters:
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  scales_1m: [8, 13, 21, 34, 55, 89, 144, 233, 377]
+  spring_scales: [55, 89, 144, 233, 377, 610, 987]
+  forward_overshoot:
+    lookahead_delta_t_factor: 0.236
+    velocity_window_bars: 3
+    overshoot_threshold_omega: 0.20
+    blowoff_gate_omega: 0.80
+  springboard_parameters:
+    rising_floor_margin_min_atr: 0.35
+    range_pos_max_720h: 0.82
+    fast_stoch_l1_max: 0.30
+    macro_alignment_min: 0.30
+    ultra_long_gate_min: 0.00
+hypotheses:
+  HYP-123-1: ACCEPTED
+  HYP-123-2: ACCEPTED
+  HYP-123-3: ACCEPTED
