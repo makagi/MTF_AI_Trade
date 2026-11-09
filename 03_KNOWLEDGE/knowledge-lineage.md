@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 3.2.0  
+**Version:** 3.3.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-11-08  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123)  
+**Last Updated:** 2026-11-10  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -255,6 +255,9 @@ graph TD
     EXP121["EXP-121: 121-multi-perspective-bb-trees-and-1m-execution"] --> K070
     EXP121 --> K071
     K070 --> K072
+    K072 --> K074["K-074: スケールフリー動的極値看破ショート則<br/>(Supported)"]:::supported
+    K073 --> K075["K-075: 超長期水平呼吸大底ペンデュラム反転と跳躍台ダブル波捕捉則<br/>(Supported as Context)"]:::supported
+
     K071 --> K073
     K072 --> K073
     EXP123["EXP-123: 123-dynamic-overshoot-and-springboard-respiration"] --> K072
@@ -1049,7 +1052,7 @@ graph TD
   2. **BB Width Ratio Diffusion & Stoch_D Fast-Slow Divergence Filter**: 天井収縮（`bb_up_L2_[34..233] < -0.10` かつ `stoch_divergence_fast_slow < -0.40`、または `bb_up_L2_[34..233] < -0.50` かつ `bb_wratio_L2_[34..233] < -0.30`）の偽ブルトラップ（19件）を事前排除。
   3. **収益性の向上**: Master Std PF は `3.97` $\to$ **`4.78`**、総純利益は `+441.5%` $\to$ **`+466.6%`**、Mode A PF は `3.58` $\to$ **`4.22`**（`+285.9%` $\to$ **`+303.8%`**）へ単調改善。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md`](experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md) (EXP-121 / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123))
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md`](experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md) (EXP-121 / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125))
 * **仕様への影響**: BB特徴量体系を単一のバンド幅・乖離度から「多視点BBツリー・ピラミッド」へ改訂・仕様統合。
 
 ---
@@ -1064,7 +1067,7 @@ graph TD
      - Mode B: PF **`4.75`**（+0.80pt）、総純利益 **`+414.8%`**（+24.2%pt）、MaxDD **`-15.9%`**（勝率 46.2%, 119件）。
   3. **新確定マスター生産ベースラインの更新**: EXP-119 を全モード・全指標で大幅に凌駕し、本戦略フレームワークにおける「新確定マスター生産ベースライン」へ正式昇格。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md`](experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md) (EXP-121 / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123))
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md`](experiments/121-multi-perspective-bb-trees-and-1m-execution/record.md) (EXP-121 / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125))
 * **仕様への影響**: 確定生産ベースラインを EXP-119 から EXP-121 へ更新。執行仕様（SPEC-EXEC）において1m階層ツリー連動精密執行モデルを正式採用。
 
 ---
@@ -1077,7 +1080,7 @@ graph TD
   1. **早期振り落としの完全根絶**: パラボリック急伸直後の不可避な押し目によるヒゲ刈りを防ぎ、大局トレンド波束の完走を実現。
   2. **アブレーション劇的向上の達成**: Master Std の純利益は $+471.9\%$ から $+472.3\%$（PF $4.90 \to 4.92$）、Mode A は $+308.0\%$ から $+308.4\%$（PF $4.35 \to 4.38$）、Mode B は $+414.8\%$ から $+415.3\%$（PF $4.75 \to 4.76$）へと全3モードで単調向上。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/123-dynamic-overshoot-and-springboard-respiration/record.md`](experiments/123-dynamic-overshoot-and-springboard-respiration/record.md) (EXP-123 / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123))
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/123-dynamic-overshoot-and-springboard-respiration/record.md`](experiments/123-dynamic-overshoot-and-springboard-respiration/record.md) (EXP-123 / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125))
 * **仕様への影響**: 呼吸エグジット仕様において、前方過伸長度連動型レイテンシ吸収呼吸を正式採用。
 
 ---
@@ -1095,10 +1098,39 @@ graph TD
      - Mode B: PF **`5.05`**、総純利益 **`+447.2%`**、EV **`+3.70%`**、MaxDD **`-15.9%`**（勝率 47.9%, 121件）。
   3. **新確定マスター生産ベースラインの更新**: EXP-121 を全モード・全指標で圧倒的に凌駕し、本戦略フレームワークにおける「新確定マスター生産ベースライン」へ正式昇格。
 * **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
-* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/123-dynamic-overshoot-and-springboard-respiration/record.md`](experiments/123-dynamic-overshoot-and-springboard-respiration/record.md) (EXP-123 / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123))
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/123-dynamic-overshoot-and-springboard-respiration/record.md`](experiments/123-dynamic-overshoot-and-springboard-respiration/record.md) (EXP-123 / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125))
 * **仕様への影響**: 確定生産ベースラインを EXP-121 から EXP-123 へ更新。シグナル仕様において守られた支持床跳躍台反発エントリーモデルを正式採用。
 
 ---
+
+
+---
+
+### K-074: スケールフリー動的極値看破ショート則
+* **ステータス**: **支持（Supported / 確立済み知見）**
+* **概要**: 固定スケール（233等）を撤廃し、ボラティリティ前線および傾き反転深度（Cluster Inversion Depth: CID）から動的焦点スケール $k^*(t)$ および黄金調和マクロスケール $k_{\text{macro}}(t) = \mathcal{S}[\text{index}(k^*) + 2]$ を自己組織化。マクロ過熱圏（$range\_pos \ge 0.70$）において、マクロ支持床崩壊（$m_{\text{floor}}(k_{\text{macro}}) < -1.0$ ATR）、3スケール幾何反転カスケード（$\rho^* < 0$）、およびオシレーター乖離（$stoch\_gap < -0.30$）を看破してショートを発動（EXP-125）：
+  1. **場面2（2021年11月最高値 $69,000 天井圏）のピンポイント看破**:
+     - 2021年11月11日 01:00 UTC（絶対天井からわずか8時間後・5.6%押し目）に `$65,133.93` で初点火。
+     - 30日後安値 `$41,778`（`+35.86%`）、サイクル大底 `$15,476`（`+76.24%`）の下落トレンドをフル獲得。
+  2. **ドローダウン悪化ゼロでの増益達成**:
+     - Mode A（厳格1ポジション排他）において、最大ドローダウンを `-14.1%` のまま完全堅持しつつ、累積純利益を `+308.9%` から **`+316.1%`（+7.14%pt 増益）** へ向上。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/125-dynamic-scale-extremum-double-wave/record.md`](experiments/125-dynamic-scale-extremum-double-wave/record.md) (EXP-125 / [#125](https://github.com/makagi/MTF_AI_Trade/issues/125))
+* **仕様への影響**: シグナル仕様において、スケールフリー動的極値看破ショートを正式採用。
+
+---
+
+### K-075: 超長期水平呼吸大底ペンデュラム反転と跳躍台ダブル波捕捉則
+* **ステータス**: **支持（Supported as Contextual Pattern / 確立済み知見）**
+* **概要**: 超長期スケール群（610..4181）において傾きが水平化（$|slope_s| \le 0.0025$）した動的水平スケール $k_{\text{flat}}(t)$ を検出し、その呼吸レンジにおける大底叩き（直近最安値反発初動）からのオシレーター急騰（$stoch\_gap \ge 1.0$）を捉えて第1波（Wave-1）ロングを発火。利確後、中長期BB Lowerがせり上がって形成される跳躍台（K-073 Springboard）で第2波（Wave-2）ロングを連鎖発火させるダブル波連続捕捉機構を確立（EXP-125）：
+  1. **場面3（2022年冬FTX大底〜2023年春）のダブル波連続捕捉**:
+     - Wave-1 ペンデュラム反転: 2022年12月20日 07:00 UTC @ `$16,817.61` 発火、`$21,664.71` までの急騰（`+28.82%`）を獲得。
+     - Wave-2 跳躍台反発: 2023年2月15日 17:00 UTC @ `$22,200` 再点火、`$25,000+`（`+12.61%`）を獲得。
+     - 合計獲得利益: 複利 **`+45.06%`** を達成。
+  2. **コンテキスト制約の解明**: 平時保ち合いレンジでの無条件発火はだましによる摩擦負けを招くため、「大底圏（range_pos <= 0.45 かつ直近最安値反発初動）に限定して発動させる支持床連携モデル」として制約適用。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/125-dynamic-scale-extremum-double-wave/record.md`](experiments/125-dynamic-scale-extremum-double-wave/record.md) (EXP-125 / [#125](https://github.com/makagi/MTF_AI_Trade/issues/125))
+* **仕様への影響**: シグナル仕様において、超長期水平呼吸大底ペンデュラム反転を大底支持床連携モデルとして正式採用。
 
 ## 4. Change History
 
@@ -1139,5 +1171,6 @@ graph TD
 | 2026-11-07 | 2.8.0 | EXP-115 反映、構造クロス確定ヒステリシス（K-064 Supported）、推進期フロア保持と調整期呼気再拡張（K-065 Supported）登録・計65知見へ拡充（Pure Master Std: PF 2.35 Tot +253.7%・Mode A: PF 2.36 Tot +196.3%・Mode B: PF 2.38 Tot +240.8%・EXP-113比大幅進化・確定ベースラインはEXP-109維持） | @makagi / [#115](https://github.com/makagi/MTF_AI_Trade/issues/115) |
 | 2026-11-08 | 2.9.0 | EXP-117 反映、重複3分岐フィボナッチ・ツリー状態空間と無支持落下ナイフ遮断・遅延波束再点火則（K-066 Supported）、ツリー階層コヒーレンス連動型S89深呼吸則（K-067 Supported）登録・計67知見へ拡充（Pure Master Std: PF 3.03 Tot +339.3%・Mode A: PF 3.05 Tot +251.7%・Mode B: PF 3.08 Tot +310.4% 全モードPF 3.00突破・確定ベースラインはEXP-109維持） | @makagi / [#117](https://github.com/makagi/MTF_AI_Trade/issues/117) |
 | 2026-11-08 | 3.0.0 | EXP-119 反映、超長期17711ツリー・ピラミッドと超長期強気S233深呼吸則（K-068 Supported）、超長期天井抵抗遮断および3チャンネルBB/AFSクライマックス・スクイーズ防衛則（K-069 Supported）登録・計69知見へ拡充（Pure Master Std: PF 3.97 Tot +441.5%・Mode A: PF 3.58 Tot +285.9%・EXP-109 ベースライン完全超越・新確定マスター生産ベースラインへ昇格） | @makagi / [#119](https://github.com/makagi/MTF_AI_Trade/issues/119) |
-| 2026-11-08 | 3.1.0 | EXP-121 反映、多視点BB階層ツリー・ピラミッド（K-070 Supported）、1分足完全因果精密執行（K-071 Supported）登録・計71知見へ拡充（Master Std: PF 4.90 Tot +471.9%・Mode A: PF 4.35 Tot +308.0%・新確定マスター生産ベースラインへ昇格） | @makagi / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123) |
-| 2026-11-08 | 3.2.0 | EXP-123 反映、動的レイテンシ吸収呼吸（K-072 Supported）、守られた支持床跳躍台反発（K-073 Supported）登録・計73知見へ拡充（Master Std: PF 5.45 Tot +535.8%・Mode A: PF 4.69 Tot +337.3%・新確定マスター生産ベースラインへ昇格） | @makagi / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123) |
+| 2026-11-08 | 3.1.0 | EXP-121 反映、多視点BB階層ツリー・ピラミッド（K-070 Supported）、1分足完全因果精密執行（K-071 Supported）登録・計71知見へ拡充（Master Std: PF 4.90 Tot +471.9%・Mode A: PF 4.35 Tot +308.0%・新確定マスター生産ベースラインへ昇格） | @makagi / [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125) |
+| 2026-11-10 | 3.3.0 | EXP-125 反映、スケールフリー動的極値看破ショート（K-074 Supported）、超長期水平呼吸大底ペンデュラム反転と跳躍台ダブル波捕捉（K-075 Supported as Contextual Pattern）登録・計75知見へ拡充（Mode A: Tot +316.1% MaxDD -14.1% 堅持・場面2天井ショート+35.8%獲得・場面3ダブル波+45.1%獲得） | @makagi / [#125](https://github.com/makagi/MTF_AI_Trade/issues/125) |
+| 2026-11-08 | 3.2.0 | EXP-123 反映、動的レイテンシ吸収呼吸（K-072 Supported）、守られた支持床跳躍台反発（K-073 Supported）登録・計73知見へ拡充（Master Std: PF 5.45 Tot +535.8%・Mode A: PF 4.69 Tot +337.3%・新確定マスター生産ベースラインへ昇格） | @makagi / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125) |
