@@ -1,0 +1,14 @@
+experiment_id: EXP-125
+name: dynamic-scale-extremum-double-wave
+issue_id: 125
+description: "スケールフリー動的階層モデルによる極値看破ショートと多重波（大底ペンデュラム＋跳躍台）連続捕捉"
+friction_bps: 0.0040
+date: "2026-11-10"
+author: "@makagi"
+scales:
+  fibonacci_tree: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  micro_1m: [8, 13, 21, 34, 55, 89, 144, 233, 377]
+hypotheses:
+  hyp125_1: "スケールフリー動的極値看破ショート (Dynamic Extremum Exhaustion Short): k*動的選定, マクロフロア崩壊, 3スケール反転カスケード"
+  hyp125_2: "超長期水平呼吸大底ペンデュラム反転ロング (Pendulum Rebound Long): k_flat動的選定, 大底反発, 短期長期オシレーター乖離"
+  hyp125_3: "大底ペンデュラムと跳躍台のダブル波連続捕捉統合 (Double Wave Continuous Capture Master)"
