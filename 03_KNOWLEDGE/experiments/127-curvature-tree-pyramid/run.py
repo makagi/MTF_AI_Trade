@@ -31,10 +31,9 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-ROOT_DIR = r"D:\work\AI-Trade\MTF_AI_Trade"
-EXP_DIR = os.path.join(ROOT_DIR, "03_KNOWLEDGE/experiments/127-curvature-tree-pyramid")
+EXP_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(EXP_DIR)))
 PLOTS_DIR = os.path.join(EXP_DIR, "plots")
-BRAIN_DIR = r"C:\Users\masak\.gemini\antigravity\brain\3b2be9f9-b150-45a4-ae18-c63420dc9c44"
 os.makedirs(PLOTS_DIR, exist_ok=True)
 sys.path.insert(0, ROOT_DIR)
 
@@ -123,6 +122,15 @@ def simulate_long_exp127(events, df_1h, df_1m,
         entry_time = t0 + pd.Timedelta(hours=1)
         if entry_time not in df_1h.index: continue
         row_0 = df_1h.loc[t0]
+
+        # EXP-119 Bear Ceiling Gate (exact copy from EXP-121 / EXP-123)
+        if (row_0['tree_L2_[610..4181]'] < -0.30 and
+            row_0['tree_L3_[610..10946]'] < -0.25 and
+            row_0['tree_L2_[144..987]'] < -0.10 and
+            row_0['close'] < row_0['sma_610'] and
+            row_0['slope_610'] < 0):
+            continue
+
         atr0 = row_0['atr_24']
         p_era = exp115.get_period(t0)
         sub_1m = df_1m.loc[entry_time : discovery_end]
@@ -509,11 +517,12 @@ def generate_exp127_plots(stages_res, df_1h, save_dir):
     fig.savefig(fig4_path, dpi=180)
     plt.close(fig)
 
-    if os.path.exists(BRAIN_DIR):
-        shutil.copy(fig1_path, os.path.join(BRAIN_DIR, "exp127_fig1.png"))
-        shutil.copy(fig2_path, os.path.join(BRAIN_DIR, "exp127_fig2.png"))
-        shutil.copy(fig3_path, os.path.join(BRAIN_DIR, "exp127_fig3.png"))
-        shutil.copy(fig4_path, os.path.join(BRAIN_DIR, "exp127_fig4.png"))
+    brain_dir = os.environ.get("ANTIGRAVITY_BRAIN_DIR")
+    if brain_dir and os.path.exists(brain_dir):
+        shutil.copy(fig1_path, os.path.join(brain_dir, "exp127_fig1.png"))
+        shutil.copy(fig2_path, os.path.join(brain_dir, "exp127_fig2.png"))
+        shutil.copy(fig3_path, os.path.join(brain_dir, "exp127_fig3.png"))
+        shutil.copy(fig4_path, os.path.join(brain_dir, "exp127_fig4.png"))
     print(f"All 4 plots saved in {save_dir} and brain directory.")
 
 # ==============================================================================

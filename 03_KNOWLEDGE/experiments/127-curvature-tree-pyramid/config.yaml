@@ -3,7 +3,7 @@ title: 曲率（2階差分）ツリーピラミッドによる反転波束検知
 date: '2026-11-14'
 author: makagi
 status: COMPLETED
-decision: ACCEPTED
+decision: CONSTRAINED_OBSERVED
 data:
   symbol: BTCUSD
   timeframes:
@@ -34,6 +34,6 @@ parameters:
     enabled: false
     evaluation: CONSTRAINED
 hypotheses:
-  HYP-127-1: ACCEPTED
+  HYP-127-1: INCONCLUSIVE
   HYP-127-2: REFUTED
-  HYP-127-3: INCONCLUSIVE
+  HYP-127-3: CONSTRAINED
