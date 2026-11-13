@@ -1,0 +1,39 @@
+experiment_id: EXP-127
+title: 曲率（2階差分）ツリーピラミッドによる反転波束検知とエグジット・エントリー境界検証
+date: '2026-11-14'
+author: makagi
+status: COMPLETED
+decision: ACCEPTED
+data:
+  symbol: BTCUSD
+  timeframes:
+  - 1h
+  - 1m
+  discovery_start: '2020-01-01 00:00:00'
+  discovery_end: '2025-04-30 23:59:59'
+  holdout_start: '2025-05-01 00:00:00'
+  friction_bps: 40.0
+parameters:
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  scales_1m: [8, 13, 21, 34, 55, 89, 144, 233, 377]
+  curvature_parameters:
+    velocity_window_bars: 3
+    atr_norm_period: 24
+    pyramid_triads:
+      L1: [8, 13, 21]
+      L2_mid: [34, 55, 89, 144, 233]
+      L2_long: [144, 233, 377, 610, 987]
+      L2_ultra: [610, 987, 1597, 2584, 4181]
+  trap_gate:
+    enabled: true
+    condition: "curv_L1 > 0 or curv_L2_mid > 0"
+  mfe_booster:
+    enabled: false
+    evaluation: REFUTED
+  ignition_gate:
+    enabled: false
+    evaluation: CONSTRAINED
+hypotheses:
+  HYP-127-1: ACCEPTED
+  HYP-127-2: REFUTED
+  HYP-127-3: INCONCLUSIVE
