@@ -146,3 +146,9 @@ $$\text{curv}_s(t) = \frac{\text{slope}_s(t) - \text{slope}_s(t-3)}{3.0}$$
 4. **Fig 4: Trap Gate 事例分析 (April 2023 Falling Knife Prevention Case)**
    - ![Trap Gate Case](plots/exp127_fig4_trap_gate_and_knife_prevention_case.png)
    - 2023年4月21日の急落ナイフ局面において、曲率波束が負（下向き加速）を示し、損失トレード（$-2.74\%$）を完璧に遮断した瞬間を明示。
+5. **Fig 5: 17スケール曲率ツリーピラミッド・ヒートマップ (2023年4月 急落ナイフ vs 5月反発)**
+   - ![Curvature Heatmap Scene 1](plots/exp127_fig5_curvature_tree_pyramid_heatmap_april2023.png)
+   - Y軸にフィボナッチ全17スケール（S17711〜S8）を並べた2次元曲率ヒートマップ。2023年4月21日に全スケールが濃い赤（下向き加速ナイフ）へ染まり、Trap Gate が作動して損失を回避した様子と、5月の反発で短期スケールから青/緑（下凸受け皿）が波及していく力学的うねりを可視化。
+6. **Fig 6: マクロ曲率カスケード＆呼吸ヒートマップ (2020-2021年 メガトレンドから5月暴落)**
+   - ![Curvature Heatmap Scene 2](plots/exp127_fig6_curvature_tree_pyramid_heatmap_2021bull.png)
+   - 2階差分（曲率）と1回微分（速度・傾斜）の全17スケール同時ヒートマップ。メガトレンド途中の保ち合い局面で長期曲率が一時的に赤へ変色する「構造的呼吸（Respiration）」と、5月19日の中国マイニング禁止令ショックで全17スケールが一斉に深紅へ雪崩れ込むマクロ・カスケードを実証。
