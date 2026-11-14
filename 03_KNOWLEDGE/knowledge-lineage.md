@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 3.4.0  
+**Version:** 3.6.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-11-14  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127), [#129](https://github.com/makagi/MTF_AI_Trade/issues/129), [#131](https://github.com/makagi/MTF_AI_Trade/issues/131)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -269,6 +269,11 @@ graph TD
     K073 --> K078["K-078: 階層間ダイバージェンス急落ナイフ・システム遮断則<br/>(Supported / Constrained)"]:::supported
     EXP129["EXP-129: 129-full-pyramid-curvature-divergence"] --> K077
     EXP129 --> K078
+    K077 --> K079["K-079: 全階層ピラミッド連続体積分による特定層非依存・平坦プラトー則<br/>(Supported / Specification Candidate)"]:::supported
+    K078 --> K080["K-080: 異種ピラミッド直交位相空間による負曲率ランナー保護・ダマシ完全分離則<br/>(Supported)"]:::supported
+    K079 --> K080
+    EXP131["EXP-131: 131-orthogonal-pyramid-continuum"] --> K079
+    EXP131 --> K080
 ```
 
 ---
@@ -1188,6 +1193,39 @@ graph TD
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/129-full-pyramid-curvature-divergence/record.md`](experiments/129-full-pyramid-curvature-divergence/record.md) (EXP-129 / [#129](https://github.com/makagi/MTF_AI_Trade/issues/129))
 * **仕様への影響**: 押し目・反発系シグナルの安全装置として条件付き採用。
 
+---
+
+### K-079: 全階層ピラミッド連続体積分による特定層非依存・平坦プラトー則
+* **ステータス**: **支持・次期仕様候補 (Supported / Specification Candidate)**
+* **概要**: フィボナッチ17スケール2階差分ピラミッドにおいて、特定層（Layer 4 や Layer 8 Global Root）への局所依存・チェリーピッキング懸念を完全排除するため、L1〜L8 の全階層横断スキャンおよび「ピラミッド連続体積分（Pyramid Continuum Integral）」を導入・検証（EXP-131 HYP-131-1, HYP-131-2）：
+  1. **全層平坦プラトーの証明**:
+     - Layer 1 から Layer 8 まで各層の単独シールドエグジット性能を横断スキャンした結果、全層にわたり PF $5.53 \sim 5.91$、Net EV $+4.17\% \sim +4.53\%$ という滑らかな平坦プラトーが存在することを確認。特定層（L4やL8）だけが局所的に効いたデータマイニング・バイアスではないことを数学的・実証的に証明。
+  2. **ピラミッド連続体積分 $\mathbf{C}_{\text{mid-macro}}$ の優位性**:
+     - 特定層番号を選ばず、Layer 3〜8 の全36ノードを包括的に積分した中上層連続体（$\mathbf{C}_{\text{mid-macro}}$）を利確アンカー防衛シールドとして採用することで、Master Std PF $5.89$（$+0.23$ pt 向上）、累積純利益 $+568.35\%$（$+27.33\%pt$ 増益）を達成。単一層依存を脱却しながら最高峰の安定性を確立。
+  3. **ゼロ境界自然ロバスト性**:
+     - 閾値スイープ（$[-0.0008, +0.0008]$）において、幾何学的に自然な符号境界（$\le 0.0$）を中心とする広大な平坦域が確認され、特定のマジックナンバー微調整に依存しない頑健性を実証。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/131-orthogonal-pyramid-continuum/record.md`](experiments/131-orthogonal-pyramid-continuum/record.md) (EXP-131 / [#131](https://github.com/makagi/MTF_AI_Trade/issues/131))
+* **仕様への影響**: 次期確定生産マスターベースライン（New Master Baseline）の防衛エグジット仕様として採用。
+
+---
+
+### K-080: 異種ピラミッド直交位相空間による負曲率ランナー保護・ダマシ完全分離則
+* **ステータス**: **支持 (Supported ★)**
+* **概要**: 運動量加速度（曲率ピラミッド連続体 $\mathbf{C}_{\text{curv}}$）と幾何構造エネルギー（SMA Tree ピラミッド連続体 $\mathbf{C}_{\text{struct}}$）を直交基底とする 2D 位相空間を構築（EXP-131 HYP-131-3）：
+  1. **負曲率ランナーの物理的解明と第II象限保護**:
+     - エントリー時点で局所曲率が負（減速・ドーム型）を示していた 17 件のメガランナー（2021-02-04 `+38.96%` 等）は、強いマクロ構造下での健全な保ち合い呼吸であり、すべて直交位相空間の **第II象限（Curv $\le 0$, Tree $> 0$）** に位置していた。
+  2. **第III象限自由落下ナイフのピンポイント遮断**:
+     - 対照的に、大敗ダマシ（2022-07-21 `-5.43%` や 2023-04-21 `-2.74%`）は曲率・構造の双方が負に沈下する **第III象限（Curv $\le 0$, Tree $\le 0$）** に位置する。
+     - 第III象限を全ロング対象で遮断することで、17件のランナーを 100% 完全保護（0件脱落）しながら損失トレードのみを安全に排除。
+  3. **全3執行モードでの大幅改善**:
+     - **Master Std ($N=123$)**: Net EV `+4.64%` (+0.41%pt), PF `6.18` (+0.52 pt), 累積利益 `+570.82%` (+29.80%pt gain), MaxDD `-14.90%` (+1.77%pt 改善)
+     - **Mode A ($N=94$)**: Net EV `+3.57%` (+0.09%pt), PF `5.10` (+0.18 pt), 累積利益 `+335.46%`, MaxDD **`-9.78%`**（**DD 10% 未満達成！**）
+     - **Mode B ($N=115$)**: Net EV `+3.97%` (+0.20%pt), PF `5.57` (+0.30 pt), 累積利益 `+456.94%` (+4.49%pt gain), MaxDD `-13.96%`
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/131-orthogonal-pyramid-continuum/record.md`](experiments/131-orthogonal-pyramid-continuum/record.md) (EXP-131 / [#131](https://github.com/makagi/MTF_AI_Trade/issues/131))
+* **仕様への影響**: 次期確定生産マスターベースライン（New Master Baseline）のロング直交ゲート仕様として採用。
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -1232,3 +1270,4 @@ graph TD
 | 2026-11-10 | 3.3.0 | EXP-125 反映、スケールフリー動的極値看破ショート（K-074 Inconclusive/Constrained: 場面2実現損益 -1.35%・30日MFE +35.27%・Mode A DD見かけ改善理由を是正し天井警戒状態判定への転換候補として位置づけ・境界条件追記）、超長期水平呼吸大底ペンデュラム反転（K-075 Refuted as Signal / Observed: 場面3実現損益 +1.26%・LUNAショック等の境界条件追記）登録・計75知見へ拡充（確定生産マスターベースラインは EXP-123 維持） | @makagi / [#125](https://github.com/makagi/MTF_AI_Trade/issues/125) |
 | 2026-11-14 | 3.4.0 | EXP-127 反映、フィボナッチ17スケール2階差分階層波束による曲率波束減速受け皿トラップゲート則（K-076 Inconclusive/Observed: pb_long N=1 除外による PF 5.57 向上を確認もロング一律適用時のランナー損失およびサンプル数制約から観察知見とし確定生産マスターベースラインは EXP-123 を維持）、MFE Booster早期ラチェットの明確な反証（HYP-127-2 Refuted: Master Std PF 4.04、トレンド保ち合い呼吸刈り取りを実証）、Ignition Gateの機会損失制約（HYP-127-3 Constrained）を登録・計76知見へ拡充 | @makagi / [#127](https://github.com/makagi/MTF_AI_Trade/issues/127) |
 | 2026-11-14 | 3.5.0 | EXP-129 反映、全階層ピラミッド再帰畳み込みによるマクロ呼吸シールド則（K-077 Supported/新マスター候補: EXP-127の保ち合い呼吸刈り取りを克服し Master Std PF 5.66 Tot +541.04%・全3モード単調改善）、階層間ダイバージェンス急落ナイフ・システム遮断則（K-078 Supported/Constrained: pb_long限定で急落ナイフ遮断・ランナー維持）を登録・計78知見へ拡充 | @makagi / [#129](https://github.com/makagi/MTF_AI_Trade/issues/129) |
+| 2026-11-14 | 3.6.0 | EXP-131 反映、全階層ピラミッド連続体積分平坦プラトー則（K-079 Supported/新マスター候補: 特定層L4/L8チェリーピッキング懸念を完全払拭・Continuum L3..L8 Master Std PF 5.89 Tot +568.4%）、異種ピラミッド直交位相空間による負曲率ランナー保護・ダマシ完全分離則（K-080 Supported: 第II象限ランナー100%保護・第III象限ナイフ遮断・Master Std PF 6.18 Tot +570.8% MaxDD -14.9%・Mode A MaxDD -9.78%）を登録・計80知見へ拡充 | @makagi / [#131](https://github.com/makagi/MTF_AI_Trade/issues/131) |

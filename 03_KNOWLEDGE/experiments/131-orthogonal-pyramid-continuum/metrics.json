@@ -1,0 +1,134 @@
+{
+  "experiment_id": "EXP-131",
+  "friction_bps": 40.0,
+  "stages": {
+    "Stage 0 (EXP-129 Base)": {
+      "master_std": {
+        "executed_trades": 128.0,
+        "win_rate_pct": 50.0,
+        "net_mean_return_pct": 4.23,
+        "profit_factor": 5.66,
+        "total_opportunity_net_return_pct": 541.02,
+        "max_drawdown_pct": -16.67,
+        "worst_trade_pct": -5.43,
+        "best_trade_pct": 67.49
+      },
+      "mode_a": {
+        "executed_trades": 98.0,
+        "win_rate_pct": 47.96,
+        "net_mean_return_pct": 3.48,
+        "profit_factor": 4.92,
+        "total_opportunity_net_return_pct": 341.17,
+        "max_drawdown_pct": -12.7,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      },
+      "mode_b": {
+        "executed_trades": 120.0,
+        "win_rate_pct": 49.17,
+        "net_mean_return_pct": 3.77,
+        "profit_factor": 5.27,
+        "total_opportunity_net_return_pct": 452.45,
+        "max_drawdown_pct": -15.88,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      }
+    },
+    "Stage 1 (Continuum Integral & Shield)": {
+      "master_std": {
+        "executed_trades": 127.0,
+        "win_rate_pct": 49.61,
+        "net_mean_return_pct": 4.48,
+        "profit_factor": 5.89,
+        "total_opportunity_net_return_pct": 568.35,
+        "max_drawdown_pct": -16.67,
+        "worst_trade_pct": -5.43,
+        "best_trade_pct": 67.49
+      },
+      "mode_a": {
+        "executed_trades": 98.0,
+        "win_rate_pct": 47.96,
+        "net_mean_return_pct": 3.44,
+        "profit_factor": 4.87,
+        "total_opportunity_net_return_pct": 336.79,
+        "max_drawdown_pct": -12.7,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      },
+      "mode_b": {
+        "executed_trades": 119.0,
+        "win_rate_pct": 48.74,
+        "net_mean_return_pct": 3.82,
+        "profit_factor": 5.29,
+        "total_opportunity_net_return_pct": 454.47,
+        "max_drawdown_pct": -15.88,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      }
+    },
+    "Stage 2 (Curv x Struct Orthogonal Gate)": {
+      "master_std": {
+        "executed_trades": 123.0,
+        "win_rate_pct": 51.22,
+        "net_mean_return_pct": 4.64,
+        "profit_factor": 6.18,
+        "total_opportunity_net_return_pct": 570.82,
+        "max_drawdown_pct": -14.9,
+        "worst_trade_pct": -5.43,
+        "best_trade_pct": 67.49
+      },
+      "mode_a": {
+        "executed_trades": 94.0,
+        "win_rate_pct": 48.94,
+        "net_mean_return_pct": 3.57,
+        "profit_factor": 5.1,
+        "total_opportunity_net_return_pct": 335.46,
+        "max_drawdown_pct": -9.78,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      },
+      "mode_b": {
+        "executed_trades": 115.0,
+        "win_rate_pct": 50.43,
+        "net_mean_return_pct": 3.97,
+        "profit_factor": 5.57,
+        "total_opportunity_net_return_pct": 456.94,
+        "max_drawdown_pct": -13.96,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      }
+    },
+    "Stage 3 (Precision Phase Space Gate)": {
+      "master_std": {
+        "executed_trades": 111.0,
+        "win_rate_pct": 54.05,
+        "net_mean_return_pct": 5.25,
+        "profit_factor": 7.38,
+        "total_opportunity_net_return_pct": 582.74,
+        "max_drawdown_pct": -12.8,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      },
+      "mode_a": {
+        "executed_trades": 88.0,
+        "win_rate_pct": 48.86,
+        "net_mean_return_pct": 3.76,
+        "profit_factor": 5.15,
+        "total_opportunity_net_return_pct": 330.63,
+        "max_drawdown_pct": -9.78,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      },
+      "mode_b": {
+        "executed_trades": 104.0,
+        "win_rate_pct": 52.88,
+        "net_mean_return_pct": 4.46,
+        "profit_factor": 6.35,
+        "total_opportunity_net_return_pct": 463.43,
+        "max_drawdown_pct": -12.8,
+        "worst_trade_pct": -4.48,
+        "best_trade_pct": 67.49
+      }
+    }
+  }
+}
