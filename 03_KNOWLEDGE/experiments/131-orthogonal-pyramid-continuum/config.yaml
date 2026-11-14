@@ -1,0 +1,27 @@
+issue: 131
+title: "EXP-131: 全階層ピラミッド連続体（L1〜L8）と異種ピラミッド直交位相空間による負曲率ランナー保護・ダマシ分離検証"
+created_at: "2026-11-14"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction)"
+baseline: "EXP-129 Stage 2 (New Master Candidate, PF 5.66, Tot +541.04%)"
+hypotheses:
+  - id: "HYP-131-1"
+    name: "Pyramid Continuum Plateau Hypothesis"
+    description: "L1..L8 layer-by-layer scan reveals a smooth Cohen's d and PF plateau across L3..L8, proving that L4/L8 was not an isolated cherry-pick. The continuum integral L3..L8 achieves equal or superior stability without singling out any layer."
+  - id: "HYP-131-2"
+    name: "Zero-Boundary Natural Robustness Hypothesis"
+    description: "Continuum indicators operate on a physically natural zero-boundary (<= 0.0) without requiring magic-number threshold tuning, showing wide flat performance across sweeps."
+  - id: "HYP-131-3"
+    name: "Orthogonal Heterogeneous Pyramid Phase Space Hypothesis"
+    description: "Curvature Continuum x Structure Continuum 2D phase space cleanly separates Quadrant II negative curvature runners (+38.9% on 2021-02-04) from Quadrant III free-falling knives (-5.43% on 2022-07-21), protecting 100% of runners while cutting severe losses."
+parameters:
+  friction_bps: 0.0040
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  continuum_layers: [3, 4, 5, 6, 7, 8]
+  shield_min_mfe: 8.0
+  shield_target_anchor: 34
+  zero_boundary_threshold: 0.0
