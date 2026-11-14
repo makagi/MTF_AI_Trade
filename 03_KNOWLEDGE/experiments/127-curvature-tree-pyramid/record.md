@@ -152,3 +152,12 @@ $$\text{curv}_s(t) = \frac{\text{slope}_s(t) - \text{slope}_s(t-3)}{3.0}$$
 6. **Fig 6: マクロ曲率カスケード＆呼吸ヒートマップ (2020-2021年 メガトレンドから5月暴落)**
    - ![Curvature Heatmap Scene 2](plots/exp127_fig6_curvature_tree_pyramid_heatmap_2021bull.png)
    - 2階差分（曲率）と1回微分（速度・傾斜）の全17スケール同時ヒートマップ。メガトレンド途中の保ち合い局面で長期曲率が一時的に赤へ変色する「構造的呼吸（Respiration）」と、5月19日の中国マイニング禁止令ショックで全17スケールが一斉に深紅へ雪崩れ込むマクロ・カスケードを実証。
+7. **Fig 7: 全階層ピラミッド再帰畳み込みヒートマップ (2023年4月〜5月 ナイフ vs 底打ち)**
+   - ![Full Pyramid Hierarchy April 2023](plots/exp127_fig7_curvature_full_pyramid_hierarchy_april2023.png)
+   - 途中で打ち切らず Layer 0 (17ノード) $\to$ Layer 2 (13ノード) $\to$ Layer 4 (9ノード) $\to$ Layer 8 (Global Root 1ノード) まで全プロファイルを再帰畳み込みした階層同期図。4月21日のナイフ時、Layer 8 Global Root まで完全マイナスに沈下したことと、5月の底打ちでマクロブレーキが点火した様子を実証。
+8. **Fig 8: メガトレンド呼吸耐性＆マクロ崩壊 全階層畳み込みヒートマップ (2020-2021年)**
+   - ![Full Pyramid Hierarchy 2021 Bull](plots/exp127_fig8_curvature_full_pyramid_hierarchy_2021bull.png)
+   - 2021年1月〜2月の保ち合い局面において、Layer 0/Layer 2 のミクロ曲率は一時的に赤へ振れるものの、**Layer 4 および Layer 8 Global Root は頑強にプラス（正の領域）を維持**し、メガトレンドの慣性が全く折れていなかった事実（呼吸耐性）を数学的に証明。
+9. **Fig 9: ピラミッド断面スナップショット (Pyramid Cross-Section Profiles)**
+   - ![Pyramid Cross Sections](plots/exp127_fig9_pyramid_cross_section_profile.png)
+   - 縦軸に階層（L0〜L8）、横軸にフィボナッチスケールをとった三角形ピラミッド断面図。健全なメガトレンド呼吸（A）、歴史的大暴落（B）、急落ナイフ（C）、受け皿底打ち（D）の4大局面における内部力学プロファイルを瞬時に比較可能。
