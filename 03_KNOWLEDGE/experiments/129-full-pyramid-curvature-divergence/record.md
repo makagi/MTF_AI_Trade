@@ -142,3 +142,9 @@ EXP-127 事後分析（Fig 7〜9）により判明した決定的事実：
 4. **Fig 4: 階層間ダイバージェンス＆ナイフ遮断事例分析 (April 2023 Knife Elimination)**
    - ![Knife Case](plots/exp129_fig4_full_pyramid_divergence_knife_case.png)
    - 2023年4月21日の急落ナイフ局面において、ミクロ・メソ・マクロが全層同期沈下し、Systemic Plunge Gate が作動して損失トレード（$-2.74\%$）を完璧に遮断した瞬間を明示。
+5. **Fig 5: 全8層再帰畳み込み時系列推移 (Pyramid Layers Progression Across 2020-2021 Megatrend)**
+   - ![Pyramid Layers Progression](plots/exp129_fig5_pyramid_layers_progression.png)
+   - Layer 0（生17スケール）の激しい高周波ジッターが、Layer 2, 4, 6 を経て Layer 8 Global Root（1ノード）へと平滑圧縮され、市場全体のマクロ呼吸（緑色領域）と崩壊（赤色領域）が抽出される過程を完全可視化。
+6. **Fig 6: 2D幾何学的三角形ピラミッド・スナップショット (2D Pyramid Geometric Triangles Across 4 Critical Scenes)**
+   - ![Pyramid Geometric Triangles](plots/exp129_fig6_pyramid_geometric_triangles.png)
+   - 4大局面（保ち合い呼吸、急落ナイフ、トレンド点火、マクロ崩壊）におけるピラミッド全体（底辺17ノード〜頂点1ノード）の曲率色彩分布を物理的ピラミッド幾何として直接描写。健全な呼吸時の「底面赤・頂点青」と急落ナイフ時の「全層深紅」の構造差を実証。
