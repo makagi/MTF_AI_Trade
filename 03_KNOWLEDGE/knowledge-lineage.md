@@ -265,6 +265,10 @@ graph TD
     EXP123 --> K073
     K073 --> K076["K-076: 曲率波束減速受け皿トラップゲート則<br/>(Inconclusive / Observed)"]:::inconclusive
     EXP127["EXP-127: 127-curvature-tree-pyramid"] --> K076
+    K073 --> K077["K-077: 全階層ピラミッド再帰畳み込みマクロ呼吸シールド則<br/>(Supported / Specification Candidate)"]:::supported
+    K073 --> K078["K-078: 階層間ダイバージェンス急落ナイフ・システム遮断則<br/>(Supported / Constrained)"]:::supported
+    EXP129["EXP-129: 129-full-pyramid-curvature-divergence"] --> K077
+    EXP129 --> K078
 ```
 
 ---
@@ -1153,6 +1157,37 @@ graph TD
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/127-curvature-tree-pyramid/record.md`](experiments/127-curvature-tree-pyramid/record.md) (EXP-127 / [#127](https://github.com/makagi/MTF_AI_Trade/issues/127))
 * **仕様への影響**: 確定生産マスターベースラインは **EXP-123 を維持**。曲率波束トラップゲートは有望な観察特徴量として多重コンテキスト統合時の候補として扱う。
 
+---
+
+### K-077: 全階層ピラミッド再帰畳み込みによるマクロ呼吸シールド則
+* **ステータス**: **支持・次期仕様候補 (Supported / Specification Candidate)**
+* **概要**: フィボナッチ全17スケール（8〜17711）のSMA傾き変化から算出した2階差分（曲率）に対し、固定バンド分割を排し全スケール対象の再帰的3項平滑畳み込み（Triad Kernel Convolution across 8 Layers $\to$ Layer 8 Global Root 1ノード `[8..17711]`）を導入。
+  1. **マクロ呼吸シールド（Macro Respiration Shield）の解明**:
+     - EXP-127 では高値圏（MFE $\ge 8.0$ ATR）での利益防衛アンカー引き上げが、メガトレンド中の健全な保ち合い呼吸をノイズとして刈り取り、巨額ランナーを圧殺して PF 4.04 に崩壊した（HYP-127-2 Refuted）。
+     - 本知見では、全階層統合の最上位根ノード `curv_root` を観測。メガトレンドの途上にある押し目・保ち合い局面では、下位〜中位が減速しても最上位階層は強い上向き推進力（`curv_root > 0`）を保持し続けている。この「マクロ呼吸」の最中はアンカー引き上げを完全に遮蔽（Shield）してランナーを保護する。
+     - 一方、真のマクロ天井反転・崩壊初動（`curv_root <= 0` かつ 720h レンジ上位 75%）を検知した瞬間にのみ、即座にアンカーを 34 へラチェットして利益を確定する。
+  2. **全3執行モードにおける単調改善の実証**:
+     - **Master Std ($N=128$)**: WR `50.00%` (+1.16%pt), Net EV `+4.23%` (+0.08%pt), PF `5.66` (+0.21 pt), 累積利益 `+541.04%` (+5.22%pt gain), MaxDD `-16.67%`
+     - **Mode A ($N=98$)**: WR `47.96%` (+1.50%pt), Net EV `+3.48%` (+0.07%pt), PF `4.92` (+0.23 pt), 累積利益 `+341.24%` (+3.93%pt gain), MaxDD `-12.70%`
+     - **Mode B ($N=120$)**: WR `49.17%` (+1.24%pt), Net EV `+3.77%` (+0.07%pt), PF `5.27` (+0.22 pt), 累積利益 `+452.36%` (+5.12%pt gain), MaxDD `-15.88%`
+     - EXP-127 の崩壊原因を力学的に克服し、全モードでリターンおよびPFが単調向上。EXP-123 ベースラインを全方位で凌駕する新確定マスター仕様候補として確立。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/129-full-pyramid-curvature-divergence/record.md`](experiments/129-full-pyramid-curvature-divergence/record.md) (EXP-129 / [#129](https://github.com/makagi/MTF_AI_Trade/issues/129))
+* **仕様への影響**: 次期確定生産マスターベースライン候補（New Master Candidate）として承認。
+
+---
+
+### K-078: 階層間ダイバージェンスによる急落ナイフ・システム遮断則
+* **ステータス**: **支持・制約付き (Supported / Constrained)**
+* **概要**: ピラミッド最下層のミクロ曲率（Layer 1）と中間層（Layer 2 mid）、最上位根（Layer 8 Global Root）がすべて同時に負（`curv_L1 <= 0 and curv_L2_mid <= 0 and curv_root <= 0`）となる「全階層同期自由落下」状態の検知特性を検証（EXP-129 HYP-129-1）：
+  1. **ロング全体一律適用の失敗と物理的必然**:
+     - 全ロングエントリーに本ゲートを一律適用すると、初期点火・底入れ初動における正当な推進波（32件・累積利益 `+135.86%`）を遮断してしまい、累積利益が `+402.69%` へ激減する。強い上昇トレンドの立ち上がり初期には上位の曲率が遅れて負を示していることが多く、一律排除は不可。
+  2. **急落押し目（pb_long）限定でのピンポイント遮断エッジ**:
+     - 落ちてくるナイフを拾うリスクのある押し目・スプリングボード（`pb_long`）に限定して適用した場合、2023年4月21日の急落ナイフ被弾（`-2.74%` 損失）をピンポイントで遮断し、38件の健全なランナーを一切損なうことなく通過させる。
+* **実験条件**: BTCUSD 1h、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/129-full-pyramid-curvature-divergence/record.md`](experiments/129-full-pyramid-curvature-divergence/record.md) (EXP-129 / [#129](https://github.com/makagi/MTF_AI_Trade/issues/129))
+* **仕様への影響**: 押し目・反発系シグナルの安全装置として条件付き採用。
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -1196,3 +1231,4 @@ graph TD
 | 2026-11-08 | 3.2.0 | EXP-123 反映、動的レイテンシ吸収呼吸（K-072 Supported）、守られた支持床跳躍台反発（K-073 Supported）登録・計73知見へ拡充（Master Std: PF 5.45 Tot +535.8%・Mode A: PF 4.69 Tot +337.3%・新確定マスター生産ベースラインへ昇格） | @makagi / [#123](https://github.com/makagi/MTF_AI_Trade/issues/123) |
 | 2026-11-10 | 3.3.0 | EXP-125 反映、スケールフリー動的極値看破ショート（K-074 Inconclusive/Constrained: 場面2実現損益 -1.35%・30日MFE +35.27%・Mode A DD見かけ改善理由を是正し天井警戒状態判定への転換候補として位置づけ・境界条件追記）、超長期水平呼吸大底ペンデュラム反転（K-075 Refuted as Signal / Observed: 場面3実現損益 +1.26%・LUNAショック等の境界条件追記）登録・計75知見へ拡充（確定生産マスターベースラインは EXP-123 維持） | @makagi / [#125](https://github.com/makagi/MTF_AI_Trade/issues/125) |
 | 2026-11-14 | 3.4.0 | EXP-127 反映、フィボナッチ17スケール2階差分階層波束による曲率波束減速受け皿トラップゲート則（K-076 Inconclusive/Observed: pb_long N=1 除外による PF 5.57 向上を確認もロング一律適用時のランナー損失およびサンプル数制約から観察知見とし確定生産マスターベースラインは EXP-123 を維持）、MFE Booster早期ラチェットの明確な反証（HYP-127-2 Refuted: Master Std PF 4.04、トレンド保ち合い呼吸刈り取りを実証）、Ignition Gateの機会損失制約（HYP-127-3 Constrained）を登録・計76知見へ拡充 | @makagi / [#127](https://github.com/makagi/MTF_AI_Trade/issues/127) |
+| 2026-11-14 | 3.5.0 | EXP-129 反映、全階層ピラミッド再帰畳み込みによるマクロ呼吸シールド則（K-077 Supported/新マスター候補: EXP-127の保ち合い呼吸刈り取りを克服し Master Std PF 5.66 Tot +541.04%・全3モード単調改善）、階層間ダイバージェンス急落ナイフ・システム遮断則（K-078 Supported/Constrained: pb_long限定で急落ナイフ遮断・ランナー維持）を登録・計78知見へ拡充 | @makagi / [#129](https://github.com/makagi/MTF_AI_Trade/issues/129) |
