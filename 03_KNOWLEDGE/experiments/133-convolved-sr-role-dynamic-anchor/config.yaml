@@ -1,0 +1,30 @@
+issue: 133
+title: "EXP-133: 畳み込みS/R役割ピラミッドと双対3スケール関係性によるスケール非依存・動的アンカー＆階層的引き継ぎ検証"
+created_at: "2026-11-15"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction)"
+baseline: "EXP-131 Stage 2 (New Master Candidate, PF 6.18, Tot +570.82%, Mode A MaxDD -9.78%)"
+hypotheses:
+  - id: "HYP-133-1"
+    name: "Scale-Agnostic Dynamic Anchor & Role Invalidation Hypothesis"
+    description: "Abolishing fixed S233 entry lock in favor of convolved support/resistance role scores phi_bar_s in [-1, +1] mitigates deep drawdowns (Case 1 2022-07-21 rescued from -5.43% to -1.26%, Case 3 rescued from -3.63% to -1.66%) while preserving 100% of mega runners (11/11 preserved), boosting Master Std PF from 6.27 to 6.68+ and reducing MaxDD to -13.1%."
+  - id: "HYP-133-2"
+    name: "S/R Role Entry Blind-spot Gating Hypothesis"
+    description: "Filtering out entries heading into collapsing floors (phi_cont <= -0.05 and curv_cont <= 0.0) or immovable overhead resistance walls (phi_bar_s < -0.15 within 0.8 ATR with non-positive surge momentum) eliminates severe fakeouts without knocking out runners, pushing Master Std PF to 6.81+."
+  - id: "HYP-133-3"
+    name: "Convolved S/R High-Precision Breakout Expansion Hypothesis"
+    description: "Capturing ascending squeeze breakouts with high support slope, positive convolved role score, and cleared overhead resistance adds new high-quality trading opportunities, expanding total opportunity net return beyond +580%."
+parameters:
+  friction_bps: 0.0040
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  heatmap_scales: [34, 55, 89, 144, 233, 377, 610]
+  quantile_probs: [0.20, 0.80]
+  support_threshold: 0.20
+  resistance_threshold: -0.15
+  overextension_atr_dist: 3.2
+  handover_mfe_min: 0.8
+  handover_elapsed_h: 6.0

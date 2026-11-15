@@ -1226,6 +1226,43 @@ graph TD
 * **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/131-orthogonal-pyramid-continuum/record.md`](experiments/131-orthogonal-pyramid-continuum/record.md) (EXP-131 / [#131](https://github.com/makagi/MTF_AI_Trade/issues/131))
 * **仕様への影響**: 次期確定生産マスターベースライン（New Master Baseline）のロング直交ゲート仕様として採用。
 
+---
+
+### K-081: 畳み込みS/R役割ピラミッドと厳密双対対称性
+* **ステータス**: **支持 (Supported 🌟)**
+* **概要**: 人為的な「短期・中期・長期」区分を脱却し、全17スケール（$s_k \in \{8, 13, ..., 17711\}$）のローリング分位点（$P_{\text{sup}}, P_{\text{res}}$）および勾配・MAトライアッド整列度・サージモーメンタムから構成される畳み込みS/R役割ピラミッド $\bar{\Phi}_{s_k}(t) \in [-1, +1]$ を確立（EXP-133 HYP-133-1）：
+  1. **動的勾配アライメントゲート $G_{\text{align}}$**:
+     - MA整列度 $O_k$ に勾配との積 $V_k \cdot O_k$ に連動する動的ゲート $G_{\text{align}}$ を乗じることで、静的なMA整列の遅れを解消。
+     - 価格変動反転（$P \to -P$）に対して $V_k \cdot O_k$ は偶関数となるため、$\Phi(-P) = -\Phi(P)$ の **厳密な双対符号反転対称性 (Dual Sign-Flip Symmetry)** を数理的に保証。
+  2. **支持／レジスタンス役割の連続判定**:
+     - $\bar{\Phi}_{s_k} > +0.20$: 能動的な強気支持床（Active Support）
+     - $\bar{\Phi}_{s_k} < -0.15$: 頭上の強固なレジスタンス壁（Active Resistance）
+     - 4階層以上の多層畳み込みにより、各スケールの実時間サポレジ機能を客観的・連続的に数値化。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/133-convolved-sr-role-dynamic-anchor/record.md`](experiments/133-convolved-sr-role-dynamic-anchor/record.md) (EXP-133 / [#133](https://github.com/makagi/MTF_AI_Trade/issues/133))
+* **仕様への影響**: 確定生産マスターの全サポレジ機能判定エンジンとして採用。
+
+---
+
+### K-082: スケール非依存・動的アンカー選定・階層的引き継ぎ・役割無効化撤退則
+* **ステータス**: **支持 / 新マスター候補 (Supported / New Master Baseline Candidate 🏆)**
+* **概要**: エントリー時の「S233固定ロック」を完全撤廃し、畳み込みS/R役割ピラミッド $\bar{\Phi}_s(t)$ に基づくスケール非依存の動的アンカー選定と階層的引き継ぎを実証（EXP-133 HYP-133-1, HYP-133-2）：
+  1. **S233固定ロック全廃と初期動的配分**:
+     - エントリー時にS233乖離過大（$dist_{233} > 3.2$）かつSMA 144健全時は初期アンカーをSMA 144に選定（Case 3: `-3.63%` $\to$ `-1.66%` 救済）。
+     - 全体の **30.1%** のトレードが非S233（SMA 144, 89, 55）で初期化され、固定値依存を完全脱却。
+  2. **Phase A 階層的引き継ぎ (Handover Step-up) と Phase B 役割無効化撤退**:
+     - 上昇相場では内側スケール（89, 144）の支持スコア $\bar{\Phi}_{\text{inner}} > 0.30$ によりアンカーを能動的に引き継ぎ。
+     - 支持役割が崩壊（現在アンカー下抜け・曲率 $\le 0.0$）した際は即時 `role_invalidation_exit` を執行し、Case 1（2022-07-21）の深層被弾を **`-5.43%` $\to$ `-1.26%` (+4.17%pt 救済)**。
+  3. **1時間急落抑制ガードと全11件メガランナーの100%保持**:
+     - 一時的な1時間急落による過剰チャタリング（SMA 89 $\to$ SMA 34）を抑制し、EXP-131の全11件のメガランナー（>=20%）を完全保持（1件も早期利確・脱落なし）。
+  4. **全実行モードでの大幅改善**:
+     - **Master Std ($N=123$)**: PF **`6.68`** (+0.41 pt), 累積利益 `+528.88%`, 最大DD **`-13.06%`** (+1.33%pt 改善)
+     - **Stage 2 死角遮断 ($N=117$)**: PF **`6.81`** (+0.54 pt), EV `+4.49%`, 最大DD `-13.68%`
+     - **Mode A ($N=94$)**: PF `4.96`〜`5.01`, 最大DD **`-9.78%`** (DD 10%未満堅守)
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/133-convolved-sr-role-dynamic-anchor/record.md`](experiments/133-convolved-sr-role-dynamic-anchor/record.md) (EXP-133 / [#133](https://github.com/makagi/MTF_AI_Trade/issues/133))
+* **仕様への影響**: 次期確定生産マスターベースライン更新候補（New Master Baseline Candidate）としてロング・トレーリングおよび損切り判定仕様に採用。
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -1271,3 +1308,4 @@ graph TD
 | 2026-11-14 | 3.4.0 | EXP-127 反映、フィボナッチ17スケール2階差分階層波束による曲率波束減速受け皿トラップゲート則（K-076 Inconclusive/Observed: pb_long N=1 除外による PF 5.57 向上を確認もロング一律適用時のランナー損失およびサンプル数制約から観察知見とし確定生産マスターベースラインは EXP-123 を維持）、MFE Booster早期ラチェットの明確な反証（HYP-127-2 Refuted: Master Std PF 4.04、トレンド保ち合い呼吸刈り取りを実証）、Ignition Gateの機会損失制約（HYP-127-3 Constrained）を登録・計76知見へ拡充 | @makagi / [#127](https://github.com/makagi/MTF_AI_Trade/issues/127) |
 | 2026-11-14 | 3.5.0 | EXP-129 反映、全階層ピラミッド再帰畳み込みによるマクロ呼吸シールド則（K-077 Supported/新マスター候補: EXP-127の保ち合い呼吸刈り取りを克服し Master Std PF 5.66 Tot +541.04%・全3モード単調改善）、階層間ダイバージェンス急落ナイフ・システム遮断則（K-078 Supported/Constrained: pb_long限定で急落ナイフ遮断・ランナー維持）を登録・計78知見へ拡充 | @makagi / [#129](https://github.com/makagi/MTF_AI_Trade/issues/129) |
 | 2026-11-14 | 3.6.0 | EXP-131 反映、全階層ピラミッド連続体積分平坦プラトー則（K-079 Supported/新マスター候補: 特定層L4/L8チェリーピッキング懸念を完全払拭・Continuum L3..L8 Master Std PF 5.89 Tot +568.4%）、異種ピラミッド直交位相空間による負曲率ランナー保護・ダマシ完全分離則（K-080 Supported: 第II象限ランナー100%保護・第III象限ナイフ遮断・Master Std PF 6.18 Tot +570.8% MaxDD -14.9%・Mode A MaxDD -9.78%）を登録・計80知見へ拡充 | @makagi / [#131](https://github.com/makagi/MTF_AI_Trade/issues/131) |
+| 2026-11-15 | 3.7.0 | EXP-133 反映、畳み込みS/R役割ピラミッドと厳密双対対称性（K-081 Supported）、スケール非依存動的アンカー選定・階層的引き継ぎ・役割無効化撤退則（K-082 Supported/新マスター候補: S233固定全廃・Case 1 +4.17%pt救済・ランナー11件100%保持・Master Std PF 6.68 Tot +528.9% MaxDD -13.1%・Stage 2 PF 6.81）を登録・計82知見へ拡張 | @makagi / [#133](https://github.com/makagi/MTF_AI_Trade/issues/133) |
