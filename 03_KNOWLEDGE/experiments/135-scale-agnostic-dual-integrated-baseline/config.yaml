@@ -1,0 +1,32 @@
+issue: 135
+title: "EXP-135: スケール非依存・双対S/R統合ベースライン確立と役割重み付き2Dクロススケール・テンソル及び非対称ショート境界解明"
+created_at: "2026-11-19"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction, strictly additive net return)"
+baseline: "EXP-133 Stage 1/2 (Convolved S/R Role Pyramid & Dynamic Anchor)"
+hypotheses:
+  - id: "HYP-135-1"
+    name: "Zero Window-Dressing Scale-Agnostic Dual Baseline Hypothesis"
+    description: "Eliminating 100% of hardcoded timestamp whitelists (MEGA_RUNNER_TIMESTAMPS = 0) and unifying scale-agnostic long springboards with verified macro breakdown shorts (dynamic resistance anchor handover S233->S89->S55) achieves Master Std +537.5% (PF 2.03), Mode B +404.2% (PF 1.96), and Mode A +222.0% (PF 1.69), with Macro Shorts alone delivering +40.11% (PF 5.80, N=19) and rescuing the 2022 bear market from -9.6% to -1.3%."
+  - id: "HYP-135-2"
+    name: "Crypto Short Asymmetry & Multi-Scale S/R Arrival Anatomy Hypothesis"
+    description: "Across 2,298 empirical ceiling rejections, SMA(k+1) sits above BB_lower(k) in 98.2% of cases and arrives first in 76.1% (median +3.88 ATR rebound, 0.59 ATR max drawdown). Applying symmetric long breathing to speculative meso shorts causes catastrophic -249.8% loss (PF 0.58), proving that macro breakdown shorts (Engine A) and meso pullback shorts (Engine B) must be strictly separated."
+  - id: "HYP-135-3"
+    name: "Role-Weighted 2D Cross-Scale Tensor & Orthogonal Wave Synergy Hypothesis"
+    description: "Unweighted 1D/2D SMA tensors fail (PF 0.21 / PF 0.80) because broken SMAs (phi_bar_s <= 0) shatter 93.4% of the time while active defended floors (phi_bar_s > 0.15) bounce 71.0% of the time. Weighting the 2D Cross-Scale Tensor by convolved support role phi_bar_s and intersecting with natural-zero orthogonal wave features (BB expansion >= 0.0 and short curvature rollover <= 0.0) plus dynamic defended-floor target exit (P_sup + 0.4 ATR) turns speculative shorts positive (PF 2.57, +20.64%, 2020-22 PF 3.45, 2023-25 PF 2.42, 0 overlap with Stage 2)."
+parameters:
+  friction_bps: 0.0040
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  active_support_phi_min: 0.05
+  solid_support_phi_min: 0.15
+  barrier_opacity_scale: 0.20
+  min_defended_void_atr: 2.5
+  min_tensor_rr: 2.0
+  natural_bb_exp_min: 0.0
+  natural_curv_l1_max: 0.0

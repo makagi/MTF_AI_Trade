@@ -1,0 +1,199 @@
+{
+  "experiment_id": "EXP-135",
+  "friction_bps": 40.0,
+  "return_accounting": "additive_sum_pct",
+  "hardcoded_whitelist_count": 0,
+  "production_master_stages": {
+    "Stage 0 (EXP-133 Clean Baseline, WL=0)": {
+      "master_std": {
+        "executed_trades": 141,
+        "profit_factor": 5.25,
+        "total_opportunity_net_return_pct": 547.5
+      },
+      "mode_a": {
+        "executed_trades": 107,
+        "profit_factor": 3.85,
+        "total_opportunity_net_return_pct": 292.4
+      },
+      "mode_b": {
+        "executed_trades": 131,
+        "profit_factor": 4.26,
+        "total_opportunity_net_return_pct": 396.7
+      }
+    },
+    "Stage 1 (Scale-Agnostic Longs Only, WL=0)": {
+      "master_std": {
+        "executed_trades": 458,
+        "profit_factor": 2.08,
+        "total_opportunity_net_return_pct": 560.8
+      },
+      "mode_a": {
+        "executed_trades": 283,
+        "profit_factor": 1.71,
+        "total_opportunity_net_return_pct": 228.7
+      },
+      "mode_b": {
+        "executed_trades": 375,
+        "profit_factor": 1.95,
+        "total_opportunity_net_return_pct": 401.0
+      }
+    },
+    "Stage 2 (Kept Dual Production Master: Longs + Verified Macro Shorts, WL=0)": {
+      "master_std": {
+        "executed_trades": 457,
+        "profit_factor": 2.03,
+        "total_opportunity_net_return_pct": 537.5
+      },
+      "mode_a": {
+        "executed_trades": 286,
+        "profit_factor": 1.69,
+        "total_opportunity_net_return_pct": 222.0
+      },
+      "mode_b": {
+        "executed_trades": 375,
+        "profit_factor": 1.96,
+        "total_opportunity_net_return_pct": 404.2
+      },
+      "macro_shorts_subbook": {
+        "executed_trades": 19,
+        "profit_factor": 5.80,
+        "total_opportunity_net_return_pct": 40.11,
+        "bear_2022_net_return_before_pct": -9.6,
+        "bear_2022_net_return_after_pct": -1.3
+      }
+    },
+    "Stage 3 (Naive Symmetric Speculative Shorts - Refuted)": {
+      "master_std": {
+        "executed_trades": 809,
+        "profit_factor": 1.25,
+        "total_opportunity_net_return_pct": 277.0
+      },
+      "mode_a": {
+        "executed_trades": 496,
+        "profit_factor": 1.05,
+        "total_opportunity_net_return_pct": 34.9
+      },
+      "mode_b": {
+        "executed_trades": 670,
+        "profit_factor": 1.13,
+        "total_opportunity_net_return_pct": 113.3
+      },
+      "speculative_short_breathing_subbook": {
+        "executed_trades": 367,
+        "win_rate_pct": 21.8,
+        "profit_factor": 0.58,
+        "total_opportunity_net_return_pct": -249.8
+      }
+    }
+  },
+  "observational_physics": {
+    "sr_arrival_anatomy_2298_events": {
+      "total_events": 2298,
+      "sma_k1_above_bb_lower_k_pct": 98.2,
+      "sma_k1_arrives_first_pct": 76.1,
+      "sma_k1_median_arrival_hours": 26.0,
+      "anchor_bedrock_rebound_atr": 3.88,
+      "anchor_bedrock_max_drawdown_atr": 0.59
+    },
+    "floor_piercing_by_convolved_role_phi": {
+      "broken_floor_phi_le_0": {
+        "count": 91,
+        "mfe_48h_atr": 4.78,
+        "mae_48h_atr": 4.26,
+        "pierced_floor_pct": 93.4
+      },
+      "neutral_floor_phi_0_to_015": {
+        "count": 33,
+        "mfe_48h_atr": 3.01,
+        "mae_48h_atr": 2.91,
+        "pierced_floor_pct": 60.6
+      },
+      "active_support_phi_015_to_030": {
+        "count": 15,
+        "mfe_48h_atr": 1.70,
+        "mae_48h_atr": 3.19,
+        "pierced_floor_pct": 26.7
+      },
+      "strong_bedrock_phi_gt_030": {
+        "count": 16,
+        "mfe_48h_atr": 1.87,
+        "mae_48h_atr": 4.36,
+        "pierced_floor_pct": 31.2
+      }
+    }
+  },
+  "tensor_2d_and_orthogonal_ablation_clean_48h": {
+    "Ungated S3 Pool": {
+      "trades": 348,
+      "win_rate_pct": 17.2,
+      "profit_factor": 0.71,
+      "net_ev_pct": -0.25,
+      "total_net_return_pct": -86.15,
+      "max_dd_pct": -101.34
+    },
+    "Method 0 (1D MTF RR Root >= 2.0, No Bottleneck)": {
+      "trades": 28,
+      "win_rate_pct": 14.3,
+      "profit_factor": 0.21,
+      "net_ev_pct": -0.49,
+      "total_net_return_pct": -13.60,
+      "max_dd_pct": -14.32
+    },
+    "Method 1b (Raw 2D Tensor >= 2.0 + Raw SMA Floor >= 2.5)": {
+      "trades": 97,
+      "win_rate_pct": 21.6,
+      "profit_factor": 0.80,
+      "net_ev_pct": -0.16,
+      "total_net_return_pct": -15.10,
+      "max_dd_pct": -16.58,
+      "period_2020_2022_pf": 0.49,
+      "period_2023_2025_pf": 1.01
+    },
+    "Orthogonal Wave Only (BB_exp >= -0.01 & CurvL1 <= 0, No Tensor)": {
+      "trades": 94,
+      "win_rate_pct": 20.2,
+      "profit_factor": 0.69,
+      "net_ev_pct": -0.29,
+      "total_net_return_pct": -27.14
+    },
+    "Role-Weighted 2D Tensor Only (macro_rr_2d >= 2.0 & d_def_05 >= 2.5)": {
+      "trades": 128,
+      "win_rate_pct": 19.5,
+      "profit_factor": 0.90,
+      "net_ev_pct": -0.08,
+      "total_net_return_pct": -10.07,
+      "max_dd_pct": -21.83
+    },
+    "Role-2D Tensor x Natural-Zero Orthogonal (BB_exp >= 0.0 & CurvL1 <= 0.0)": {
+      "trades": 19,
+      "win_rate_pct": 36.8,
+      "profit_factor": 2.57,
+      "net_ev_pct": 1.09,
+      "total_net_return_pct": 20.64,
+      "max_dd_pct": -5.72,
+      "period_2020_2022_pf": 3.45,
+      "period_2023_2025_pf": 2.42,
+      "overlap_with_stage2_macro_shorts": 0
+    },
+    "Cumulative-Barrier 2D Tensor (RR_eff >= 2.0) x Natural-Zero Orthogonal": {
+      "trades": 14,
+      "win_rate_pct": 35.7,
+      "profit_factor": 2.15,
+      "net_ev_pct": 0.81,
+      "total_net_return_pct": 11.38,
+      "max_dd_pct": -4.31,
+      "period_2020_2022_pf": 3.45,
+      "period_2023_2025_pf": 1.83
+    },
+    "Cumulative-Barrier 2D Tensor x Full Orthogonal Wave (BB, Curv, Omega, BullShield)": {
+      "trades": 15,
+      "win_rate_pct": 46.7,
+      "profit_factor": 2.91,
+      "net_ev_pct": 1.15,
+      "total_net_return_pct": 17.29,
+      "max_dd_pct": -5.12,
+      "period_2020_2022_pf": 2.22,
+      "period_2023_2025_pf": 3.26
+    }
+  }
+}
