@@ -1,0 +1,45 @@
+issue: 135
+title: "EXP-135: スケール非依存・双対S/R統合ベースライン確立と役割重み付き2Dクロススケール・テンソル及び非対称ショート境界解明"
+created_at: "2026-11-19"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction, strictly additive net return)"
+baseline: "EXP-133 Stage 1/2 (Convolved S/R Role Pyramid & Dynamic Anchor)"
+hypotheses:
+  - id: "HYP-135-1"
+    name: "Zero Window-Dressing Scale-Agnostic Dual Baseline Hypothesis"
+    description: "Eliminating 100% of hardcoded timestamp whitelists (MEGA_RUNNER_TIMESTAMPS = 0) and unifying scale-agnostic long springboards with verified macro breakdown shorts (dynamic resistance anchor handover S233->S89->S55) achieves Master Std +537.5% (PF 2.03), Mode B +404.2% (PF 1.96), and Mode A +222.0% (PF 1.69), with Macro Shorts alone delivering +40.11% (PF 5.80, N=19) and rescuing the 2022 bear market from -9.6% to -1.3%."
+  - id: "HYP-135-2"
+    name: "Crypto Short Asymmetry & Multi-Scale S/R Arrival Anatomy Hypothesis"
+    description: "Across 2,298 empirical ceiling rejections, SMA(k+1) sits above BB_lower(k) in 98.2% of cases and arrives first in 76.1% (median +3.88 ATR rebound, 0.59 ATR max drawdown). Applying symmetric long breathing to speculative meso shorts causes catastrophic -249.8% loss (PF 0.58), proving that macro breakdown shorts (Engine A) and meso pullback shorts (Engine B) must be strictly separated."
+  - id: "HYP-135-3"
+    name: "Role-Weighted 2D Cross-Scale Tensor & Orthogonal Wave Synergy Hypothesis"
+    description: "Unweighted 1D/2D SMA tensors fail (PF 0.21 / PF 0.80) because broken SMAs (phi_bar_s <= 0) shatter 93.4% of the time while active defended floors (phi_bar_s > 0.15) bounce 71.0% of the time. Weighting the 2D Cross-Scale Tensor by convolved support role phi_bar_s and intersecting with natural-zero orthogonal wave features (BB expansion >= 0.0 and short curvature rollover <= 0.0) plus dynamic defended-floor target exit (P_sup + 0.4 ATR) turns speculative shorts positive (PF 2.57, +20.64%, 2020-22 PF 3.45, 2023-25 PF 2.42, 0 overlap with Stage 2)."
+  - id: "HYP-135-4"
+    name: "Pre-Arrival 3h Role Derivative, Context-Dependent Curvature Braking & Multi-Scale S_3 Survival Hypothesis"
+    description: "Prior to support/resistance arrival (0.3 <= d < 1.0 ATR), 3h role erosion (Delta_3h phi_bar < -0.05) breaks macro floors 71.6% vs 50.0% for resilient floors (p=0.0329), and curvature braking reverses by floor health (60.7% bounce on resilient vs 94.4% break on eroding, p=0.037). Multi-scale cumulative barrier survival S_3 = prod_{j=1..3}(1 - 0.5 w_j) separates F1-hold (37.3%) from F3+ cascade (70.1% at Q4), while ceiling derivative ceil_dphi_3h <= 0.0 lifts Engine B Prop C to PF 3.12 (+22.95%, MaxDD -3.41%, N=17) and Combined Dual Shorts (N=36) to WR 44.4%, PF 4.17, +89.17%, MaxDD -7.36%."
+  - id: "HYP-135-5"
+    name: "Scale-Relative BB Contraction/Expansion Cascade & Unified Proposal A+B+C Dual Portfolio Hypothesis"
+    description: "Across 1,950 pullback events, Phase 1 Surge-Cooling (Inner BB < 0 & Outer BB > 0) holds <= F1 45.4% (cascade 43.2%), whereas Phase 2b Full Macro Contraction Cascade (Inner < 0 & Outer <= 0) drops to 23.8% hold (62.6% cascade). Replacing global bb_exp_L3_L8 < 0 with scale-relative pullback coiling mean bb_exp([21..s_sup]) < 0 plus floor resilience (phi_sup1 > 0.20, S_3 <= 0.25) and Engine A + Engine B Prop C achieves Scale-Rel B Master Std +620.04% (PF 3.31, MaxDD -21.41%) / Mode B +488.08% (PF 3.17) and Scale-Rel D Master Std +611.33% (PF 3.48, MaxDD -20.34%) / Mode A +308.53% (PF 2.86, MaxDD -13.86%, 2025 +0.89%)."
+parameters:
+  friction_bps: 0.0040
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  active_support_phi_min: 0.05
+  solid_support_phi_min: 0.15
+  floor_resilience_phi_min: 0.20
+  max_s3_floor_survival: 0.25
+  min_overhead_wall_clearance_atr: 2.0
+  scale_rel_bb_inner_min_scale: 21
+  barrier_opacity_scale: 0.20
+  barrier_survival_alpha: 0.50
+  min_defended_void_atr: 2.5
+  min_tensor_rr: 2.0
+  natural_bb_exp_min: 0.0
+  natural_curv_l1_max: 0.0
+  ceil_dphi_3h_max: 0.0
+  pre_arrival_erosion_dphi_3h: -0.05
