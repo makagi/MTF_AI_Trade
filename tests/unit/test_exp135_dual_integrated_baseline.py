@@ -167,3 +167,112 @@ def test_orthogonal_role_2d_short_gate():
     # Fails when defended support floor is too close (< 2.5 ATR)
     floor_trap_row = {"bb_slope_exp_continuum_L3_L8": 0.015, "curv_L1_mean": -0.002}
     assert exp135.evaluate_orthogonal_role_2d_short_gate(floor_trap_row, macro_rr_eff=3.5, d_def_05=1.2) is False
+
+
+def test_multiscale_barrier_survival_s3():
+    """
+    Verifies Multi-Scale Cumulative Barrier Survival S_3 = prod_{j=1..3} (1 - 0.5 * w_j):
+    1. 3 strong bedrock floors (phi >= 0.20 -> w_j = 1.0) give S_3 = 0.125.
+    2. Broken floors (phi <= 0.0 -> w_j = 0.0) give S_3 = 1.0.
+    3. Floors within 0.2 ATR of p0 are skipped.
+    """
+    p0 = 90000.0
+    atr0 = 1000.0
+
+    row_bedrock = {}
+    for s in exp135.TREE_SCALES:
+        row_bedrock[f"sma_{s}"] = 95000.0
+        row_bedrock[f"phi_bar_{s}"] = -0.10
+    # S21 is too close (0.1 ATR <= 0.2) and should be skipped
+    row_bedrock["sma_21"] = 89900.0
+    row_bedrock["phi_bar_21"] = -0.30
+    # F1=S55 (1.0 ATR), F2=S89 (2.0 ATR), F3=S144 (3.0 ATR) all bedrock (phi >= 0.20)
+    for s, dist in [(55, 1.0), (89, 2.0), (144, 3.0)]:
+        row_bedrock[f"sma_{s}"] = p0 - dist * atr0
+        row_bedrock[f"phi_bar_{s}"] = 0.35
+
+    s3_strong, phi1_strong, scales_strong = exp135.compute_multiscale_barrier_survival_s3(
+        p0, atr0, row_bedrock
+    )
+    assert scales_strong == [55, 89, 144]
+    np.testing.assert_allclose(phi1_strong, 0.35, atol=1e-6)
+    np.testing.assert_allclose(s3_strong, 0.125, atol=1e-6)
+
+    # Porous / broken floors -> w_j = 0 -> S_3 = 1.0
+    row_broken = dict(row_bedrock)
+    for s in (55, 89, 144):
+        row_broken[f"phi_bar_{s}"] = -0.10
+    s3_broken, phi1_broken, _ = exp135.compute_multiscale_barrier_survival_s3(p0, atr0, row_broken)
+    np.testing.assert_allclose(phi1_broken, -0.10, atol=1e-6)
+    np.testing.assert_allclose(s3_broken, 1.0, atol=1e-6)
+
+
+def test_scale_relative_bb_contraction():
+    """
+    Verifies scale-relative BB slope contraction relative to sup_scale:
+    Pullback scales [21..sup_scale] contracting (< 0) while parent scales > sup_scale
+    remain expanding (> 0) yields bb_in_le < 0, bb_outer_gt > 0, delta_bb < 0.
+    """
+    row = {}
+    for s in exp135.TREE_SCALES:
+        if s <= 1597:
+            row[f"bb_slope_exp_{s}"] = 0.02 if s > 55 else -0.05
+
+    bb_in_le, bb_outer_gt, delta_bb = exp135.compute_scale_relative_bb_contraction(row, sup_scale=55)
+    np.testing.assert_allclose(bb_in_le, -0.05, atol=1e-6)
+    np.testing.assert_allclose(bb_outer_gt, 0.02, atol=1e-6)
+    assert delta_bb < 0.0
+
+
+def test_scale_relative_springboard_long_gate():
+    """
+    Verifies Scale-Relative Springboard Long Gate (Proposal A + Scale-Rel BB):
+    - Passes on resilient bedrock floor (phi_sup1 > 0.20, S_3 <= 0.25),
+      scale-relative pullback coiling (bb_in_le < 0), and clear upside (>= 2.0 ATR).
+    - Blocks uncooled blowout (bb_in_le >= 0), porous floor (S_3 > 0.25),
+      and close overhead defended resistance when require_upside_wall_clearance=True.
+    """
+    p0 = 90000.0
+    atr0 = 1000.0
+    base_row = {}
+    for s in exp135.TREE_SCALES:
+        base_row[f"sma_{s}"] = 95000.0  # 5.0 ATR above (>= 2.0 ATR clear)
+        base_row[f"phi_bar_{s}"] = -0.10
+        if s <= 1597:
+            base_row[f"bb_slope_exp_{s}"] = -0.04 if s <= 55 else +0.02
+
+    # Resilient bedrock floors at S55, S89, S144
+    for s, dist in [(55, 1.0), (89, 2.0), (144, 3.0)]:
+        base_row[f"sma_{s}"] = p0 - dist * atr0
+        base_row[f"phi_bar_{s}"] = 0.30
+
+    assert exp135.evaluate_scale_relative_springboard_long_gate(
+        p0, atr0, base_row, sup_scale=55, require_upside_wall_clearance=True
+    ) is True
+
+    # 1. Fail on uncooled inner-scale BB spike (L2 pattern)
+    blowout_row = dict(base_row)
+    for s in (21, 34, 55):
+        blowout_row[f"bb_slope_exp_{s}"] = +0.02
+    assert exp135.evaluate_scale_relative_springboard_long_gate(
+        p0, atr0, blowout_row, sup_scale=55, require_upside_wall_clearance=True
+    ) is False
+
+    # 2. Fail on porous underlying cascade (S_3 > 0.25, L3_blk pattern)
+    porous_row = dict(base_row)
+    porous_row["phi_bar_89"] = 0.0
+    porous_row["phi_bar_144"] = 0.0  # S_3 = 0.5 * 1.0 * 1.0 = 0.50 > 0.25
+    assert exp135.evaluate_scale_relative_springboard_long_gate(
+        p0, atr0, porous_row, sup_scale=55, require_upside_wall_clearance=True
+    ) is False
+
+    # 3. Close overhead defended wall (1.0 ATR < 2.0): blocked with clearance=True, allowed with False
+    wall_row = dict(base_row)
+    wall_row["sma_233"] = p0 + 1.0 * atr0
+    wall_row["phi_bar_233"] = -0.15
+    assert exp135.evaluate_scale_relative_springboard_long_gate(
+        p0, atr0, wall_row, sup_scale=55, require_upside_wall_clearance=True
+    ) is False
+    assert exp135.evaluate_scale_relative_springboard_long_gate(
+        p0, atr0, wall_row, sup_scale=55, require_upside_wall_clearance=False
+    ) is True

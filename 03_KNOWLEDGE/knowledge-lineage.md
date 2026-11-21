@@ -1,10 +1,10 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 3.8.0  
+**Version:** 3.9.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-11-19  
+**Last Updated:** 2026-11-21  
 **Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127), [#129](https://github.com/makagi/MTF_AI_Trade/issues/129), [#131](https://github.com/makagi/MTF_AI_Trade/issues/131), [#133](https://github.com/makagi/MTF_AI_Trade/issues/133), [#135](https://github.com/makagi/MTF_AI_Trade/issues/135)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
@@ -285,6 +285,12 @@ graph TD
     K083 --> K084
     EXP135["EXP-135: 135-scale-agnostic-dual-integrated-baseline"] --> K083
     EXP135 --> K084
+    K082 --> K085["K-085: サポレジ接触前3h役割微分・多段バリア生存S3・スケール相対BBカスケード則<br/>(Supported)"]:::supported
+    K084 --> K085
+    EXP135 --> K085
+    K084 --> K086["K-086: スケール相対BB押し目純化ロング×2系統直交デュアルショート統合ポートフォリオ<br/>(Supported / New Master Candidate)"]:::supported
+    K085 --> K086
+    EXP135 --> K086
 ```
 
 ---
@@ -1308,6 +1314,47 @@ graph TD
 
 ---
 
+### K-085: サポレジ接触前3h役割微分 $\Delta_{3\text{h}}\bar{\Phi}$・多段累積バリア通過確率 $S_3$・スケール相対BB収縮カスケード則
+* **ステータス**: **支持 (Supported 🌟)**
+* **概要**: 静的役割スコア $\bar{\Phi}_s$ に時間微分と多段バリア・スケール相対BB構造を統合し、PnL 非依存の事前反発・決壊予測物理法則を確立（EXP-135 HYP-135-4, HYP-135-5）：
+  1. **接触3h前役割微分（$\Delta_{3\text{h}}\bar{\Phi}_m$）による床侵食検知**:
+     - 未接触接近時（$0.3 \le d < 1.0\text{ ATR}$、リード中央値 `3.0h`）の正役割マクロ支持線（`[144..610]`, $\bar{\Phi}_m > 0.10$）において、直近3時間で役割侵食中（$\Delta_{3\text{h}}\bar{\Phi}_m < -0.05$, $N=74$）は **`71.6%` が決壊**するのに対し、維持・強化中（$\Delta_{3\text{h}}\bar{\Phi}_m \ge 0$, $N=34$）は **`50.0%` 決壊**（Fisher $p = 0.0329$）。
+     - 侵食（$\Delta_{3\text{h}}\bar{\Phi}_m < -0.05$）× ボラ収縮（`bb_exp < -0.01`）が重なると、2020–22年 **`86.0%`**・2023–25年 **`96.6%` 決壊（反発 3.4%）**。
+  2. **接触前曲率ブレーキ（$\Delta_{3\text{h}}\mathcal{C}_{L1} > 0$）の文脈反転**:
+     - 強靭床（$\Delta_{3\text{h}}\bar{\Phi}_m \ge 0$）での減速ブレーキは **`60.7%` 反発**（$N=28$、エネルギー吸収）となる一方、侵食床（$\Delta_{3\text{h}}\bar{\Phi}_m < -0.05$）でのブレーキは **`94.4%` 決壊 / `5.6%` 反発**（$N=18$, Fisher $p = 0.037$、崩壊前弱気フラッグ）へ反転する。
+  3. **多段累積バリア通過確率 $S_3 = \prod_{j=1}^3 (1 - 0.5 w_j)$ とスケール相対BB収縮カスケード**:
+     - 天井反落 $N=1,950$ 件において、$S_3$ 強固帯（`Q1-Q2`: $S_3 \le 0.223$, $N=975$）は $F_1$ 以浅停止 **`37.3%`** / $F_3+$ カスケード `51.8%`、脆弱帯（`Q4`: $S_3 > 0.344$, $N=488$）は $F_1$ 以浅停止 **`20.9%`** / $F_3+$ カスケード **`70.1%`**（$\rho = +0.1596, p = 1.4 \times 10^{-12}$）。
+     - さらに、下位揺り戻しスケールのみが収縮し親スケールが拡張を保つ **Phase 1（`Inner < 0 & Outer > 0`, $N=377$）** では `45.4%` が $F_1$ 以浅で停止（カスケード `43.2%`）するのに対し、親階層まで収縮が波及する **Phase 2b（`Inner < 0 & Outer <= 0`, $N=500$）** では $F_1$ 停止率が `23.8%`（$\bar{\Phi}_{F_2}\le 0.20$ で `18.4%`）へ半減し `62.6%`（`66.5%`）が $F_3+$ へカスケード崩壊する。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、完全因果律（未来参照ゼロ）
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/135-scale-agnostic-dual-integrated-baseline/record.md`](experiments/135-scale-agnostic-dual-integrated-baseline/record.md) (EXP-135 / [#135](https://github.com/makagi/MTF_AI_Trade/issues/135))
+* **仕様への影響**: ロング跳躍台純化（$S_3 \le 0.25$ × スケール相対BB収縮 `mean bb_exp([21..s_sup]) < 0`）およびショート天井微分ゲート（`ceil_dphi3h <= 0.0`）の物理基盤として採用。
+
+---
+
+### K-086: スケール相対BB押し目純化ロング×2系統直交デュアルショート統合ポートフォリオ
+* **ステータス**: **支持・新マスター候補 (Supported / New Master Candidate 🏆)**
+* **概要**: `K-085` のスケール相対BB収縮・多段床レジリエンス（Proposal A）と `K-084` / `K-085` の天井3h役割微分ゲート付き2系統直交デュアルショート（Proposal B×C）を統合し、Stage 1 の Mode A 枠食い劣化（`-63.75%pt`）を完全解消して全執行モードを飛躍的に改善（EXP-135 HYP-135-5）：
+  1. **2系統直交デュアルショートサブブック（`Engine A + Engine B Prop C`, $N=36$, 重複0件）**:
+     - **Engine A（Stage 2 マクロ崩壊ショート, $N=19$）**: WR `47.4%`, PF `4.84`, `+66.23%`, MaxDD `-5.62%`
+     - **Engine B Proposal C（役割2Dテンソル × 自然境界直交波動 × 天井 $\Delta_{3\text{h}}\bar{\Phi}_{\text{ceil}} \le 0.0$, `[34..610]`, $N=17$）**: WR `41.2%`, PF `3.12`, `+22.95%`, MaxDD `-3.41%`
+     - **統合デュアルショート（$N=36$）**: **WR `44.4%`, PF `4.17`, `+89.17%`, MaxDD `-7.36%`**
+  2. **統合スケール相対デュアルポートフォリオ（往復40 bps摩擦控除・加算ネットリターン、`WL=0`）**:
+     - **`Scale-Rel B`（`phi_sup1 > 0.20` × `S_3 <= 0.25` × `mean bb_exp([21..s_sup]) < 0` + `Eng A + B_PropC`）**:
+       - Master Std ($N=266$): **`+620.04%`** (`WR 41.7%`, `PF 3.31`, `MaxDD -21.41%`)
+       - Mode A ($N=178$): **`+307.57%`** (`WR 37.6%`, `PF 2.70`, `MaxDD -13.86%`)
+       - Mode B ($N=230$): **`+488.08%`** (`WR 41.7%`, `PF 3.17`, `MaxDD -17.59%`)
+     - **`Scale-Rel D`（`phi_sup1 > 0.20` × `mean bb_exp([21..s_sup]) < 0` × `d_res_def_05 >= 2.0` + `Eng A + B_PropC`）**:
+       - Master Std ($N=244$): **`+611.33%`** (`WR 42.6%`, **`PF 3.48`**, `MaxDD -20.34%`)
+       - Mode A ($N=165$): **`+308.53%`** (`WR 39.4%`, **`PF 2.86`**, `MaxDD -13.86%`, 2025年 **`+0.89%`**)
+       - Mode B ($N=216$): **`+475.70%`** (`WR 42.1%`, **`PF 3.26`**, `MaxDD -17.59%`)
+  3. **残存課題・改善余地**:
+     - Engine B の `micro_stop_hit`（`10/17`, MFE `1.6–2.1 ATR` 逆転含む）に対する建値ラチェット統合、2022年ベア相場の静的閾値による取りこぼし 3件（`+29.54%`）への動的役割回復緩和、および Open Sky ラウンドトリップ（`25/27` 件）への非SMA依存型疲労検知が次期検証課題。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除、厳格加算ネットリターン、`WL=0`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/135-scale-agnostic-dual-integrated-baseline/record.md`](experiments/135-scale-agnostic-dual-integrated-baseline/record.md) (EXP-135 / [#135](https://github.com/makagi/MTF_AI_Trade/issues/135))
+* **仕様への影響**: 次期確定生産マスターベースライン候補（New Master Candidate）として登録。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -1355,3 +1402,4 @@ graph TD
 | 2026-11-14 | 3.6.0 | EXP-131 反映、全階層ピラミッド連続体積分平坦プラトー則（K-079 Supported/新マスター候補: 特定層L4/L8チェリーピッキング懸念を完全払拭・Continuum L3..L8 Master Std PF 5.89 Tot +568.4%）、異種ピラミッド直交位相空間による負曲率ランナー保護・ダマシ完全分離則（K-080 Supported: 第II象限ランナー100%保護・第III象限ナイフ遮断・Master Std PF 6.18 Tot +570.8% MaxDD -14.9%・Mode A MaxDD -9.78%）を登録・計80知見へ拡充 | @makagi / [#131](https://github.com/makagi/MTF_AI_Trade/issues/131) |
 | 2026-11-15 | 3.7.0 | EXP-133 反映、畳み込みS/R役割ピラミッドと厳密双対対称性（K-081 Supported）、スケール非依存動的アンカー選定・階層的引き継ぎ・役割無効化撤退則（K-082 Supported/新マスター候補: S233固定全廃・Case 1 +4.17%pt救済・ランナー11件100%保持・Master Std PF 6.68 Tot +528.9% MaxDD -13.1%・Stage 2 PF 6.81）を登録・計82知見へ拡張 | @makagi / [#133](https://github.com/makagi/MTF_AI_Trade/issues/133) |
 | 2026-11-18 | 3.8.0 | EXP-135 反映、暗号資産ショート非対称性と3大破綻トラップ（K-083 Supported/Constrained）、MTF S/Rコリドー幾何学・SVC・2.5 ATRターゲットフロア即時利確則（K-084 Supported）登録・計84知見へ拡充（確定生産マスターベースラインはEXP-135 Stage 2へ昇格） | @makagi / [#135](https://github.com/makagi/MTF_AI_Trade/issues/135) |
+| 2026-11-21 | 3.9.0 | EXP-135 拡張反映、サポレジ接触前3h役割微分・多段バリア生存確率 $S_3$・スケール相対BB収縮カスケード則（K-085 Supported）、およびスケール相対BB押し目純化ロング×2系統直交デュアルショート統合ポートフォリオ（K-086 Supported/New Master Candidate: Scale-Rel B Master Std +620.04% PF 3.31 Mode B +488.08%, Scale-Rel D Master Std +611.33% PF 3.48 Mode A +308.53% MaxDD -13.86%）を登録・計86知見へ拡充 | @makagi / [#135](https://github.com/makagi/MTF_AI_Trade/issues/135) |

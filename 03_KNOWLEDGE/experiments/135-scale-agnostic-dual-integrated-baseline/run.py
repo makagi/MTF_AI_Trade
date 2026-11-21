@@ -73,6 +73,37 @@ def select_initial_dynamic_resistance_anchor(
     return 233
 
 
+def _collect_directional_levels(
+    p0: float,
+    atr0: float,
+    row_0: pd.Series | dict,
+    scales: list[int],
+    below_price: bool = True,
+    min_dist_atr: float = 0.0,
+) -> list[tuple[float, int, float, float]]:
+    """Collects (dist_atr, scale, sma_val, phi_val) sorted ascending by distance from p0."""
+    atr_safe = max(float(atr0), 1e-8)
+    levels: list[tuple[float, int, float, float]] = []
+    for s in scales:
+        sma_val = row_0.get(f"sma_{s}", np.nan)
+        if pd.isna(sma_val):
+            continue
+        sma_f = float(sma_val)
+        if below_price:
+            if sma_f >= p0:
+                continue
+            dist = (p0 - sma_f) / atr_safe
+        else:
+            if sma_f <= p0:
+                continue
+            dist = (sma_f - p0) / atr_safe
+        if dist > min_dist_atr:
+            phi_val = float(row_0.get(f"phi_bar_{s}", 0.0))
+            levels.append((float(dist), int(s), sma_f, phi_val))
+    levels.sort(key=lambda x: (x[0], x[1]))
+    return levels
+
+
 def compute_nearest_defended_floor_clearance(
     p0: float,
     atr0: float,
@@ -88,23 +119,111 @@ def compute_nearest_defended_floor_clearance(
     If no defended floor exists below p0, returns (max_cap_atr, None, p0 - max_cap_atr * atr0).
     """
     atr_safe = max(float(atr0), 1e-8)
-    best_dist = max_cap_atr
-    best_scale: int | None = None
-    best_price = p0 - max_cap_atr * atr_safe
+    for dist, s, sma_f, phi_val in _collect_directional_levels(
+        p0, atr_safe, row_0, scales, below_price=True, min_dist_atr=0.0
+    ):
+        if phi_val > phi_min and dist < max_cap_atr:
+            return dist, s, sma_f
 
-    for s in scales:
-        sma_val = row_0.get(f"sma_{s}", np.nan)
-        if pd.isna(sma_val) or float(sma_val) >= p0:
-            continue
-        phi_val = float(row_0.get(f"phi_bar_{s}", 0.0))
-        if phi_val > phi_min:
-            dist = (p0 - float(sma_val)) / atr_safe
-            if dist < best_dist:
-                best_dist = dist
-                best_scale = s
-                best_price = float(sma_val)
+    return float(max_cap_atr), None, float(p0 - max_cap_atr * atr_safe)
 
-    return float(best_dist), best_scale, float(best_price)
+
+def compute_multiscale_barrier_survival_s3(
+    p0: float,
+    atr0: float,
+    row_0: pd.Series | dict,
+    scales: list[int] = TREE_SCALES,
+    barrier_scale: float = 0.20,
+    alpha: float = 0.50,
+) -> tuple[float, float, list[int]]:
+    """
+    Computes multi-scale cumulative barrier survival probability across the top 3 nearest
+    underfoot SMA floors (F1, F2, F3 in [21..2584] at distance > 0.2 ATR):
+        w_j = clip(phi_bar_{F_j} / barrier_scale, 0.0, 1.0)
+        S_3 = prod_{j=1..3} (1 - alpha * w_j)
+    Returns: (s3_survival, phi_sup1, floor_scales).
+    """
+    cand_floors = [s for s in scales if 21 <= s <= 2584] or list(scales)
+    floors = _collect_directional_levels(
+        p0, atr0, row_0, cand_floors, below_price=True, min_dist_atr=0.2
+    )
+    if not floors:
+        return 1.0, 0.0, []
+
+    phi_sup1 = float(floors[0][3])
+    top3 = floors[:3]
+    s3 = 1.0
+    b_scale = max(float(barrier_scale), 1e-8)
+    for _, _, _, phi_j in top3:
+        w_j = float(np.clip(phi_j / b_scale, 0.0, 1.0))
+        s3 *= (1.0 - float(alpha) * w_j)
+
+    return float(s3), phi_sup1, [f[1] for f in top3]
+
+
+def compute_scale_relative_bb_contraction(
+    row_0: pd.Series | dict,
+    sup_scale: int,
+    scales: list[int] = TREE_SCALES,
+) -> tuple[float, float, float]:
+    """
+    Computes scale-relative Bollinger Band slope expansion relative to support scale `sup_scale`:
+    - `bb_in_le`: mean(bb_slope_exp_s) across pullback scales 21 <= s <= sup_scale
+    - `bb_outer_gt`: mean(bb_slope_exp_s) across parent macro scales sup_scale < s <= 1597
+    - `delta_bb`: bb_in_le - bb_outer_gt (negative = pullback cooling inside expanding parent)
+    Returns: (bb_in_le, bb_outer_gt, delta_bb).
+    """
+    bb_scales = [s for s in scales if s <= 1597] or list(scales)
+    inner_scales = [s for s in bb_scales if 21 <= s <= sup_scale] or [sup_scale]
+    outer_scales = [s for s in bb_scales if s > sup_scale] or [bb_scales[-1]]
+
+    def _mean_bb_exp(target_scales: list[int]) -> float:
+        vals = [
+            float(row_0[f"bb_slope_exp_{s}"])
+            for s in target_scales
+            if f"bb_slope_exp_{s}" in row_0 and not pd.isna(row_0[f"bb_slope_exp_{s}"])
+        ]
+        return float(np.mean(vals)) if vals else 0.0
+
+    bb_in_le = _mean_bb_exp(inner_scales)
+    bb_outer_gt = _mean_bb_exp(outer_scales)
+    return bb_in_le, bb_outer_gt, float(bb_in_le - bb_outer_gt)
+
+
+def evaluate_scale_relative_springboard_long_gate(
+    p0: float,
+    atr0: float,
+    row_0: pd.Series | dict,
+    sup_scale: int,
+    require_upside_wall_clearance: bool = True,
+) -> bool:
+    """
+    Evaluates the Proposal A + Scale-Relative BB Pullback Gate for Extra Springboard Longs:
+    1. Resilient Bedrock Nearest Floor: phi_sup1 > 0.20
+    2. Multi-Scale Barrier Survival Cap: S_3 <= 0.25
+    3. Scale-Relative Pullback Coiling: mean bb_slope_exp([21..sup_scale]) < 0.0
+    4. Optional Defended Overhead Wall Clearance (Scale-Rel D/E): nearest overhead wall
+       with phi_bar_s < -0.05 in [34..2584] sits at d_res_def_05 >= 2.0 ATR.
+    """
+    s3, phi_sup1, _ = compute_multiscale_barrier_survival_s3(p0, atr0, row_0)
+    if phi_sup1 <= 0.20 or s3 > 0.25:
+        return False
+
+    bb_in_le, _, _ = compute_scale_relative_bb_contraction(row_0, sup_scale)
+    if bb_in_le >= 0.0:
+        return False
+
+    if require_upside_wall_clearance:
+        cand_walls = [s for s in TREE_SCALES if 34 <= s <= 2584]
+        walls = _collect_directional_levels(
+            p0, atr0, row_0, cand_walls, below_price=False, min_dist_atr=0.0
+        )
+        defended_walls = [w[0] for w in walls if w[3] < -0.05]
+        d_res_def_05 = min(defended_walls) if defended_walls else 99.0
+        if d_res_def_05 < 2.0:
+            return False
+
+    return True
 
 
 def compute_cumulative_barrier_role_weighted_2d_tensor(
