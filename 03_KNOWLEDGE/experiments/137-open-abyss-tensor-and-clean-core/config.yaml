@@ -1,0 +1,43 @@
+issue: 137
+title: "EXP-137: 残存失敗(F1-F3)・取りこぼし(M1-M3)解剖、第三者プラトー監査によるClean Core(C1)確立、およびOpen-Abyss 2Dテンソル縮退修正と短期下向きBB膨張ショート救出(S16)"
+created_at: "2026-11-22"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction, strictly additive net return)"
+baseline: "EXP-135 Scale-Rel D (Clean Core Audit) & Role-Weighted 2D Tensor"
+hypotheses:
+  - id: "HYP-137-1"
+    name: "Failure Anatomy (F1-F3) & Third-Party 2D Plateau Audit Establishing Clean Core (C1)"
+    description: "75% of round-trip losses and 90% of Mega-Runners peak in Open Sky above all SMAs, causing early BB/trail exits to destroy Mega-Runners (-540%). Causal 1m Open-Sky friction-lock H1a (MFE >= 4.5 ATR -> +0.50 ATR) preserves 10/10 Mega-Runners across a flat [4.0..6.0] x [0.20..0.50] plateau. Together with H2a (Base0 counter-trend wall guard), H3a_clean (Engine A d_def_05 >= 2.5 ATR), and H3b (Engine B phi_continuum <= 0.0), third-party audit rejects razor-edge thresholds bb_L38 >= -0.018 (0.00321 margin from -0.01479) and M1a-R1s (0.000215 margin on 2024-07-13), establishing Clean Core C1 (Master Std +632.45%, PF 3.86, MaxDD -18.54%; Mode B +495.48%, PF 3.66, MaxDD -15.79%; Mode A +315.69%, PF 3.03, MaxDD -13.86%)."
+  - id: "HYP-137-2"
+    name: "Role-Weighted Open-Abyss 2D Tensor Zero-Collapse Fix Hypothesis"
+    description: "Original macro_rr_2d collapses to 0.00 when price drops below all SMAs in [55..2584], falsely blocking 50% (31/62) of S3-blocked >= 8 ATR bear plunges. Option 1 extending targets to [55..17711] still collapses to 0.00 on 2020-03-12 (51.2R). Option 2 (RR^{Phi,abyss}_{n,m}) assigns 17-scale defended floor distance d_def_05_17 (cap 15.0 ATR) when P < SMA_m, phi_bar_m < -0.15, slope_m < 0, restoring 2020-03-12 from 0.00 to 4.46x while automatically filtering 9 ultra-macro floor traps (0/9 wins, -9.49%)."
+  - id: "HYP-137-3"
+    name: "Scale-Relative 8h Downward BB Expansion & 21h Non-Oversold Early-Ignition Short Gate (S16)"
+    description: "Intersecting RR^{Phi,abyss}_{17} >= 2.0 and d_def_05_17 >= 4.0 ATR with early 8h BB expansion (bb_slope_exp_8 > 0.0), 21h non-oversold momentum (stoch_z_21 >= -0.30), non-eroding ceiling (ceil_dphi3h <= 0.0), and bearish/neutral continuum (phi_continuum <= 0.15) rescues 30 shorts (WR 33.3%, PF 2.67, +37.67%, MaxDD -6.62%), lifting Unified Engine B (N=46) to PF 2.93, +61.96%, MaxDD -6.51% with positive net return in every single year 2020-2025, and lifting C1 + S16 to Master Std +670.11% (PF 3.74) / Mode B +523.51% (PF 3.49)."
+parameters:
+  friction_bps: 0.0040
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  tree_scales: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  barrier_opacity_scale: 0.20
+  min_micro_risk_atr: 0.80
+  open_abyss_max_cap_atr: 15.0
+  open_abyss_overhead_phi_max: -0.15
+  open_abyss_overhead_slope_max: 0.0
+  active_support_phi_min: 0.05
+  h1a_mfe_lock_trigger_atr: 4.5
+  h1a_mfe_lock_offset_atr: 0.50
+  h2a_phi_continuum_lt: -0.05
+  h2a_d_res_def_05_lt: 2.5
+  h3a_clean_d_def_05_min_atr: 2.5
+  h3b_phi_continuum_max: 0.0
+  s16_min_rr_abyss: 2.0
+  s16_min_d_def_05_17_atr: 4.0
+  s16_min_bb_exp_8: 0.0
+  s16_min_stoch_z_21: -0.30
+  s16_max_ceil_dphi_3h: 0.0
+  s16_max_phi_continuum: 0.15

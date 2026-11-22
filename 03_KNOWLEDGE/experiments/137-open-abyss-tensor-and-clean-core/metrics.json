@@ -1,0 +1,209 @@
+{
+  "experiment_id": "EXP-137",
+  "issue": 137,
+  "friction_bps": 40.0,
+  "return_accounting": "additive_sum_pct",
+  "hardcoded_whitelist_count": 0,
+  "failure_and_missed_opportunity_anatomy": {
+    "scale_rel_d_losers_140_of_244": {
+      "total_losers": 140,
+      "total_loss_pct": -246.93,
+      "f2a_early_stop_mfe_lt_1_5_dur_lt_12h": {
+        "count": 59,
+        "share_pct": 42.1,
+        "total_loss_pct": -89.09,
+        "loss_share_pct": 36.1
+      },
+      "f2b_stagnation_stop_mfe_lt_1_5_dur_ge_12h": {
+        "count": 26,
+        "share_pct": 18.6,
+        "total_loss_pct": -67.88,
+        "loss_share_pct": 27.5
+      },
+      "f1a_severe_roundtrip_mfe_ge_3_0": {
+        "count": 37,
+        "share_pct": 26.4,
+        "total_loss_pct": -48.03,
+        "loss_share_pct": 19.5
+      },
+      "f1b_moderate_roundtrip_mfe_1_5_to_3_0": {
+        "count": 18,
+        "share_pct": 12.9,
+        "total_loss_pct": -41.92,
+        "loss_share_pct": 17.0
+      }
+    },
+    "m3_major_moves_ge_8_atr": {
+      "bull_moves_total": 242,
+      "bull_captured": 87,
+      "bull_capture_rate_pct": 36.0,
+      "bear_moves_total": 248,
+      "bear_captured_baseline": 19,
+      "bear_capture_rate_baseline_pct": 7.7,
+      "missed_bear_moves": 229,
+      "s3_blocked_bear_moves_within_24h": 62,
+      "s3_blocked_by_zero_collapse_count": 31,
+      "s3_blocked_by_macro_bb_coil_count": 53,
+      "combo_d_bear_captured_loose": 15,
+      "combo_d_plus_s16_bear_captured_loose": 27,
+      "combo_d_plus_s16_bear_capture_rate_pct": 10.9
+    }
+  },
+  "third_party_plateau_audit": {
+    "accepted_clean_core_components": {
+      "H1a": {
+        "rule": "MFE >= 4.5 ATR -> lock stop >= entry + 0.50 ATR (causal 1m)",
+        "plateau_region": "MFE [4.0..6.0] ATR x lock [0.20..0.50] ATR",
+        "mega_runners_preserved": "10/10",
+        "longs_208_tot_pct": 533.41,
+        "longs_208_pf": 3.57,
+        "longs_208_baseline_tot_pct": 522.16,
+        "longs_208_baseline_pf": 3.39
+      },
+      "H2a": {
+        "rule": "Base0 guard: not (phi_continuum < -0.05 and d_res_def_05 < 2.5)",
+        "plateau_region": "phi_continuum [-0.15..0.00] x d_res_def_05 [1.5..3.5] (20 cells)",
+        "dropped_base0_trades": 8,
+        "base0_pf_before": 5.03,
+        "base0_pf_after": 5.45,
+        "base0_tot_pct_after": 445.87
+      },
+      "H3a_clean": {
+        "rule": "Engine A unified floor clearance d_def_05 >= 2.5 ATR",
+        "plateau_region": "d_def_05 [2.0..2.5] ATR"
+      },
+      "H3b": {
+        "rule": "Engine B non-bullish continuum phi_continuum <= 0.0 (flat across [0.00..0.20])",
+        "eng_b_n": 16,
+        "eng_b_wr_pct": 43.75,
+        "eng_b_pf": 3.56,
+        "eng_b_tot_pct": 24.29,
+        "eng_b_mdd_pct": -3.41
+      }
+    },
+    "rejected_overfit_candidates": {
+      "bb_L38_ge_neg0018": {
+        "reason": "Razor-edge threshold 0.00321 below top winner (-0.01479, +26.38% on 2021-05-18); fails sensitivity plateau audit."
+      },
+      "M1a_R1s_proj_gt_020": {
+        "reason": "Cliff-edge dependence on proj = 0.200215 (2024-07-13, +9.38%, margin 0.000215); non-monotonic across k in [0.50..1.50] (k=0.75 yields -5.50%, 0% WR)."
+      }
+    }
+  },
+  "open_abyss_tensor_and_s16_short_rescue": {
+    "all_s3_candidates": {
+      "n": 348,
+      "wr_pct": 16.95,
+      "pf": 0.70,
+      "net_ev_pct": -0.26,
+      "tot_pct": -89.98,
+      "mdd_pct": -104.70
+    },
+    "orig_zero_collapse": {
+      "n": 97,
+      "wr_pct": 11.34,
+      "pf": 0.56,
+      "tot_pct": -43.75,
+      "mdd_pct": -56.63
+    },
+    "option1_extended_17711_unlocked_z97": {
+      "n": 59,
+      "wr_pct": 10.17,
+      "pf": 0.40,
+      "tot_pct": -34.67,
+      "covid_2020_03_12_rr": 0.00
+    },
+    "option2_role_abyss_unlocked_z97": {
+      "n": 88,
+      "wr_pct": 12.50,
+      "pf": 0.62,
+      "tot_pct": -34.26,
+      "ultra_macro_floor_traps_filtered": 9,
+      "filtered_traps_wins": 0,
+      "filtered_traps_loss_pct": -9.49,
+      "covid_2020_03_12_rr": 4.46
+    },
+    "s16_rescued_full": {
+      "n": 30,
+      "wr_pct": 33.33,
+      "pf": 2.67,
+      "net_ev_pct": 1.26,
+      "tot_pct": 37.67,
+      "mdd_pct": -6.62,
+      "y2020_2022_pct": 31.56,
+      "y2023_2025_pct": 6.11,
+      "yearly_pct": {
+        "2020": 16.38,
+        "2021": 11.01,
+        "2022": 4.17,
+        "2023": 4.47,
+        "2024": 3.83,
+        "2025": -2.20
+      },
+      "subbook_open_abyss": {
+        "n": 19,
+        "wr_pct": 31.58,
+        "pf": 2.56,
+        "tot_pct": 26.81,
+        "mdd_pct": -7.41
+      },
+      "subbook_macro_coil": {
+        "n": 11,
+        "wr_pct": 36.36,
+        "pf": 3.00,
+        "tot_pct": 10.86,
+        "mdd_pct": -2.66
+      }
+    },
+    "unified_engine_b": {
+      "n": 46,
+      "wr_pct": 36.96,
+      "pf": 2.93,
+      "net_ev_pct": 1.35,
+      "tot_pct": 61.96,
+      "mdd_pct": -6.51,
+      "y2020_2022_pct": 36.35,
+      "y2023_2025_pct": 25.62,
+      "yearly_pct": {
+        "2020": 16.38,
+        "2021": 15.79,
+        "2022": 4.17,
+        "2023": 21.61,
+        "2024": 0.42,
+        "2025": 3.58
+      }
+    }
+  },
+  "portfolio_comparison": {
+    "Scale_Rel_D_EXP135_Baseline": {
+      "master_std": {"executed_trades": 244, "win_rate_pct": 42.62, "profit_factor": 3.48, "total_opportunity_net_return_pct": 611.33, "max_drawdown_pct": -20.34, "y2020_2022_pct": 490.14, "y2022_pct": -13.18, "y2023_2025_pct": 121.19},
+      "mode_b": {"executed_trades": 216, "win_rate_pct": 42.13, "profit_factor": 3.26, "total_opportunity_net_return_pct": 475.70, "max_drawdown_pct": -17.59},
+      "mode_a": {"executed_trades": 165, "win_rate_pct": 39.39, "profit_factor": 2.86, "total_opportunity_net_return_pct": 308.53, "max_drawdown_pct": -13.86}
+    },
+    "Clean_Core_C1": {
+      "master_std": {"executed_trades": 232, "win_rate_pct": 45.69, "profit_factor": 3.86, "total_opportunity_net_return_pct": 632.45, "max_drawdown_pct": -18.54, "y2020_2022_pct": 501.16, "y2022_pct": -7.86, "y2023_2025_pct": 131.29},
+      "mode_b": {"executed_trades": 204, "win_rate_pct": 44.61, "profit_factor": 3.66, "total_opportunity_net_return_pct": 495.48, "max_drawdown_pct": -15.79},
+      "mode_a": {"executed_trades": 156, "win_rate_pct": 41.03, "profit_factor": 3.03, "total_opportunity_net_return_pct": 315.69, "max_drawdown_pct": -13.86}
+    },
+    "C1_plus_S16_MacroCoil_Only": {
+      "master_std": {"executed_trades": 243, "win_rate_pct": 45.7, "profit_factor": 3.84, "total_opportunity_net_return_pct": 643.31, "max_drawdown_pct": -18.54, "y2020_2022_pct": 511.7, "y2022_pct": -6.0, "y2023_2025_pct": 131.6},
+      "mode_b": {"executed_trades": 213, "win_rate_pct": 44.1, "profit_factor": 3.60, "total_opportunity_net_return_pct": 502.30, "max_drawdown_pct": -15.79},
+      "mode_a": {"executed_trades": 161, "win_rate_pct": 40.4, "profit_factor": 2.99, "total_opportunity_net_return_pct": 322.17, "max_drawdown_pct": -13.86}
+    },
+    "C1_plus_S16_Full": {
+      "master_std": {"executed_trades": 262, "win_rate_pct": 44.3, "profit_factor": 3.74, "total_opportunity_net_return_pct": 670.11, "max_drawdown_pct": -18.54, "y2020_2022_pct": 532.7, "y2022_pct": -7.5, "y2023_2025_pct": 137.4},
+      "mode_b": {"executed_trades": 227, "win_rate_pct": 42.7, "profit_factor": 3.49, "total_opportunity_net_return_pct": 523.51, "max_drawdown_pct": -15.79},
+      "mode_a": {"executed_trades": 169, "win_rate_pct": 39.1, "profit_factor": 2.83, "total_opportunity_net_return_pct": 297.10, "max_drawdown_pct": -13.86}
+    },
+    "Combo_D_Audit_Reference": {
+      "master_std": {"executed_trades": 243, "win_rate_pct": 44.86, "profit_factor": 3.94, "total_opportunity_net_return_pct": 653.94, "max_drawdown_pct": -18.54},
+      "mode_b": {"executed_trades": 210, "win_rate_pct": 43.33, "profit_factor": 3.77, "total_opportunity_net_return_pct": 516.87, "max_drawdown_pct": -15.79},
+      "mode_a": {"executed_trades": 161, "win_rate_pct": 39.13, "profit_factor": 3.03, "total_opportunity_net_return_pct": 320.13, "max_drawdown_pct": -13.86}
+    },
+    "Combo_D_plus_S16_Full_Reference": {
+      "master_std": {"executed_trades": 273, "win_rate_pct": 43.59, "profit_factor": 3.82, "total_opportunity_net_return_pct": 691.61, "max_drawdown_pct": -19.47},
+      "mode_b": {"executed_trades": 239, "win_rate_pct": 41.84, "profit_factor": 3.60, "total_opportunity_net_return_pct": 543.62, "max_drawdown_pct": -17.56},
+      "mode_a": {"executed_trades": 188, "win_rate_pct": 37.23, "profit_factor": 2.88, "total_opportunity_net_return_pct": 338.15, "max_drawdown_pct": -15.62}
+    }
+  }
+}

@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 3.9.0  
+**Version:** 4.0.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-11-21  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127), [#129](https://github.com/makagi/MTF_AI_Trade/issues/129), [#131](https://github.com/makagi/MTF_AI_Trade/issues/131), [#133](https://github.com/makagi/MTF_AI_Trade/issues/133), [#135](https://github.com/makagi/MTF_AI_Trade/issues/135)  
+**Last Updated:** 2026-11-22  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127), [#129](https://github.com/makagi/MTF_AI_Trade/issues/129), [#131](https://github.com/makagi/MTF_AI_Trade/issues/131), [#133](https://github.com/makagi/MTF_AI_Trade/issues/133), [#135](https://github.com/makagi/MTF_AI_Trade/issues/135), [#137](https://github.com/makagi/MTF_AI_Trade/issues/137)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -291,6 +291,11 @@ graph TD
     K084 --> K086["K-086: スケール相対BB押し目純化ロング×2系統直交デュアルショート統合ポートフォリオ<br/>(Supported / New Master Candidate)"]:::supported
     K085 --> K086
     EXP135 --> K086
+    K086 --> K087["K-087: 残存失敗(F1-F3)の青天井ピーク逆説・1m因果摩擦ロック(H1a)と第三者2D感度プラトー監査によるClean Core(C1)確立<br/>(Supported / Constrained)"]:::supported
+    K084 --> K088["K-088: 役割重み付きOpen-Abyss 2Dテンソル縮退修正と短期8h下向きBB膨張×21h非売られすぎ初動ショート則(S16)<br/>(Supported / New Master Extension)"]:::supported
+    K087 --> K088
+    EXP137["EXP-137: 137-open-abyss-tensor-and-clean-core"] --> K087
+    EXP137 --> K088
 ```
 
 ---
@@ -1355,6 +1360,43 @@ graph TD
 
 ---
 
+### K-087: 残存失敗(F1-F3)の青天井ピーク逆説・1m因果摩擦ロック(`H1a`)と第三者2D感度プラトー監査による過学習閾値棄却則
+* **ステータス**: **支持・境界条件解明 (Supported / Constrained 🛡️)**
+* **概要**: `EXP-135`（`Scale-Rel D`）における残存敗退140件（`-246.93%`）の定量解剖と、`Combo D` に対する第三者1分足因果律・2D感度プラトー監査により、青天井往復敗退の構造的制約と過学習排除後のクリーン・コア（`Clean Core C1`）を確立（EXP-137 HYP-137-1）：
+  1. **青天井（Open Sky）ピーク逆説と1m因果摩擦ロック（`H1a`）**:
+     - 重度往復負け（`F1a`, $N=37$, `-48.03%`）の75%とメガランナーの90%はいずれも全SMA上方の青天井でピークを打つため、タイトなトレールやBB収縮利確はメガランナー10件中4〜10件を破壊（`-540%`）する。
+     - 真の1分足因果追跡（same-bar vs strict-next-bar 誤差 `0.0000000000`）で検証された **`H1a`（`MFE >= 4.5 ATR -> stop >= entry + 0.50 ATR` 摩擦クリアロック）** は、`MFE [4.0..6.0] ATR × lock [0.20..0.50] ATR` の広大な平坦プラトー全域で **メガランナー10/10件を完全保持**し、ロング（208件）を `+522.16% (PF 3.39) -> +533.41% (PF 3.57)` へ改善。
+  2. **プラトー採用コア要素（`H2a`, `H3a_clean`, `H3b`）**:
+     - **`H2a`（Base0 逆張り壁ガード：`not (phi_continuum < -0.05 and d_res_def_05 < 2.5)`）**: `[-0.15..0.00] × [1.5..3.5]` の20マス全域で平坦プラトーを形成し、Base0 PF `5.03 -> 5.45`、MaxDD `-20.34% -> -18.54%` へ改善。
+     - **`H3a_clean`（Engine A `d_def_05 >= 2.5 ATR`）** および **`H3b`（Engine B `phi_continuum <= 0.0`）**: 自然境界および既存標準閾値で平坦プラトー（Engine B: $N=16$, WR `43.75%`, PF `3.56`, `+24.29%`, MaxDD `-3.41%`）。
+     - **Clean Core `C1` 確定成績**: **Master Std `+632.45%` (PF `3.86`, MaxDD `-18.54%`)、Mode B `+495.48%` (PF `3.66`, MaxDD `-15.79%`)、Mode A `+315.69%` (PF `3.03`, MaxDD `-13.86%`)**。
+  3. **第三者監査による過学習リスク閾値の棄却（負の知見）**:
+     - **`bb_L38 >= -0.018`（Engine A）棄却**: 最大勝者（`2021-05-18`, `+26.38%`, `bb_L38 = -0.01479`）のわずか **`0.00321`** 手前に位置し、`-0.010` で急落するため過学習リスクとして棄却。
+     - **`M1a-R1s`（`proj > 0.20`）棄却**: `2024-07-13`（`+9.38%`）が `proj = 0.200215`（マージン **`0.000215`**）の紙一重依存であり、`k=0.75` で `-5.50%`（0勝9敗）と非単調崩壊するため棄却。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除、厳格加算ネットリターン、`WL=0`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/137-open-abyss-tensor-and-clean-core/record.md`](experiments/137-open-abyss-tensor-and-clean-core/record.md) (EXP-137 / [#137](https://github.com/makagi/MTF_AI_Trade/issues/137))
+* **仕様への影響**: 次期確定生産マスターベースラインのクリーン・コア基盤（`Clean Core C1`）として採用。
+
+---
+
+### K-088: 役割重み付きOpen-Abyss 2Dテンソル($\mathbf{RR}^{\Phi,\text{abyss}}_{n, m}$)による底なし空間ゼロ縮退是正と短期8h下向きBB膨張×21h非売られすぎ初動ショート則(`S16`)
+* **ステータス**: **支持・新マスター拡張 (Supported / New Master Extension 🏆)**
+* **概要**: 大急落（`>= 8.0 ATR`, $N=248$）の捕捉率が `7.7%` に留まった根本原因（S3ブロック62件中 50%のゼロ縮退バグ＋85.5%のマクロBB収縮遮断）を解明し、Open-Abyss 2Dテンソル修正と短期下向きBB膨張ショートゲート（`S16`）を確立（EXP-137 HYP-137-2, HYP-137-3）：
+  1. **Open-Abyss 2Dテンソル（Option 2, $\mathbf{RR}^{\Phi,\text{abyss}}_{n, m}$）によるゼロ縮退解消**:
+     - ターゲット列を `[55..17711]` へ延長するだけの Option 1 では、`2020-03-12` コロナ暴落（`51.2R`）等の全17 SMA 下抜け局面で依然 `0.00` に縮退した。
+     - Option 2 では $P < \text{SMA}_m$（$m \in [55..2584]$）かつ $\bar{\Phi}_m < -0.15$ かつ $\text{slope}_m < 0.0$ のとき、全17スケール `[34..17711]` の生きた支持床距離 `d_def_05_17`（上限 `15.0 ATR`）を割り当てることで、`2020-03-12` を `0.00 -> 4.46x` へ正常復元し、同時に超長期床（`S987..S17711`）直上の **偽ゼロ縮退トラップ9件（`0勝9敗, -9.49%`）を自動遮断**。
+  2. **短期8h下向きBB膨張×21h非売られすぎ初動ショートゲート（`S16`, $N=30$）**:
+     - 条件：`rr_opt2_phi_17 >= 2.0`, `d_def_05_17 >= 4.0 ATR`, `bb_slope_exp_8 > 0.0`, `stoch_z_21 >= -0.30`（`[-0.30..0.00]` でプラトー）, `ceil_dphi3h <= 0.0`, `phi_continuum <= 0.15`。
+     - `S16` 単独成績：**WR `33.3%`, PF `2.67`, Net EV `+1.26%`, 累積 `+37.67%`, MaxDD `-6.62%`**（Open-Abyss 19件 PF `2.56, +26.81%` / Macro-Coil 11件 PF `3.00, +10.86%`）。
+     - **統合 Engine B（`Prop C Clean + S16`, $N=46$）**: **WR `37.0%`, PF `2.93`, `+61.96%`, MaxDD `-6.51%`**（`2020:+16.4% | 2021:+15.8% | 2022:+4.2% | 2023:+21.6% | 2024:+0.4% | 2025:+3.6%` と **全6年間単年黒字**）。
+  3. **ポートフォリオ統合（`C1 + S16`）**:
+     - **`C1 + S16 [Full]`**: **Master Std `+670.11%` (PF `3.74`, MaxDD `-18.54%`) / Mode B `+523.51%` (PF `3.49`, MaxDD `-15.79%`)**。Mode A は1ポジ枠競合（`+297.10%`）のため、`Mode A` 運用では `C1`（`+315.69%`）または `C1 + S16 [Macro-Coil Only]`（`+322.17%`, PF `2.99`）との使い分けを推奨。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除、厳格加算ネットリターン、`WL=0`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/137-open-abyss-tensor-and-clean-core/record.md`](experiments/137-open-abyss-tensor-and-clean-core/record.md) (EXP-137 / [#137](https://github.com/makagi/MTF_AI_Trade/issues/137))
+* **仕様への影響**: Open-Abyss 2Dテンソル計算基盤および Engine B ショート拡張仕様として採用。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -1403,3 +1445,4 @@ graph TD
 | 2026-11-15 | 3.7.0 | EXP-133 反映、畳み込みS/R役割ピラミッドと厳密双対対称性（K-081 Supported）、スケール非依存動的アンカー選定・階層的引き継ぎ・役割無効化撤退則（K-082 Supported/新マスター候補: S233固定全廃・Case 1 +4.17%pt救済・ランナー11件100%保持・Master Std PF 6.68 Tot +528.9% MaxDD -13.1%・Stage 2 PF 6.81）を登録・計82知見へ拡張 | @makagi / [#133](https://github.com/makagi/MTF_AI_Trade/issues/133) |
 | 2026-11-18 | 3.8.0 | EXP-135 反映、暗号資産ショート非対称性と3大破綻トラップ（K-083 Supported/Constrained）、MTF S/Rコリドー幾何学・SVC・2.5 ATRターゲットフロア即時利確則（K-084 Supported）登録・計84知見へ拡充（確定生産マスターベースラインはEXP-135 Stage 2へ昇格） | @makagi / [#135](https://github.com/makagi/MTF_AI_Trade/issues/135) |
 | 2026-11-21 | 3.9.0 | EXP-135 拡張反映、サポレジ接触前3h役割微分・多段バリア生存確率 $S_3$・スケール相対BB収縮カスケード則（K-085 Supported）、およびスケール相対BB押し目純化ロング×2系統直交デュアルショート統合ポートフォリオ（K-086 Supported/New Master Candidate: Scale-Rel B Master Std +620.04% PF 3.31 Mode B +488.08%, Scale-Rel D Master Std +611.33% PF 3.48 Mode A +308.53% MaxDD -13.86%）を登録・計86知見へ拡充 | @makagi / [#135](https://github.com/makagi/MTF_AI_Trade/issues/135) |
+| 2026-11-22 | 4.0.0 | EXP-137 反映、残存失敗(F1-F3)解剖・1m因果摩擦ロック(`H1a`)・第三者2D感度プラトー監査による過学習閾値(`bb_L38 >= -0.018`, `M1a-R1s`)棄却とClean Core `C1`確立（K-087 Supported/Constrained: Master Std +632.45% PF 3.86 Mode B +495.48% Mode A +315.69%）、および役割重み付きOpen-Abyss 2Dテンソル縮退修正・短期8h下向きBB膨張×21h非売られすぎ初動ショート救出(`S16`)によるUnified Engine B全6年黒字化（K-088 Supported/New Master Extension: Engine B N=46 PF 2.93 +61.96%, `C1 + S16` Master Std +670.11% Mode B +523.51%）を登録・計88知見へ拡充 | @makagi / [#137](https://github.com/makagi/MTF_AI_Trade/issues/137) |
