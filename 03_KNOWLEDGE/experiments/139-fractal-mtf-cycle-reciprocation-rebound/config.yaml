@@ -1,0 +1,35 @@
+issue: 139
+title: "EXP-139: 1h×1mフラクタルMTF SMA往復運動・BB・AFS/Stoch_d周期共鳴による反発地点特定、適応型サポレジ高推定、および双対周期ドリフト遮断検証"
+created_at: "2026-11-22"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction, strictly additive net return)"
+baseline: "EXP-137 Clean Core C1 (N=232) & C1 + S16 Open-Abyss Short Rescue (N=262)"
+hypotheses:
+  - id: "HYP-139-1"
+    name: "Multi-Scale SMA Reciprocation Anatomy & Cycle-Adaptive Rebound Floor Height Estimator"
+    description: "Decomposes lower-scale SMA(k, k-1, k-2) reciprocation dynamics relative to parent SMA(k+1) (ordering A1..A4, separation d_{k, k+1}, phase R1..R4, oscillation count N_osc, parent-cross history), showing existing phi_bar_k and O_k missed 84-94% of 2nd-order deceleration, 98.9% of oscillation count, and 99.8% of parent-cross entanglement. Builds cycle-adaptive floor height estimator P_hat_reb(t) blending SMA(k), P_sup(k), BB_lower(k), and SMA(k+1), minimizing 48h turning-point MedAE to 1.77 ATR across 319 springboards and 0.95 ATR across 243 held F1 stops."
+  - id: "HYP-139-2"
+    name: "1h Dual-Symmetric Cycle Resonance & Period Drift Gating (1h DualSym Cycle Gate)"
+    description: "Computes 2D cycle phase quadrant theta_k = atan2(d3h_Stoch_d, Stoch_d - 50) and 12-pt hysteresis causal realized period resonance ratio rho_cycle = tau / T_cycle(s_{k-1}). Blocking over-aged long springboard drift (rho_L > 2.0) and Q1 >= 65 overbought chases alongside over-aged Engine B short peak drift (rho_S > 2.0) forms a flat 36-cell 2D plateau (10/10 mega-runners preserved) and lifts C1 + S16 to Master Std PF 4.24 (+696.28%), Mode B PF 3.97 (+545.04%), and resolves Mode A 2023-25 conflict (PF 3.17, +348.46%)."
+  - id: "HYP-139-3"
+    name: "1h x 1m Fractal Cycle Orthogonality & 1m Climax-Pinch / Cycle-Drift Discernment"
+    description: "Extends MTF SMA reciprocation, BB, and Stoch_d cycle resonance to 1m Fibonacci hierarchy {8..377} at causal bar t0+59m. Combining 1m Long Climax-Pinch rejection (~(m1_d_21_55 > 3.0 & m1_bb_exp_55 <= 0.0)) and 1m Short Peak-Drift rejection (m1_rho_pk_21 <= 2.0, 0/6 overlap with 1h short drift) forms a flat 30-cell/49-cell plateau preserving 10/10 mega-runners and lifts Master Std to PF 4.83 (+717.20%, MaxDD -14.74%), Mode B to PF 4.63 (+568.22%), and Mode A to PF 3.75 (+371.12%)."
+parameters:
+  friction_bps: 0.0040
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  tree_scales_1h: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  cycle_scales_1h: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610]
+  tree_scales_1m: [8, 13, 21, 34, 55, 89, 144, 233, 377]
+  cycle_hysteresis_pt: 12.0
+  cycle_default_period: 21.0
+  cycle_1h_long_max_rho: 2.0
+  cycle_1h_long_q1_overbought_stoch_d: 65.0
+  cycle_1h_short_max_rho: 2.0
+  m1_long_max_d_21_55_atr: 3.0
+  m1_long_max_bb_exp_55_pinch: 0.0
+  m1_short_max_rho_pk_21: 2.0

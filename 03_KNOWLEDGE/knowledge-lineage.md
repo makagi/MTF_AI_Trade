@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 4.0.0  
+**Version:** 4.1.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-11-22  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127), [#129](https://github.com/makagi/MTF_AI_Trade/issues/129), [#131](https://github.com/makagi/MTF_AI_Trade/issues/131), [#133](https://github.com/makagi/MTF_AI_Trade/issues/133), [#135](https://github.com/makagi/MTF_AI_Trade/issues/135), [#137](https://github.com/makagi/MTF_AI_Trade/issues/137)  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127), [#129](https://github.com/makagi/MTF_AI_Trade/issues/129), [#131](https://github.com/makagi/MTF_AI_Trade/issues/131), [#133](https://github.com/makagi/MTF_AI_Trade/issues/133), [#135](https://github.com/makagi/MTF_AI_Trade/issues/135), [#137](https://github.com/makagi/MTF_AI_Trade/issues/137), [#139](https://github.com/makagi/MTF_AI_Trade/issues/139)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -296,6 +296,12 @@ graph TD
     K087 --> K088
     EXP137["EXP-137: 137-open-abyss-tensor-and-clean-core"] --> K087
     EXP137 --> K088
+    K087 --> K089["K-089: マルチスケールSMA往復運動幾何学・サイクル適応型サポレジ高推定(P_hat_reb)・1h双対周期共鳴ドリフト遮断則<br/>(Supported)"]:::supported
+    K088 --> K089
+    K089 --> K090["K-090: 1h×1mフラクタル周期直交性と1分足クライマックス・ピンチ／周期ドリフト見極め則<br/>(Supported / New Master Candidate 🏆)"]:::supported
+    K071 --> K090
+    EXP139["EXP-139: 139-fractal-mtf-cycle-reciprocation-rebound"] --> K089
+    EXP139 --> K090
 ```
 
 ---
@@ -1397,6 +1403,44 @@ graph TD
 
 ---
 
+### K-089: マルチスケールSMA往復運動幾何学・サイクル適応型サポレジ高推定($\hat{P}_{\text{reb}}$)・1h双対周期共鳴ドリフト遮断則
+* **ステータス**: **支持 (Supported 🌟)**
+* **概要**: 親ライン $SMA(k+1)$ に対する下位 $SMA(k, k-1, k-2)$ の往復運動幾何学を全1,950件の反落イベントで定量解剖し、サイクル適応型反発地点高さ推定器 $\hat{P}_{\text{reb}}(t)$ および 1時間足（`1h`）双対周期共鳴ドリフト遮断則（`1h DualSym Cycle Gate`）を確立（EXP-139 HYP-139-1, HYP-139-2）：
+  1. **$\bar{\Phi}_k$ / $O_k$ の情報欠損監査と往復運動法則**:
+     - $O_k(t)$・$\bar{\Phi}_k(t)$ は親との離れ具合 $d_{k, k+1}$ の `71.1%` / `48.1%` を捉えていた一方、接近・離反の2階減速度（`15.9%` / `6.4%`）、往復回数 $N_{\text{osc}}$（`2.3%` / `1.1%`）、親跨ぎ履歴 $N_{\text{cross\_parent}}$（`0.1%` / `0.2%`）の **84〜99.8%を取りこぼしていた**。
+     - 親との離れ具合 $d_{k, k+1}$ が `0-0.3 ATR` $\to$ `>=3.5 ATR` へ広がると親維持率は **`25.7% -> 85.6%`** へ単調上昇し、跳躍台ロング（$N=319$）では親上順列 `A1+A2` と折り返し接近期 `R2`（PF `1.21, +48.4%`）が利益の大半を創出する一方、ショート（$N=372$）では親圧縮変曲 `R3`（PF `1.43, +13.3%`）のみが単体黒字となる双対性を実証。
+  2. **サイクル適応型サポレジ高推定器 $\hat{P}_{\text{reb}}(t)$**:
+     - 子周期 `Stoch_d(k-1)` / `BB_pos(k)` の深さと $d_{k, k+1}$ に応じて `[SMA(k), P_sup(k), BB_lower(k), SMA(k+1)]` を動的にブレンドし、48h実反転底との予測誤差中央値（MedAE）を跳躍台ロング全319件で **`1.77 ATR`**（静的 `SMA(k)` `2.51 ATR`, `BB_lower(k)` `2.20 ATR`, 静的中間値 `1.84 ATR` より最小）、$F_1$停止243件でも **`0.95 ATR`**（`1.0 ATR` 以内的中率 `51.0%`）へ改善。
+  3. **1h 双対周期共鳴ドリフト遮断則（`1h DualSym Cycle Gate`）**:
+     - 12ptヒステリシス因果状態機械による実測周期共鳴比 $\rho_{\text{cycle}} = \tau / T_{\text{cycle}}(s_{k-1})$ と2次元位相象限 $\theta_k$ に基づき、ロング跳躍台の老化ドリフト（$\rho_L > 2.0$）＆ `Q1 >= 65` 過熱（除外12件: 11敗1勝 `-21.90%`）およびショート Engine B の峰ドリフト（$\rho_S > 2.0$, 除外8件: 7敗1勝 `-4.26%`）を遮断。
+     - `C1 + S16` の課題だった後半 Mode A 競合を完全解消し、`rho_L [1.5..3.0] × rho_S [1.4..2.5]` 全36セル平坦プラトー（メガランナー `10/10` 保持）の上で **Master Std PF `4.24 (+696.28%)`, Mode B PF `3.97 (+545.04%)`, Mode A PF `3.17 (+348.46%)`** を達成。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除、完全因果律（未来参照ゼロ）、`WL=0`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/139-fractal-mtf-cycle-reciprocation-rebound/record.md`](experiments/139-fractal-mtf-cycle-reciprocation-rebound/record.md) (EXP-139 / [#139](https://github.com/makagi/MTF_AI_Trade/issues/139))
+* **仕様への影響**: 1h周期共鳴ゲートおよびサイクル適応型反発地点高さ推定器として採用。
+
+---
+
+### K-090: 1h×1mフラクタル周期直交性と1分足クライマックス・ピンチ／周期ドリフト見極め則
+* **ステータス**: **支持・新マスター候補 (Supported / New Master Candidate 🏆)**
+* **概要**: `K-089` のマルチスケールSMA往復・BB・周期共鳴構造を 1分足フィボナッチ階層 $s_{1\text{m}} \in \{8, 13, 21, 34, 55, 89, 144, 233, 377\}$（因果時刻 $t_0 + 59\text{m}$）へフラクタル拡張し、`1h × 1m` 完全直交統合による新マスター候補を確立（EXP-139 HYP-139-3）：
+  1. **ロング側：1分足クライマックス・ピンチ遮断 (`~(m1_d_21_55 > 3.0 & m1_bb_exp_55 <= 0.0)`)**:
+     - メガランナー `10/10` 件はすべて `1m SMA(21)` が `1m SMA(55)` から過伸長せず（平均 $+0.96\text{ ATR}_{1\text{m}}$）かつ `1m BB(55)` が能動拡張中（$+0.167$）に発火していた。
+     - 1h確定直前に1m過伸長＋BBピンチ収縮に陥っていた高値掴み11件（**9敗2勝, WR `18.2%`, `-16.20%`, F2a即死 `36.4%`**）を正確に排除。
+  2. **ショート側：1分足周期ドリフト遮断 (`m1_rho_pk_21 <= 2.0`) と 1h/1m 完全直交性**:
+     - 1m周期健全40件は **WR `40.0%`, PF `3.56`, `+66.7%`** であるのに対し、1m周期老化ドリフト6件（$\rho_{\text{pk}, 21}^{(1\text{m})} > 2.0$）は **ミクロ損切り率 `83.3% (5/6)`、WR `16.7%`, PF `0.22`, `-4.71%`**。
+     - 1分足周期ドリフトで除外される6件は、1時間足周期ドリフト（8件）と **重複が `0/6` 件** であり、両時間軸が独立・直交した見極めフィルターとして機能することを実証。
+  3. **2D感度プラトー監査と新マスター候補成績**:
+     - `m1_d_21_55 in [2.50..3.50] × m1_rho_pk_21 in [1.5..3.0]` **全30セル（100%）でメガランナー `10/10` 件を完全保持**し、Master Std PF `4.61〜5.19`（`+682.0%〜+726.9%`）の平坦プラトーを形成。
+     - **EXP-139 確定成績（往復40 bps摩擦控除・加算ネットリターン、`WL=0`）**:
+       - **Master Std ($N=225$)**: WR **`49.33%`**, PF **`4.83`**, 累積 **`+717.20%`**, MaxDD **`-14.74%`**（前半 `+555.49%` / 後半 `+161.71%`）
+       - **Mode B [2ポジ上限] ($N=200$)**: WR **`48.00%`**, PF **`4.63`**, 累積 **`+568.22%`**, MaxDD **`-14.74%`**（前半 `+401.60%` / 後半 `+166.62%`）
+       - **Mode A [1ポジ上限] ($N=157$)**: WR **`43.95%`**, PF **`3.75`**, 累積 **`+371.12%`**, MaxDD **`-13.86%`**（前半 `+232.28%` / 後半 `+138.84%`）
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、往復 40 bps 摩擦コスト控除、厳格加算ネットリターン、完全因果律（$t_0 + 59\text{m}$）、`WL=0`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/139-fractal-mtf-cycle-reciprocation-rebound/record.md`](experiments/139-fractal-mtf-cycle-reciprocation-rebound/record.md) (EXP-139 / [#139](https://github.com/makagi/MTF_AI_Trade/issues/139))
+* **仕様への影響**: `Clean Core C1 + S16` を全方位で上回る新確定マスター候補（`EXP-139 1h × 1m Fractal Cycle & Reciprocation`）として登録。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -1446,3 +1490,4 @@ graph TD
 | 2026-11-18 | 3.8.0 | EXP-135 反映、暗号資産ショート非対称性と3大破綻トラップ（K-083 Supported/Constrained）、MTF S/Rコリドー幾何学・SVC・2.5 ATRターゲットフロア即時利確則（K-084 Supported）登録・計84知見へ拡充（確定生産マスターベースラインはEXP-135 Stage 2へ昇格） | @makagi / [#135](https://github.com/makagi/MTF_AI_Trade/issues/135) |
 | 2026-11-21 | 3.9.0 | EXP-135 拡張反映、サポレジ接触前3h役割微分・多段バリア生存確率 $S_3$・スケール相対BB収縮カスケード則（K-085 Supported）、およびスケール相対BB押し目純化ロング×2系統直交デュアルショート統合ポートフォリオ（K-086 Supported/New Master Candidate: Scale-Rel B Master Std +620.04% PF 3.31 Mode B +488.08%, Scale-Rel D Master Std +611.33% PF 3.48 Mode A +308.53% MaxDD -13.86%）を登録・計86知見へ拡充 | @makagi / [#135](https://github.com/makagi/MTF_AI_Trade/issues/135) |
 | 2026-11-22 | 4.0.0 | EXP-137 反映、残存失敗(F1-F3)解剖・1m因果摩擦ロック(`H1a`)・第三者2D感度プラトー監査による過学習閾値(`bb_L38 >= -0.018`, `M1a-R1s`)棄却とClean Core `C1`確立（K-087 Supported/Constrained: Master Std +632.45% PF 3.86 Mode B +495.48% Mode A +315.69%）、および役割重み付きOpen-Abyss 2Dテンソル縮退修正・短期8h下向きBB膨張×21h非売られすぎ初動ショート救出(`S16`)によるUnified Engine B全6年黒字化（K-088 Supported/New Master Extension: Engine B N=46 PF 2.93 +61.96%, `C1 + S16` Master Std +670.11% Mode B +523.51%）を登録・計88知見へ拡充 | @makagi / [#137](https://github.com/makagi/MTF_AI_Trade/issues/137) |
+| 2026-11-22 | 4.1.0 | EXP-139 反映、マルチスケールSMA往復運動幾何学・サイクル適応型サポレジ高推定($\hat{P}_{\text{reb}}$)・1h双対周期共鳴ドリフト遮断則（K-089 Supported: MedAE 1.77 ATR / F1停止 0.95 ATR、`1h DualSym` 36セル全数10/10保持 Master Std PF 4.24 +696.28%）、および1h×1mフラクタル周期直交性・1分足クライマックス・ピンチ／周期ドリフト見極め則（K-090 Supported/New Master Candidate 🏆: 1h/1m重複0/6完全直交、Master Std PF 4.83 +717.20% MaxDD -14.74%, Mode B PF 4.63 +568.22%, Mode A PF 3.75 +371.12%, メガランナー10/10保持）を登録・計90知見へ拡充 | @makagi / [#139](https://github.com/makagi/MTF_AI_Trade/issues/139) |
