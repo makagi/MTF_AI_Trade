@@ -1,0 +1,138 @@
+{
+  "experiment_id": "EXP-139",
+  "issue": 139,
+  "friction_bps": 40.0,
+  "return_accounting": "additive_sum_pct",
+  "hardcoded_whitelist_count": 0,
+  "sma_reciprocation_information_audit_n1950": {
+    "d_k_p1_separation": {
+      "r2_Ok_pct": 71.11,
+      "r2_phi_pct": 48.12,
+      "rho_Ok": 0.8433,
+      "rho_phi": 0.6937
+    },
+    "d_m1_k_separation": {
+      "r2_Ok_pct": 77.02,
+      "r2_phi_pct": 58.31,
+      "rho_Ok": 0.8776,
+      "rho_phi": 0.7636
+    },
+    "acc_m1_p1_deceleration": {
+      "r2_Ok_pct": 15.93,
+      "r2_phi_pct": 6.38,
+      "rho_Ok": -0.3991,
+      "rho_phi": -0.2526
+    },
+    "n_osc_reciprocations": {
+      "r2_Ok_pct": 2.30,
+      "r2_phi_pct": 1.12,
+      "rho_Ok": -0.1517,
+      "rho_phi": -0.1058
+    },
+    "n_cross_parent_whip": {
+      "r2_Ok_pct": 0.13,
+      "r2_phi_pct": 0.16,
+      "rho_Ok": -0.0356,
+      "rho_phi": -0.0404
+    }
+  },
+  "adaptive_rebound_height_estimators": {
+    "springboards_n319": {
+      "Static_SMA_k": {"mae_atr": 4.16, "med_ae_atr": 2.51, "med_bias_atr": 2.51, "hit_10atr_pct": 27.27},
+      "Static_BB_lower_k": {"mae_atr": 3.23, "med_ae_atr": 2.20, "med_bias_atr": -0.55, "hit_10atr_pct": 24.14},
+      "Quantile_P_sup_k": {"mae_atr": 3.24, "med_ae_atr": 2.23, "med_bias_atr": -0.37, "hit_10atr_pct": 22.57},
+      "Composite_Mid_Q_SMA": {"mae_atr": 3.30, "med_ae_atr": 1.84, "med_bias_atr": 0.95, "hit_10atr_pct": 30.09},
+      "Cycle_Adaptive_P_hat_reb": {"mae_atr": 3.40, "med_ae_atr": 1.77, "med_bias_atr": 0.96, "hit_10atr_pct": 28.84}
+    },
+    "held_f1_stops_n243": {
+      "Static_SMA_k": {"mae_atr": 0.79, "med_ae_atr": 0.38, "med_bias_atr": 0.38, "hit_10atr_pct": 75.72},
+      "Composite_Mid_Q_SMA": {"mae_atr": 1.66, "med_ae_atr": 1.21, "med_bias_atr": -1.09, "hit_10atr_pct": 39.09},
+      "Cycle_Adaptive_P_hat_reb": {"mae_atr": 2.42, "med_ae_atr": 0.95, "med_bias_atr": -0.38, "hit_10atr_pct": 51.03}
+    }
+  },
+  "1h_cycle_anatomy_and_orthogonality": {
+    "pullbacks_n1950_X1_resonant_trough_hook": {
+      "n": 17,
+      "held_bb_lower_k_pct": 94.12,
+      "held_parent_sma_pct": 82.35,
+      "med_rebound_atr": 6.50,
+      "med_pen_atr": 2.22
+    },
+    "springboards_n319_X1_vs_drift_and_Q1": {
+      "X1_Resonant_Trough_Hook": {"n": 48, "wr_pct": 37.50, "pf": 1.77, "tot_pct": 37.44, "med_pen_atr": 1.94},
+      "Q1_Upper_Expansion": {"n": 78, "wr_pct": 21.79, "pf": 0.63, "tot_pct": -42.75},
+      "R4_Period_Drift_gt_2T": {"n": 32, "wr_pct": 21.88, "pf": 0.35, "tot_pct": -21.88, "med_pen_atr": 4.26}
+    },
+    "shorts_n372_Q1_vs_Q4": {
+      "Q1_Upper_Expansion": {"n": 23, "wr_pct": 45.00, "pf": 2.31, "tot_pct": 12.45},
+      "Q4_Trough_Hook_Trap": {"n": 103, "wr_pct": 15.00, "pf": 0.46, "tot_pct": -47.26}
+    },
+    "1h_dualsym_dropped_audit": {
+      "long_l_cycle_dropped": {"n": 12, "wins": 1, "losses": 11, "wr_pct": 8.33, "tot_pct": -21.90},
+      "short_s_cycle_rho_gt_2_dropped": {"n": 8, "wins": 1, "losses": 7, "wr_pct": 12.50, "tot_pct": -4.26},
+      "1h_2d_plateau_cells_total": 36,
+      "1h_2d_plateau_cells_mega_runners_10_of_10": 36
+    }
+  },
+  "1m_fractal_anatomy_and_orthogonality": {
+    "long_c1_1m_climax_pinch_vs_dip": {
+      "1m_Dip_Trough_bb55_lt_035_st21_lt_40": {"n": 9, "f2a_pct": 0.0, "pf": 10.40, "tot_pct": 75.9},
+      "1m_Climax_Pinch_dropped_on_1h_dualsym": {"n": 11, "wins": 2, "losses": 9, "wr_pct": 18.18, "tot_pct": -16.20, "f2a_pct": 36.36}
+    },
+    "short_unified_eb_n46_1m_cycle_drift": {
+      "1m_rho_pk_21_le_2_0": {"n": 40, "wr_pct": 40.00, "pf": 3.56, "tot_pct": 66.7},
+      "1m_rho_pk_21_gt_2_0_dropped": {"n": 6, "wins": 1, "losses": 5, "wr_pct": 16.67, "pf": 0.22, "tot_pct": -4.71, "micro_stop_hit_pct": 83.33},
+      "overlap_with_1h_short_drift_count": 0
+    },
+    "1m_2d_plateau_audit": {
+      "grid_b_cells_total": 30,
+      "grid_b_cells_mega_runners_10_of_10": 30,
+      "std_pf_range": [4.61, 5.19],
+      "std_tot_pct_range": [682.0, 726.9]
+    }
+  },
+  "portfolio_ablation_progression": {
+    "EXP135_Scale_Rel_D": {
+      "mega_runners": "10/10",
+      "master_std": {"executed_trades": 244, "win_rate_pct": 42.62, "profit_factor": 3.48, "total_opportunity_net_return_pct": 611.33, "max_drawdown_pct": -20.34, "y2020_2022_pct": 490.14, "y2023_2025_pct": 121.19},
+      "mode_b": {"executed_trades": 216, "win_rate_pct": 42.13, "profit_factor": 3.26, "total_opportunity_net_return_pct": 475.70, "max_drawdown_pct": -17.59, "y2020_2022_pct": 351.49, "y2023_2025_pct": 124.21},
+      "mode_a": {"executed_trades": 165, "win_rate_pct": 39.39, "profit_factor": 2.86, "total_opportunity_net_return_pct": 308.53, "max_drawdown_pct": -13.86, "y2020_2022_pct": 192.18, "y2023_2025_pct": 116.35}
+    },
+    "EXP137_Clean_Core_C1": {
+      "mega_runners": "10/10",
+      "master_std": {"executed_trades": 232, "win_rate_pct": 45.69, "profit_factor": 3.86, "total_opportunity_net_return_pct": 632.45, "max_drawdown_pct": -18.54, "y2020_2022_pct": 501.16, "y2023_2025_pct": 131.29},
+      "mode_b": {"executed_trades": 204, "win_rate_pct": 44.61, "profit_factor": 3.66, "total_opportunity_net_return_pct": 495.48, "max_drawdown_pct": -15.79, "y2020_2022_pct": 360.94, "y2023_2025_pct": 134.54},
+      "mode_a": {"executed_trades": 156, "win_rate_pct": 41.03, "profit_factor": 3.03, "total_opportunity_net_return_pct": 315.69, "max_drawdown_pct": -13.86, "y2020_2022_pct": 196.22, "y2023_2025_pct": 119.47}
+    },
+    "EXP137_C1_plus_S16": {
+      "mega_runners": "10/10",
+      "master_std": {"executed_trades": 262, "win_rate_pct": 44.27, "profit_factor": 3.75, "total_opportunity_net_return_pct": 670.12, "max_drawdown_pct": -19.47, "y2020_2022_pct": 532.72, "y2023_2025_pct": 137.40},
+      "mode_b": {"executed_trades": 233, "win_rate_pct": 42.92, "profit_factor": 3.50, "total_opportunity_net_return_pct": 522.23, "max_drawdown_pct": -17.56, "y2020_2022_pct": 381.58, "y2023_2025_pct": 140.66},
+      "mode_a": {"executed_trades": 183, "win_rate_pct": 38.80, "profit_factor": 2.87, "total_opportunity_net_return_pct": 333.71, "max_drawdown_pct": -15.16, "y2020_2022_pct": 216.32, "y2023_2025_pct": 117.39}
+    },
+    "C1_plus_1h_L_Cycle": {
+      "mega_runners": "10/10",
+      "master_std": {"executed_trades": 220, "win_rate_pct": 47.73, "profit_factor": 4.30, "total_opportunity_net_return_pct": 654.35, "max_drawdown_pct": -15.79, "y2020_2022_pct": 508.48, "y2023_2025_pct": 145.87},
+      "mode_b": {"executed_trades": 194, "win_rate_pct": 46.39, "profit_factor": 4.08, "total_opportunity_net_return_pct": 514.03, "max_drawdown_pct": -15.79, "y2020_2022_pct": 365.52, "y2023_2025_pct": 148.51},
+      "mode_a": {"executed_trades": 151, "win_rate_pct": 42.38, "profit_factor": 3.26, "total_opportunity_net_return_pct": 326.18, "max_drawdown_pct": -13.86, "y2020_2022_pct": 196.22, "y2023_2025_pct": 129.96}
+    },
+    "C1_S16_plus_1h_DualSym_Cycle": {
+      "mega_runners": "10/10",
+      "master_std": {"executed_trades": 242, "win_rate_pct": 47.11, "profit_factor": 4.24, "total_opportunity_net_return_pct": 696.28, "max_drawdown_pct": -18.34, "y2020_2022_pct": 542.07, "y2023_2025_pct": 154.21},
+      "mode_b": {"executed_trades": 215, "win_rate_pct": 45.58, "profit_factor": 3.97, "total_opportunity_net_return_pct": 545.04, "max_drawdown_pct": -18.34, "y2020_2022_pct": 388.18, "y2023_2025_pct": 156.86},
+      "mode_a": {"executed_trades": 170, "win_rate_pct": 41.18, "profit_factor": 3.17, "total_opportunity_net_return_pct": 348.46, "max_drawdown_pct": -14.49, "y2020_2022_pct": 218.35, "y2023_2025_pct": 130.11}
+    },
+    "C1_S16_plus_1m_Gate_Only": {
+      "mega_runners": "10/10",
+      "master_std": {"executed_trades": 242, "win_rate_pct": 46.69, "profit_factor": 4.28, "total_opportunity_net_return_pct": 695.15, "max_drawdown_pct": -15.70, "y2020_2022_pct": 546.13, "y2023_2025_pct": 149.02},
+      "mode_b": {"executed_trades": 215, "win_rate_pct": 45.58, "profit_factor": 4.09, "total_opportunity_net_return_pct": 549.53, "max_drawdown_pct": -13.97, "y2020_2022_pct": 394.99, "y2023_2025_pct": 154.54},
+      "mode_a": {"executed_trades": 170, "win_rate_pct": 41.18, "profit_factor": 3.34, "total_opportunity_net_return_pct": 356.37, "max_drawdown_pct": -13.86, "y2020_2022_pct": 230.25, "y2023_2025_pct": 126.12}
+    },
+    "EXP139_1h_x_1m_Fractal_Master": {
+      "mega_runners": "10/10",
+      "master_std": {"executed_trades": 225, "win_rate_pct": 49.33, "profit_factor": 4.83, "total_opportunity_net_return_pct": 717.20, "max_drawdown_pct": -14.74, "y2020_2022_pct": 555.49, "y2023_2025_pct": 161.71},
+      "mode_b": {"executed_trades": 200, "win_rate_pct": 48.00, "profit_factor": 4.63, "total_opportunity_net_return_pct": 568.22, "max_drawdown_pct": -14.74, "y2020_2022_pct": 401.60, "y2023_2025_pct": 166.62},
+      "mode_a": {"executed_trades": 157, "win_rate_pct": 43.95, "profit_factor": 3.75, "total_opportunity_net_return_pct": 371.12, "max_drawdown_pct": -13.86, "y2020_2022_pct": 232.28, "y2023_2025_pct": 138.84}
+    }
+  }
+}
