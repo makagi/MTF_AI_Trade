@@ -1,0 +1,32 @@
+issue: 141
+title: "EXP-141: サポレジ過密の3次元分解(密度×上下関係×傾き)と多階層サイクル円周位相同調度(R_1h, R_1m)統合によるスパゲッティ過密・位相散逸遮断検証"
+created_at: "2026-11-22"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction, strictly additive net return)"
+baseline: "EXP-139 1h x 1m Fractal Cycle & Reciprocation Master (N=225, PF 4.83, +717.20%, MaxDD -14.74%)"
+hypotheses:
+  - id: "HYP-141-1"
+    name: "3D S/R Congestion Decomposition (Density x Vertical Ordering x Slope x Coherence)"
+    description: "Decomposes S/R congestion (lam_15 >= 5 surfaces within 1.5 ATR below price from {SMA_j, BB_lower_j, P_sup_j}) across Vertical Ordering (inv_lam / triad_ord), Slope Alignment (slope_k, slope_{k+1}, slope_610), and Multi-Scale Circular Phase Coherence (R_mean). Protects (1) Ordered+Rising compressed launchpads (F2a = 0.0%) and (2) Macro-coherent V-bottom Mega-Runners (3/3 high-density Mega-Runners, 10/10 total), while isolating ONLY true Spaghetti Congestion Traps (N=10: 8 losses, 2 wins, PF 0.66, -3.38%)."
+  - id: "HYP-141-2"
+    name: "Multi-Scale Circular Cycle Phase Coherence (Kuramoto Order Parameter R_1h, R_1m) Integration"
+    description: "Applies Kuramoto circular phase order parameter R = |(1/M) * sum(exp(i * theta_s))| in [0, 1] across 1m 5-scale hierarchy [13, 21, 34, 55, 89] on Shorts (R_1m >= 0.75), eliminating 11 phase-incoherent micro-stop traps (10 losses, 1 win, WR 9.1%, -12.36%). Explicitly rejects a hard 1m rel_effort <= 1.40 cap on Longs because explosive breakout Mega-Runners (e.g., 2021-02-08, R_1m=1.000) exhibit high 1m path expansion with full phase coherence."
+  - id: "HYP-141-3"
+    name: "1h x 1m Fractal Integration & 2D Sensitivity Plateau Verification"
+    description: "Integrates 3D S/R Congestion Gate and 1m Circular Phase Coherence Gate onto EXP-139. Across all 20 cells of the 2D plateau (R_mean in [0.65..0.85] x R_1m in [0.65..0.80]), preserves 10/10 Mega-Runners and achieves Master Std WR 52.94%, PF 5.54, +732.94%, MaxDD -12.43%; Mode B PF 5.38, +581.68%, MaxDD -12.12%; Mode A PF 4.45, +384.58%, MaxDD -9.93% (< 10% single-position MaxDD)."
+parameters:
+  friction_bps: 0.0040
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  tree_scales_1h: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  sr_congestion_min_scale: 21
+  sr_congestion_max_dist_atr: 1.5
+  sr_congestion_min_dist_atr: -0.2
+  sr_congestion_min_surfaces: 5
+  long_congestion_min_coherence_bypass: 0.80
+  short_1m_coherence_scales: [13, 21, 34, 55, 89]
+  short_1m_min_phase_coherence: 0.75
