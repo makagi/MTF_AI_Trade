@@ -1,0 +1,51 @@
+issue: 143
+title: "EXP-143: ドローダウン解剖・異符号勾配SMA/BB未来交差天井予測(P*)・未点火深層被弾ガード(Track 1)・同一波重複抑制(Track 2)・スケールフリー1m連続体&弱気マクロ同調(Track 3)のフォレンジック因果検証"
+created_at: "2026-11-23"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction, strictly additive net return)"
+baseline: "EXP-141 3D S/R Congestion & Multi-Scale Phase Coherence Master (N=204, WR 52.94%, PF 5.54, +732.94%, MaxDD -12.43%)"
+hypotheses:
+  - id: "HYP-143-1"
+    name: "Kinematic Opposite-Slope SMA/BB Future Intersection Ceiling Apex (tau*, P*) & False-Static Headroom Roof Guard"
+    description: "Computes strict overhead (L_high > P0 + 0.5 ATR) kinematic collision time tau* and apex ceiling P* between rising short-scale L_low (v_low > 0) and falling higher-scale L_high (v_high < 0). Corrects +1.49 ATR static SMA over-estimation bias by 81% to +0.29 ATR and boosts <=1.0 ATR hit rate by +52% relative (22.0% -> 33.3%) when static overhead distance >= 2.0 ATR. Integrates the False-Static Headroom Roof Guard (blocking Longs when d_res_def_05 >= 2.0 ATR while Type-1 collision tau* <= 36h and H* < 2.0 ATR), removing 8/8 losses on Broad438 and 3/3 losses on EXP-141/143 while establishing negative boundary rules against below-price golden cross confusion, Open-Sky early profit ratcheting, and pre-rollover shorting while v_low > 0."
+  - id: "HYP-143-2"
+    name: "Drawdown Anatomy-Driven Track 1 (Pre-Ignition Floor Guard) & Track 2 (Causal Wave-Distinct Pyramiding)"
+    description: "Decomposes EXP-141 drawdowns into 4 structural regimes and targets single-trade pre-ignition tail losses (Track 1: exit immediately on 1m when running_MFE < 1.5 ATR and adverse_atr >= 3.25 AND adverse_pct >= 4.3%, propagating conservative min(open_k, stop_px) fill and exit_time = ts_k + 1m) and same-wave un-ignited overlaps (Track 2: require strictly causal running_MFE(t <= t_new - 1m) >= 2.0 ATR or dt >= 24h on open same-side positions). Preserves 10/10 Mega-Runners with 0.00% PnL loss and all multi-wave pyramiding clusters (e.g., 2021-02 +194%)."
+  - id: "HYP-143-3"
+    name: "Forensic Audit Remediation & Track 3 (SF-1m Continuum + Weak-Macro Coherence) Integration"
+    description: "Fixes forensic audit defects (restoring sqrt(b/55.0) scale normalization and natural boundaries bb_exp <= 0.0 / rho_pk <= 2.0 in Track 3a SF-1m continuum, plus exclusive exit_time - 1m 1m-slice boundary and exit_time propagation in Track 1) and integrates Track 3b Weak-Macro Coherence Gate (~(phi_continuum < 0.20 & R_1h_local < 0.70)). Establishes single-digit MaxDD (-9.30%) and all-6-year positive net return across all 3 execution modes (Master Std N=179, WR 55.9%, PF 6.76, +741.42%, MaxDD -9.30%, Calmar 79.7x; Mode B PF 6.59, +593.69%, MaxDD -9.30%; Mode A PF 5.40, +393.86%, MaxDD -9.30%)."
+parameters:
+  friction_bps: 0.0040
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  external_data_count: 0
+  # Opposite-slope kinematic intersection & False-Static Roof Guard
+  apex_min_overhead_atr: 0.50
+  apex_min_vel_atr_per_hour: 0.005
+  apex_min_headroom_atr: 0.25
+  apex_max_horizon_hours: 48.0
+  false_static_min_d_res_atr: 2.0
+  false_static_max_tau_hours: 36.0
+  false_static_max_h_star_atr: 2.0
+  # Track 1: Causal 1m Pre-Ignition Floor Guard (AND logic)
+  t1_mfe_ignition_atr: 1.50
+  t1_cap_atr: 3.25
+  t1_cap_pct: 0.043
+  t1_use_and_condition: true
+  # Track 2: Causal Wave-Distinct Pyramiding Guard
+  t2_min_open_mfe_atr: 2.0
+  t2_min_wave_dt_hours: 24.0
+  # Track 3a: Scale-Free 1m Continuum [13..233] (sqrt(b/55.0) normalized, natural boundaries)
+  sf1m_triad_pairs: [[13, 34], [21, 55], [34, 89]]
+  sf1m_norm_ref_scale: 55.0
+  sf1m_long_triad_mean_norm_thr: 2.5
+  sf1m_long_bb_exp_conv_thr: 0.0
+  sf1m_short_rho_pk_mean_scales: [13, 21, 34]
+  sf1m_short_rho_pk_mean_thr: 2.0
+  # Track 3b: Weak-Macro Coherence Guard (Longs)
+  weak_macro_phi_continuum_thr: 0.20
+  weak_macro_r_1h_local_thr: 0.70
