@@ -1,0 +1,102 @@
+{
+  "case_01": {
+    "case_id": "01",
+    "type": "C1",
+    "matched_m1_case_id": "02",
+    "timestamp": "2022-05-10T09:00:00+00:00",
+    "mfe_72h_atr": 0.36,
+    "mfe_24h_atr": 0.36,
+    "mae_24h_atr": 2.63,
+    "net_ret_72h_pct": -5.68
+  },
+  "case_02": {
+    "case_id": "02",
+    "type": "M1",
+    "matched_m1_case_id": null,
+    "timestamp": "2025-01-13T23:00:00+00:00",
+    "mfe_72h_atr": 7.3,
+    "mfe_24h_atr": 3.83,
+    "mae_24h_atr": 0.15,
+    "net_ret_72h_pct": 6.77
+  },
+  "case_03": {
+    "case_id": "03",
+    "type": "M1",
+    "matched_m1_case_id": null,
+    "timestamp": "2022-07-27T01:00:00+00:00",
+    "mfe_72h_atr": 16.45,
+    "mfe_24h_atr": 9.9,
+    "mae_24h_atr": 0.33,
+    "net_ret_72h_pct": 13.0
+  },
+  "case_04": {
+    "case_id": "04",
+    "type": "C2",
+    "matched_m1_case_id": null,
+    "timestamp": "2024-06-14T08:00:00+00:00",
+    "mfe_72h_atr": 0.71,
+    "mfe_24h_atr": 0.71,
+    "mae_24h_atr": 4.78,
+    "net_ret_72h_pct": -1.46
+  },
+  "case_05": {
+    "case_id": "05",
+    "type": "C1",
+    "matched_m1_case_id": "08",
+    "timestamp": "2021-04-20T14:00:00+00:00",
+    "mfe_72h_atr": 0.85,
+    "mfe_24h_atr": 0.85,
+    "mae_24h_atr": 2.17,
+    "net_ret_72h_pct": -11.39
+  },
+  "case_06": {
+    "case_id": "06",
+    "type": "C1",
+    "matched_m1_case_id": "10",
+    "timestamp": "2025-04-15T12:00:00+00:00",
+    "mfe_72h_atr": 0.82,
+    "mfe_24h_atr": 0.82,
+    "mae_24h_atr": 5.0,
+    "net_ret_72h_pct": -2.13
+  },
+  "case_07": {
+    "case_id": "07",
+    "type": "C2",
+    "matched_m1_case_id": null,
+    "timestamp": "2022-01-03T14:00:00+00:00",
+    "mfe_72h_atr": 0.59,
+    "mfe_24h_atr": 0.59,
+    "mae_24h_atr": 5.22,
+    "net_ret_72h_pct": -9.9
+  },
+  "case_08": {
+    "case_id": "08",
+    "type": "M1",
+    "matched_m1_case_id": null,
+    "timestamp": "2022-05-28T18:00:00+00:00",
+    "mfe_72h_atr": 14.26,
+    "mfe_24h_atr": 2.08,
+    "mae_24h_atr": 1.0,
+    "net_ret_72h_pct": 10.18
+  },
+  "case_09": {
+    "case_id": "09",
+    "type": "M1",
+    "matched_m1_case_id": null,
+    "timestamp": "2020-01-10T14:00:00+00:00",
+    "mfe_72h_atr": 6.2,
+    "mfe_24h_atr": 5.95,
+    "mae_24h_atr": 0.44,
+    "net_ret_72h_pct": 2.18
+  },
+  "case_10": {
+    "case_id": "10",
+    "type": "M1",
+    "matched_m1_case_id": null,
+    "timestamp": "2021-03-10T11:00:00+00:00",
+    "mfe_72h_atr": 5.07,
+    "mfe_24h_atr": 3.98,
+    "mae_24h_atr": 0.65,
+    "net_ret_72h_pct": 4.68
+  }
+}

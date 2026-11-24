@@ -90,4 +90,12 @@
 ## 6. 知識体系登録・ガバナンス・MOR ステータス
 
 - **知識体系登録 (`K-095`, `K-096`)**: `03_KNOWLEDGE/knowledge-lineage.md` v4.4.0 に新マスター候補 **`K-095`**（`Supported / New Master Candidate 🏆`）および制約・反証知見 **`K-096`**（`Supported / Constrained 🛡️`）を登録済み。
-- **Missed Opportunity Review (MOR)**: `00_GOVERNANCE/issue-driven-workflow.md` §7 に従い、PR マージ前（Human Gate）に Stage A ブラインドレビューを実施するかユーザー（人間オペレーター）の判断を仰ぐ。
+- **Missed Opportunity Review (`MOR-145-01`) 完了**:
+  - **実施手順**: `tools/missed_opportunity_review.py --experiment 145 --signal k043_selective --seed 145` により Discovery 期間（`< 2025-05-01`）から `10件`（`M1` 5件: Cases `02, 03, 08, 09, 10` / `C1` 3件: `01, 05, 06` / `C2` 2件: `04, 07`）を抽出し、独立サブエージェントによる二段階ブラインド評価（Stage A1 1h+1m → `unsure` 4件エスカレーション後 Stage A2 で上位 `SMA 377/610/987` + `range_pos_720h` 付与 → `observations.yaml` 永続化後に Stage B 開示）を完了した（[review/observations.yaml](review/observations.yaml)）。
+  - **ブラインド精度・内訳**: **`4/10 (40.0%)`**（`M1` 捕捉 **`3/5`**: Cases `03 (+16.45R), 09 (+6.20R), 10 (+5.07R)` / `C1/C2` 回避 **`1/5`**: Case `01 (-5.68%, LUNA)` / 見逃し `FN`: Cases `02 (+7.30R), 08 (+14.26R)` / 誤エントリー `FP`: Cases `04 (-1.46%, MAE 4.78R), 05 (-11.39%), 06 (-2.13%, MAE 5.00R), 07 (-9.90%, MAE 5.22R)`）。
+  - **EXP-145 11階層 MTF BB 状態クロスチェック要点**:
+    1. **Case 07 (`C2`, FP) を `WaitGuard` が自動ブロック**: `k*=21`, `k_wait_lo=55` (`d_wait_lo_std=2.83 > 0.50`) かつ `S=[233..987]` が全 `DWC` (`u=-0.33..-0.43, phi_144=-0.50`) でブロック成立。
+    2. **高値圏 `C1` (`Case 06`) vs `M1` (`Case 10`) の階層分離**: 同一 `rpos720 ~ 80–81%` でも `Case 06` は短期・中期 `k_up_depth=5`（`8..55` 全 `UP_WALK`, `u=+0.77..+1.14`）過伸長＋平坦上位（`phi_55=+0.07, phi_377=+0.04`）だったのに対し、`Case 10` は外側 `144/233 UP_WALK`（`+0.91/+1.05, phi_55=+0.61`）下で短期が `k_box=21 / k*=34 (WAIT), u_13=+0.30` へ調整済み押し目だった。
+    3. **Case 04 (`C2`, FP) の上位 `DN_WALK` 優位**: `SMA 987` 傾き正でも `233:DN_WALK(-0.77)` かつ `34..610` 全負帯域（`phi_144=-0.39`）の戻りは叩かれた。
+    4. **急落抵抗 (`Case 05`, FP) vs 水平収束上放れ (`Case 02, 08`, FN)**: `Case 05` は急落直後で `phi_55=-0.49, phi_144=-0.46`・短期既伸長（`u_8..21=+0.75..+0.95`）だったが、`Case 02`（流動性スイープ奪還 + `34..233` 全 `2UP`, `DN_WALK=0`, `phi_377=-0.03`）と `Case 08`（`<2%` 水平収束 `55..377` 下の `k_box=8` 極度スクイーズ）は水平密集突破後に無抵抗空間へ急騰した。
+  - **事前登録候補仮説 (`MOR145-H1..H3`)**: `knowledge-lineage.md` へ直接 `K-xxx` 登録せず、`review/observations.yaml` の `summary.candidate_hypotheses` に後続 Issue (`#147+`) 向け事前登録仮説（`MOR145-H1..H3`）として隔離記録した。PR `#146` は不一致6ケース（`02, 04, 05, 06, 07, 08`）への人間差分レビューおよび Human Gate 承認待ち。
