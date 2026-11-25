@@ -1,0 +1,180 @@
+review_id: MOR-145-01
+experiment: EXP-145
+date: '2026-11-25'
+reviewer: '@makagi (blind subagent Stage A1+A2)'
+cases:
+- case_id: 1
+  stage_a_call: skip
+  stage_a_rationale: '[Stage A2 via unsure] 24h安値$29,726からSMA21上抜けも1m足終盤でSMA34($32,447)に押され上ヒゲ否定。Stage
+    A2でrange_pos_720h=17.4%、SMA377(+7.48R)/610(+8.90R)/987(+11.58R)が全て頭上で下降・完全逆POと確認し構造崩壊の戻り売り罠と見てskip。'
+  stage_b_comment: 'TN: Stage A2でrpos720=17.4%と下降中SMA377/610/987を確認しskip成功(72h Net
+    -5.68%, MAE 2.63R)。EXP-145状態もS=[233..987]が全てDN_WALK(u=-0.98..-1.46)でLUNA崩壊期の構造崩壊戻り売り罠を完全回避。'
+  tags:
+  - TN
+  - macro_bear_cascade
+  - dn_walk_233_987
+  - reverse_po
+  - stage_a2_saved
+  revealed_label: C1
+- case_id: 2
+  stage_a_call: skip
+  stage_a_rationale: '[Stage A2 via unsure] $89,529.4下ヒゲ反発＆1m高値引けも頭上+0.31..+0.69RにSMA55/89/144密集。Stage
+    A2でrange_pos_720h=21.9%、さらに+2.14..+2.57RにSMA377/610/233の第二の三重キャップと全上位下向き・+4.13R反発済みで空白不足のためskip。'
+  stage_b_comment: 'FN: Stage A2で三重キャップ(SMA55/89/144 & 377/610/233)を警戒しskipしたが$89.2k流動性スイープ後のV字奪還から+7.30R(+6.77%)急騰。EXP-145状態はS=[34,55,89,233]が全て2UP(u=-0.46..+0.01)・DN_WALK=0・phi377=-0.03と水平収束しており、急落中の逆行キャップではなく水平バンド密集の上放れスプリングボードだった。[人間差分見解] H1 ZLEMA(Ehlers EMA(2C-C[lag]))で超長期階層まで展開すると、01-13 17:00Z 安値$89,529.4時点で ZLEMA 6765=$90,011.4、BB_lower(987)=$89,390.4(+139)、BB_lower(1597)=$89,161.2(+368)の3線が$89k台に完全集結（6765/10946/17711上昇PO +2.25%/+1.38%/+1.49%/wk、<=4181の6765割れ 0/8）。通常SMAの位相遅延で不可視だった超長期三重支持床への直撃反発だった。'
+  tags:
+  - FN
+  - spring_reclaim
+  - horizontal_sma_bundle
+  - zero_dn_walk
+  - 2up_34_233
+  - afs_score_3
+  - zlema_6765_triple_floor
+  revealed_label: M1
+- case_id: 3
+  stage_a_call: long
+  stage_a_rationale: '[Stage A1] 二番底圏($20,747.5)からBB幅2.08Rスクイーズを経てSMA21上抜け・1m高値圏ブルフラッグ維持・AFS
+    Score 3転換・Slope233ほぼ水平で頭上SMA89..233(+4.25..+6.19R)の真空回帰余地を狙う(目標+4.25..+6.17R/Stop
+    SMA21・$20,952割れ)。'
+  stage_b_comment: 'TP: 二番底($20,747.5)とBBスクイーズ上抜け・1mブルフラッグ・AFS Score 3を捉えlong成功(+16.45R,
+    72h Net +13.00%, MAE 0.33R)。987:UWC(+0.10)/phi610=+0.12の上位底堅さから目標SMA233(+6.19R)を大きく上抜ける初動を捕捉。'
+  tags:
+  - TP
+  - double_bottom_squeeze
+  - 1m_bull_flag
+  - afs_score_3
+  - mega_runner
+  revealed_label: M1
+- case_id: 4
+  stage_a_call: long
+  stage_a_rationale: '[Stage A2 via unsure] SMA21戻し・頭上SMA34/55/89(+0.71..+1.89R)で迷いも、Stage
+    A2でrange_pos_720h=51.7%、上昇中SMA987(-0.54R, slp+0.0095)が足元支持と確認。二番底押し目完了からSMA144/610/377/233(+3.36..+5.45R)回帰余地でlong。'
+  stage_b_comment: 'FP: Stage A2で上昇SMA987支えとrpos720=51.7%からlongしたが+8h(+0.71R)で下降SMA144/233に叩かれMAE
+    4.78R(Net -1.46%)。EXP-145状態は233:DN_WALK(-0.77)かつS=[34..610]全負位置(phi144=-0.39)で8/13のみ伸長(+0.88/+0.90)の典型的デッドキャットバウンス。中長期負帯域+233
+    DN_WALK時は987傾きだけで許容不可。'
+  tags:
+  - FP
+  - dead_cat_bounce
+  - dn_walk_233
+  - mid_macro_neg_u
+  - k043_loser
+  revealed_label: C2
+- case_id: 5
+  stage_a_call: long
+  stage_a_rationale: '[Stage A1] 二番底$53,321から当足でSMA21/34/55一括上抜け・1m保ち合い上放れ高値維持・AFS
+    Score 3上昇転換・Slope233水平(-0.02)で頭上SMA144/233(+3.39..+4.04R)の回帰真空余地が明瞭(Stop SMA21/34/55密集割れ)。'
+  stage_b_comment: 'FP: Stage A1でSlope233水平(-0.02)を真空地帯と誤認しlongしたが+9h(+0.85R)で頭上144/233に叩かれ-11.39%急落。EXP-145状態はphi55=-0.49/phi144=-0.46と急落直後の傾き悪化が残り短期8..21は+0.75..+0.95へ伸長済み。平坦ベースだったCase
+    08と異なり抵抗帯への余白欠如。'
+  tags:
+  - FP
+  - acute_dump_rebound_trap
+  - neg_phi_55_144
+  - short_overextended_8_21
+  - no_runway
+  revealed_label: C1
+- case_id: 6
+  stage_a_call: long
+  stage_a_rationale: '[Stage A2 via unsure] Perfect Order下の48h調整ブレイク＋1m高値引け($85,979)に対し、Stage
+    A2でrange_pos_720h=80.2%(30日高値$88,810まで+4.94R余地)・SMA377/610/987全て足元支持(-3.59..-6.28R)を確認。過伸長罠でなく順張り継続でlong。'
+  stage_b_comment: 'FP: 対照M1のCase 10(rpos720=81.1%)と同等の高値圏(80.2%)で順張りlongしたが+4h(+0.82R)天井からMAE
+    5.00R(Net -2.13%)。EXP-145比較で決定的な差が判明: Case 06はk*=89かつk_up_depth=5(8..55全UP_WALK,
+    u=+0.77..+1.14)の過伸長末期である一方、phi55=+0.07/phi377=+0.04と上位駆動が平坦(04-11/04-13既発後の3段目)。[人間差分見解] H1 ZLEMA(Ehlers)で超長期を展開すると、4181($90,873)以下8/8全短期が6765($99,401, -1.55%/wk)を完全に下回っており、10946($95,839, +0.22%/wk)と17711($91,854, +0.07%/wk)も水平平行化した方向感欠如帯に潜り込んだ天井振動局面だった（DEMAでも4181以下8/8が6765=$94,943未満）。'
+  tags:
+  - FP
+  - exhausted_up_walk_depth5
+  - flat_macro_phi
+  - late_range_high_trap
+  - contrast_case10
+  - zlema_below_6765_parallel_range
+  revealed_label: C1
+- case_id: 7
+  stage_a_call: long
+  stage_a_rationale: '[Stage A1] SMA21/34/55/89/144が-0.17..-0.79Rに極度収束した密集帯を当足($47,401.9)で全突破・1m押し目後高値引け・AFS
+    Score 3転換。頭上SMA233(+3.65R)まで抵抗ゼロの3.65R空白地帯を狙う(Stop SMA21/34密集割れ)。'
+  stage_b_comment: 'FP: Stage A1でSMA21..144密集抜けの3.65R空白を狙いlongしたが+1h(+0.59R)失速から-9.90%暴落(MAE
+    5.22R)。EXP-145 WaitGuardがk*=21, k_w_lo=55(d_wait_lo_std=2.83>0.50)で明確にBLOCK。233..987が全てDWC(u=-0.33..-0.43,
+    phi144=-0.50)かつ外側55が下限未達のまま収縮中でありWaitGuardの有効性を直接裏付ける事例。'
+  tags:
+  - FP
+  - wait_guard_blocked
+  - pre_touch_wait_55
+  - bear_shelf_dwc_233_987
+  - k043_loser
+  revealed_label: C2
+- case_id: 8
+  stage_a_call: skip
+  stage_a_rationale: '[Stage A1] 実体+0.17R小陽線でSMA55(+0.00R)キャップ・+1.26..+2.29RにSMA89/144/233密集で3R以上空白なし。1m終盤失速・AFS
+    Score 0(48.5->70.1反落)でモメンタム枯渇のためskip。'
+  stage_b_comment: 'FN: +0.17R小陽線・AFS Score 0・SMA89/144/233密集(+1.26..+2.29R)を見てskipしたが+24h後に極度スクイーズ(k_box=8)から$32.2kへ+14.26R(+10.18%)暴騰。Case
+    05と違い55..377が$29.0k-$29.55k(<2%幅)へ水平収束済みで突破後は無抵抗空間だった。単足モメンタムではなくk_box収縮後の上放れ待機トリガが別途必要。'
+  tags:
+  - FN
+  - ultra_squeeze_coil
+  - k_box_8
+  - horizontal_macro_ceiling
+  - delayed_eruption
+  revealed_label: M1
+- case_id: 9
+  stage_a_call: long
+  stage_a_rationale: '[Stage A1] 上昇SMA144($7,719.0)上で下げ止まり後、当足(+1.01R)でSMA21上抜け・1m
+    Wボトム終盤高値引け・AFS Score 3(25..35)底打ち上昇転換。120h高値$8,336(+8.05R余地)へ押目初動long(Stop SMA144割れ)。'
+  stage_b_comment: 'TP: 上昇SMA144($7,719, phi144=+0.38)支え・1m Wボトム・AFS Score 3上昇転換で押し目初動を捉えlong成功(+6.20R,
+    72h Net +2.18%, MAE 0.44R)。2020-01初期のため233..987はNAだが144軸との整合が機能。'
+  tags:
+  - TP
+  - sma144_pullback_support
+  - 1m_w_bottom
+  - afs_score_3
+  - early_warmup
+  revealed_label: M1
+- case_id: 10
+  stage_a_call: long
+  stage_a_rationale: '[Stage A1] Macro Age Ratio 0.15の若いPerfect Order下、当足安値$54,050.8が上昇SMA34($54,049.7)にピンポイント反発してSMA21回復・AFS
+    35.7クールダウン済・1m高値引けで24h高値上抜け青天井狙い(Stop SMA34割れ)。'
+  stage_b_comment: 'TP: 対照C1のCase 06と同じ高値圏(rpos720=81.1%)ながらlong正解(+5.07R, +4.68%)。EXP-145では144/233がUP_WALK継続(+0.91/+1.05,
+    phi55=+0.61/phi144=+0.28)する中で短期がk_box=21/k*=34(WAIT)・u13=+0.30へ健全調整済みの押し目であり、k_up_depth=5過伸長のCase
+    06と鮮明に対比できた。'
+  tags:
+  - TP
+  - healthy_pullback_wait_34
+  - macro_up_walk_144_233
+  - low_macro_age
+  - contrast_case06
+  revealed_label: M1
+summary:
+  stage_a_accuracy_score: 0.4
+  candidate_hypotheses:
+  - id: MOR145-H1
+    title: "Bear-Shelf WaitGuard + Mid/Macro DN_WALK Veto Without Blocking Zero-DN_WALK Springs"
+    derived_from_cases:
+    - 4
+    - 7
+    contrast_case: 2
+    mechanism: "Block long entries when either WaitGuard detects contracting outer BB above unmet lower touch (Case 07 - k*=21, k_wait_lo=55, d_wait_lo_std=2.83>0.50 with S=[233..987] DWC and phi_144=-0.50) OR 233 is in DN_WALK while all S=[34..610] remain negative u with phi_144 < -0.25 even if ultra-macro SMA987 slopes slightly upward (Case 04 - 233 DN_WALK u=-0.77, phi_144=-0.39). Exempt horizontal zero-DN_WALK springs (Case 02 - DN_WALK=0, S=[34..233] all 2UP)."
+    testable_prediction: "Adding WaitGuard + mid/macro DN_WALK veto on Discovery K-043 Selective signals cuts C2 false starts (Cases 04, 07) and lowers tail MAE without losing Case 02/03/09/10-class M1 breakouts."
+  - id: MOR145-H2
+    title: "Scale-Layer Exhaustion vs Outer-Drive Pullback Reset Near High Range Positions"
+    derived_from_cases:
+    - 6
+    - 10
+    contrast_case: 10
+    mechanism: "At elevated range positions (rpos720 >= 75%), separate late short/mid saturation (Case 06 C1 - rpos720=80.2%, k*=89, k_up_depth=5 [8..55 all UP_WALK, u=+0.77..+1.14] under flat outer slope phi_55=+0.07, phi_377=+0.04) from healthy short-scale pullback resets inside strong outer macro trends (Case 10 M1 - rpos720=81.1%, 144/233 UP_WALK [+0.91/+1.05], phi_55=+0.61, phi_144=+0.28, cooled short k_box=21 / k*=34 WAIT, u_13=+0.30)."
+    testable_prediction: "Conditioning high-range_pos longs on outer 144/233 UP_WALK + strong phi_55/144 while down-weighting or vetoing k_up_depth>=5 flat-macro entries (Case 06) improves PF and reduces >4R MAE traps on Discovery."
+  - id: MOR145-H3
+    title: "Horizontal Macro Bundle Compression Springboard vs Acute-Dump Diving Ceiling"
+    derived_from_cases:
+    - 2
+    - 5
+    - 8
+    contrast_case: 5
+    mechanism: "Distinguish horizontal macro SMA/BB convergence springboards (Case 02 M1 - $89.2k sweep reclaim, DN_WALK=0, 34..233 all 2UP, phi_377=-0.03, AFS=3; Case 08 M1 - k_box=8 ultra-squeeze beneath <2% spread 55..377 horizontal ceiling, phi_377=-0.08) from post-crash dead-cat ceilings where fast macro slopes are still sharply negative beneath overextended short bands (Case 05 C1 - phi_55=-0.49, phi_144=-0.46, u_8..21=+0.75..+0.95)."
+    testable_prediction: "Testing a compressed k_box coil-breakout trigger (coupled with flat outer bundle dispersion <2% and phi_55/144 recovery above acute-dump thresholds) recovers Case 02/08-style 4+ ATR eruptions while avoiding Case 05 diving rejections on Discovery."
+  - id: MOR145-H4
+    title: "Causal H1 Zero-Lag EMA (ZLEMA) Ultra-Macro Continuum (987..17711) to Eliminate Phase-Lag Blindness"
+    derived_from_cases:
+    - 2
+    - 4
+    - 6
+    - 7
+    contrast_case: 10
+    mechanism: "Plain SMA at ultra-macro scales (987..17711) suffers 20d..1yr phase lag, hiding real-time macro structure. Causal H1 ZLEMA (EMA(2C-C[lag]), lag=(N-1)//2 with strict full-window warmup bar_idx >= N+lag) reveals Case 02 M1's $89,529.4 bottom hit a pinpoint triple floor (ZLEMA 6765=$90,011, BB_lo 987=$89,390, BB_lo 1597=$89,161; 0/8 below 6765, rising 6765/10946/17711 PO +2.25%/+1.38%/+1.49%/wk), whereas FP traps Case 06 (8/8 below 6765, rolling 6765 -1.55%/wk + flat parallel 10946/17711 +0.22%/+0.07%/wk), Case 04 (7/8 below 6765), and Case 07 (7/8 below 6765, all macro falling) sit submerged beneath ultra-macro ZLEMA 6765."
+    testable_prediction: "Extending EXP-145's scale-free MTF BB state machine to causal H1 ZLEMA across S=[8..17711] (with strict bar_idx >= N+lag warmup) separates genuine bull ultra-macro floor springs (Case 02/10) from submerged parallel/directionless traps (Case 04/06/07) on Discovery."
