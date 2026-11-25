@@ -1,0 +1,43 @@
+issue: 147
+title: "EXP-147: 正確MQL5 ZLEMA (BufferEMAZL) 17階層ウルトラマクロ連続体 (8..17711) の位相遅延検証・4状態分類・長期ハードフィルター/拡張反証"
+created_at: "2026-11-26"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Holdout (2025-05-01 onwards, strictly isolated)"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction, strictly additive net return)"
+baseline: "EXP-145 Champion T1_Full_D4_RelaxFlip (Std: N=179, WR 55.87%, PF 6.90, +752.07%, MaxDD -9.30%, Calmar 80.89x, MG 10/10; Mode B +604.34%; Mode A +404.51%)"
+
+hypotheses:
+  - id: "HYP-147-1"
+    name: "MQL5 ZLEMA 17-Scale Phase-Lag Elimination, 4-Way Ultra-Macro Regime Classification & Champion Long Veto Audit"
+    status: "Supported (Physics & Regime Audit K-097) / Refuted (Long Veto Filter K-098)"
+    description: "Replicates the exact MQL5 BufferEMAZL formula across 17 Fibonacci scales S_17=[8..17711] with strict full-window warmup (bar_idx >= period + lag, lag=(period-1)//2) and zero-lookahead invariance (max_diff=0.0 at t_cut=44200). Cuts RMSE vs SMA by 36.6%-46.2% and shortens optimal lag 3x-4x. Separates BTCUSD into 4 regimes (N_ev=2,339), isolating MOR Case 04/06/07 FP traps inside Z_SUBMERGED_PARALLEL (only negative 72h mean -0.325R) while concentrating 10/10 EXP-145 Mega-Runners in Z_BULL_ABOVE (6) and Z_FLOOR_SPRING (4). However, applying Z_SUBMERGED_PARALLEL as a hard veto on EXP-145 Champion Longs reduces Std Tot across all 16/16 cells (-22.05%pt to -51.58%pt) and is rejected as over-filtering."
+  - id: "HYP-147-2"
+    name: "ZLEMA WaitGuard Pullback Longs (3A) & Case 02 Multi-Scale Floor-Spring Longs (3B)"
+    status: "Refuted / Constrained (K-098)"
+    description: "Tests expanding EXP-145 WaitGuard pullback longs via ZLEMA ultra-macro gating (3A) and adding Case 02-inspired macro floor-spring sweeps across ZLEMA/BB_lo >= 377 (3B). While 3B captures the exact Case 02 bounce (2025-01-13 23:00Z, Net +8.62%) and reaches standalone N=248, PF 1.30, +118.09% at 2flr_24h, both 3A and 3B fail single-digit MaxDD and Era2 (2023-2025) constraints: 3A widens Std MDD to -28.74% across all 16/16 cells (Era2 -9.98%..-28.11%); 3B 2flr_24h widens SA MDD to -111.05% / Std MDD to -36.74%, suffers Era2 -34.88%, and drops Champion Mega-Runners 10/10 -> 8/10 via 24h Track-2 cooldown collision."
+  - id: "HYP-147-3"
+    name: "ZLEMA T1 Cascade Exit Substitution vs SMA & Submerged-Parallel Ceiling Reversal Shorts"
+    status: "Refuted / Constrained (K-098)"
+    description: "Compares ZLEMA vs SMA inside the EXP-145 T1_Full_D4_RelaxFlip cascade exit (D>=4, phi_mid<0.25) and tests Case 06-inspired Submerged-Parallel ceiling reversal shorts across a 4x4 grid (subm_thr >= 0.625..1.00 x k_up_depth >= 3..6). ZLEMA T1 trims Std MaxDD (-9.30% -> -8.52%) but overshoots sensitivity (triggers 4 -> 9), clipping 1 Mega-Runner (MG 9/10, Std +720.14% vs SMA +752.07%, Mode B +571.12% vs +604.34%). Submerged-Parallel shorts yield 0/16 positive cells (WR 7.69%-29.07%, PF 0.02-0.51, SA Tot -5.83% to -73.57%), reinforcing K-096."
+
+parameters:
+  friction_bps: 0.0040
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  external_data_count: 0
+  scales_17: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  zlema_formula: "BufferEMAZL[i] = alpha*(2*Close[i] - Close[i+lag]) + (1-alpha)*BufferEMAZL[i+1]"
+  zlema_lag_rule: "(period - 1) // 2"
+  zlema_alpha_rule: "2.0 / (period + 1.0)"
+  zlema_init_zero: true
+  zlema_full_warmup_rule: "bar_idx >= period + lag"
+  submerged_anchor_scale: 6765
+  submerged_short_scales: [21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181]
+  parallel_macro_scales: [6765, 10946, 17711]
+  floor_spring_scales: [377, 610, 987, 1597, 6765]
+  floor_spring_lookback_hours: 24
+  floor_spring_min_count: 2
+  champion_retained: "EXP-145 T1_Full_D4_RelaxFlip"
