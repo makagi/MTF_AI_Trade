@@ -20,7 +20,7 @@ cases:
   stage_a_call: skip
   stage_a_rationale: '[Stage A2 via unsure] $89,529.4下ヒゲ反発＆1m高値引けも頭上+0.31..+0.69RにSMA55/89/144密集。Stage
     A2でrange_pos_720h=21.9%、さらに+2.14..+2.57RにSMA377/610/233の第二の三重キャップと全上位下向き・+4.13R反発済みで空白不足のためskip。'
-  stage_b_comment: 'FN: Stage A2で三重キャップ(SMA55/89/144 & 377/610/233)を警戒しskipしたが$89.2k流動性スイープ後のV字奪還から+7.30R(+6.77%)急騰。EXP-145状態はS=[34,55,89,233]が全て2UP(u=-0.46..+0.01)・DN_WALK=0・phi377=-0.03と水平収束しており、急落中の逆行キャップではなく水平バンド密集の上放れスプリングボードだった。'
+  stage_b_comment: 'FN: Stage A2で三重キャップ(SMA55/89/144 & 377/610/233)を警戒しskipしたが$89.2k流動性スイープ後のV字奪還から+7.30R(+6.77%)急騰。EXP-145状態はS=[34,55,89,233]が全て2UP(u=-0.46..+0.01)・DN_WALK=0・phi377=-0.03と水平収束しており、急落中の逆行キャップではなく水平バンド密集の上放れスプリングボードだった。[人間差分見解] H1 ZLEMA(Ehlers EMA(2C-C[lag]))で超長期階層まで展開すると、01-13 17:00Z 安値$89,529.4時点で ZLEMA 6765=$90,011.4、BB_lower(987)=$89,390.4(+139)、BB_lower(1597)=$89,161.2(+368)の3線が$89k台に完全集結（6765/10946/17711上昇PO +2.25%/+1.38%/+1.49%/wk、<=4181の6765割れ 0/8）。通常SMAの位相遅延で不可視だった超長期三重支持床への直撃反発だった。'
   tags:
   - FN
   - spring_reclaim
@@ -28,6 +28,7 @@ cases:
   - zero_dn_walk
   - 2up_34_233
   - afs_score_3
+  - zlema_6765_triple_floor
   revealed_label: M1
 - case_id: 3
   stage_a_call: long
@@ -76,13 +77,14 @@ cases:
     A2でrange_pos_720h=80.2%(30日高値$88,810まで+4.94R余地)・SMA377/610/987全て足元支持(-3.59..-6.28R)を確認。過伸長罠でなく順張り継続でlong。'
   stage_b_comment: 'FP: 対照M1のCase 10(rpos720=81.1%)と同等の高値圏(80.2%)で順張りlongしたが+4h(+0.82R)天井からMAE
     5.00R(Net -2.13%)。EXP-145比較で決定的な差が判明: Case 06はk*=89かつk_up_depth=5(8..55全UP_WALK,
-    u=+0.77..+1.14)の過伸長末期である一方、phi55=+0.07/phi377=+0.04と上位駆動が平坦(04-11/04-13既発後の3段目)。'
+    u=+0.77..+1.14)の過伸長末期である一方、phi55=+0.07/phi377=+0.04と上位駆動が平坦(04-11/04-13既発後の3段目)。[人間差分見解] H1 ZLEMA(Ehlers)で超長期を展開すると、4181($90,873)以下8/8全短期が6765($99,401, -1.55%/wk)を完全に下回っており、10946($95,839, +0.22%/wk)と17711($91,854, +0.07%/wk)も水平平行化した方向感欠如帯に潜り込んだ天井振動局面だった（DEMAでも4181以下8/8が6765=$94,943未満）。'
   tags:
   - FP
   - exhausted_up_walk_depth5
   - flat_macro_phi
   - late_range_high_trap
   - contrast_case10
+  - zlema_below_6765_parallel_range
   revealed_label: C1
 - case_id: 7
   stage_a_call: long
@@ -166,3 +168,13 @@ summary:
     contrast_case: 5
     mechanism: "Distinguish horizontal macro SMA/BB convergence springboards (Case 02 M1 - $89.2k sweep reclaim, DN_WALK=0, 34..233 all 2UP, phi_377=-0.03, AFS=3; Case 08 M1 - k_box=8 ultra-squeeze beneath <2% spread 55..377 horizontal ceiling, phi_377=-0.08) from post-crash dead-cat ceilings where fast macro slopes are still sharply negative beneath overextended short bands (Case 05 C1 - phi_55=-0.49, phi_144=-0.46, u_8..21=+0.75..+0.95)."
     testable_prediction: "Testing a compressed k_box coil-breakout trigger (coupled with flat outer bundle dispersion <2% and phi_55/144 recovery above acute-dump thresholds) recovers Case 02/08-style 4+ ATR eruptions while avoiding Case 05 diving rejections on Discovery."
+  - id: MOR145-H4
+    title: "Causal H1 Zero-Lag EMA (ZLEMA) Ultra-Macro Continuum (987..17711) to Eliminate Phase-Lag Blindness"
+    derived_from_cases:
+    - 2
+    - 4
+    - 6
+    - 7
+    contrast_case: 10
+    mechanism: "Plain SMA at ultra-macro scales (987..17711) suffers 20d..1yr phase lag, hiding real-time macro structure. Causal H1 ZLEMA (EMA(2C-C[lag]), lag=(N-1)//2 with strict full-window warmup bar_idx >= N+lag) reveals Case 02 M1's $89,529.4 bottom hit a pinpoint triple floor (ZLEMA 6765=$90,011, BB_lo 987=$89,390, BB_lo 1597=$89,161; 0/8 below 6765, rising 6765/10946/17711 PO +2.25%/+1.38%/+1.49%/wk), whereas FP traps Case 06 (8/8 below 6765, rolling 6765 -1.55%/wk + flat parallel 10946/17711 +0.22%/+0.07%/wk), Case 04 (7/8 below 6765), and Case 07 (7/8 below 6765, all macro falling) sit submerged beneath ultra-macro ZLEMA 6765."
+    testable_prediction: "Extending EXP-145's scale-free MTF BB state machine to causal H1 ZLEMA across S=[8..17711] (with strict bar_idx >= N+lag warmup) separates genuine bull ultra-macro floor springs (Case 02/10) from submerged parallel/directionless traps (Case 04/06/07) on Discovery."
