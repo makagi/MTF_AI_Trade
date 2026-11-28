@@ -1,0 +1,182 @@
+{
+  "CASE_01": {
+    "t0_utc": "2023-08-16 07:00Z",
+    "close": 29233.82,
+    "z2584_gap_atr": -21.74,
+    "z6765_gap_atr": -13.63,
+    "z10946_gap_atr": 35.51,
+    "wk_slp_2584_pct": 0.219,
+    "range_30d_pos_pct": 34.1,
+    "range_30d_width_atr": 27.6,
+    "T4_state": "TANGLED_CHOP",
+    "T5_state": "LEAD_PULLBACK_BULL",
+    "pyramid_L5_to_L8": {
+      "L5": -0.167,
+      "L6": -0.162,
+      "L7": -0.158,
+      "L8": -0.157
+    }
+  },
+  "CASE_02": {
+    "t0_utc": "2024-06-23 06:00Z",
+    "close": 64475.46,
+    "z2584_gap_atr": -37.51,
+    "z6765_gap_atr": -75.06,
+    "z10946_gap_atr": -13.48,
+    "wk_slp_2584_pct": -0.433,
+    "range_30d_pos_pct": 12.1,
+    "range_30d_width_atr": 79.1,
+    "T4_state": "TANGLED_CHOP",
+    "T5_state": "TANGLED_CHOP",
+    "pyramid_L5_to_L8": {
+      "L5": -0.203,
+      "L6": -0.224,
+      "L7": -0.235,
+      "L8": -0.236
+    }
+  },
+  "CASE_03": {
+    "t0_utc": "2023-10-15 19:00Z",
+    "close": 26955.51,
+    "z2584_gap_atr": 15.98,
+    "z6765_gap_atr": -39.72,
+    "z10946_gap_atr": -27.14,
+    "wk_slp_2584_pct": 0.565,
+    "range_30d_pos_pct": 36.3,
+    "range_30d_width_atr": 68.6,
+    "T4_state": "LEAD_PULLBACK_BULL",
+    "T5_state": "LEAD_TURN_BEAR",
+    "pyramid_L5_to_L8": {
+      "L5": -0.062,
+      "L6": -0.097,
+      "L7": -0.118,
+      "L8": -0.12
+    }
+  },
+  "CASE_04": {
+    "t0_utc": "2022-11-06 18:00Z",
+    "close": 21273.85,
+    "z2584_gap_atr": 40.26,
+    "z6765_gap_atr": 87.56,
+    "z10946_gap_atr": 21.32,
+    "wk_slp_2584_pct": 1.468,
+    "range_30d_pos_pct": 93.1,
+    "range_30d_width_atr": 51.4,
+    "T4_state": "PO_UP_EXPAND",
+    "T5_state": "TANGLED_CHOP",
+    "pyramid_L5_to_L8": {
+      "L5": 0.347,
+      "L6": 0.374,
+      "L7": 0.388,
+      "L8": 0.39
+    }
+  },
+  "CASE_05": {
+    "t0_utc": "2022-10-23 19:00Z",
+    "close": 19206.54,
+    "z2584_gap_atr": 36.2,
+    "z6765_gap_atr": 113.17,
+    "z10946_gap_atr": -61.3,
+    "wk_slp_2584_pct": -0.161,
+    "range_30d_pos_pct": 45.0,
+    "range_30d_width_atr": 74.4,
+    "T4_state": "TANGLED_CHOP",
+    "T5_state": "TANGLED_CHOP",
+    "pyramid_L5_to_L8": {
+      "L5": -0.077,
+      "L6": -0.086,
+      "L7": -0.091,
+      "L8": -0.092
+    }
+  },
+  "CASE_06": {
+    "t0_utc": "2024-02-26 15:00Z",
+    "close": 51230.18,
+    "z2584_gap_atr": 12.63,
+    "z6765_gap_atr": 27.15,
+    "z10946_gap_atr": 55.31,
+    "wk_slp_2584_pct": 3.247,
+    "range_30d_pos_pct": 84.9,
+    "range_30d_width_atr": 57.8,
+    "T4_state": "PO_UP_COMPRESS",
+    "T5_state": "PO_UP_EXPAND",
+    "pyramid_L5_to_L8": {
+      "L5": -0.018,
+      "L6": -0.033,
+      "L7": -0.043,
+      "L8": -0.044
+    }
+  },
+  "CASE_07": {
+    "t0_utc": "2022-12-12 10:00Z",
+    "close": 16952.87,
+    "z2584_gap_atr": 6.55,
+    "z6765_gap_atr": 42.62,
+    "z10946_gap_atr": 26.51,
+    "wk_slp_2584_pct": -1.466,
+    "range_30d_pos_pct": 74.0,
+    "range_30d_width_atr": 43.4,
+    "T4_state": "LEAD_TURN_BEAR",
+    "T5_state": "TANGLED_CHOP",
+    "pyramid_L5_to_L8": {
+      "L5": -0.128,
+      "L6": -0.092,
+      "L7": -0.072,
+      "L8": -0.07
+    }
+  },
+  "CASE_08": {
+    "t0_utc": "2020-03-07 11:00Z",
+    "close": 9104.5,
+    "z2584_gap_atr": null,
+    "z6765_gap_atr": null,
+    "z10946_gap_atr": null,
+    "wk_slp_2584_pct": null,
+    "range_30d_pos_pct": 33.1,
+    "range_30d_width_atr": 48.5,
+    "T4_state": "WARMUP",
+    "T5_state": "WARMUP",
+    "pyramid_L5_to_L8": {
+      "L5": 0.249,
+      "L6": 0.274,
+      "L7": 0.289,
+      "L8": 0.29
+    }
+  },
+  "CASE_09": {
+    "t0_utc": "2023-08-27 06:00Z",
+    "close": 26049.32,
+    "z2584_gap_atr": -102.23,
+    "z6765_gap_atr": -121.57,
+    "z10946_gap_atr": -41.36,
+    "wk_slp_2584_pct": -3.446,
+    "range_30d_pos_pct": 25.7,
+    "range_30d_width_atr": 185.1,
+    "T4_state": "PO_DN_CASCADE",
+    "T5_state": "TANGLED_CHOP",
+    "pyramid_L5_to_L8": {
+      "L5": -0.19,
+      "L6": -0.169,
+      "L7": -0.157,
+      "L8": -0.156
+    }
+  },
+  "CASE_10": {
+    "t0_utc": "2024-12-17 17:00Z",
+    "close": 108148.71,
+    "z2584_gap_atr": 13.71,
+    "z6765_gap_atr": 40.13,
+    "z10946_gap_atr": 42.58,
+    "wk_slp_2584_pct": 5.486,
+    "range_30d_pos_pct": 99.8,
+    "range_30d_width_atr": 28.8,
+    "T4_state": "LEAD_PULLBACK_BULL",
+    "T5_state": "PO_UP_COMPRESS",
+    "pyramid_L5_to_L8": {
+      "L5": 0.453,
+      "L6": 0.462,
+      "L7": 0.468,
+      "L8": 0.469
+    }
+  }
+}
