@@ -1,0 +1,65 @@
+issue: 156
+related_issues: [149, 150, 151, 152, 153, 154, 155, 156]
+title: "EXP-156: ZLEMA-Native 4-Phase Reconstruction Program & Purified Track Z-B1 Independent Sleeve Verification"
+created_at: "2026-11-28"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Validation (2025-05-01 to 2026-03-31) & Final Holdout (>= 2026-04-01), strictly isolated"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction, strictly additive net return)"
+baseline: "EXP-145 Champion T1_Full_D4_RelaxFlip (Std: N=179, WR 55.87%, PF 6.90, +752.07%, MaxDD -9.30%, Calmar 80.89x, MG 10/10; Mode B +604.34%; Mode A +404.51%)"
+
+hypotheses:
+  - id: "EXP-149_151_REFUTED"
+    name: "K-099: Direct Borrowing of SMA Rules/Execution onto ZLEMA Signals (EXP-149..151)"
+    status: "Refuted / Constrained (K-099)"
+    description: "Tests Track-2 isolated Z_FLOOR_SPRING (EXP-149: 0/48 PASS, SA MDD -111.05%, Era2 -34.88%), falling long-ZLEMA ceiling shorts & surgical exits (EXP-150: 0/32 PASS, Era2 -4.29%..-7.11%, Std MDD -11.89%), and SMAxZLEMA dual-filter reconvergence (EXP-151: 0/32 PASS, Std MDD -49.87%, Era2 CHOP_CONFLICT PF 13.84 vs BOTH_BULL PF 1.45). Proves ZLEMA phase-lead flip cadence (1.24x-2.46x vs SMA) cannot be governed by SMA execution/stop machinery."
+  - id: "EXP-152_PHYSICS"
+    name: "K-100: Pure-ZLEMA Single-Scale Kinematics, Self-Overshoot Sign-Flip & Adjacent Triplets T3/T4"
+    status: "Supported (Structural Physics K-100)"
+    description: "Zero-backtest physical observation on Discovery (t_cut=44200, max_lookahead_diff=0.0). Establishes sign inversion of self-overshoot (Close < Z_k while v_k>0 & a_k>0) between short/mid pullback (k=55 +2.36R, k=144 +2.26R) and macro exhaustion trap (k=377 -2.13R, k=987 -3.00R), plus 6-state adjacent triplet geometry T1..T5."
+  - id: "EXP-153_PYRAMID"
+    name: "K-101: 17-Scale Recursive Hierarchical Pyramid (Phi^Z, Curv^Z, Exp^Z), Z-BB Inversion & Dynamic k*_Z(t)"
+    status: "Supported (Structural Physics K-101)"
+    description: "Builds NaN-aware 17-scale recursive pyramid convolution L0..L8 with exact zero-lookahead invariance (max_diff=0.0) and exact dual sign-flip symmetry (error=0.00e+00). Establishes L1..L8 flatness plateau (+2.48R..+2.88R), PRE_TOUCH_Z_BULL (+2.23R) > AT_TOUCH_Z_LO (+0.51R) WaitGuard inversion, dynamic k*_Z != 21 occupancy (89.04%), and BullRole x Exp>0 divergence (+3.46R vs +1.61R)."
+  - id: "EXP-154_155_ZA_REFUTED"
+    name: "K-102: Pure-ZLEMA Role Separation Z_COMP, Blind MOR-154-01 & Late-Chasing Track Z-A Refutation"
+    status: "Refuted / Constrained (K-102)"
+    description: "Separates pure-ZLEMA trigger/context/trap/MAE roles into Z_COMP (N=588, 168h +2.79R, Ratio 2.34), discovers pure Z_21 reclaim superiority over Curv55/Z_{k*} touch, completes 10-case blind MOR-154-01 (50% accuracy, 100% C1 rejection, CASE_10 r30=99.8% blow-off blind spot), and refutes all-green late-chasing Track Z-A across 16/16 cells (0/16 PASS, SA PF 1.10, +36.56%, MDD -61.42%)."
+  - id: "EXP-155_156_ZB1_SLEEVE"
+    name: "K-103: Phase-Desynchronized Early Inflection Track Z-B1 Purified Independent Sleeve (L5/L7)"
+    status: "Supported / Independent Sleeve Candidate (K-103, Discovery Verified)"
+    description: "Replaces late chasing with macro-backed early inflection (Z_2584 slope > 0, T4 bull, C_Phi in [-0.12,+0.12], d3h_Phi >= 0.15) + OR pre-ignition stop (3.25 ATR / 4.3%) + T3 clean filter (excl. TANGLED_CHOP & PO_DN_CASCADE) + C_Exp38 <= 0.10 + r30 in [25,85)% + sleeve max_pos=1. L5 achieves SA N=49, WR 44.9%, PF 5.02, +164.91% (E1 +103.42 / E2 +61.49), SA MDD -10.79%, 93.9% >6h disjoint from Champion, all years >=0%, 32/32 flat 2D plateau cells, and -Top3 PF 3.30. Strict SPEC-EVAL-001 portfolio integration hits 6/10 at 1.00x (Std_Iso MDD -11.31% > -9.30%) and 10/10 PASS across L5/L7 (Full & Inc>6h) at 0.50x sleeve weight (Std_Iso +834.52%, MDD -9.30%, Calmar 89.76x, MB_Res +653.35%, MA +404.69%)."
+
+parameters:
+  friction_bps: 0.0040
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  external_data_count: 0
+  pure_zlema_no_sma_inside_zb1: true
+  scales_17: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  pyramid_weights_triad: [0.30, 0.40, 0.30]
+  pyramid_layer_weights: [0.35, 0.25, 0.15, 0.10, 0.06, 0.04, 0.03, 0.02]
+  self_overshoot_exhaust_scales: [233, 377, 610, 987]
+  zb1_l5:
+    c_phi_corridor: [-0.12, 0.12]
+    d3h_phi_min: 0.15
+    d3h_phi_l7_min: 0.20
+    t4_allowed: ["PO_UP_EXPAND", "PO_UP_COMPRESS", "LEAD_PULLBACK_BULL"]
+    t3_blocked: ["TANGLED_CHOP", "PO_DN_CASCADE", "WARMUP"]
+    c_exp_38_max: 0.10
+    r30_range_pct: [25.0, 85.0]
+    subm_frac_max: 0.72
+    m1_u21_min: -0.20
+    dedup_hours: 12
+    preign_stop_logic: "OR"
+    cap_atr: 3.25
+    cap_pct: 0.043
+    trail_buf_atr: 1.50
+    z_anchors: [55, 89, 144, 233, 377]
+    z_promo_mfe_atr: {55: 3.0, 89: 6.0, 144: 10.0, 233: 16.0}
+    mfe_lock_atr: 4.5
+    sleeve_max_pos: 1
+    sleeve_weight_10_of_10_pass: 0.50
+  champion_retained: "EXP-145 T1_Full_D4_RelaxFlip"

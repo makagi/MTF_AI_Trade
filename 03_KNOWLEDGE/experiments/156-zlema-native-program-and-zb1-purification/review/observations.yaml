@@ -1,0 +1,260 @@
+mor_id: MOR-154-01
+parent_experiment: EXP-154
+issue: 154
+date_utc: "2026-11-27"
+universe: "BTCUSDT 1H + 1M (Discovery Partition 2020-01-01 00:00Z .. 2025-04-30 23:59Z, max t0 <= 2025-04-20 23:00Z)"
+methodology:
+  pure_zlema_no_sma: true
+  seed: 42
+  min_spacing_h: 263
+  reviewer: "MOR-154 Pure-ZLEMA Blind Reviewer (Independent Stage A1 -> A2 research subagent)"
+  selection_pools:
+    M1_missed_outside_zcomp: 1846
+    C1_matched_losers_outside_zcomp: 4044
+    C2_false_positive_losers_inside_zcomp: 115
+
+scorecard:
+  total_cases: 10
+  confusion_matrix:
+    TP: 2
+    TN: 3
+    FP: 2
+    FN: 3
+  tp_cases: ["CASE_03", "CASE_06"]
+  tn_cases: ["CASE_01", "CASE_02", "CASE_04"]
+  fp_cases: ["CASE_08", "CASE_10"]
+  fn_cases: ["CASE_05", "CASE_07", "CASE_09"]
+  blind_accuracy: 0.50
+  precision: 0.50
+  recall_m1: 0.40
+  c1_rejection_rate: 1.00
+  c2_fp_capture_rate: 1.00
+  sustained_168h_winner_recall: 0.667  # 2/3 of M1 cases with 168h > +40R (CASE_03 +78.36R, CASE_06 +70.91R vs CASE_05 +45.45R); CASE_07 (-4.37R) & CASE_09 (-5.20R) reverted by 168h
+
+cases:
+  - case_id: CASE_01
+    t0_utc: "2023-08-16 07:00Z"
+    era: Era2
+    true_class: C1
+    in_z_comp: false
+    stage_a1: PASS
+    stage_a2_used: false
+    final_blind_verdict: PASS
+    confidence: high
+    outcome_tag: TN
+    mfe_72h_atr: 0.37
+    mae_24h_atr: 13.44
+    mae_72h_atr: 69.68
+    net_ret_72h_pct: -11.41
+    ret_168h_atr: -47.51
+    blind_rationale: "92% submerged under stacked declining Z-55/987/144/377 ceiling; Phi[k*]=-0.15, d3h=-0.15, Q3 Freefall, 1m rolling under 1m Z-55."
+    post_hoc_diagnosis: "Textbook submerged chop trap correctly rejected by both Z_COMP and Stage A1 blind review (saved -47.51R crash)."
+
+  - case_id: CASE_02
+    t0_utc: "2024-06-23 06:00Z"
+    era: Era2
+    true_class: C1
+    in_z_comp: false
+    stage_a1: unsure
+    stage_a2_used: true
+    final_blind_verdict: PASS
+    confidence: high
+    outcome_tag: TN
+    mfe_72h_atr: 0.13
+    mae_24h_atr: 16.03
+    mae_72h_atr: 56.05
+    net_ret_72h_pct: -4.28
+    ret_168h_atr: -32.72
+    blind_rationale: "Nominal +26A space to Z-987 overturned by PO_DN_CASCADE, Stage A2 declining Z-2584 (-37.51A, wk_slp=-0.433%), L5..L8=-0.20..-0.24, 12.1% 30d range, and 1m drop (-0.19A)."
+    post_hoc_diagnosis: "True cascade dead-cat trap correctly killed in Stage A2 despite short-scale Z-21/144 reclaim (saved -32.72R)."
+
+  - case_id: CASE_03
+    t0_utc: "2023-10-15 19:00Z"
+    era: Era2
+    true_class: M1
+    in_z_comp: false
+    stage_a1: unsure
+    stage_a2_used: true
+    final_blind_verdict: TAKE
+    confidence: med
+    outcome_tag: TP
+    mfe_72h_atr: 81.26
+    mae_24h_atr: 0.12
+    mae_72h_atr: 0.12
+    net_ret_72h_pct: 4.87
+    ret_168h_atr: 78.36
+    blind_rationale: "4-day rounded base with d3h=+0.37, +3.86A vacuum to Z-377, 1m higher-low staircase above 1H Z-21(t0), and Stage A2 rising Z-2584 (+15.98A, wk_slp=+0.565%, T4=LEAD_PULLBACK_BULL) at 36.3% 30d range."
+    post_hoc_diagnosis: "Missed by Z_COMP solely because C_Phi38=-0.046<=0.08 and no raw local trigger bar; macro anchor + strong d3h (+0.37) + 1m strength ignited an +81.26A / +78.36R Era2 breakout."
+
+  - case_id: CASE_04
+    t0_utc: "2022-11-06 18:00Z"
+    era: Era1
+    true_class: C1
+    in_z_comp: false
+    stage_a1: unsure
+    stage_a2_used: true
+    final_blind_verdict: PASS
+    confidence: med
+    outcome_tag: TN
+    mfe_72h_atr: 0.57
+    mae_24h_atr: 10.19
+    mae_72h_atr: 66.95
+    net_ret_72h_pct: -19.83
+    ret_168h_atr: -72.12
+    blind_rationale: "Despite PO_UP_EXPAND green pyramid, Stage A2 flagged 93.1% 30d overextension (Z-2584 +40.26A, Z-6765 +87.56A), slip under Z-144 (-0.23A), WaitGuard=PRE_TOUCH_Z_BULL, and 1m rejection (-0.15A, U-wick=0.32)."
+    post_hoc_diagnosis: "Pre-FTX collapse blow-off top accurately flagged in Stage A2 via 30d range exhaustion + 1m rejection (saved -72.12R / -19.83%)."
+
+  - case_id: CASE_05
+    t0_utc: "2022-10-23 19:00Z"
+    era: Era1
+    true_class: M1
+    in_z_comp: false
+    stage_a1: unsure
+    stage_a2_used: true
+    final_blind_verdict: PASS
+    confidence: med
+    outcome_tag: FN
+    mfe_72h_atr: 58.56
+    mae_24h_atr: 1.12
+    mae_72h_atr: 1.12
+    net_ret_72h_pct: 7.85
+    ret_168h_atr: 45.45
+    blind_rationale: "Passed in Stage A2 due to T3=T4=T5=TANGLED_CHOP, negative wk_slp_2584 (-0.161%), Phi[k*]=-0.21, and 1m upper-wick at Z-55."
+    post_hoc_diagnosis: "True extreme squeeze coil (C_Exp38=-0.352, ATR=31.1, Subm=25%) sitting cleanly on converged Z-21/144/377/987 floor erupted for +58.56A / +45.45R; ZLEMA tangled-coil compressions near 45% range can fire asymmetrically upward."
+
+  - case_id: CASE_06
+    t0_utc: "2024-02-26 15:00Z"
+    era: Era2
+    true_class: M1
+    in_z_comp: false
+    stage_a1: unsure
+    stage_a2_used: true
+    final_blind_verdict: TAKE
+    confidence: med
+    outcome_tag: TP
+    mfe_72h_atr: 64.83
+    mae_24h_atr: 0.11
+    mae_72h_atr: 0.11
+    net_ret_72h_pct: 21.80
+    ret_168h_atr: 70.91
+    blind_rationale: "Stage A2 T4=PO_UP_COMPRESS / T5=PO_UP_EXPAND (+3.247% wk_slp_2584, Z-2584 +12.63A) backing d3h=+0.21, +4.5A vacuum above Z-144/55 to Z-377/987, and crisp 1m reversal closing at highs (U-wick=0.00)."
+    post_hoc_diagnosis: "Missed by Z_COMP because macro role still turning positive (C_Phi=-0.01, Phi[k*]=-0.32, Subm=67%); Stage A2 PO_UP macro backing + 1m strength captured +21.80% / +70.91R."
+
+  - case_id: CASE_07
+    t0_utc: "2022-12-12 10:00Z"
+    era: Era1
+    true_class: M1
+    in_z_comp: false
+    stage_a1: PASS
+    stage_a2_used: false
+    final_blind_verdict: PASS
+    confidence: high
+    outcome_tag: FN
+    mfe_72h_atr: 32.44
+    mae_24h_atr: 0.38
+    mae_72h_atr: 0.38
+    net_ret_72h_pct: 4.10
+    ret_168h_atr: -4.37
+    blind_rationale: "Waterfall breakdown, N_ov_Exh=2, red short/macro Phi^Z, flat horizontal 1m chop."
+    post_hoc_diagnosis: "Temporary +32.44A 72h counter-trend bounce (+4.10%) that rolled over completely by 168h (-4.37R); Stage A1 caution was justified structurally."
+
+  - case_id: CASE_08
+    t0_utc: "2020-03-07 11:00Z"
+    era: Era1
+    true_class: C2
+    in_z_comp: true
+    stage_a1: unsure
+    stage_a2_used: true
+    final_blind_verdict: TAKE
+    confidence: high
+    outcome_tag: FP
+    mfe_72h_atr: 2.06
+    mae_24h_atr: 9.68
+    mae_72h_atr: 34.79
+    net_ret_72h_pct: -13.46
+    ret_168h_atr: -89.39
+    blind_rationale: "Taken on Z-144 bull pullback (+0.79A), 33.1% 30d range, L5..L8=+0.25..+0.29, C_Curv38=+0.38, and 1m 0.70 lower wick."
+    post_hoc_diagnosis: "CRITICAL C2 FAILURE: Macro scales >=2584 & T3/T4/T5 were still in WARMUP, C_Curv38 was diverging steadily downward (+0.70 -> +0.38) across a flat shelf, WaitGuard=PRE_TOUCH_Z_BULL failed at Z-144/377 and collapsed -89.39R (COVID crash); proves mandatory need for pure-ZLEMA pre-ignition red-flip exit."
+
+  - case_id: CASE_09
+    t0_utc: "2023-08-27 06:00Z"
+    era: Era2
+    true_class: M1
+    in_z_comp: false
+    stage_a1: PASS
+    stage_a2_used: false
+    final_blind_verdict: PASS
+    confidence: high
+    outcome_tag: FN
+    mfe_72h_atr: 68.87
+    mae_24h_atr: 1.06
+    mae_72h_atr: 5.09
+    net_ret_72h_pct: 4.85
+    ret_168h_atr: -5.20
+    blind_rationale: "7-day dead chop (ATR=30.4) in continuous Q3 Freefall under crimson 377-1597 band."
+    post_hoc_diagnosis: "Single sudden spike (Grayscale shock) capped right at declining Z-987 ceiling and faded back to -5.20R by 168h; structurally unforecastable news outlier."
+
+  - case_id: CASE_10
+    t0_utc: "2024-12-17 17:00Z"
+    era: Era2
+    true_class: C2
+    in_z_comp: true
+    stage_a1: TAKE
+    stage_a2_used: false
+    final_blind_verdict: TAKE
+    confidence: high
+    outcome_tag: FP
+    mfe_72h_atr: 0.00
+    mae_24h_atr: 7.48
+    mae_72h_atr: 23.41
+    net_ret_72h_pct: -11.94
+    ret_168h_atr: -15.75
+    blind_rationale: "Taken directly in Stage A1 on 0% submerged, all-green 17 scales (Phi[k*]=+0.37, d3h=+0.20, C_Phi=+0.45) and 1m close at highs."
+    post_hoc_diagnosis: "CRITICAL C2 BLIND SPOT: Skipping Stage A2 concealed extreme 30d blow-off exhaustion (range_30d_pos_pct=99.8%, wk_slp_2584=+5.486%, Z-6765 +40.13A) while T3=TANGLED_CHOP; price topped to the exact bar (MFE=0.00A, -15.75R)."
+
+candidate_hypotheses:
+  - id: CAND-154-1
+    name: "Track Z-B: Macro-Backed Early Inflection & Deep Squeeze Coil"
+    status: candidate_for_preregistration
+    target_phase: "Phase 4 (EXP-155)"
+    mechanism: >
+      Z_COMP missed major Era1+Era2 breakouts (CASE_03 +78.36R, CASE_05 +45.45R, CASE_06 +70.91R) because
+      C_Phi38 was still near zero (-0.08..+0.08) and Subm% hadn't fallen below 65%. When slow macro ZLEMA
+      is structurally intact (wk_slp_2584 > 0 or T4/T5 bull) or extreme compression coils on an intact
+      medium floor (C_Exp38 < -0.20 & Subm% <= 40%), positive short role inflection (d3h_Phi[k*] >= +0.15)
+      + causal 1m higher-low strength captures sustained moves while keeping C1 traps (CASE_01/02) gated.
+    supporting_evidence: ["CASE_03", "CASE_05", "CASE_06", "CASE_01", "CASE_02"]
+
+  - id: CAND-154-2
+    name: "All-Green Macro Blow-Off Gate (30d Range Exhaustion >= 92-95%)"
+    status: candidate_for_preregistration
+    target_phase: "Phase 4 (EXP-155)"
+    mechanism: >
+      Pure-ZLEMA all-green Phi^Z configurations are NOT immune to terminal tops when price sits at the extreme
+      upper rim of its 30-day range (CASE_10: 99.8% 30d range -> MFE=0.00A, -15.75R; CASE_04: 93.1% -> -72.12R).
+      Requiring causal 30d range position headroom (e.g. range_30d_pos_pct < 92-95%) or gating ultra-steep
+      2584/6765 overextension closes Stage A1's biggest blind spot.
+    supporting_evidence: ["CASE_10", "CASE_04"]
+
+  - id: CAND-154-3
+    name: "Pure-ZLEMA Pre-Ignition Invalidation Guard & Pyramid Red-Flip Exit"
+    status: candidate_for_preregistration
+    target_phase: "Phase 4 (EXP-155)"
+    mechanism: >
+      Catastrophic C2 collapses (CASE_08 -89.39R, CASE_10 -15.75R) happen when price fails its active Z_{k*}
+      shelf and short/mid Phi_bar^Z flips negative (red strata < -0.15) before MFE reaches +2.5 ATR, while
+      Z-144/Z-21 cross bearish and C_Curv38 decays below 0. Also enforce T3 != WARMUP and block decaying
+      C_Curv38 flat-shelf entries.
+    supporting_evidence: ["CASE_08", "CASE_10"]
+
+  - id: CAND-154-4
+    name: "OBS-154-1 Trigger Inversion & Role-Separated Execution Architecture"
+    status: candidate_for_preregistration
+    target_phase: "Phase 4 (EXP-155)"
+    mechanism: >
+      OBS-154-1 proved two critical ZLEMA-native mechanics: (1) Pure Z_21 fresh reclaim (Ratio 2.38, MFE 6.69)
+      outperforms Curv55/Z_{k*} touch (Ratio 1.75, d168R=-1.80); (2) N_ov_exhaust_Z == 0 (d168R=+1.14),
+      C_Phi38 > +0.10 (d168R=+1.26), and T3_Bull (d168R=+1.30) lift baseline consistently in Era1+Era2,
+      while causal 1m ZLEMA-21 alignment trims early MAE24 (3.06 -> 2.92) and improves P(+3/-1.5) (33.0% -> 35.7%).
+      Phase 4 will wire these pure-ZLEMA triggers, gates, and pyramid exits into SPEC-EVAL-001.
+    supporting_evidence: ["OBS-154-1", "OBS-154-2"]

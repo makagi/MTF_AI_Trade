@@ -1,11 +1,11 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 4.5.0  
+**Version:** 4.6.0  
 **Status:** Accepted  
 **Owner:** @makagi  
-**Last Updated:** 2026-11-26  
-**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127), [#129](https://github.com/makagi/MTF_AI_Trade/issues/129), [#131](https://github.com/makagi/MTF_AI_Trade/issues/131), [#133](https://github.com/makagi/MTF_AI_Trade/issues/133), [#135](https://github.com/makagi/MTF_AI_Trade/issues/135), [#137](https://github.com/makagi/MTF_AI_Trade/issues/137), [#139](https://github.com/makagi/MTF_AI_Trade/issues/139), [#141](https://github.com/makagi/MTF_AI_Trade/issues/141), [#143](https://github.com/makagi/MTF_AI_Trade/issues/143), [#145](https://github.com/makagi/MTF_AI_Trade/issues/145), [#147](https://github.com/makagi/MTF_AI_Trade/issues/147)  
+**Last Updated:** 2026-11-28  
+**Related Issues:** [#4](https://github.com/makagi/MTF_AI_Trade/issues/4), [#6](https://github.com/makagi/MTF_AI_Trade/issues/6), [#9](https://github.com/makagi/MTF_AI_Trade/issues/9), [#41](https://github.com/makagi/MTF_AI_Trade/issues/41), [#43](https://github.com/makagi/MTF_AI_Trade/issues/43), [#45](https://github.com/makagi/MTF_AI_Trade/issues/45), [#47](https://github.com/makagi/MTF_AI_Trade/issues/47), [#49](https://github.com/makagi/MTF_AI_Trade/issues/49), [#51](https://github.com/makagi/MTF_AI_Trade/issues/51), [#53](https://github.com/makagi/MTF_AI_Trade/issues/53), [#55](https://github.com/makagi/MTF_AI_Trade/issues/55), [#58](https://github.com/makagi/MTF_AI_Trade/issues/58), [#61](https://github.com/makagi/MTF_AI_Trade/issues/61), [#65](https://github.com/makagi/MTF_AI_Trade/issues/65), [#68](https://github.com/makagi/MTF_AI_Trade/issues/68), [#69](https://github.com/makagi/MTF_AI_Trade/issues/69), [#71](https://github.com/makagi/MTF_AI_Trade/issues/71), [#73](https://github.com/makagi/MTF_AI_Trade/issues/73), [#74](https://github.com/makagi/MTF_AI_Trade/issues/74), [#76](https://github.com/makagi/MTF_AI_Trade/issues/76), [#77](https://github.com/makagi/MTF_AI_Trade/issues/77), [#81](https://github.com/makagi/MTF_AI_Trade/issues/81), [#84](https://github.com/makagi/MTF_AI_Trade/issues/84), [#86](https://github.com/makagi/MTF_AI_Trade/issues/86), [#89](https://github.com/makagi/MTF_AI_Trade/issues/89), [#91](https://github.com/makagi/MTF_AI_Trade/issues/91), [#93](https://github.com/makagi/MTF_AI_Trade/issues/93), [#95](https://github.com/makagi/MTF_AI_Trade/issues/95), [#99](https://github.com/makagi/MTF_AI_Trade/issues/99), [#103](https://github.com/makagi/MTF_AI_Trade/issues/103), [#107](https://github.com/makagi/MTF_AI_Trade/issues/107), [#109](https://github.com/makagi/MTF_AI_Trade/issues/109), [#111](https://github.com/makagi/MTF_AI_Trade/issues/111), [#113](https://github.com/makagi/MTF_AI_Trade/issues/113), [#115](https://github.com/makagi/MTF_AI_Trade/issues/115), [#117](https://github.com/makagi/MTF_AI_Trade/issues/117), [#119](https://github.com/makagi/MTF_AI_Trade/issues/119), [#121](https://github.com/makagi/MTF_AI_Trade/issues/121), [#123](https://github.com/makagi/MTF_AI_Trade/issues/123), [#125](https://github.com/makagi/MTF_AI_Trade/issues/125), [#127](https://github.com/makagi/MTF_AI_Trade/issues/127), [#129](https://github.com/makagi/MTF_AI_Trade/issues/129), [#131](https://github.com/makagi/MTF_AI_Trade/issues/131), [#133](https://github.com/makagi/MTF_AI_Trade/issues/133), [#135](https://github.com/makagi/MTF_AI_Trade/issues/135), [#137](https://github.com/makagi/MTF_AI_Trade/issues/137), [#139](https://github.com/makagi/MTF_AI_Trade/issues/139), [#141](https://github.com/makagi/MTF_AI_Trade/issues/141), [#143](https://github.com/makagi/MTF_AI_Trade/issues/143), [#145](https://github.com/makagi/MTF_AI_Trade/issues/145), [#147](https://github.com/makagi/MTF_AI_Trade/issues/147), [#149](https://github.com/makagi/MTF_AI_Trade/issues/149), [#150](https://github.com/makagi/MTF_AI_Trade/issues/150), [#151](https://github.com/makagi/MTF_AI_Trade/issues/151), [#152](https://github.com/makagi/MTF_AI_Trade/issues/152), [#153](https://github.com/makagi/MTF_AI_Trade/issues/153), [#154](https://github.com/makagi/MTF_AI_Trade/issues/154), [#155](https://github.com/makagi/MTF_AI_Trade/issues/155), [#156](https://github.com/makagi/MTF_AI_Trade/issues/156)  
 **Related Docs:** [02_SPECIFICATIONS/evaluation.md](../02_SPECIFICATIONS/evaluation.md), [02_SPECIFICATIONS/features.md](../02_SPECIFICATIONS/features.md), [01_CONCEPTS/market-structure.md](../01_CONCEPTS/market-structure.md), [README.md](README.md), [01_CONCEPTS/glossary.md](../01_CONCEPTS/glossary.md)  
 
 ---
@@ -323,6 +323,18 @@ graph TD
     K097 --> K098
     EXP147["EXP-147: 147-mql5-zlema-17scale-ultra-macro-continuum"] --> K097
     EXP147 --> K098
+    K098 --> K099["K-099: SMA執行借用型ZLEMA統合(EXP-149..151)の全反証とZLEMA第一原理再構築パラダイム転換則<br/>(Refuted / Constrained 🛡️)"]:::refuted
+    EXP149_151["EXP-149..151: FloorSpring / FallingShorts / DualFilter"] --> K099
+    K097 --> K100["K-100: Pure-ZLEMA自己オーバーシュート極性反転(55/144押し目 vs 377/987枯渇罠)と隣接3項T3/T4幾何則<br/>(Supported / Physics 🔬)"]:::supported
+    K099 --> K100
+    EXP152["EXP-152: Pure-ZLEMA Dynamic Roles Phase 1"] --> K100
+    K100 --> K101["K-101: Pure-ZLEMA 17階層再帰ピラミッド畳み込み(Φ^Z/Curv^Z/Exp^Z)・Z-BB逆転・動的k*_Z(t)則<br/>(Supported / Physics 🔬)"]:::supported
+    EXP153["EXP-153: Pure-ZLEMA 17-Scale Pyramid Phase 2"] --> K101
+    K101 --> K102["K-102: Pure-ZLEMA役割分離Z_COMP・MOR-154-01・全緑遅入り順張りTrack Z-A反証則<br/>(Refuted / Constrained 🛡️)"]:::refuted
+    EXP154["EXP-154: Role Separation & MOR-154-01 Phase 3"] --> K102
+    K101 --> K103["K-103: 位相非同期・早期点火Pure-ZLEMA独立スリーブTrack Z-B1(L5/L7)純化＆0.50x配分10/10達成則<br/>(Supported / Independent Sleeve 🏆)"]:::supported
+    K102 --> K103
+    EXP155_156["EXP-155..156: 156-zlema-native-program-and-zb1-purification"] --> K103
 ```
 
 ---
@@ -1583,6 +1595,72 @@ graph TD
 
 ---
 
+### K-099: SMA 執行借用型 `ZLEMA` 拡張（`EXP-149/150/151`）の全反証と第一原理再構築パラダイム転換則
+
+* **発見元**: `EXP-149` / `EXP-150` / `EXP-151` ([#149](https://github.com/makagi/MTF_AI_Trade/issues/149), [#150](https://github.com/makagi/MTF_AI_Trade/issues/150), [#151](https://github.com/makagi/MTF_AI_Trade/issues/151))
+* **ステータス**: **反証・制約確定 (Refuted / Constrained 🛡️)**
+* **概要**: `ZLEMA` 特有の位相先行性によって生じたシグナルに対し、SMA 用に構築された執行エンジン（`H1a`・`SMA-34` Safe Floor・`T1[AND]` ストップ・SMA 版 `WaitGuard`）をそのまま流用した 3 件の拡張検証が、いずれも `SPEC-EVAL-001` **`0` 合格** に終わった：
+  1. **`EXP-149` (`Case 02` 多層床スプリング Track-2 隔離純化, `48` セル)**: **`0/48 PASS`**。物理隔離で Champion `10/10 MG` は守れたが、原版 `raw_2flr24` は **`SA N=248, PF 1.30, +118.09%`, `SA MDD -111.05%`, `Era2 -34.88%`, `Std_Iso MDD -39.49%`** とレンジ相場での連続被弾を制御不能。
+  2. **`EXP-150` (下降長期 ZLEMA 987..6765 天井ショート ＆ 利確・エントリー監査, `32` セル)**: **`0/32 PASS`**。下方防衛真空確認（$\ge 3.5R$）ショートで単独最良 `SA N=34, PF 2.90, +41.16% (E1 +45.44% / E2 -4.29%)`、統合 `Std_Iso +793.23%` に達したが、**`Era2` 負値** かつ **`Std_Iso MDD -11.89% > -9.30%`** で不通過。外科的利確・エントリー除外も `EXP-145` 無傷改善ほぼ 0。
+  3. **`EXP-151` (MTF SMA強気土台 × MTF ZLEMA再奪還, `32` セル)**: **`0/32 PASS`**。`rec_dip_z >= 1` で両 Era 黒字（`SA +228.74% [E1 +140.4 / E2 +88.3]`, `N=547`）を確認したが、ZLEMA の `1.24x–2.46x` 高頻度反転に SMA 厳選フィルター不在が重なり **`Std_Iso MDD -49.87%` / `ModeB_Res +537.85%`** へ枠圧迫負け。なお副次的発見として `EXP-145` の Era2 主力利益源は `BOTH_BULL (PF 1.45)` ではなく **`CHOP_CONFLICT (N=25, PF 13.84, +107.36%)`** であることを特定。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、`40 bps` 往復控除、`WL=0`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/156-zlema-native-program-and-zb1-purification/record.md`](experiments/156-zlema-native-program-and-zb1-purification/record.md) (#149 / #150 / #151)
+* **仕様への影響**: SMA ルールの ZLEMA への直接流用を禁止し、以降の `ZLEMA` 研究を Pure-ZLEMA 連続体の第一原理観察からやり直す規律を確立（`D021`）。
+
+---
+
+### K-100: Pure-`ZLEMA` 単一階層自己オーバーシュート極性反転（`k=55/144` 押し目 vs `k=377/987` 枯渇反転）と隣接3項 `T3/T4` 幾何則
+
+* **発見元**: `EXP-152` ([#152](https://github.com/makagi/MTF_AI_Trade/issues/152) ZLEMA-Native Phase 1)
+* **ステータス**: **支持・構造物理知見 (Supported / Structural Physics 🔬)**
+* **概要**: バックテストを一切行わず純粋な MQL5 `BufferEMAZL` の幾何・運動学（`vel_z`, `acc_z`）のみを観察し、未来参照誤差 `0.0` (`t_cut=44200`) で 2 つの ZLEMA 固有法則を確立：
+  1. **自己オーバーシュート (`Price < Z_k` かつ `vel_k > 0, acc_k > 0`) のスケール依存反転 (`OBS-152-2`)**: ZLEMA の先読み項 $2P_t - P_{t-\text{lag}}$ により、価格が既に折れて $Z_k$ を割り込んでも $Z_k$ 自体は上昇加速し続ける「上向きの残像」が発生する。このとき 168h 先行期待値（ATR）は短期〜中期（**`k=55`: `N=495, +2.36R [E1 +2.00 / E2 +2.84]`**、**`k=144`: `N=306, +2.26R [E1 +1.73 / E2 +2.84]`**）では健全な押し目となる一方、大局中期（**`k=377`: `N=147, -2.13R [E1 -2.72 / E2 -1.42]`**、**`k=987`: `N=68, -3.00R [E1 -2.45 / E2 -3.94]`**）では極性が完全に負へ反転し、トレンド枯渇反転トラップ（`N_ov_exhaust_Z` 対象）となる。
+  2. **隣接3項 `T1..T5` 6状態分類 (`PO_UP_EXPAND`, `PO_UP_COMPRESS`, `LEAD_PULLBACK_BULL`, `LEAD_TURN_BEAR`, `TANGLED_CHOP`, `PO_DN_CASCADE`)**: 市場無条件では `T3=(144,377,987)` の `PO_UP_EXPAND`（`+3.90R`）が最強だが、長期 `T4=(377,987,2584)` が強気上昇中の早期ロングでは **`T3=LEAD_TURN_BEAR`（`Z377<Z987, v987<0` 下で短期先行転換）** が最主力エンジン、`TANGLED_CHOP` と `PO_DN_CASCADE` が DD 主因であることを解明。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間、純 OHLC のみ、`t_cut=44200` `max_diff=0.0`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/156-zlema-native-program-and-zb1-purification/record.md`](experiments/156-zlema-native-program-and-zb1-purification/record.md) (Phase 1 / [#152](https://github.com/makagi/MTF_AI_Trade/issues/152))
+* **仕様への影響**: ピラミッド罠ガード `N_ov_exhaust_Z == 0`（`233,377,610,987` 隔離）および `T3/T4` 秩序ゲートの物理的基盤として採用。
+
+---
+
+### K-101: Pure-`ZLEMA` 17階層再帰ピラミッド畳み込み ($\Phi^Z, \text{Curv}^Z, \text{Exp}^Z$)・`Z-BB WaitGuard` 逆転・動的 $k^*_Z(t)$ 則
+
+* **発見元**: `EXP-153` ([#153](https://github.com/makagi/MTF_AI_Trade/issues/153) ZLEMA-Native Phase 2)
+* **ステータス**: **支持・構造物理知見 (Supported / Structural Physics 🔬)**
+* **概要**: 17階層 $S_{17}=[8..17711]$ の隣接3スケールを `NaN` 耐性重み `(0.30, 0.40, 0.30)` で $L_0 \to L_8$ へ再帰畳み込みし、厳密未来参照誤差 **`0.0`** かつ厳密双対符号反転対称性（$\Phi^Z(-P)=-\Phi^Z(P)$ 誤差 **`0.00e+00`**、$\text{Exp}^Z(-P)=+\text{Exp}^Z(P)$ 誤差 **`0.00e+00`**）を満たす 3 ピラミッドと残差包絡線 `Z-BB` を確立：
+  1. **`L1..L8` 平坦プラトー (`OBS-153-2`)**: 特定層依存ゼロで全層 `Bull > +0.15` が **`+2.48R .. +2.68R`（連続体 `C_Phi38 = +2.88R`）** を維持（vs `Bear < -0.15`: `+0.73R .. +1.71R`）。接触時役割分離も `ALIVE (>0.20)` が `+1.66R`、`d3h >= 0` で `+3.14R`。
+  2. **`Z-BB WaitGuard` の SMA との逆転 (`OBS-153-4`)**: 位相遅れのない残差 EWM RMS $\sigma_k$ では、下限バンド到達前の保ち合い **`PRE_TOUCH_Z_BULL`（`N=614, 168h +2.23R, E2 +3.78R`）** の方が優れ、下限到達後の **`AT_TOUCH_Z_LO`（`N=72, +0.51R, E2 -0.94R`）** は支持決壊を示す。
+  3. **動的期間 $k^*_Z(t)$ ＆ 直交位相空間 $Q_1..Q_4$**: 全バーの **`89.04%`** で $k^*_Z \neq 21$。強気加速 $Q_1$ が `+2.38R (E2 +4.15R)`、かつ `C_Phi > +0.10` 下の `Exp > 0` は **`+3.46R (MAE 4.19A)`**（vs `Exp <= 0`: `+1.61R, MAE 6.52A`）である一方、`N_ov_exhaust >= 1` が重なると `72h -0.21R` へ崩壊する。
+* **実験条件**: BTCUSD 1h、Discovery全期間、`t_cut=44200` `max_diff=0.0`, 双対対称誤差 `0.00e+00`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/156-zlema-native-program-and-zb1-purification/record.md`](experiments/156-zlema-native-program-and-zb1-purification/record.md) (Phase 2 / [#153](https://github.com/makagi/MTF_AI_Trade/issues/153))
+* **仕様への影響**: `Phi_bar^Z`、`d3h_Phi[k*]`、`C_Phi38 / C_Curv38 / C_Exp38`、`WaitGuard != AT_TOUCH_Z_LO` の正規定義として固定。
+
+---
+
+### K-102: Pure-`ZLEMA` 機能役割分離 `Z_COMP`・ブラインド `MOR-154-01`・遅入り順張り `Track Z-A` 全敗反証則
+
+* **発見元**: `EXP-154` / `EXP-155` Part 1–2 ([#154](https://github.com/makagi/MTF_AI_Trade/issues/154), [#155](https://github.com/makagi/MTF_AI_Trade/issues/155))
+* **ステータス**: **反証・制約確定 (Refuted / Constrained 🛡️)**
+* **概要**: `K-037` アナログの機能役割分離（`Z_COMP N=588, 168h +2.79R, Ratio 2.34`）、`Z_21` 終値リクレーム優位確認（`Ratio 2.38` vs `Curv55/Z_{k*}` タッチ `1.75`）、10ケース純 ZLEMA ブラインドレビュー `MOR-154-01`（`TP=2` [`CASE_03 +78.36R`, `CASE_06 +70.91R`], `TN=3` [`100%` C1排除], `FP=2` [`CASE_08` WARMUP, `CASE_10 r30=99.8%`]）を経て実装した **全緑確認後の遅入り順張り `Track Z-A` (`C_Phi38 > +0.08`)** は、Pure-ZLEMA 動的アンカー昇格執行を用いても **全 `16/16` セルで不通過（`0/16 PASS`, `SA N=305, WR 28.9%, PF 1.10, +36.56%, MDD -61.42%, Era1 -1.57%`）** となり棄却。`C_Phi > +0.30` かつ `r30 >= 85%..99.8%` の吹き上がり天井追随（`CASE_10: MFE=0.00A, -15.75R`）を禁止境界として確定。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間、`t_cut=44200` `max_diff=0.0`、`MOR-154-01` 独立ブラインドレビュアー実施済み
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/156-zlema-native-program-and-zb1-purification/record.md`](experiments/156-zlema-native-program-and-zb1-purification/record.md) (Phase 3–4 / [#154](https://github.com/makagi/MTF_AI_Trade/issues/154), [#155](https://github.com/makagi/MTF_AI_Trade/issues/155))
+* **仕様への影響**: `Track Z-A`（全緑遅入り順張り）の採用禁止と `r30 < 85%` 天井余地上限の根拠として固定。
+
+---
+
+### K-103: 位相非同期・早期点火 Pure-`ZLEMA` 独立スリーブ `Track Z-B1 (L5/L7)` 純化則と `0.50x` 非干渉配分 `10/10 PASS`
+
+* **発見元**: `EXP-155` → `EXP-156` ([#155](https://github.com/makagi/MTF_AI_Trade/issues/155), [#156](https://github.com/makagi/MTF_AI_Trade/issues/156))
+* **ステータス**: **支持・独立スリーブ候補 (Supported / Independent Sleeve Candidate 🏆, Discovery 実証済み)**
+* **概要**: `MOR-154-01` の見逃し勝ちパターン（`CASE_03`, `CASE_06`）から事前登録された「マクロ土台（`wk_slp_2584 > 0` & `T4` 強気）× 中立回廊（$C_\Phi \in [-0.12,+0.12]$）× 短期急転換（$P > Z_{21} \land \Delta_{3h}\bar{\Phi}^Z_{k^*} \ge 0.15\,[0.20]$）× 1m健全足場（$u_{1\text{m},21} > -0.20$）」に対し、DD解剖から導いた **4層構造純化（`OR 3.25A/4.3%` 事前ストップ＋`T3 != TANGLED_CHOP & PO_DN_CASCADE`＋`C_Exp38 <= 0.10` 乱高下遮断＋`r30 in [25,85)%` 天井/ナイフ両端除外＋`sleeve_max_pos = 1`）** を統合した **`L5` / `L7`** が Discovery で高水準な頑健性を達成：
+  1. **単体性能 (`L5`, 40 bps 加算)**: **`N=49, WR 44.9%, PF 5.02, +164.91% (E1 +103.42% / E2 +61.49%), MDD -10.79%, Calmar 15.28x`**（全有取引5年黒字 `2020:+43.5%(8) / 2021:+53.5%(12) / 2022:+6.4%(9) / 2023:+28.7%(11) / 2024:+32.8%(9)`、`EXP-145 Champion` とは **`93.9% (46/49)` が `>6h` 非重複独立**）。厳格版 **`L7` (`d3h >= 0.20`)** は **`N=39, WR 48.7%, PF 5.85, +148.68%, MDD -7.84%, Calmar 18.97x`**。
+  2. **平坦プラトー＆外れ値耐性**: 2つの 4×4 2D 感度グリッド全 **`32/32` セルが `PF 3.40..8.18`, `E1>0 & E2>0`**（`r30 [25,75)%` で `N=31, PF 8.18, +125.5%, MDD -4.31%`）。上位3勝除去ストレス後も `L5` **`N=46, PF 3.30, +94.46%, MDD -10.79%`**、`L7` **`N=36, PF 3.55, +78.23%, MDD -7.84%`** を維持。
+  3. **厳格 `SPEC-EVAL-001` (`EXP-145 Champion` 非干渉統合)**: 原寸 **`1.00x` 合算では `MDD -11.31% > -9.30%` のみ未達 (`6/10 FAIL`)** だが、非干渉配分 **`0.50x` リスク配分スリーブ** では **`L5_Full`, `L5_Inc>6h`, `L7_Full`, `L7_Inc>6h` 全4種が `10/10 PASS`**（`L5_Full @0.50x`: **`Std_Iso N=228, PF 6.64, +834.52%, MDD -9.30%, Calmar 89.76x, MG 10/10; MB_Res +653.35% (-9.30%); MA +404.69% (-9.30%)`**）。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間（2020-01-01〜2025-04-30）、`t_cut=44200` 特徴＆約定同時摂動 `max_diff=0.0` (`N_pre=58`)、`40 bps` 往復控除、`WL=0`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/156-zlema-native-program-and-zb1-purification/record.md`](experiments/156-zlema-native-program-and-zb1-purification/record.md) (EXP-156 / [#156](https://github.com/makagi/MTF_AI_Trade/issues/156))
+* **仕様への影響**: **`EXP-145 Champion` を無改変本線として防衛したまま、非干渉 `0.50x` 独立ロングスリーブ最有力候補** として登録。なお本知見は依然ロング専念であり、2022年・下落相場での勝率・防衛強化は次期 `#157` へ引き継ぐ。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -1637,3 +1715,4 @@ graph TD
 | 2026-11-23 | 4.3.0 | EXP-143 フォレンジック因果監査反映、異符号勾配SMA/BB未来交差天井予測則 ($\tau^*, P^*$) と偽の静的余白トラップ遮断・適用境界（K-093 Supported/Constrained: 静的SMA>=2.0 ATR時の過大バイアス+1.49R->+0.29R 81%削減、<=1.0R的中率相対+52%、Broad438 8/8敗・EXP-141 3/3敗除去、青天井早期利確・短期線上向き逆張りショート禁止）、および Track 1(T1[AND] 3.25R&4.3% 1m因果早期exit伝播)・Track 2(因果running_MFE>=2.0R/24h同一波重複抑制)・Track 3a(SF-1m sqrt(b/55.0)正規化&自然境界0.0/2.0復元)・Track 3b(弱気マクロ位相同調ガード)統合（K-094 Supported/New Master Candidate 🏆: 全3モードMaxDD -9.30% 1桁達成・全6年間全モード単年黒字・10/10保持、Master Std N=179 WR 55.87% PF 6.76 +741.42% MaxDD -9.30% Calmar 79.74x, Mode B PF 6.59 +593.69%, Mode A PF 5.40 +393.86%）を登録・計94知見へ拡充 | @makagi / [#143](https://github.com/makagi/MTF_AI_Trade/issues/143) |
 | 2026-11-25 | 4.4.0 | EXP-145 反映、完全スケールフリー11階層MTF BB状態遷移・動的アクティブ期間 $k^*(t)$ 導出と下方カスケード深度 $D\ge 4$ 外科的エグジット則（K-095 Supported/New Master Candidate 🏆: 全バー85.97%・動的Pop A 80.43%で $k^*(t)\neq 21$、固定窓ゼロでHold->1/2=90.2%/Brk->3=50.6%、`T1_Full_D4_RelaxFlip` 13/16セル10/10無傷・MaxDD -9.30%不変で全3ブック+10.65%pt改善、Master Std PF 6.90 +752.07% Calmar 80.89x, Mode B +604.34%, Mode A +404.51%）、およびクロススケール相対位相(`k+1上昇中・k下降中`)・長期BB待ちガード(`WaitGuard`)非対称性・無真空ショート反証則（K-096 Supported/Constrained 🛡️: `2b_WaitGuard_k21` SA PF 2.62/+33.4%/MDD -9.43%、Mode B +620.52%, Mode A +404.14%、統合Std MaxDD -11.10%制約・既存順張りロングとの非対称・Test 3b 0/16セル黒字PF 0.36..0.52棄却）を登録・計96知見へ拡充 | @makagi / [#145](https://github.com/makagi/MTF_AI_Trade/issues/145) |
 | 2026-11-26 | 4.5.0 | EXP-147 反映、正確MQL5 ZLEMA(`BufferEMAZL`) 17階層ウルトラマクロ連続体(8..17711)による位相遅延36.6%–46.2%削減・4状態レジーム分類(`Z_SUBMERGED_PARALLEL` -0.325RでMOR FP全3件分離)・メガランナー10/10集中監査則（K-097 Supported/Structural Physics & Audit 🔬）、および長期ハードフィルター(16/16悪化)・ZLEMA WaitGuard/Case 02跳躍台追加(Std MDD -28.74%..-36.74%/Era2負/Track-2干渉MG8/10)・T1 ZLEMA置換(MG9/10)・潜水並行天井ショート(0/16黒字PF0.02..0.51)の全4系統反証とEXP-145 Champion完全防衛則（K-098 Refuted/Constrained 🛡️）を登録・計98知見へ拡充 | @makagi / [#147](https://github.com/makagi/MTF_AI_Trade/issues/147) |
+| 2026-11-28 | 4.6.0 | EXP-149〜EXP-156 反映、SMA執行借用型ZLEMA拡張3件の完全反証（K-099 Refuted/Constrained 🛡️: EXP-149 0/48・EXP-150 0/32・EXP-151 0/32）、Pure-ZLEMA 第一原理4フェーズ＋DD純化による自己オーバーシュート極性反転（k=55/144 +2.36/+2.26R vs k=377/987 -2.13/-3.00R）・隣接3項T3/T4 6状態幾何則（K-100 Supported/Physics 🔬）、17階層再帰ピラミッド畳み込み（Phi^Z/Curv^Z/Exp^Z 厳密対称誤差0・L1..L8平坦・Z-BB WaitGuard逆転 PRE_TOUCH +2.23R vs AT_TOUCH +0.51R・動的k*_Z!=21 89.0%）（K-101 Supported/Physics 🔬）、Pure-ZLEMA 役割分離Z_COMP・ブラインドMOR-154-01・全緑遅入り順張りTrack Z-A 0/16全敗反証則（K-102 Refuted/Constrained 🛡️）、および位相非同期・早期点火Pure-ZLEMA独立スリーブTrack Z-B1 L5/L7純化（L5 SA N=49 WR 44.9% PF 5.02 +164.91% MDD -10.79% 93.9%非重複・32/32プラトー頑健・-Top3 PF 3.30；0.50x配分で全4種 SPEC-EVAL-001 10/10 PASS Std_Iso +834.52% MDD -9.30% Calmar 89.76x）（K-103 Supported/Independent Sleeve 🏆）を登録・計103知見へ拡充 | @makagi / [#149](https://github.com/makagi/MTF_AI_Trade/issues/149)–[#156](https://github.com/makagi/MTF_AI_Trade/issues/156) |

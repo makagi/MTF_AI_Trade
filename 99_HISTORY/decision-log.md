@@ -454,3 +454,25 @@
   - 特定の移動平均期間への固執（固定観念）がガバナンス・コンセプト両面で排除された。
   - 次期以降の分析・検証（EXP-91〜）において、スケール相対的な上位並行振動の識別と、特徴量間のボトムアップ仮説伝播計算を軸とした本質的な検証へと直結された。
 
+---
+
+### D021: ZLEMA-Native 第一原理再構築パラダイム・純化 `Track Z-B1` (`0.50x` 独立スリーブ) の位置付け・下落相場改善分析への優先着手
+- **日付**: 2026-11-28
+- **ステータス**: 採択 (Accepted)
+- **関連Issues**: [#149](https://github.com/makagi/MTF_AI_Trade/issues/149), [#150](https://github.com/makagi/MTF_AI_Trade/issues/150), [#151](https://github.com/makagi/MTF_AI_Trade/issues/151), [#152](https://github.com/makagi/MTF_AI_Trade/issues/152), [#153](https://github.com/makagi/MTF_AI_Trade/issues/153), [#154](https://github.com/makagi/MTF_AI_Trade/issues/154), [#155](https://github.com/makagi/MTF_AI_Trade/issues/155), [#156](https://github.com/makagi/MTF_AI_Trade/issues/156), [#157](https://github.com/makagi/MTF_AI_Trade/issues/157)
+- **文脈・課題**:
+  - `EXP-147` 以降、`EXP-149..151` で「SMA 体系のルール・ストップ・執行エンジンを借用して ZLEMA シグナルを制御する」試みが連続して `0` 合格に終わり、`ZLEMA` の位相先行による高頻度反転（`1.24x–2.46x`）と自己オーバーシュート特性に適応した固有の枠組みが必要となった。
+  - `EXP-152..156` において純粋な MQL5 `BufferEMAZL` 17階層連続体のみから第一原理で再構築した結果、遅入り順張り `Track Z-A` は `0/16` 全敗した一方、位相非同期・早期点火＋構造純化を施した `Track Z-B1 (L5/L7)` が単体 `PF 5.02..5.85`、`0.50x` リスク配分スリーブで `SPEC-EVAL-001` `10/10 PASS`（`EXP-145 Champion` と `93.9%` 時間非重複）を達成した。
+  - 他方、Discovery 上でも 2022 年下落相場・2025 年 Q1 など弱気局面における収益・防御改善の余地が残っている。
+- **検討した選択肢**:
+  1. SMA 執行エンジンの閾値調整で `EXP-149..151` を再試行する（棄却：`K-099` により構造的不整合が確定）。
+  2. 直ちに Validation データを開封し `Track Z-B1` を OOS 評価する（留保：ロング側追加の OOS 開門前に、下落相場の課題分析と純 ZLEMA 弱気物理の確立を優先する）。
+  3. **`EXP-145 Champion` を無改変本線として防衛維持しつつ、`EXP-149..156` の成果（`K-099..K-103`）を正式知識として統合・マージし、Validation 未開放のまま Discovery 上で下落相場・弱気レジーム成績改善の第一原理解剖（`#157`）を先に進める**（採択）。
+- **決定内容**:
+  - 選択肢 3 を採択。
+  - ZLEMA 利用時は SMA ルールを単純移植せず、自己オーバーシュート極性反転（`K-100`）、17階層再帰ピラミッド・`Z-BB` 逆転（`K-101`）、および `Track Z-B1` 構造純化規律（`K-103`）に従うことを正本化する。
+  - 独立スリーブ統合時は `EXP-145 Champion`（`-9.30% MaxDD`, `10/10 MG`）への無改変防衛と同時非干渉配分（`0.50x` 相当の MDD 防衛枠）を原則とする。
+- **結果・影響**:
+  - Open 状態であった `#149`〜`#156` を公式実験記録 `156-zlema-native-program-and-zb1-purification` および `K-099..K-103` として統合・完結させ、次期 Issue `#157` にて下落相場の第一原理解剖へ着手する。
+
+
