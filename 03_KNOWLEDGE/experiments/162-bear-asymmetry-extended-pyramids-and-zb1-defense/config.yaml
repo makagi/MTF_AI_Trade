@@ -1,0 +1,55 @@
+issue: 162
+related_issues: [158, 159, 160, 161, 162]
+title: "EXP-162: Bear-Market Asymmetry, Extended Hierarchical Pyramids, ZL-BB/Z-AFS/Stoch_d, & Track Z-B1 Bear-Defense Verification"
+created_at: "2026-11-28"
+symbol: "BTCUSD"
+timeframe: "1h"
+execution_timeframe: "1m"
+dataset_partition: "Discovery (2020-01-01 to 2025-04-30)"
+holdout_partition: "Validation (2025-05-01 to 2026-03-31) & Final Holdout (>= 2026-04-01), strictly isolated"
+cost_model: "SPEC-EVAL-001 (0.40% round-trip friction standard + 0.60% stress, strictly additive net return)"
+baseline: "EXP-145 Champion T1_Full_D4_RelaxFlip (Std: N=179, WR 55.87%, PF 6.90, +752.07%, MaxDD -9.30%, Calmar 80.89x, MG 10/10; Short N=36 +140.63%; Mode B +604.34%; Mode A +404.51%)"
+
+hypotheses:
+  - id: "EXP-158_159_ASYMMETRY"
+    name: "K-104: Structural Asymmetry, Observable S/R Density (Ceil_Z/Floor_Z), Time-Horizon Decay (6h..168h) & Extended Pyramid Convolution"
+    status: "Supported (Structural Physics K-104)"
+    description: "Separates unobservable ultra-long upward gravity from observable dynamic S/R asymmetry (Ceil_Z - Floor_Z) and extends ZLEMA pyramids to cross-band shear (Shear_Phi), cross-channel Role x Curv x Exp coupling (E_dn_14/E_up_14, Persist_dn_14), and continuous macro self-overshoot (C_Ov_macro). On 1,501 breakdown triggers (Era1=825, Era2=672), Era2 baseline degrades monotonically (-0.11A at 6h to -2.78A at 168h), while two 2D pockets hold Dual-Era 72h edge: volatility-compressed downward coupling (E_dn_14>=0.11 & C_Exp38<-0.15: E1 +1.94A, E2 +3.04A) vs expansion climax V-reversal (C_Exp38>=0.10: E1 -0.54A, E2 -0.60A), and C_Ov_macro>0 (4 Dual-Era@72h cells)."
+  - id: "EXP-160_ZLBB_ZAFS"
+    name: "K-105: Zero-Lag Bollinger Bands (Log-ZL-BB / Z-MAD-BB / Vol_Ov / 3-Perspective Pyramids) & 17-Scale Z-AFS/Stoch_d Pyramids"
+    status: "Supported (Structural Physics & Feature Separation K-105)"
+    description: "Extends zero-lag mechanics to Bollinger volatility via Log-ZL-BB (strictly positive across 8..17711, LogZL/Z-BB median ratio 0.570..0.829) and affine-invariant Z-AFS (SLEMA-replaced AFS). Cross-correlation shows Z-AFS leads SMA-AFS by +11h (k=21) and +24h (k=55) while Log-ZL-BB contracts sharply post-shock without d1h instantaneous peak shift (0h vs SMA, -1h vs Z-BB). Refines compressed breakdown M1 (E1 r24=+0.17/r72=+1.77, E2 r24=+1.09/r72=+3.42), discovers M2 Z-AFS lead-turn before Stoch_d oversold (E1 +0.22A, E2 +5.37A), and confirms S3 + d3Stoch12<=0 halves MAE24 (1.91->1.69A) & doubles E2 (+0.42->+0.82A)."
+  - id: "EXP-161_SHORT_REFUTED"
+    name: "K-106: Causal 1m Asymmetric Short Execution Refutation (0/50 Standalone Era2 PF > 1.0) & Conflict-Free Champion Protection"
+    status: "Refuted / Constrained (K-106)"
+    description: "Tests 5 frozen multi-channel pockets (A1..A4, U_MultiChannel_Short) across 5 causal 1m exits (AX0..AX4) and 2 pulse modes (GlobalBD_24h vs Pocket_24h) at 40 bps & 60 bps RT. Zero standalone cells (0/50) achieve Era2 PF > 1.0: AX0 MirrorWide reaches +37.1% overall (PF 1.27, E1 +60.1%) via z_short_trail_377 crash captures (+140.9%) but loses -23.0% (PF 0.47) in Era2; tightening stops/exits without pre-MFE dynamic resistance trails increases HardStop losses from n=11 (-33.8%) to n=39..42 (-116%..-130%), while Pocket_24h inflates clusters 2x-4.5x (+37.1% -> -45.6%). Only A4_M4_BandShear AX1 when strictly conflict-free with open Champion Longs achieves Dual-Era CF-SA PF 1.12 (E1 1.16 / E2 1.04) yet widens Champion portfolio MDD (-9.30% -> -12.79%)."
+  - id: "EXP-162_ZB1_DEFENSE"
+    name: "K-107: Track Z-B1 Long Bear-Defense (T5 x wk_slp_anchor + Log-ZL-BB Expansion Cap) Strict SPEC-EVAL-001 & 0.75x Upgrade"
+    status: "Supported / Defended Sleeve Upgrade Candidate (K-107, Discovery Verified)"
+    description: "Resolves EXP-158..159's finding that Z-B1 L5's 2022 winter drawdown (-10.79%) localized in (T5 == LEAD_TURN_BEAR & wk_slp_anchor < -1.38%, W22=7/8 trades). Rounded defense D1b (wk_thr=-1.50%) cuts SA MDD -10.79% -> -7.83% (PF 5.02 -> 5.78, 60bps PF 4.34 -> 4.96, -Top3 PF 3.30 -> 3.48) leaving Era2 (+61.49%) 100% intact. Combining D1b + Log-ZL-BB cap (C_zl_exp_38 <= 0.10, D3_L5_DualDef) improves Era2 to +66.37%, eliminates 2022 winter firing (0/0), lowers SA MDD to -6.50% (PF 5.86; D5_L7 MDD -4.34%, PF 6.57), and unlocks higher 0.75x Inc>6h 10/10 SPEC-EVAL-001 PASS (Std_Iso +838.83% MDD -9.30% Calmar 90.22x vs undefended D0@0.50x +834.52% Calmar 89.76x), with 4/4 full 10/10 PASS rows across C_zl_exp_38 <= 0.05 @0.75x."
+
+parameters:
+  friction_bps_std: 0.0040
+  friction_bps_stress: 0.0060
+  return_accounting: "additive_sum_pct"
+  hardcoded_whitelist_count: 0
+  external_data_count: 0
+  scales_17: [8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711]
+  log_zlbb_atr_floor_mult: 0.15
+  log_zlbb_loc_rms_ewm_span: 3
+  zlema_nan_safe_warmup_cap: 144
+  extended_pyramid:
+    shear_formula: "c_phi_12 - c_phi_58"
+    coupled_kernel_dn: "max(0,-phi1)*max(0,-curv1)*(1+max(0,exp1))"
+    ov_macro_scales: [233, 377, 610, 987]
+    sr_density_scales: [21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765]
+    sr_decay_atr: 4.0
+  zb1_bear_defense:
+    blocked_t5_state: "LEAD_TURN_BEAR"
+    wk_slp_anchor_thr_pct: -1.50
+    anchor_candidates: [6765, 4181, 2584, 1597, 987, 610, 377]
+    c_zl_exp_38_max_d3: 0.10
+    c_zl_exp_38_max_plateau_full_pass: 0.05
+    safe_weight_undefended: 0.50
+    safe_weight_dual_defended_inc6h: 0.75
+  champion_retained: "EXP-145 T1_Full_D4_RelaxFlip"
