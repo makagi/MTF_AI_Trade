@@ -1,7 +1,7 @@
 # 知識の系譜 (Knowledge Lineage)
 
 **Doc ID:** KNOW-LIN-001  
-**Version:** 4.6.0  
+**Version:** 4.7.0  
 **Status:** Accepted  
 **Owner:** @makagi  
 **Last Updated:** 2026-11-28  
@@ -335,6 +335,17 @@ graph TD
     K101 --> K103["K-103: 位相非同期・早期点火Pure-ZLEMA独立スリーブTrack Z-B1(L5/L7)純化＆0.50x配分10/10達成則<br/>(Supported / Independent Sleeve 🏆)"]:::supported
     K102 --> K103
     EXP155_156["EXP-155..156: 156-zlema-native-program-and-zb1-purification"] --> K103
+    K101 --> K104["K-104: 構造的非対称性(Ceil_Z/Floor_Z)・時間軸減衰(6h..168h)・拡張ピラミッド(Shear/E_dn/C_Ov_macro)<br/>(Supported / Physics 🔬)"]:::supported
+    K103 --> K104
+    K104 --> K105["K-105: ゼロラグBB(Log-ZL-BB/3視点ピラミッド)＆17階層Z-AFS(+11..24h先行)/Stoch_d(M1/M2)<br/>(Supported / Physics 🔬)"]:::supported
+    K104 --> K106["K-106: 非対称ショート1m執行0/50反証(AX0..AX4)＆A4 CF-SA限界則<br/>(Refuted / Constrained 🛡️)"]:::refuted
+    K105 --> K106
+    K103 --> K107["K-107: Track Z-B1弱気防衛(T5×wk_slp_anchor + Log-ZL-BB) 0.75x Inc>6h 10/10アップグレード則<br/>(Supported / Sleeve Upgrade 🏆)"]:::supported
+    K105 --> K107
+    EXP158_162["EXP-158..162: 162-bear-asymmetry-extended-pyramids-and-zb1-defense"] --> K104
+    EXP158_162 --> K105
+    EXP158_162 --> K106
+    EXP158_162 --> K107
 ```
 
 ---
@@ -1661,6 +1672,52 @@ graph TD
 
 ---
 
+### K-104: 構造的非対称性（観測可能 `Ceil_Z`/`Floor_Z`）× 時間軸減衰（`6h..168h`）× 拡張ピラミッド畳み込み則
+
+* **発見元**: `EXP-158` / `EXP-159` ([#158](https://github.com/makagi/MTF_AI_Trade/issues/158), [#159](https://github.com/makagi/MTF_AI_Trade/issues/159))
+* **ステータス**: **支持・構造物理知見 (Supported / Physics 🔬)**
+* **概要**: BTC の未観測超長期上昇重力 ($k \to \infty$) と観測可能帯域 ($21 \dots 6765$) の局所判断を数理分離し、階層間鉛直シア $\text{Shear}_\Phi = C_{\Phi,12} - C_{\Phi,58}$、異チャネル結合下方エネルギー ($L_1 \to L_8 \to E_{\text{dn},14}$, `Persist_dn_14`)、連続マクロ自己行き過ぎ (`C_Ov_macro`)、天井/床密度非対称 (`SR_Asym`) を構築（`t_cut=44200` `0.00e+00`, 双対対称 `0.00e+00`）。全ブレークダウン (`base_bd`, `24h` dedup `N=1,501`) は `Era1` `-0.09A(6h) -> -1.27A(168h)`・`Era2` `-0.11A(6h) -> -2.78A(168h)` へ劣化する一方、`S2` ボラ圧縮下方結合 (`E_dn_14 >= 0.11 & C_Exp38 < -0.15`: `E1 +1.94A, E2 +3.04A [72h] -> -3.02A [168h]`) と `C_Ov_macro > 0`（4セル `[D72]`）に限定された構造分岐を解明。同時に圧縮 `ATR_0` 直後のリテスト振幅（`MAE24` 中央値 `2.92A`、`2.25A` 生存率 `42.2%`）も特定。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間、`t_cut=44200` `max_diff=0.0`, 双対対称誤差 `0.00e+00`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/162-bear-asymmetry-extended-pyramids-and-zb1-defense/record.md`](experiments/162-bear-asymmetry-extended-pyramids-and-zb1-defense/record.md) ([#158](https://github.com/makagi/MTF_AI_Trade/issues/158), [#159](https://github.com/makagi/MTF_AI_Trade/issues/159))
+* **仕様への影響**: 拡張階層ピラミッドおよび `Ceil_Z/Floor_Z` の標準定義を確立し、`EXP-160`/`162` へ接続。
+
+---
+
+### K-105: ゼロラグ `BB`（`Log-ZL-BB` / `Z-MAD-BB` / 3視点ピラミッド）＆ 17階層 `Z-AFS`/`Stoch_d` 直交情報則
+
+* **発見元**: `EXP-160` ([#160](https://github.com/makagi/MTF_AI_Trade/issues/160))
+* **ステータス**: **支持・構造物理＆特徴分離則 (Supported / Physics 🔬)**
+* **概要**: `ZLEMA` 遅延補償を残差ボラティリティ（`Log-ZL-BB`: 全17層正値安定 `LogZL/Z-BB` 中央値比 `0.570..0.829`, `p99 <= 1.600`）およびオシレーター（`Z-AFS = ZLEMA(K_k, k)`, `init_zero=False`）へ拡張し、双対対称誤差 `5.12e-13`・非先読み誤差 `0.00e+00` を実証：
+  1. `Z-AFS` は `SMA-AFS` に対して `k=21` で `+11h`、`k=55` で `+24h` 先行し、上方突き抜け `ZAFS_OvUp >= 2` (`N=48`) は両時代一貫の順張り推力（`Long 72h E1 +1.96A / E2 +1.42A`）。`Log-ZL-BB` は `d1h` 瞬間ピークを左シフトしないが急落・急騰後の再収縮が顕著に速い。
+  2. 多チャネル 2D 断面で `M1`（`E_dn_14 >= 0.11 & C_zl_exp_38 < -0.15`: `E1 24h +0.17/72h +1.77A`, `E2 24h +1.09/72h +3.42A`）および `M2`（`Z-AFS < -0.03 & Stoch_12 in [-0.15, 0)`: `E1 +0.22A, E2 +5.37A`）を特定。さらに `S3 + d3Stoch12 <= 0` は `Med MAE24 1.91A -> 1.69A` & `E2 +0.42A -> +0.82A`、`S3 + BBUp38 < 0` は `E2 +1.22A (WR72 54.1%)` へ改善（一方 `S2` へのオシレータ追加は `E1` 悪化）。
+* **実験条件**: BTCUSD 1h、Discovery全期間、`t_cut=44200` `max_diff=0.0`, 対称誤差 `5.12e-13`
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/162-bear-asymmetry-extended-pyramids-and-zb1-defense/record.md`](experiments/162-bear-asymmetry-extended-pyramids-and-zb1-defense/record.md) ([#160](https://github.com/makagi/MTF_AI_Trade/issues/160))
+* **仕様への影響**: `Log-ZL-BB` (`C_zl_exp_38`) を `EXP-162` 弱気防衛のボラ拡張上限フィルターおよび構造分析基準として採用。
+
+---
+
+### K-106: 多チャネル非対称ショート 1m 執行 (`AX0..AX4`) 全敗反証と `EXP-145 Champion` 無改変防衛則
+
+* **発見元**: `EXP-161` ([#161](https://github.com/makagi/MTF_AI_Trade/issues/161))
+* **ステータス**: **反証・制約確定 (Refuted / Constrained 🛡️)**
+* **概要**: `M1`/`M2`/`S3_Pur`/`M4` および統合ユニオン `U_MultiChannel_Short` (`GlobalBD_24h` / `Pocket_24h`) に対し 5 種因果 1m エグジット（`AX0` 鏡像、`AX1/AX2` 72h 利確、`AX3` オシレータ反転、`AX4` 48h フラッシュ）を `40 bps`/`60 bps` で検証。スタンドアロン全 `50/50` セルで `Era2 PF > 1.0` は **`0 / 50`** 件。`AX0` は `z_short_trail_55` による早期撤退と `z_short_trail_377` (`+140.9%`) により `Era1 +60.1% (PF 1.63)` を稼ぐも `Era2 -23.0% (PF 0.47)`、一方 `AX1..AX4` は MFE 到達前の動的レジスタンス損切りを欠くためフルストップ (`HardStop`) が `n=11 -> 39..42 (-116%..-130%)` へ急増、`Pocket_24h` は後発クラスター膨張 (`N=124 -> 415`) で崩壊。例外 `A4_M4_BandShear (AX1) CF-SA` (`PF 1.12, E1 1.16/E2 1.04`) も合算 MDD を `-9.30% -> -12.79%` へ悪化させ棄却。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間、`t_cut=44200` `max_diff=0.0` (全5エグジット)、`40/60 bps` RT
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/162-bear-asymmetry-extended-pyramids-and-zb1-defense/record.md`](experiments/162-bear-asymmetry-extended-pyramids-and-zb1-defense/record.md) ([#161](https://github.com/makagi/MTF_AI_Trade/issues/161))
+* **仕様への影響**: `GlobalBD_24h` 帯新規ショート子帳簿の追加を禁止し、`EXP-145 Champion Short (N=36, +140.63%)` を無改変防衛。
+
+---
+
+### K-107: `Track Z-B1` ロング弱気防衛 (`T5 × wk_slp_anchor` ＋ `Log-ZL-BB` 拡張上限) による `0.75x Inc>6h 10/10` 昇格則
+
+* **発見元**: `EXP-159` → `EXP-162` ([#159](https://github.com/makagi/MTF_AI_Trade/issues/159), [#162](https://github.com/makagi/MTF_AI_Trade/issues/162))
+* **ステータス**: **支持・防衛版スリーブアップグレード候補 (Supported / Defended Sleeve Upgrade 🏆, Discovery 実証済み)**
+* **概要**: `Track Z-B1 L5` の 2022 年冬ドローダウン (`-10.79%`) が `T5 == LEAD_TURN_BEAR & wk_slp_anchor < -1.38%` (`W22=7/8件`) に厳密局在することを利用し、過学習排除閾値 `-1.50%` 防衛 (`D1b`: `Era2 +61.49%` 無傷のまま `SA MDD -10.79% -> -7.83%`, `PF 5.02 -> 5.78`, `60bps PF 4.96`, `-Top3 PF 3.48`) と `Log-ZL-BB` 拡張上限 `C_zl_exp_38 <= 0.10` を統合した **`D3_L5_DualDef`** (`N=31, PF 5.86, +123.1% [E1:+56.8/E2:+66.4], SA MDD -6.50%, 2022冬 N=0 [+0.0%], 60bps PF 5.07`) および `D5_L7_DualDef` (`PF 6.57, SA MDD -4.34%`) を確立。安全配分上限が `0.50x -> 0.75x` へ引き上がった結果、**`D3_L5_DualDef @0.75x Inc>6h` が厳格 `SPEC-EVAL-001` `10/10 PASS`**（`Std_Iso +838.83% [-9.30%, Calmar 90.22x], MB_Res +656.66% [-9.30%], MA +416.82% [-9.30%]`）を達成し無防衛 `D0 @0.50x` を全 3 ブックで上回った。また `4×4` 感度プラトー全 16 セルが `PF 4.76..6.67, MDD -5.64%..-7.83%` を維持し、`C_zl_exp_38 <= 0.05` 全 4 行が `0.75x Full` で `10/10 PASS` (`Std_Iso +844.70%, MDD -9.30%`)。
+* **実験条件**: BTCUSD 1h & 1m、Discovery全期間、`t_cut=44200` Dual 1H+1M `max_diff=0.0` (`N_pre=34`)、`40/60 bps` RT
+* **証拠・出典リンク**: [`03_KNOWLEDGE/experiments/162-bear-asymmetry-extended-pyramids-and-zb1-defense/record.md`](experiments/162-bear-asymmetry-extended-pyramids-and-zb1-defense/record.md) ([#162](https://github.com/makagi/MTF_AI_Trade/issues/162))
+* **仕様への影響**: `Track Z-B1` 防衛版候補（`D3_L5_DualDef @0.75x Inc>6h` / `C_zl_exp_38 <= 0.05 @0.75x`）として正本登録。
+
+---
+
 ## 4. Change History
 
 | 日付 | Version | 変更概要 | 担当者 / PR |
@@ -1716,3 +1773,4 @@ graph TD
 | 2026-11-25 | 4.4.0 | EXP-145 反映、完全スケールフリー11階層MTF BB状態遷移・動的アクティブ期間 $k^*(t)$ 導出と下方カスケード深度 $D\ge 4$ 外科的エグジット則（K-095 Supported/New Master Candidate 🏆: 全バー85.97%・動的Pop A 80.43%で $k^*(t)\neq 21$、固定窓ゼロでHold->1/2=90.2%/Brk->3=50.6%、`T1_Full_D4_RelaxFlip` 13/16セル10/10無傷・MaxDD -9.30%不変で全3ブック+10.65%pt改善、Master Std PF 6.90 +752.07% Calmar 80.89x, Mode B +604.34%, Mode A +404.51%）、およびクロススケール相対位相(`k+1上昇中・k下降中`)・長期BB待ちガード(`WaitGuard`)非対称性・無真空ショート反証則（K-096 Supported/Constrained 🛡️: `2b_WaitGuard_k21` SA PF 2.62/+33.4%/MDD -9.43%、Mode B +620.52%, Mode A +404.14%、統合Std MaxDD -11.10%制約・既存順張りロングとの非対称・Test 3b 0/16セル黒字PF 0.36..0.52棄却）を登録・計96知見へ拡充 | @makagi / [#145](https://github.com/makagi/MTF_AI_Trade/issues/145) |
 | 2026-11-26 | 4.5.0 | EXP-147 反映、正確MQL5 ZLEMA(`BufferEMAZL`) 17階層ウルトラマクロ連続体(8..17711)による位相遅延36.6%–46.2%削減・4状態レジーム分類(`Z_SUBMERGED_PARALLEL` -0.325RでMOR FP全3件分離)・メガランナー10/10集中監査則（K-097 Supported/Structural Physics & Audit 🔬）、および長期ハードフィルター(16/16悪化)・ZLEMA WaitGuard/Case 02跳躍台追加(Std MDD -28.74%..-36.74%/Era2負/Track-2干渉MG8/10)・T1 ZLEMA置換(MG9/10)・潜水並行天井ショート(0/16黒字PF0.02..0.51)の全4系統反証とEXP-145 Champion完全防衛則（K-098 Refuted/Constrained 🛡️）を登録・計98知見へ拡充 | @makagi / [#147](https://github.com/makagi/MTF_AI_Trade/issues/147) |
 | 2026-11-28 | 4.6.0 | EXP-149〜EXP-156 反映、SMA執行借用型ZLEMA拡張3件の完全反証（K-099 Refuted/Constrained 🛡️: EXP-149 0/48・EXP-150 0/32・EXP-151 0/32）、Pure-ZLEMA 第一原理4フェーズ＋DD純化による自己オーバーシュート極性反転（k=55/144 +2.36/+2.26R vs k=377/987 -2.13/-3.00R）・隣接3項T3/T4 6状態幾何則（K-100 Supported/Physics 🔬）、17階層再帰ピラミッド畳み込み（Phi^Z/Curv^Z/Exp^Z 厳密対称誤差0・L1..L8平坦・Z-BB WaitGuard逆転 PRE_TOUCH +2.23R vs AT_TOUCH +0.51R・動的k*_Z!=21 89.0%）（K-101 Supported/Physics 🔬）、Pure-ZLEMA 役割分離Z_COMP・ブラインドMOR-154-01・全緑遅入り順張りTrack Z-A 0/16全敗反証則（K-102 Refuted/Constrained 🛡️）、および位相非同期・早期点火Pure-ZLEMA独立スリーブTrack Z-B1 L5/L7純化（L5 SA N=49 WR 44.9% PF 5.02 +164.91% MDD -10.79% 93.9%非重複・32/32プラトー頑健・-Top3 PF 3.30；0.50x配分で全4種 SPEC-EVAL-001 10/10 PASS Std_Iso +834.52% MDD -9.30% Calmar 89.76x）（K-103 Supported/Independent Sleeve 🏆）を登録・計103知見へ拡充 | @makagi / [#149](https://github.com/makagi/MTF_AI_Trade/issues/149)–[#156](https://github.com/makagi/MTF_AI_Trade/issues/156) |
+| 2026-11-28 | 4.7.0 | EXP-158〜EXP-162 反映、下落相場非対称性(6h..168h減衰・Ceil_Z/Floor_Z分離)・拡張ピラミッド畳み込み(Shear_Phi/E_dn_14/C_Ov_macro・S2圧縮 vs 膨張180°反転)（K-104 Supported/Physics 🔬）、ゼロラグBB(Log-ZL-BB全17層正値安定・Z-AFS +11h/+24h先行・M1/M2/M4多チャネル2D)（K-105 Supported/Physics 🔬）、非対称ショート1m執行0/50反証＆EXP-145無改変防衛(A4 CF-SA限界)（K-106 Refuted/Constrained 🛡️）、およびTrack Z-B1弱気防衛(D1b T5Def -1.50% MDD -7.83%・D3 DualDef SA PF 5.86 MDD -6.50%・0.75x Inc>6h SPEC-EVAL-001 10/10 PASS Std_Iso +838.83% Calmar 90.22x・4x4プラトー全16セルPF 4.76..6.67/ZLExp<=0.05全4行Full 10/10)（K-107 Supported/Sleeve Upgrade 🏆）を登録・計107知見へ拡充 | @makagi / [#158](https://github.com/makagi/MTF_AI_Trade/issues/158)–[#162](https://github.com/makagi/MTF_AI_Trade/issues/162) |
